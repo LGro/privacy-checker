@@ -30,4 +30,16 @@
         android:onClick="displayInstalledApps"
         android:text="@string/title_installed_apps" />
 
-</RelativeLayout>
+    <ListView
+        android:id="@+id/latest_apps_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/all_apps_button" >
+
+    </ListView>
+
+
+    </RelativeLayout>
