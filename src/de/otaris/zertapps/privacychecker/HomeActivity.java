@@ -65,6 +65,8 @@ public class HomeActivity extends Activity {
 	
 	public void displayInstalledApps(View view) {
 		Log.i("HomeActivity", "called display installed apps");
+		Intent intent = new Intent(this, InstalledAppsActivity.class);
+		startActivity(intent);
 	}
 	
 	public void displayAllApps(View view) {
