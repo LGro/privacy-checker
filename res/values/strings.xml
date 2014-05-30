@@ -13,5 +13,6 @@
     <string name="title_activity_installed_apps">InstalledAppsActivity</string>
     <string name="title_privacy">Privacy</string>
     <string name="title_alphabet">Alphabet</string>
+    <string name="title_activity_installed_apps_list">InstalledAppsListActivity</string>
 
 </resources>

@@ -7,18 +7,22 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ListActivity;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class InstalledAppsActivity extends Activity implements
+public class InstalledAppsActivity extends ListActivity implements
 		ActionBar.TabListener {
 
 	/**
@@ -38,6 +42,7 @@ public class InstalledAppsActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		/*// prepared for tab layout needed in future
 		setContentView(R.layout.activity_installed_apps);
 
 		// Set up the action bar.
@@ -73,6 +78,20 @@ public class InstalledAppsActivity extends Activity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		*/
+		
+		// sample input; TODO: replace with content from DB and custom adapter
+		String[] values = new String[] { "Facebook", "What's App", "Music",
+				"Dropbox", "QR-Code Scanner", "Apollo", "Seafile", "Text Secure",
+				"Threema", "RSS Reader" };
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				R.layout.app_list_item, R.id.app_list_item_name, values);
+		setListAdapter(adapter);
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		Log.i("InstalledAppsAcitivity", "clicked on installed app");
 	}
 
 	@Override
@@ -179,10 +198,6 @@ public class InstalledAppsActivity extends Activity implements
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_installed_apps,
 					container, false);
-			TextView textView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			textView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
 			return rootView;
 		}
 	}
