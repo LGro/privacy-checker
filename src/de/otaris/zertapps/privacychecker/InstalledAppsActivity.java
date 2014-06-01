@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -82,27 +84,40 @@ public class InstalledAppsActivity extends ListActivity implements
 		 * .setTabListener(this)); }
 		 */
 
+		AppDataSource appData = new AppDataSource(this);
+		appData.open();
+		List<App> apps = appData.getInstalledApps();
+		appData.close();
+
 		// set custom list adapter to display apps with icon, name and rating
-		ArrayAdapter<ApplicationInfo> adapter = new AppListItemAdapter(this, getPackageManager(),
-				getInstalledApps(getPackageManager()));
+		ArrayAdapter<App> adapter = new AppListItemAdapter(this,
+				getPackageManager(), apps);
 		setListAdapter(adapter);
 	}
 
-	// retrieve all locally installed apps from android API
-	private ApplicationInfo[] getInstalledApps(PackageManager pm) {
-		// initialize list with all installed apps
-		List<ApplicationInfo> apps = pm
-				.getInstalledApplications(PackageManager.GET_META_DATA);
-		
-		// create result list without apps with no name (system apps?)
-		List<ApplicationInfo> results = new ArrayList<ApplicationInfo>();
-		for (int i = 0; i < apps.size(); i++) {
-			if (apps.get(i).className != null && apps.get(i).className != "")
-				results.add(apps.get(i));
-		}
-		
-		return results.toArray(new ApplicationInfo[0]);
-	}
+	// /**
+	// * retrieve installed apps from API not needed since apps are retrieved
+	// from
+	// * DB but left here for later implementation
+	// *
+	// * @param pm
+	// * @return
+	// */
+	//
+	// public ApplicationInfo[] getInstalledApps(PackageManager pm) {
+	// // initialize list with all installed apps
+	// List<ApplicationInfo> apps = pm
+	// .getInstalledApplications(PackageManager.GET_META_DATA);
+	//
+	// // create result list without apps with no name (system apps?)
+	// List<ApplicationInfo> results = new ArrayList<ApplicationInfo>();
+	// for (int i = 0; i < apps.size(); i++) {
+	// if (apps.get(i).className != null && apps.get(i).className != "")
+	// results.add(apps.get(i));
+	// }
+	//
+	// return results.toArray(new ApplicationInfo[0]);
+	// }
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -173,7 +188,6 @@ public class InstalledAppsActivity extends ListActivity implements
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
 				return getString(R.string.title_privacy);
