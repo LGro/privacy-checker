@@ -1,9 +1,11 @@
 package de.otaris.zertapps.privacychecker;
 
+import java.util.List;
+
+import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 
 public class HomeActivity extends Activity {
 
@@ -24,6 +25,19 @@ public class HomeActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		// test example for DB access
+		// AppDataSource helper = new AppDataSource(this);
+		// helper.open();
+		// helper.createApp("myapp3", "1.4", true, 5);
+		// helper.createApp("myapp4", "1.6", false, 2);
+		// List<App> apps = helper.getAllApps();
+		// helper.close();
+		// for (App app : apps) {
+		//
+		// Log.i("HomeActivity", "App:" + app.getName());
+		// }
+
 	}
 
 	@Override
@@ -62,13 +76,13 @@ public class HomeActivity extends Activity {
 			return rootView;
 		}
 	}
-	
+
 	public void displayInstalledApps(View view) {
 		Log.i("HomeActivity", "called display installed apps");
 		Intent intent = new Intent(this, InstalledAppsActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void displayAllApps(View view) {
 		Log.i("HomeActivity", "called display all apps");
 	}
