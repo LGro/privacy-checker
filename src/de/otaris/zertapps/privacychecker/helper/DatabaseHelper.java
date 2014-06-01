@@ -23,9 +23,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	private static final String KEY_APP_ID = "app_id";
 	private static final String KEY_PERMISSION_ID = "permission_id";
 	
-	private static final String Create_App_Permission_Table = "CREATE TABLE"
+	private static final String Create_App_Permission_Table = "CREATE TABLE "
 			+ TABLE_AppPermission + "(" + APP_PERMISSION_ID
-			+ " INTEGER PRIMARY KEY," + KEY_APP_ID + " INTEGER FOREIGN KEY, "
+			+ " INTEGER PRIMARY KEY, " + KEY_APP_ID + " INTEGER FOREIGN KEY, "
 			+ KEY_PERMISSION_ID + " INTEGER FOREIGN KEY),";
 	
 	
@@ -85,12 +85,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db){
 		App.onCreate(db);
-		Permission.onCreate(db);
-		Comment.onCreate(db);
-		Category.onCreate(db);
-		Rating.onCreate(db);
+//		Permission.onCreate(db);
+//		Comment.onCreate(db);
+//		Category.onCreate(db);
+//		Rating.onCreate(db);
 		//creating all required tables
-		db.execSQL(Create_App_Permission_Table);
+//		db.execSQL(Create_App_Permission_Table);
 		
 	}
 	
@@ -99,10 +99,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
 		App.onUpgrade(db, oldVersion, newVersion);
-		Permission.onUpgrade(db, oldVersion, newVersion);
-		Comment.onUpgrade(db, oldVersion, newVersion);
-		Category.onUpgrade(db, oldVersion, newVersion);
-		Rating.onUpgrade(db, oldVersion, newVersion);
+//		Permission.onUpgrade(db, oldVersion, newVersion);
+//		Comment.onUpgrade(db, oldVersion, newVersion);
+//		Category.onUpgrade(db, oldVersion, newVersion);
+//		Rating.onUpgrade(db, oldVersion, newVersion);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_AppPermission);
 		
 		//create new tables
@@ -178,9 +178,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		if(c.moveToFirst()){
 			do {
 				App newApp = new App();
-				newApp.setID(c.getInt(c.getColumnIndex(App.APP_ID)));
+				newApp.setId(c.getInt(c.getColumnIndex(App.APP_ID)));
 				newApp.setName(c.getString(c.getColumnIndex(App.APP_NAME)));
 				newApp.setVersion(c.getString(c.getColumnIndex(App.APP_VERSION)));
+				
 				
 				apps.add(newApp);
 			}while (c.moveToNext());

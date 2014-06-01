@@ -6,22 +6,27 @@ import android.util.Log;
 public class App {
 	
 	//Database table
-	public static final String TABLE_APP = "app";
+	public static final String TABLE_APP = "tbl_app";
 	//Columns
-	public static final String APP_ID = "APP_ID";
+	public static final String APP_ID = "app_id";
 	public static final String APP_NAME = "name";
 	public static final String APP_VERSION = "version";
+	public static final String APP_RATING = "rating";
+	public static final String APP_INSTALLED = "installed";
 	
 	//Creation statement
-	private static final String Create_App_Table = "CREATE TABLE" + TABLE_APP
+	private static final String Create_App_Table = "CREATE TABLE " + TABLE_APP
 			+ "(" + APP_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + APP_NAME
-			+ " TEXT, " + APP_VERSION + " TEXT);";
+			+ " TEXT, " + APP_VERSION + " TEXT, " + APP_RATING + " FLOAT, "
+					 + APP_INSTALLED + " INT);";
 	
 	
 	//params
-	int ID;
-	String Name;
-	String Version;
+	int id;
+	String name;
+	String version;
+	float rating;
+	boolean installed;
 	
 	
 	//empty constructor
@@ -30,9 +35,11 @@ public class App {
 	}
 	
 	//Constructor
-	public App(String name, String version){
-		this.Name = name;
-		this.Version = version;
+	public App(String name, String version, float rating, boolean installed){
+		this.name = name;
+		this.version = version;
+		this.rating = rating;
+		this.installed = installed;
 	}
 	
 	//create table if it isn't existing yet
@@ -50,24 +57,41 @@ public class App {
 		onCreate(db);
 	}
 	//setter
-	public void setID(int ID){
-		this.ID = ID;
+	public void setId(int id){
+		this.id = id;
 	}
-	public void setVersion(String Version){
-		this.Version= Version;
+	public void setVersion(String version){
+		this.version= version;
 	}
-	public void setName(String Name){
-		this.Name = Name;
+	public void setName(String name){
+		this.name = name;
 	}
 	
+		
+	
+	public void setInstalled(boolean installed) {
+		this.installed = installed;
+	}
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+
 	//getter
-	public int getID(){
-		return ID;
+	public int getId(){
+		return id;
 	}
 	public String getVersion(){
-		return Version;
+		return version;
 	}
 	public String getName(){
-		return Name;
+		return name;
 	}
+	public float getRating() {
+		return rating;
+	}
+	public boolean isInstalled() {
+		return installed;
+	}
+
 }

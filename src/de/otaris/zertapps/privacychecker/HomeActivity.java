@@ -1,5 +1,10 @@
 package de.otaris.zertapps.privacychecker;
 
+import java.util.List;
+
+import de.otaris.zertapps.privacychecker.helper.App;
+import de.otaris.zertapps.privacychecker.helper.AppDataSource;
+import de.otaris.zertapps.privacychecker.helper.DatabaseHelper;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
@@ -24,6 +29,17 @@ public class HomeActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+// Beispiel für Ausgabe, Test		
+//		AppDataSource helper = new AppDataSource(this);
+//		helper.open();
+//		helper.createApp("myapp");
+//		helper.createApp("myapp4");
+//		List<App> apps = helper.getAllApps();
+//		for (App app : apps) {
+//			
+//			Log.i("HomeActivity", "App:" + app.getName());
+//		}
+//		
 	}
 
 	@Override
