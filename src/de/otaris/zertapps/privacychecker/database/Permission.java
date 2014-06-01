@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.helper;
+package de.otaris.zertapps.privacychecker.database;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -13,7 +13,7 @@ public class Permission {
 	public static final String PERMISSION_DESCRIPTION = "discription";
 
 	// Creation statement
-	private static final String Create_Permission_Table = "CREATE TABLE"
+	private static final String Create_Permission_Table = "CREATE TABLE "
 			+ TABLE_PERMISSION + "(" + PERMISSION_ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + PERMISSION_NAME
 			+ " TEXT, " + PERMISSION_DESCRIPTION + " TEXT);";

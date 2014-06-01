@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.helper;
+package de.otaris.zertapps.privacychecker.database;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -13,7 +13,7 @@ public class Category {
 	public static final String CATEGORY_APP_ID = "app_id";
 
 	// Creation statement
-	private static final String Create_Category_Table = "CREATE TABLE"
+	private static final String Create_Category_Table = "CREATE TABLE "
 			+ TABLE_CATEGORY + "(" + CATEGORY_ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_NAME
 			+ " TEXT, " + CATEGORY_APP_ID + " INTEGER FOREIGN KEY);";
