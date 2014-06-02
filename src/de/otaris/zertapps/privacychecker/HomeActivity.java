@@ -26,19 +26,6 @@ public class HomeActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		
-		// test example for DB access
-		// AppDataSource helper = new AppDataSource(this);
-		// helper.open();
-		// helper.createApp("myapp3", "1.4", true, 5);
-		// helper.createApp("myapp4", "1.6", false, 2);
-		// List<App> apps = helper.getAllApps();
-		// helper.close();
-		// for (App app : apps) {
-		//
-		// Log.i("HomeActivity", "App:" + app.getName());
-		// }
-
 	}
 
 	@Override

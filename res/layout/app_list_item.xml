@@ -1,25 +1,42 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <ImageView
-        android:id="@+id/app_list_item_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher" />
+<ImageView
+    android:id="@+id/app_list_item_icon"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:scaleType="fitCenter"
+    android:src="@drawable/ic_launcher" />
 
-    <TextView
-        android:id="@+id/app_list_item_name"
-        android:layout_width="wrap_content"
-        android:layout_height="54dp"
-        android:layout_weight="0.68"
-        android:text="App Name" />
+<TextView
+    android:id="@+id/app_list_item_name"
+    android:layout_width="174dp"
+    android:layout_height="40dp"
+    android:layout_alignBottom="@+id/app_list_item_icon"
+    android:layout_alignTop="@+id/app_list_item_icon"
+    android:layout_marginTop="15dp"
+    android:layout_toRightOf="@+id/app_list_item_icon"
+    android:text="App Name" />
 
-    <TextView
-        android:id="@+id/app_list_item_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="54dp"
-        android:text="Privacy Rating" />
+<TextView
+    android:id="@+id/app_list_item_rating"
+    android:layout_width="wrap_content"
+    android:layout_height="65dp"
+    android:layout_alignBottom="@+id/app_list_item_icon"
+    android:layout_alignParentRight="true"
+    android:layout_alignTop="@+id/app_list_item_icon"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginLeft="5dp"
+    android:layout_toRightOf="@+id/app_list_item_name"
+    android:text="Privacy Rating" />
 
-</LinearLayout>
+</RelativeLayout>
+

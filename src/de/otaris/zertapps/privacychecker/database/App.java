@@ -11,6 +11,7 @@ public class App {
 	// Columns
 	public static final String ID = "app_id";
 	public static final String NAME = "name";
+	public static final String LABEL = "label";
 	public static final String VERSION = "version";
 	public static final String RATING = "rating";
 	public static final String INSTALLED = "installed";
@@ -18,12 +19,13 @@ public class App {
 	// Creation statement
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT, " + VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED
-			+ " INT);";
+			+ " TEXT, " + LABEL + " TEXT, " + VERSION + " TEXT, " + RATING
+			+ " FLOAT, " + INSTALLED + " INT);";
 
 	// params
 	int id;
 	String name;
+	String label;
 	String version;
 	float rating;
 	boolean installed;
@@ -34,8 +36,10 @@ public class App {
 	}
 
 	// Constructor
-	public App(String name, String version, float rating, boolean installed) {
+	public App(String name, String label, String version, float rating,
+			boolean installed) {
 		this.name = name;
+		this.label = label;
 		this.version = version;
 		this.rating = rating;
 		this.installed = installed;
@@ -71,6 +75,10 @@ public class App {
 		this.name = name;
 	}
 
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	public void setInstalled(boolean installed) {
 		this.installed = installed;
 	}
@@ -90,6 +98,10 @@ public class App {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 
 	public float getRating() {
