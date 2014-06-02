@@ -6,6 +6,8 @@ import de.otaris.zertapps.privacychecker.database.App;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +43,18 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 				.findViewById(R.id.app_list_item_icon);
 
 		// set app icon
-		// imageView.setImageDrawable(values.get(position).loadIcon(pm));
+		if (values.get(position).isInstalled()) {
+			try {
+				imageView.setImageDrawable(pm.getApplicationIcon(values.get(position).getName()));
+			} catch (NameNotFoundException e) {
+				Log.w("AppListItemAdapter", "Couldn't load icon for app: " + e.getMessage());
+			}
+		} else {
+			// TODO: implement (get icon from PlayStore API?!)
+		}
 
 		// set app title
-		textView.setText(values.get(position).getName());
+		textView.setText(values.get(position).getLabel());
 
 		// set app rating
 		ratingView.setText("" + values.get(position).getRating());
