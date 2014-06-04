@@ -19,8 +19,8 @@ public class App {
 	// Creation statement
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT, " + LABEL + " TEXT, " + VERSION + " TEXT, " + RATING
-			+ " FLOAT, " + INSTALLED + " INT);";
+			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
+			+ VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED + " INT);";
 
 	// params
 	int id;

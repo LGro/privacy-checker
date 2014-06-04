@@ -45,9 +45,11 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 		// set app icon
 		if (values.get(position).isInstalled()) {
 			try {
-				imageView.setImageDrawable(pm.getApplicationIcon(values.get(position).getName()));
+				imageView.setImageDrawable(pm.getApplicationIcon(values.get(
+						position).getName()));
 			} catch (NameNotFoundException e) {
-				Log.w("AppListItemAdapter", "Couldn't load icon for app: " + e.getMessage());
+				Log.w("AppListItemAdapter",
+						"Couldn't load icon for app: " + e.getMessage());
 			}
 		} else {
 			// TODO: implement (get icon from PlayStore API?!)

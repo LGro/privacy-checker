@@ -14,7 +14,9 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -51,9 +53,10 @@ public class InstalledAppsActivity extends ListActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*
-		 * // prepared for tab layout needed in future
-		 * setContentView(R.layout.activity_installed_apps);
+
+		//
+		// // prepared for tab layout needed in future
+		// setContentView(R.layout.activity_installed_apps);
 		 * 
 		 * // Set up the action bar. final ActionBar actionBar = getActionBar();
 		 * actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -84,6 +87,7 @@ public class InstalledAppsActivity extends ListActivity implements
 		 * .setTabListener(this)); }
 		 */
 
+		// get all installed apps from database
 		AppDataSource appData = new AppDataSource(this);
 		appData.open();
 		List<App> apps = appData.getInstalledApps();
@@ -93,31 +97,8 @@ public class InstalledAppsActivity extends ListActivity implements
 		ArrayAdapter<App> adapter = new AppListItemAdapter(this,
 				getPackageManager(), apps);
 		setListAdapter(adapter);
-	}
 
-	// /**
-	// * retrieve installed apps from API not needed since apps are retrieved
-	// from
-	// * DB but left here for later implementation
-	// *
-	// * @param pm
-	// * @return
-	// */
-	//
-	// public ApplicationInfo[] getInstalledApps(PackageManager pm) {
-	// // initialize list with all installed apps
-	// List<ApplicationInfo> apps = pm
-	// .getInstalledApplications(PackageManager.GET_META_DATA);
-	//
-	// // create result list without apps with no name (system apps?)
-	// List<ApplicationInfo> results = new ArrayList<ApplicationInfo>();
-	// for (int i = 0; i < apps.size(); i++) {
-	// if (apps.get(i).className != null && apps.get(i).className != "")
-	// results.add(apps.get(i));
-	// }
-	//
-	// return results.toArray(new ApplicationInfo[0]);
-	// }
+	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
