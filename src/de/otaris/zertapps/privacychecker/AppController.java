@@ -54,7 +54,7 @@ public class AppController {
 				// TODO: ADD category
 				helper.createApp(app.packageName, pinfo.applicationInfo
 						.loadLabel(pm).toString(), pinfo.versionCode + "",
-						true, 3, "category");
+						true, 3);
 			} catch (NameNotFoundException e) {
 				Log.e("AppController",
 						"NameNotFoundException: " + e.getMessage());
