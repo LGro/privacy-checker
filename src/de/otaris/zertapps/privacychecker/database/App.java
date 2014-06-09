@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.database;
 
+import java.sql.Timestamp;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -14,12 +16,13 @@ public class App {
 	public static final String VERSION = "version";
 	public static final String RATING = "rating";
 	public static final String INSTALLED = "installed";
+	public static final String TIMETSTAMP = "timestamp";
 
 	// Creation statement
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT, " + VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED
-			+ " INT);";
+			+ " TEXT, " + VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED + 
+			" INT, " + TIMETSTAMP + " Timestamp);";
 
 	// params
 	int id;
@@ -27,6 +30,7 @@ public class App {
 	String version;
 	float rating;
 	boolean installed;
+	Timestamp timestamp;
 
 	// empty constructor
 	public App() {

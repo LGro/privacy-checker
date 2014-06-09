@@ -35,16 +35,16 @@ public class HomeActivity extends Activity {
 		}
 		
 		// test example for DB access
-		// AppDataSource helper = new AppDataSource(this);
-		// helper.open();
-		// helper.createApp("myapp3", "1.4", true, 5);
-		// helper.createApp("myapp4", "1.6", false, 2);
-		// List<App> apps = helper.getAllApps();
-		// helper.close();
-		// for (App app : apps) {
-		//
-		// Log.i("HomeActivity", "App:" + app.getName());
-		// }
+		AppDataSource helper = new AppDataSource(this);
+		helper.open();
+		helper.createApp("myapp3", "1.4", true, 5);
+		helper.createApp("myapp4", "1.6", false, 2);
+		List<App> apps = helper.getAllApps();
+		helper.close();
+		for (App app : apps) {
+		
+		Log.i("HomeActivity", "App:" + app.getName());
+		}
 
 	}
 
@@ -106,10 +106,9 @@ public class HomeActivity extends Activity {
 	}
 	
 	/*
-	 *  Create a list for the latest apps found. EMPTY.
-	 *  TODO: Exchange TestApp with the final structure of a app. Or exchange with the internal database.
+	 *  Create a list for the latest apps found.
 	 */
-	private List<TestApp> latestAppsList = new ArrayList<TestApp>(); 
+	private List<App> latestAppsList = new ArrayList<App>(); 
 	
 	/*
 	 * This method fills the latest App List. 
