@@ -13,7 +13,7 @@ public class AppDataSource {
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { App.ID, App.NAME, App.VERSION,
+	private String[] allColumns = { App.ID, App.NAME, App.LABEL, App.VERSION,
 			App.INSTALLED, App.RATING };
 
 	public AppDataSource(Context context) {
@@ -47,10 +47,11 @@ public class AppDataSource {
 
 		app.setId(cursor.getInt(0));
 		app.setName(cursor.getString(1));
-		app.setVersion(cursor.getString(2));
+		app.setLabel(cursor.getString(2));
+		app.setVersion(cursor.getString(3));
 		// convert integer from SQLite to boolean in model representation
-		app.setInstalled(cursor.getInt(3) != 0);
-		app.setRating(cursor.getFloat(4));
+		app.setInstalled(cursor.getInt(4) != 0);
+		app.setRating(cursor.getFloat(5));
 
 		return app;
 	}
@@ -64,11 +65,12 @@ public class AppDataSource {
 	 *            name of the App
 	 * @return newly created App with ID
 	 */
-	public App createApp(String name, String version, boolean installed,
+	public App createApp(String name, String label, String version, boolean installed,
 			float rating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(App.NAME, name);
+		values.put(App.LABEL, label);
 		values.put(App.VERSION, version);
 		values.put(App.INSTALLED, installed);
 		values.put(App.RATING, rating);
@@ -105,6 +107,27 @@ public class AppDataSource {
 			apps.add(app);
 			cursor.moveToNext();
 		}
+		cursor.close();
+		return apps;
+	}
+
+	public List<App> getLastUpdatedApps() {
+		// TODO 
+		List<App> apps = new ArrayList<App>();
+		
+		String orderby = "timestamp ASC";
+		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null, null, orderby);
+		cursor.moveToFirst();
+		
+		int i = 1;
+		while(!cursor.isAfterLast() && i <= 4) {
+			App app = cursorToApp(cursor);
+			apps.add(app);
+			cursor.moveToNext();
+			
+			i++;
+		}
+		
 		cursor.close();
 		return apps;
 	}
