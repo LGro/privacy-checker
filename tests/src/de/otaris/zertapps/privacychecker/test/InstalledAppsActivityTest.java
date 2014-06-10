@@ -34,30 +34,30 @@ public class InstalledAppsActivityTest extends
 
 		iaActivity = getActivity();
 		
-
-		AppDataSource appDataSourceMock = Mockito.mock(AppDataSource.class);
-		
-		App app1 = new App();
-		app1.setLabel("Test App 1");
-		app1.setRating(1);
-
-		App app2 = new App();
-		app1.setLabel("Test-App-2");
-		app1.setRating(2);
-
-		App app3 = new App();
-		app1.setLabel("Test Abb 3");
-		app1.setRating(3);
-		
-		List<App> appList = new ArrayList<App>();
-		appList.add(app1);
-		appList.add(app2);
-		appList.add(app3);
-		
-		//Mockito.when(appDataSourceMock.getInstalledApps()).thenReturn(appList);
-		Mockito.doReturn(appList).when(appDataSourceMock).getInstalledApps();
-		
-		iaActivity.setAppDataSource(appDataSourceMock);
+//
+//		AppDataSource appDataSourceMock = Mockito.mock(AppDataSource.class);
+//		
+//		App app1 = new App();
+//		app1.setLabel("Test App 1");
+//		app1.setRating(1);
+//
+//		App app2 = new App();
+//		app1.setLabel("Test-App-2");
+//		app1.setRating(2);
+//
+//		App app3 = new App();
+//		app1.setLabel("Test Abb 3");
+//		app1.setRating(3);
+//		
+//		List<App> appList = new ArrayList<App>();
+//		appList.add(app1);
+//		appList.add(app2);
+//		appList.add(app3);
+//		
+//		//Mockito.when(appDataSourceMock.getInstalledApps()).thenReturn(appList);
+//		Mockito.doReturn(appList).when(appDataSourceMock).getInstalledApps();
+//		
+//		iaActivity.setAppDataSource(appDataSourceMock);
 	}
 
 	public void testPreConditions() {
