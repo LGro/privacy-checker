@@ -121,7 +121,7 @@ public class AppDataSource {
 
 		// build query
 		String whereClause = App.INSTALLED + " = 1";
-		String orderBy = "rating DESC";
+		String orderBy = App.RATING + " DESC, " +  App.LABEL + " ASC";
 		Cursor cursor = database.query(App.TABLE, allColumns, whereClause,
 				null, null, null, orderBy);
 

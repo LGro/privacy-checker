@@ -36,6 +36,33 @@ import android.widget.TextView;
 public class InstalledAppsActivity extends ListActivity implements
 		ActionBar.TabListener {
 
+	private AppController appController = null;
+	private AppDataSource appDataSource = null;
+	
+	// lazy initialization getter for AppC
+	public AppController getAppController() {
+		if (appController == null)
+			appController = new AppController();
+		
+		return appController;
+	}
+	
+	public void setAppController(AppController appController) {
+		this.appController = appController;
+	}
+	
+	// lazy initialization getter for AppDataSource
+	public AppDataSource getAppDataSource() {
+		if (appDataSource == null)
+			appDataSource = new AppDataSource(this);
+		
+		return appDataSource;
+	}
+	
+	public void setAppDataSource(AppDataSource appDataSource) {
+		this.appDataSource = appDataSource;
+	}
+	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
@@ -94,13 +121,19 @@ public class InstalledAppsActivity extends ListActivity implements
 //					.setTabListener(this));
 //		}
 
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
 		// insert all installed apps into database
-		AppController appController = new AppController();
+		AppController appController = getAppController();
 		appController.putInstalledAppsInDatabase(new AppDataSource(this),
 				getPackageManager());
 
 		// get all installed apps from database
-		AppDataSource appData = new AppDataSource(this);
+		AppDataSource appData = getAppDataSource();
 		appData.open();
 		List<App> apps = appData.getInstalledApps();
 		appData.close();
@@ -109,7 +142,6 @@ public class InstalledAppsActivity extends ListActivity implements
 		ArrayAdapter<App> adapter = new AppListItemAdapter(this,
 				getPackageManager(), apps);
 		setListAdapter(adapter);
-
 	}
 
 	@Override
