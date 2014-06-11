@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.inject.Inject;
+
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
@@ -39,8 +41,8 @@ import android.widget.TextView;
 public class InstalledAppsActivity extends ListActivity implements
 		ActionBar.TabListener {
 
-	private AppController appController = null;
-	private AppDataSource appDataSource = null;
+	@Inject private AppController appController = null;
+	@Inject private AppDataSource appDataSource = null;
 	
 	// lazy initialization getter for AppController
 	public AppController getAppController() {

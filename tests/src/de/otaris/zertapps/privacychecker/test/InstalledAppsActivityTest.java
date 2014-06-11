@@ -3,7 +3,10 @@ package de.otaris.zertapps.privacychecker.test;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+import roboguice.test.RobolectricRoboTestRunner;
 
 import com.robotium.solo.Solo;
 
@@ -14,6 +17,7 @@ import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.test.ActivityInstrumentationTestCase2;
 
+@RunWith(RobolectricTestRunner.class)
 public class InstalledAppsActivityTest extends
 		ActivityInstrumentationTestCase2<InstalledAppsActivity> {
 
