@@ -15,11 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * adapter to show a list of apps with icon, name and rating 
+ */
 public class AppListItemAdapter extends ArrayAdapter<App> {
 	private final Context context;
 	private final List<App> values;
 	private final PackageManager pm;
-
+	
+	
 	public AppListItemAdapter(Context context, PackageManager pm,
 			List<App> values) {
 		super(context, R.layout.app_list_item, values);

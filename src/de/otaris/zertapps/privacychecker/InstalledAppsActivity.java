@@ -33,13 +33,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * is called by HomeActivity, handles display of installed apps
+ */
 public class InstalledAppsActivity extends ListActivity implements
 		ActionBar.TabListener {
 
 	private AppController appController = null;
 	private AppDataSource appDataSource = null;
 	
-	// lazy initialization getter for AppC
+	// lazy initialization getter for AppController
 	public AppController getAppController() {
 		if (appController == null)
 			appController = new AppController();
@@ -188,6 +191,7 @@ public class InstalledAppsActivity extends ListActivity implements
 	}
 
 	/**
+	 * Auto-generated code
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
 	 */
@@ -224,6 +228,7 @@ public class InstalledAppsActivity extends ListActivity implements
 	}
 
 	/**
+	 * Auto-generated code
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
@@ -243,7 +248,8 @@ public class InstalledAppsActivity extends ListActivity implements
 			fragment.setArguments(args);
 			return fragment;
 		}
-
+		
+		
 		public PlaceholderFragment() {
 		}
 

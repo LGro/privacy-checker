@@ -11,14 +11,17 @@ import android.util.Log;
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 
+/**
+ * A class to handle Database communication
+ */
 public class AppController {
+	
 	/**
 	 * retrieve installed apps from API
 	 * 
-	 * @param pm
+	 * @param pm : Packagemanager 
 	 * @return ApplicationInfo array of the locally installed apps
 	 */
-
 	public ApplicationInfo[] getInstalledApps(PackageManager pm) {
 		// initialize list with all installed apps
 		List<ApplicationInfo> apps = pm
@@ -36,8 +39,10 @@ public class AppController {
 	/**
 	 * put the locally installed app in the database
 	 * 
-	 * @param helper
-	 * @param pm
+	 * @param helper : AppDataSource
+	 * @param pm : Packagemanager
+	 * @throws NameNotFoundException, is thrown if app.packageName does not exist 
+	 * 	(there are installed apps without package name)
 	 */
 	public void putInstalledAppsInDatabase(AppDataSource helper,
 			PackageManager pm) {
@@ -51,7 +56,7 @@ public class AppController {
 				pinfo = pm.getPackageInfo(app.packageName, 0);
 
 				// TODO: ADD Rating here
-				// TODO: ADD category
+				
 				helper.createApp(app.packageName, pinfo.applicationInfo
 						.loadLabel(pm).toString(), pinfo.versionCode + "",
 						true, 3);

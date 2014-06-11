@@ -15,6 +15,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * is called when app is started, handles navigation to installedAppsActivity
+ * and AllAppsActivity
+ */
 public class HomeActivity extends Activity {
 
 	@Override
@@ -49,7 +53,7 @@ public class HomeActivity extends Activity {
 	}
 
 	/**
-	 * A placeholder fragment containing a simple view.
+	 * Auto-generated code A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
 
@@ -65,12 +69,26 @@ public class HomeActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Method to display installed apps by starting InstalledAppsActivity
+	 * 
+	 * @param view
+	 *            : View
+	 */
 	public void displayInstalledApps(View view) {
 		Log.i("HomeActivity", "called display installed apps");
+
+		// to pass the information to run InstalledAppActivity
 		Intent intent = new Intent(this, InstalledAppsActivity.class);
 		startActivity(intent);
 	}
 
+	/**
+	 * Method to display in LogCat that Display allApps is called
+	 * 
+	 * @param view
+	 *            : View
+	 */
 	public void displayAllApps(View view) {
 		Log.i("HomeActivity", "called display all apps");
 	}
