@@ -13,9 +13,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-	/**
-	 * create the database structure with all tables
-	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		App.onCreate(db);
@@ -25,10 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// Rating.onCreate(db);
 	}
 
-	/**
-	 * Upgrades the database structure to the latest version when the database
-	 * version increases.
-	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		App.onUpgrade(db, oldVersion, newVersion);
@@ -38,15 +31,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// Rating.onUpgrade(db, oldVersion, newVersion);
 
 		onCreate(db);
-	}
-
-	/**
-	 * close database connection
-	 */
-	public void closeDB() {
-		SQLiteDatabase db = this.getReadableDatabase();
-		if (db != null && db.isOpen())
-			db.close();
 	}
 
 }

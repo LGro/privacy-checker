@@ -4,6 +4,8 @@ import java.util.List;
 
 import de.otaris.zertapps.privacychecker.database.App;
 import android.content.Context;
+
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
@@ -14,32 +16,37 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class AppListItemAdapter extends ArrayAdapter<App>{
+
+/**
+ * adapter to show a list of apps with icon, name and rating 
+ */
+public class AppListItemAdapter extends ArrayAdapter<App> {
 	private final Context context;
 	private final List<App> values;
 	private final PackageManager pm;
 
+	
 	public AppListItemAdapter(Context context, PackageManager pm,
 			List<App> values) {
-		super(context, R.layout.item_view, values);
+		super(context, R.layout.app_list_item, values);
 		this.context = context;
 		this.values = values;
 		this.pm = pm;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {		
+	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.item_view, parent, false);
+		View rowView = inflater.inflate(R.layout.app_list_item, parent, false);
 
 		// get views from layout
 		TextView textView = (TextView) rowView
-				.findViewById(R.id.item_name);
+				.findViewById(R.id.app_list_item_name);
 		TextView ratingView = (TextView) rowView
-				.findViewById(R.id.item_rating);
+				.findViewById(R.id.app_list_item_rating);
 		ImageView imageView = (ImageView) rowView
-				.findViewById(R.id.item_icon);
+				.findViewById(R.id.app_list_item_icon);
 
 		// set app icon
 		if (values.get(position).isInstalled()) {

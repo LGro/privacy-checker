@@ -10,6 +10,9 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Handles requests concerning Apps to the database.
+ */
 public class AppDataSource {
 
 	private SQLiteDatabase database;
@@ -38,7 +41,7 @@ public class AppDataSource {
 	}
 
 	/**
-	 * convert database result cursor to app object
+	 * convert database result cursor (pointing to a result set) to app object
 	 * 
 	 * @param cursor
 	 * @return cursor data as App object
@@ -59,16 +62,18 @@ public class AppDataSource {
 	}
 
 	/**
-	 * create app in DB by name
-	 * 
-	 * TODO: check duplicates
+	 * create app in DB by all attributes
 	 * 
 	 * @param name
-	 *            name of the App
-	 * @return newly created App with ID
+	 * @param label
+	 * @param version
+	 * @param installed
+	 * @param rating
+	 * @return app object of the newly created app
 	 */
-	public App createApp(String name, String label, String version, boolean installed,
-			float rating) {
+
+	public App createApp(String name, String label, String version,
+			boolean installed, float rating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(App.NAME, name);
@@ -87,28 +92,42 @@ public class AppDataSource {
 		long insertId = database.insert(App.TABLE, null, values);
 
 		// get recently inserted App by ID
+		return getAppById(insertId);
+	}
+
+	/**
+	 * gets single app by id from database
+	 * 
+	 * @param appId
+	 *            id to identify a single app
+	 * @return app object for given id
+	 */
+	public App getAppById(long appId) {
+		// build database query
 		Cursor cursor = database.query(App.TABLE, allColumns, App.ID + " = "
-				+ insertId, null, null, null, null);
+				+ appId, null, null, null, null);
 		cursor.moveToFirst();
 
 		// convert to App object
 		App newApp = cursorToApp(cursor);
 		cursor.close();
 
-		// return newly inserted App
+		// return app object
 		return newApp;
 	}
 
 	/**
-	 * get all Apps from the DB
+	 * get all Apps from the DB, ordered by privacy rating (high to low) and
+	 * label (alphabetically)
 	 * 
 	 * @return list of all Apps
 	 */
 	public List<App> getAllApps() {
 		List<App> apps = new ArrayList<App>();
 
+		String orderBy = App.RATING + " DESC, " + App.LABEL + " ASC";
 		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null,
-				null, null);
+				null, orderBy);
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			App app = cursorToApp(cursor);
@@ -118,6 +137,32 @@ public class AppDataSource {
 		cursor.close();
 		return apps;
 	}
+
+	/**
+	 * get all Apps from the DB that are marked as installed, ordered by privacy
+	 * rating (high to low) and label (alphabetically)
+	 * 
+	 * @return sorted list of all locally installed Apps
+	 */
+	public List<App> getInstalledApps() {
+		List<App> apps = new ArrayList<App>();
+
+		// build query
+		String whereClause = App.INSTALLED + " = 1";
+		String orderBy = App.RATING + " DESC, " + App.LABEL + " ASC";
+		Cursor cursor = database.query(App.TABLE, allColumns, whereClause,
+				null, null, null, orderBy);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			App app = cursorToApp(cursor);
+			apps.add(app);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		return apps;
+	}
+
 
 	/**
 	 * Get the last updated apps from the database.
