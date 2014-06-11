@@ -153,28 +153,4 @@ public class AppDataSource {
 		cursor.close();
 		return apps;
 	}
-
-	/**
-	 * get all Apps from the DB that are marked as installed
-	 * 
-	 * @return list of all locally installed Apps
-	 */
-	public List<App> getInstalledApps() {
-		List<App> apps = new ArrayList<App>();
-
-		// build query
-		String whereClause = App.INSTALLED + " = 1";
-		String orderBy = App.RATING + " DESC, " +  App.LABEL + " ASC";
-		Cursor cursor = database.query(App.TABLE, allColumns, whereClause,
-				null, null, null, orderBy);
-
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			App app = cursorToApp(cursor);
-			apps.add(app);
-			cursor.moveToNext();
-		}
-		cursor.close();
-		return apps;
-	}
 }
