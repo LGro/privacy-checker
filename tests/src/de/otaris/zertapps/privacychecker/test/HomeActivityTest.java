@@ -4,6 +4,7 @@ import com.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
+import de.otaris.zertapps.privacychecker.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.HomeActivity;
 import de.otaris.zertapps.privacychecker.InstalledAppsActivity;
 
@@ -47,6 +48,19 @@ public class HomeActivityTest extends
 		// check target activity
 		solo.assertCurrentActivity("wrong activity",
 				InstalledAppsActivity.class);
+	}
+
+	public void testNavigateToAllApps() {
+		// check start activity
+		solo.assertCurrentActivity("wrong activity", HomeActivity.class);
+
+		// click installed apps button
+		View button = solo
+				.getView(de.otaris.zertapps.privacychecker.R.id.all_apps_button);
+		solo.clickOnView(button);
+
+		// check target activity
+		solo.assertCurrentActivity("wrong activity", AllAppsActivity.class);
 	}
 
 	@Override
