@@ -100,10 +100,6 @@ public class App {
 		this.name = name;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
 	public void setInstalled(boolean installed) {
 		this.installed = installed;
 	}
@@ -129,10 +125,6 @@ public class App {
 		return name;
 	}
 	
-	public String getLabel() {
-		return label;
-	}
-
 	public String getLabel() {
 		return label;
 	}

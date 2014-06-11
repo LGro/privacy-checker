@@ -165,7 +165,8 @@ public class AppDataSource {
 
 
 	/**
-	 * Get the last updated apps from the database.
+	 * Get the n last updated apps from the database.
+	 * Change n in the orderby statement: "timestamp ASC LIMIT n"
 	 * 
 	 * @return Returns a list of n(4) apps ordered by date.
 	 */

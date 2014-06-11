@@ -131,12 +131,7 @@ public class InstalledAppsActivity extends ListActivity implements
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		// insert all installed apps into database
-		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppDataSource(this),
-				getPackageManager());
-
+	
 		// get all installed apps from database
 		AppDataSource appData = getAppDataSource();
 		appData.open();

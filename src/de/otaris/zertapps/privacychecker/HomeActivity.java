@@ -2,6 +2,8 @@ package de.otaris.zertapps.privacychecker;
 
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
@@ -17,11 +19,32 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 /**
- * is called when app is started, handles navigation to installedAppsActivity
+ * Is called when app is started, handles navigation to installedAppsActivity
  * and AllAppsActivity
  */
 public class HomeActivity extends Activity {
+
+	private List<App> latestAppsList;
+	@Inject private AppController appController = null;
 	
+	// lazy initialization getter for AppController
+	public AppController getAppController() {
+		if (appController == null)
+			appController = new AppController();
+		
+		return appController;
+	}
+	
+	public void setAppController(AppController appController) {
+		this.appController = appController;
+	}
+	
+	/**
+	 * Auto generated code
+	 * 
+	 * + Insert all installed apps to database on start.
+	 * + Connect to local database and retrieve last updated apps. Store them in a list.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +55,14 @@ public class HomeActivity extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 
+		// insert all installed apps into database
+		AppController appController = getAppController();
+		appController.putInstalledAppsInDatabase(new AppDataSource(this), getPackageManager());
+		// connect to database
+		AppDataSource appData = new AppDataSource(this);
+		appData.open();
+		latestAppsList = appData.getLastUpdatedApps();
+		appData.close();
 	}
 
 	@Override
@@ -39,12 +70,6 @@ public class HomeActivity extends Activity {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home, menu);
-		
-		/**
-		 * TODO: Find out when the layout has finished loading. This is where this belongs.
-		 * Once the application is started, fill the list of latest apps.
-		 */
-		populateLatestAppListView();
 		
 		return true;
 	}
@@ -59,6 +84,16 @@ public class HomeActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	/**
+	 * Everytime you return to the homescreen the list is displayed.
+	 */
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		populateLatestAppListView();
 	}
 
 	/**
@@ -102,17 +137,11 @@ public class HomeActivity extends Activity {
 		Log.i("HomeActivity", "called display all apps");
 	}
 	
-	
 	/**
-	 * Connect to local database and retrieve n last updated apps. 
-	 * Show them in the list view.
+	 * Show latest apps in the list view. 
+	 * The list of apps is created on start.
 	 */
 	private void populateLatestAppListView() {
-		AppDataSource appData = new AppDataSource(this);
-		appData.open();
-		List<App> latestAppsList = appData.getLastUpdatedApps();
-		appData.close();
-
 		// Setup custom list adapter to display apps with icon, name and rating.
 		AppListItemAdapter adapter = new AppListItemAdapter(this, getPackageManager(), latestAppsList);
 		ListView laList = (ListView) findViewById(R.id.latest_apps_listview); 
