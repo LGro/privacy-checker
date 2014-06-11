@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.database;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -52,6 +53,7 @@ public class AppDataSource {
 		// convert integer from SQLite to boolean in model representation
 		app.setInstalled(cursor.getInt(4) != 0);
 		app.setRating(cursor.getFloat(5));
+		app.setTimestamp(cursor.getLong(6));
 
 		return app;
 	}
@@ -74,6 +76,12 @@ public class AppDataSource {
 		values.put(App.VERSION, version);
 		values.put(App.INSTALLED, installed);
 		values.put(App.RATING, rating);
+		
+		// get data for the timestamp
+		Date date = new Date();
+		long currentTimestamp = date.getTime()/1000;
+		
+		values.put(App.TIMETSTAMP, currentTimestamp);
 
 		// insert into DB
 		long insertId = database.insert(App.TABLE, null, values);
@@ -111,21 +119,22 @@ public class AppDataSource {
 		return apps;
 	}
 
+	/**
+	 * Get the last updated apps from the database.
+	 * 
+	 * @return Returns a list of n(4) apps ordered by date.
+	 */
 	public List<App> getLastUpdatedApps() {
-		// TODO 
 		List<App> apps = new ArrayList<App>();
 		
-		String orderby = "timestamp ASC";
+		String orderby = "timestamp ASC LIMIT 4";
 		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null, null, orderby);
 		cursor.moveToFirst();
 		
-		int i = 1;
-		while(!cursor.isAfterLast() && i <= 4) {
+		while(!cursor.isAfterLast()) {
 			App app = cursorToApp(cursor);
 			apps.add(app);
 			cursor.moveToNext();
-			
-			i++;
 		}
 		
 		cursor.close();

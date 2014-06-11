@@ -1,7 +1,5 @@
 package de.otaris.zertapps.privacychecker.database;
 
-import java.sql.Timestamp;
-
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -23,7 +21,7 @@ public class App {
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT, " + LABEL + " TEXT, " + VERSION + " TEXT, " + RATING + " FLOAT, " + 
-			INSTALLED + " INT, " + TIMETSTAMP + " Timestamp);";
+			INSTALLED + " INT, " + TIMETSTAMP + " LONG);";
 
 	// params
 	int id;
@@ -32,7 +30,7 @@ public class App {
 	String version;
 	float rating;
 	boolean installed;
-	Timestamp timestamp;
+	Long timestamp;
 
 	// empty constructor
 	public App() {
@@ -40,12 +38,13 @@ public class App {
 	}
 
 	// Constructor
-	public App(String name, String label, String version, float rating, boolean installed) {
+	public App(String name, String label, String version, float rating, boolean installed, Long timestamp) {
 		this.name = name;
 		this.label = label;
 		this.version = version;
 		this.rating = rating;
 		this.installed = installed;
+		this.timestamp = timestamp;
 	}
 
 	// create table if it isn't existing yet
@@ -90,7 +89,7 @@ public class App {
 		this.rating = rating;
 	}
 	
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -119,7 +118,7 @@ public class App {
 		return installed;
 	}
 	
-	public Timestamp getTimestamp() {
+	public Long getTimestamp() {
 		return timestamp;
 	}
 

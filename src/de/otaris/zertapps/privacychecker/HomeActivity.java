@@ -26,18 +26,6 @@ public class HomeActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		
-//		// test example for DB access
-//		AppDataSource helper = new AppDataSource(this);
-//		helper.open();
-//		helper.createApp("myapp3", "1.4", true, 5);
-//		helper.createApp("myapp4", "1.6", false, 2);
-//		List<App> apps = helper.getAllApps();
-//		helper.close();
-//		for (App app : apps) {
-//		
-//		Log.i("HomeActivity", "App:" + app.getName());
-//		}
 
 	}
 
@@ -94,21 +82,20 @@ public class HomeActivity extends Activity {
 	}
 	
 	
-	/*
-	 * This method fills the latest App List.
+	/**
+	 * Connect to local database and retrieve n last updated apps. 
+	 * Show them in the list view.
 	 */
 	private void populateLatestAppListView() {
-		// TODO
-		// get all installed apps from database
-				AppDataSource appData = new AppDataSource(this);
-				appData.open();
-				List<App> latestAppsList = appData.getLastUpdatedApps();
-				appData.close();
+		AppDataSource appData = new AppDataSource(this);
+		appData.open();
+		List<App> latestAppsList = appData.getLastUpdatedApps();
+		appData.close();
 
-				// set custom list adapter to display apps with icon, name and rating
-				AppListItemAdapter adapter = new AppListItemAdapter(this, getPackageManager(), latestAppsList);
-				ListView lalist = (ListView) findViewById(R.id.latest_apps_listview); 
-				lalist.setAdapter(adapter);		
+		// Setup custom list adapter to display apps with icon, name and rating.
+		AppListItemAdapter adapter = new AppListItemAdapter(this, getPackageManager(), latestAppsList);
+		ListView laList = (ListView) findViewById(R.id.latest_apps_listview); 
+		laList.setAdapter(adapter);		
 	}
 	
 }
