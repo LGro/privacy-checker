@@ -8,28 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.otaris.zertapps.privacychecker.HomeActivity$PlaceholderFragment" >
 
-    <Button
-        android:id="@+id/all_apps_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="67dp"
-        android:onClick="displayAllApps"
-        android:text="@string/title_all_apps" />
-
-    <Button
-        android:id="@+id/installed_apps_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/all_apps_button"
-        android:layout_alignBottom="@+id/all_apps_button"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="51dp"
-        android:onClick="displayInstalledApps"
-        android:text="@string/title_installed_apps" />
-
     <ListView
         android:id="@+id/latest_apps_listview"
         android:layout_width="match_parent"
@@ -37,9 +15,35 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/all_apps_button" >
-
+        android:layout_below="@+id/last_updated_apps_textview" >
     </ListView>
 
+    <Button
+        android:id="@+id/all_apps_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:onClick="displayAllApps"
+        android:text="@string/title_all_apps" />
+
+    <Button
+        android:id="@+id/installed_apps_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="displayInstalledApps"
+        android:text="@string/title_installed_apps" />
+
+    <TextView
+        android:id="@+id/last_updated_apps_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/all_apps_button"
+        android:layout_below="@+id/all_apps_button"
+        android:paddingTop="32dp"
+        android:text="Last updated apps:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
