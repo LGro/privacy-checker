@@ -33,6 +33,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * is called by HomeActivity, displays all apps from database 
+ *
+ */
 public class AllAppsActivity extends ListActivity implements
 		ActionBar.TabListener {
 
@@ -132,7 +136,7 @@ public class AllAppsActivity extends ListActivity implements
 		appController.putInstalledAppsInDatabase(new AppDataSource(this),
 				getPackageManager());
 
-		// get all installed apps from database
+		// get all apps from database
 		AppDataSource appData = getAppDataSource();
 		appData.open();
 		List<App> apps = appData.getAllApps();
