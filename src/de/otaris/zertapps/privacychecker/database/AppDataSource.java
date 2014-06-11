@@ -15,7 +15,7 @@ public class AppDataSource {
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
 	private String[] allColumns = { App.ID, App.NAME, App.LABEL, App.VERSION,
-			App.INSTALLED, App.RATING };
+			App.INSTALLED, App.RATING, App.TIMETSTAMP };
 
 	public AppDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);

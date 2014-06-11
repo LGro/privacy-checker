@@ -28,13 +28,7 @@ public class AppListItemAdapter extends ArrayAdapter<App>{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-//		//Get the current view and if its empty fill it.
-//		View itemView = convertView;
-//		if(itemView == null) {
-//			itemView = getLayoutInflater().inflate(R.layout.item_view, parent, false);
-//		}
-		
+	public View getView(int position, View convertView, ViewGroup parent) {		
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.item_view, parent, false);
