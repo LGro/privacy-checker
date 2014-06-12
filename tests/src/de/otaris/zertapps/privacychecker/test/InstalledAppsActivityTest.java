@@ -17,7 +17,7 @@ import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.test.ActivityInstrumentationTestCase2;
 
-@RunWith(RobolectricTestRunner.class)
+//@RunWith(RobolectricTestRunner.class)
 public class InstalledAppsActivityTest extends
 		ActivityInstrumentationTestCase2<InstalledAppsActivity> {
 

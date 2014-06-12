@@ -71,7 +71,6 @@ public class AppDataSource {
 	 * @param rating
 	 * @return app object of the newly created app
 	 */
-
 	public App createApp(String name, String label, String version,
 			boolean installed, float rating) {
 		// set values for columns
@@ -162,7 +161,6 @@ public class AppDataSource {
 		cursor.close();
 		return apps;
 	}
-
 
 	/**
 	 * Get the n last updated apps from the database.
