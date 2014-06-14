@@ -5,14 +5,13 @@
     <string name="title_home">Home</string>
     <string name="title_installed_apps">Installiert</string>
     <string name="title_all_apps">Alle Apps</string>
+    <string name="title_activity_all_apps">Alle Apps</string>
     <string name="action_settings">Settings</string>
     <string name="installed_apps_button">Installierte Apps</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_installed_apps">InstalledAppsActivity</string>
-    <string name="title_privacy">Privacy</string>
+    <string name="title_activity_installed_apps">Installierte Apps</string>
+    <string name="title_activity_home">Privacy-Checker</string>
+    <string name="title_privacy">Privatsphäre</string>
     <string name="title_alphabet">Alphabet</string>
-    <string name="title_activity_installed_apps_list">InstalledAppsListActivity</string>
-    <string name="title_activity_all_apps">AllAppsActivity</string>
+    <string name="title_functional">Bewertung</string>
+    <string name="last_updated_apps">Zuletzt aktualisierte Privatsphäre:</string>
 </resources>
