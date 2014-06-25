@@ -19,22 +19,25 @@ public class App {
 	public static final String NAME = "name";
 	public static final String LABEL = "label";
 	public static final String VERSION = "version";
-	public static final String RATING = "rating";
+	public static final String PRIVACY_RATING = "privacy_rating";
 	public static final String INSTALLED = "installed";
+	public static final String FUNCTIONAL_RATING = "functional_rating";
 
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
-			+ VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED + " INT);";
+			+ VERSION + " TEXT, " + PRIVACY_RATING + " FLOAT, " + INSTALLED
+			+ " INT, " + FUNCTIONAL_RATING + " FLOAT);";
 
 	// attributes
 	private int id;
 	private String name;
 	private String label;
 	private String version;
-	private float rating;
+	private float privacyRating;
 	private boolean installed;
+	private float functionalRating;
 
 	public App() {
 
@@ -45,7 +48,7 @@ public class App {
 		this.name = name;
 		this.label = label;
 		this.version = version;
-		this.rating = rating;
+		this.privacyRating = rating;
 		this.installed = installed;
 	}
 
@@ -102,8 +105,12 @@ public class App {
 		this.installed = installed;
 	}
 
-	public void setRating(float rating) {
-		this.rating = rating;
+	public void setPrivacyRating(float privacyRating) {
+		this.privacyRating = privacyRating;
+	}
+
+	public void setFunctionalRating(float functionalRating) {
+		this.functionalRating = functionalRating;
 	}
 
 	// getter
@@ -123,12 +130,16 @@ public class App {
 		return label;
 	}
 
-	public float getRating() {
-		return rating;
-	}
-
 	public boolean isInstalled() {
 		return installed;
+	}
+
+	public float getPrivacyRating() {
+		return privacyRating;
+	}
+
+	public float getFunctionalRating() {
+		return functionalRating;
 	}
 
 }

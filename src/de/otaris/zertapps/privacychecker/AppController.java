@@ -15,11 +15,12 @@ import de.otaris.zertapps.privacychecker.database.AppDataSource;
  * A class to handle Database communication
  */
 public class AppController {
-	
+
 	/**
 	 * retrieve installed apps from API
 	 * 
-	 * @param pm : Packagemanager 
+	 * @param pm
+	 *            : Packagemanager
 	 * @return ApplicationInfo array of the locally installed apps
 	 */
 	public ApplicationInfo[] getInstalledApps(PackageManager pm) {
@@ -39,10 +40,13 @@ public class AppController {
 	/**
 	 * put the locally installed app in the database
 	 * 
-	 * @param helper : AppDataSource
-	 * @param pm : Packagemanager
-	 * @throws NameNotFoundException, is thrown if app.packageName does not exist 
-	 * 	(there are installed apps without package name)
+	 * @param helper
+	 *            : AppDataSource
+	 * @param pm
+	 *            : Packagemanager
+	 * @throws NameNotFoundException
+	 *             , is thrown if app.packageName does not exist (there are
+	 *             installed apps without package name)
 	 */
 	public void putInstalledAppsInDatabase(AppDataSource helper,
 			PackageManager pm) {
@@ -50,16 +54,20 @@ public class AppController {
 		helper.open();
 
 		for (ApplicationInfo app : getInstalledApps(pm)) {
-			// PackageInof is for getting the versionCode and versionName
+			// PackageInfo is for getting the versionCode and versionName
 			PackageInfo pinfo;
 			try {
 				pinfo = pm.getPackageInfo(app.packageName, 0);
 
-				// TODO: ADD Rating here
-				
+				// TODO: ADD Ratings here
+
+				// statically assigned ratings for demo purposes
+				float pRating = (app.packageName.charAt(0) == 'c') ? 2 : 4;
+				float fRating = (app.packageName.charAt(0) == 'c') ? 3 : 5;
+
 				helper.createApp(app.packageName, pinfo.applicationInfo
 						.loadLabel(pm).toString(), pinfo.versionCode + "",
-						true, 3);
+						pRating, true, fRating);
 			} catch (NameNotFoundException e) {
 				Log.e("AppController",
 						"NameNotFoundException: " + e.getMessage());

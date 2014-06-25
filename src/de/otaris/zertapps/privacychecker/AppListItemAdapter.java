@@ -22,8 +22,8 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 	private final Context context;
 	private final List<App> values;
 	private final PackageManager pm;
-	
-	
+		
+
 	public AppListItemAdapter(Context context, PackageManager pm,
 			List<App> values) {
 		super(context, R.layout.app_list_item, values);
@@ -63,7 +63,7 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 		textView.setText(values.get(position).getLabel());
 
 		// set app rating
-		ratingView.setText("" + values.get(position).getRating());
+		ratingView.setText("" + values.get(position).getPrivacyRating());
 
 		return rowView;
 	}

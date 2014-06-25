@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.google.inject.Inject;
+
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
@@ -20,6 +22,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,39 +37,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * is called by HomeActivity, displays all apps from database 
- *
+ * is called by HomeActivity, handles display of installed apps
  */
-public class AllAppsActivity extends ListActivity implements
+public class AllAppsActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
-	private AppController appController = null;
-	private AppDataSource appDataSource = null;
-	
-	// lazy initialization getter for AppC
-	public AppController getAppController() {
-		if (appController == null)
-			appController = new AppController();
-		
-		return appController;
-	}
-	
-	public void setAppController(AppController appController) {
-		this.appController = appController;
-	}
-	
-	// lazy initialization getter for AppDataSource
-	public AppDataSource getAppDataSource() {
-		if (appDataSource == null)
-			appDataSource = new AppDataSource(this);
-		
-		return appDataSource;
-	}
-	
-	public void setAppDataSource(AppDataSource appDataSource) {
-		this.appDataSource = appDataSource;
-	}
-	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
@@ -85,79 +60,29 @@ public class AllAppsActivity extends ListActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-//		// prepared for tab layout needed in future
-//		setContentView(R.layout.activity_installed_apps);
-//
-//		// Set up the action bar.
-//		final ActionBar actionBar = getActionBar();
-//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//
-//		// Create the adapter that will return a fragment for each of the three
-//		// primary sections of the activity.
-//		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-//
-//		// Set up the ViewPager with the sections adapter.
-//		mViewPager = (ViewPager) findViewById(R.id.pager);
-//		mViewPager.setAdapter(mSectionsPagerAdapter);
-//
-//		// When swiping between different sections, select the corresponding
-//		// tab. We can also use ActionBar.Tab#select() to do this if we have
-//		// a reference to the Tab.
-//		mViewPager
-//				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-//
-//					@Override
-//					public void onPageSelected(int position) {
-//						actionBar.setSelectedNavigationItem(position);
-//					}
-//				});
-//
-//		// For each of the sections in the app, add a tab to the action bar.
-//		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-//			/*
-//			 * Create a tab with text corresponding to the page title defined by
-//			 * the adapter. Also specify this Activity object, which implements
-//			 * the TabListener interface, as the callback (listener) for when
-//			 * this tab is selected.
-//			 */
-//			actionBar.addTab(actionBar.newTab()
-//					.setText(mSectionsPagerAdapter.getPageTitle(i))
-//					.setTabListener(this));
-//		}
+		// prepared for tab layout needed in future
+		setContentView(R.layout.activity_installed_apps);
+
+		// Set up the action bar.
+		final ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		// For each of the sections in the app, add a tab to the action bar.
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
+				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
+				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
+				.setTabListener(this));
 
 	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-		
-		// insert all installed apps into database
-		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppDataSource(this),
-				getPackageManager());
 
-		// get all apps from database
-		AppDataSource appData = getAppDataSource();
-		appData.open();
-		List<App> apps = appData.getAllApps();
-		appData.close();
-
-		// set custom list adapter to display apps with icon, name and rating
-		ArrayAdapter<App> adapter = new AppListItemAdapter(this,
-				getPackageManager(), apps);
-		setListAdapter(adapter);
-	}
-
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		Log.i("AllAppsAcitivity", "clicked on app");
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.all_apps, menu);
+		getMenuInflater().inflate(R.menu.installed_apps, menu);
 		return true;
 	}
 
@@ -176,9 +101,35 @@ public class AllAppsActivity extends ListActivity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
+		
+		switch (tab.getPosition()) {
+		case 0:
+			AppsList appsList1 = new AppsList();
+			appsList1.setOrder(AppsListOrder.ALPHABET, true);
+			appsList1.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, appsList1)
+					.commit();
+			break;
+		case 1:
+			AppsList appsList2 = new AppsList();
+			appsList2.setOrder(AppsListOrder.PRIVACY_RATING, true);
+			appsList2.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, appsList2)
+					.commit();
+			break;
+		case 2:
+			AppsList appsList3 = new AppsList();
+			appsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, false);
+			appsList3.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, appsList3)
+					.commit();
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -192,8 +143,8 @@ public class AllAppsActivity extends ListActivity implements
 	}
 
 	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
+	 * Auto-generated code A {@link FragmentPagerAdapter} that returns a
+	 * fragment corresponding to one of the sections/tabs/pages.
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -219,16 +170,18 @@ public class AllAppsActivity extends ListActivity implements
 		public CharSequence getPageTitle(int position) {
 			switch (position) {
 			case 0:
-				return getString(R.string.title_privacy);
-			case 1:
 				return getString(R.string.title_alphabet);
+			case 1:
+				return getString(R.string.title_privacy);
+			case 2:
+				return getString(R.string.title_functional);
 			}
 			return null;
 		}
 	}
 
 	/**
-	 * A placeholder fragment containing a simple view.
+	 * Auto-generated code A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
 		/**
