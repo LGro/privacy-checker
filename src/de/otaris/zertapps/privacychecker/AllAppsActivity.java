@@ -61,7 +61,7 @@ public class AllAppsActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 
 		// prepared for tab layout needed in future
-		setContentView(R.layout.activity_installed_apps);
+		setContentView(R.layout.activity_all_apps);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();

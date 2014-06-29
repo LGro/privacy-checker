@@ -211,7 +211,7 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_installed_apps,
-					container, false);
+					container, false);	
 			return rootView;
 		}
 	}

@@ -12,7 +12,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_installed_apps">InstalledAppsActivity</string>
     <string name="title_privacy">Privatsphäre</string>
-    <string name="title_alphabet">Alphabet</string>
+    <string name="title_alphabet">alphabetisch</string>
     <string name="title_functional">Bewertung</string>
     <string name="title_activity_installed_apps_list">InstalledAppsListActivity</string>
     <string name="title_activity_all_apps">AllAppsActivity</string>
