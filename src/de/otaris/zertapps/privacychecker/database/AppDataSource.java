@@ -1,7 +1,6 @@
 package de.otaris.zertapps.privacychecker.database;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -18,7 +17,7 @@ public class AppDataSource {
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
 	private String[] allColumns = { App.ID, App.NAME, App.LABEL, App.VERSION,
-			App.INSTALLED, App.RATING, App.TIMETSTAMP };
+			App.INSTALLED, App.RATING, App.INSTALLED, App.TIMETSTAMP };
 
 	public AppDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -53,9 +52,9 @@ public class AppDataSource {
 		app.setName(cursor.getString(1));
 		app.setLabel(cursor.getString(2));
 		app.setVersion(cursor.getString(3));
+		app.setRating(cursor.getFloat(4));
 		// convert integer from SQLite to boolean in model representation
-		app.setInstalled(cursor.getInt(4) != 0);
-		app.setRating(cursor.getFloat(5));
+		app.setInstalled(cursor.getInt(5) != 0);
 		app.setTimestamp(cursor.getLong(6));
 
 		return app;
@@ -78,13 +77,12 @@ public class AppDataSource {
 		values.put(App.NAME, name);
 		values.put(App.LABEL, label);
 		values.put(App.VERSION, version);
-		values.put(App.INSTALLED, installed);
 		values.put(App.RATING, rating);
-		
-		// get data for the timestamp
-		Date date = new Date();
-		long currentTimestamp = date.getTime()/1000;
-		
+		values.put(App.INSTALLED, installed);
+
+		// Gets current time in milliseconds since jan1,1970. The divide by 1000
+		// turns it into unix seconds instead of milliseconds.
+		long currentTimestamp = System.currentTimeMillis() / 1000;
 		values.put(App.TIMETSTAMP, currentTimestamp);
 
 		// insert into DB
@@ -163,24 +161,27 @@ public class AppDataSource {
 	}
 
 	/**
-	 * Get the n last updated apps from the database.
-	 * Change n in the orderby statement: "timestamp ASC LIMIT n"
+	 * Get the n last updated apps from the database. Change n in the orderby
+	 * statement: "timestamp ASC LIMIT n"
 	 * 
-	 * @return Returns a list of n(4) apps ordered by date.
+	 * @return Returns a list of n(4) apps ordered by date. "n" refers to the
+	 *         limit of apps to fetch.
 	 */
 	public List<App> getLastUpdatedApps() {
 		List<App> apps = new ArrayList<App>();
-		
-		String orderby = "timestamp ASC LIMIT 4";
-		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null, null, orderby);
+
+		// build query
+		String orderBy = App.TIMETSTAMP + " ASC" + " LIMIT 4";
+		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null,
+				null, orderBy);
 		cursor.moveToFirst();
-		
-		while(!cursor.isAfterLast()) {
+
+		while (!cursor.isAfterLast()) {
 			App app = cursorToApp(cursor);
 			apps.add(app);
 			cursor.moveToNext();
 		}
-		
+
 		cursor.close();
 		return apps;
 	}

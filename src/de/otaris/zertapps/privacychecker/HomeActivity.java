@@ -25,25 +25,30 @@ import android.widget.ListView;
 public class HomeActivity extends Activity {
 
 	private List<App> latestAppsList;
-	@Inject private AppController appController = null;
-	
+	@Inject
+	private AppController appController = null;
+
 	// lazy initialization getter for AppController
 	public AppController getAppController() {
 		if (appController == null)
 			appController = new AppController();
-		
+
 		return appController;
 	}
-	
+
 	public void setAppController(AppController appController) {
 		this.appController = appController;
 	}
-	
+
 	/**
 	 * Auto generated code
 	 * 
-	 * + Insert all installed apps to database on start.
-	 * + Connect to local database and retrieve last updated apps. Store them in a list.
+	 * + Insert all installed apps to database on start. This is done to make
+	 * sure there are apps in the database.
+	 * 
+	 * + Connect to local database and retrieve last updated apps. Store them in
+	 * a list. Do this at this stage to avoid retrieving those apps everytime
+	 * you return to the homescreen.
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,8 @@ public class HomeActivity extends Activity {
 
 		// insert all installed apps into database
 		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppDataSource(this), getPackageManager());
+		appController.putInstalledAppsInDatabase(new AppDataSource(this),
+				getPackageManager());
 		// connect to database
 		AppDataSource appData = new AppDataSource(this);
 		appData.open();
@@ -70,7 +76,7 @@ public class HomeActivity extends Activity {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.home, menu);
-		
+
 		return true;
 	}
 
@@ -85,9 +91,11 @@ public class HomeActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	/**
-	 * Everytime you return to the homescreen the list is displayed.
+	 * Everytime you return to the homescreen the list is displayed. Populate
+	 * now and not earlier to avoid null, or in other words populate once the
+	 * homescreen/app was completely initialised.
 	 */
 	@Override
 	public void onResume() {
@@ -138,16 +146,16 @@ public class HomeActivity extends Activity {
 		Intent intent = new Intent(this, AllAppsActivity.class);
 		startActivity(intent);
 	}
-	
+
 	/**
-	 * Show latest apps in the list view. 
-	 * The list of apps is created on start.
+	 * Show latest apps in the list view. The list of apps is created on start.
 	 */
 	private void populateLatestAppListView() {
 		// Setup custom list adapter to display apps with icon, name and rating.
-		AppListItemAdapter adapter = new AppListItemAdapter(this, getPackageManager(), latestAppsList);
-		ListView laList = (ListView) findViewById(R.id.latest_apps_listview); 
-		laList.setAdapter(adapter);		
+		AppListItemAdapter adapter = new AppListItemAdapter(this,
+				getPackageManager(), latestAppsList);
+		ListView laList = (ListView) findViewById(R.id.latest_apps_listview);
+		laList.setAdapter(adapter);
 	}
-	
+
 }
