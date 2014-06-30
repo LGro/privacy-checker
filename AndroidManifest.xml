@@ -38,6 +38,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
         </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.AppDetailsActivity"
+            android:label="@string/title_activity_app_details" >
+        </activity>
     </application>
 
 </manifest>

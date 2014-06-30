@@ -15,4 +15,6 @@
     <string name="title_alphabet">Alphabet</string>
     <string name="title_activity_installed_apps_list">InstalledAppsListActivity</string>
     <string name="title_activity_all_apps">AllAppsActivity</string>
+    <string name="title_activity_app_details">AppDetailsActivity</string>
+
 </resources>
