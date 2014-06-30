@@ -67,7 +67,7 @@ public class HomeActivity extends Activity {
 		// connect to database
 		AppDataSource appData = new AppDataSource(this);
 		appData.open();
-		latestAppsList = appData.getLastUpdatedApps();
+		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
 	}
 

@@ -161,17 +161,17 @@ public class AppDataSource {
 	}
 
 	/**
-	 * Get the n last updated apps from the database. Change n in the orderby
-	 * statement: "timestamp ASC LIMIT n"
+	 * Get the n most recently updated apps from the database. 
 	 * 
-	 * @return Returns a list of n(4) apps ordered by date. "n" refers to the
-	 *         limit of apps to fetch.
+	 * @param n the amount of apps to return
+	 * 
+	 * @return returns the n most recently updated apps
 	 */
-	public List<App> getLastUpdatedApps() {
+	public List<App> getLastUpdatedApps(int n) {
 		List<App> apps = new ArrayList<App>();
 
 		// build query
-		String orderBy = App.TIMETSTAMP + " ASC" + " LIMIT 4";
+		String orderBy = App.TIMETSTAMP + " ASC" + " LIMIT " + n;
 		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null,
 				null, orderBy);
 		cursor.moveToFirst();
