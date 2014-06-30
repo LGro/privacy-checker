@@ -4,7 +4,6 @@ import java.util.List;
 
 import de.otaris.zertapps.privacychecker.database.App;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;

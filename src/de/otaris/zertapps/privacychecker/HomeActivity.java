@@ -1,9 +1,5 @@
 package de.otaris.zertapps.privacychecker;
 
-import java.util.List;
-
-import de.otaris.zertapps.privacychecker.database.App;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
