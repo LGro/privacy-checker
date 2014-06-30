@@ -48,7 +48,7 @@
         android:paddingBottom="4dp"
         android:paddingLeft="4dp"
         android:paddingTop="18dp"
-        android:text="Neue Bewertungen &amp; Updates"
+        android:text="@string/last_updated_apps"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
