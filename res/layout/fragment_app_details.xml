@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.otaris.zertapps.privacychecker.AppDetailsActivity$PlaceholderFragment" >
+
+    <ImageView
+        android:id="@+id/app_details_activity_head_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/app_details_activity_head_name"
+        android:layout_width="192dp"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/app_details_activity_head_icon"
+        android:textStyle="bold"
+        android:text="App Name" />
+
+    <TextView
+        android:id="@+id/app_details_activity_head_developer"
+        android:layout_width="192dp"
+        android:layout_height="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="1dp"
+        android:layout_below="@+id/app_details_activity_head_name"
+        android:layout_toRightOf="@+id/app_details_activity_head_icon"
+        android:text="App Developer" />
+
+    <ImageView
+        android:id="@+id/app_details_activity_head_rating"
+        android:layout_width="192dp"
+        android:layout_height="16dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="1dp"
+        android:layout_toRightOf="@+id/app_details_activity_head_icon"
+        android:layout_below="@+id/app_details_activity_head_developer"
+        android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/app_details_activity_head_button_install"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="128dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_details_activity_head_rating"
+        android:text="Installieren" />
+
+</RelativeLayout>
