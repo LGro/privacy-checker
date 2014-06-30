@@ -1,40 +1,18 @@
 package de.otaris.zertapps.privacychecker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import com.google.inject.Inject;
-
-import de.otaris.zertapps.privacychecker.database.App;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
-import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.drawable.Drawable;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -68,7 +46,7 @@ public class AllAppsActivity extends FragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_category)
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
 				.setTabListener(this));
@@ -104,12 +82,7 @@ public class AllAppsActivity extends FragmentActivity implements
 		
 		switch (tab.getPosition()) {
 		case 0:
-			AppsList appsList1 = new AppsList();
-			appsList1.setOrder(AppsListOrder.ALPHABET, true);
-			appsList1.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList1)
-					.commit();
+			// TODO: prepare for category list
 			break;
 		case 1:
 			AppsList appsList2 = new AppsList();
@@ -140,6 +113,30 @@ public class AllAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+		
+		switch (tab.getPosition()) {
+		case 0:
+			// TODO: prepare for category list
+			break;
+		case 1:
+			AppsList appsList2 = new AppsList();
+			appsList2.setOrder(AppsListOrder.PRIVACY_RATING, false);
+			appsList2.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, appsList2)
+					.commit();
+			break;
+		case 2:
+			AppsList appsList3 = new AppsList();
+			appsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, true);
+			appsList3.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, appsList3)
+					.commit();
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**

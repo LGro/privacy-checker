@@ -22,13 +22,14 @@ public class App {
 	public static final String PRIVACY_RATING = "privacy_rating";
 	public static final String INSTALLED = "installed";
 	public static final String FUNCTIONAL_RATING = "functional_rating";
+	public static final String TIMETSTAMP = "timestamp";
 
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
 			+ VERSION + " TEXT, " + PRIVACY_RATING + " FLOAT, " + INSTALLED
-			+ " INT, " + FUNCTIONAL_RATING + " FLOAT);";
+			+ " INT, " + FUNCTIONAL_RATING + " FLOAT, " + TIMETSTAMP + " LONG);";
 
 	// attributes
 	private int id;
@@ -38,18 +39,20 @@ public class App {
 	private float privacyRating;
 	private boolean installed;
 	private float functionalRating;
+	private Long timestamp;
 
 	public App() {
 
 	}
 
-	public App(String name, String label, String version, float rating,
-			boolean installed) {
+	public App(String name, String label, String version, float rating, boolean installed, Long timestamp) {
+
 		this.name = name;
 		this.label = label;
 		this.version = version;
 		this.privacyRating = rating;
 		this.installed = installed;
+		this.timestamp = timestamp;
 	}
 
 	/**
@@ -88,6 +91,10 @@ public class App {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 	public void setVersion(String version) {
 		this.version = version;
@@ -95,10 +102,6 @@ public class App {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
 	}
 
 	public void setInstalled(boolean installed) {
@@ -111,6 +114,10 @@ public class App {
 
 	public void setFunctionalRating(float functionalRating) {
 		this.functionalRating = functionalRating;
+	}
+	
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	// getter
@@ -125,13 +132,17 @@ public class App {
 	public String getName() {
 		return name;
 	}
-
+	
 	public String getLabel() {
 		return label;
 	}
 
 	public boolean isInstalled() {
 		return installed;
+	}
+	
+	public Long getTimestamp() {
+		return timestamp;
 	}
 
 	public float getPrivacyRating() {

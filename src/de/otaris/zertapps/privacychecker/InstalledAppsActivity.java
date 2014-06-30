@@ -1,55 +1,22 @@
 package de.otaris.zertapps.privacychecker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import com.google.inject.Inject;
-
-import de.otaris.zertapps.privacychecker.database.App;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
-import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.drawable.Drawable;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 /**
  * is called by HomeActivity, handles display of installed apps
  */
 public class InstalledAppsActivity extends FragmentActivity implements
 		ActionBar.TabListener {
-
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
-	 * derivative, which will keep every loaded fragment in memory. If this
-	 * becomes too memory intensive, it may be best to switch to a
-	 * {@link android.support.v13.app.FragmentStatePagerAdapter}.
-	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -68,15 +35,12 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
 				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
 				.setTabListener(this));
 
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,18 +65,9 @@ public class InstalledAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		
+
 		switch (tab.getPosition()) {
 		case 0:
-			AppsList installedAppsList1 = new AppsList();
-			installedAppsList1.setInstalledOnly();
-			installedAppsList1.setOrder(AppsListOrder.ALPHABET, true);
-			installedAppsList1.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList1)
-					.commit();
-			break;
-		case 1:
 			AppsList installedAppsList2 = new AppsList();
 			installedAppsList2.setInstalledOnly();
 			installedAppsList2.setOrder(AppsListOrder.PRIVACY_RATING, true);
@@ -121,13 +76,13 @@ public class InstalledAppsActivity extends FragmentActivity implements
 					.replace(R.id.installedAppsContainer, installedAppsList2)
 					.commit();
 			break;
-		case 2:
-			AppsList installedAppsList3 = new AppsList();
-			installedAppsList3.setInstalledOnly();
-			installedAppsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, false);
-			installedAppsList3.setRootActivity(this);
+		case 1:
+			AppsList installedAppsList1 = new AppsList();
+			installedAppsList1.setInstalledOnly();
+			installedAppsList1.setOrder(AppsListOrder.ALPHABET, true);
+			installedAppsList1.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList3)
+					.replace(R.id.installedAppsContainer, installedAppsList1)
 					.commit();
 			break;
 		default:
@@ -143,43 +98,28 @@ public class InstalledAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-	}
 
-	/**
-	 * Auto-generated code A {@link FragmentPagerAdapter} that returns a
-	 * fragment corresponding to one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class
-			// below).
-			return PlaceholderFragment.newInstance(position + 1);
-		}
-
-		@Override
-		public int getCount() {
-			// Show 2 total pages.
-			return 2;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-			case 0:
-				return getString(R.string.title_alphabet);
-			case 1:
-				return getString(R.string.title_privacy);
-			case 2:
-				return getString(R.string.title_functional);
-			}
-			return null;
+		switch (tab.getPosition()) {
+		case 0:
+			AppsList installedAppsList2 = new AppsList();
+			installedAppsList2.setInstalledOnly();
+			installedAppsList2.setOrder(AppsListOrder.PRIVACY_RATING, false);
+			installedAppsList2.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.installedAppsContainer, installedAppsList2)
+					.commit();
+			break;
+		case 1:
+			AppsList installedAppsList1 = new AppsList();
+			installedAppsList1.setInstalledOnly();
+			installedAppsList1.setOrder(AppsListOrder.ALPHABET, true);
+			installedAppsList1.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.installedAppsContainer, installedAppsList1)
+					.commit();
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -211,7 +151,7 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_installed_apps,
-					container, false);	
+					container, false);
 			return rootView;
 		}
 	}
