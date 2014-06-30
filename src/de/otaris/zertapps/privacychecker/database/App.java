@@ -21,12 +21,12 @@ public class App {
 	public static final String VERSION = "version";
 	public static final String RATING = "rating";
 	public static final String INSTALLED = "installed";
+	public static final String TIMETSTAMP = "timestamp";
 
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
-			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
-			+ VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED + " INT);";
+			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
+			+ VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED + " INT, " + TIMETSTAMP + " LONG);";
 
 	// attributes
 	private int id;
@@ -35,18 +35,20 @@ public class App {
 	private String version;
 	private float rating;
 	private boolean installed;
+	private Long timestamp;
 
 	public App() {
 
 	}
 
-	public App(String name, String label, String version, float rating,
-			boolean installed) {
+	public App(String name, String label, String version, float rating, boolean installed, Long timestamp) {
+
 		this.name = name;
 		this.label = label;
 		this.version = version;
 		this.rating = rating;
 		this.installed = installed;
+		this.timestamp = timestamp;
 	}
 
 	/**
@@ -85,6 +87,10 @@ public class App {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 	public void setVersion(String version) {
 		this.version = version;
@@ -94,16 +100,16 @@ public class App {
 		this.name = name;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
 	public void setInstalled(boolean installed) {
 		this.installed = installed;
 	}
 
 	public void setRating(float rating) {
 		this.rating = rating;
+	}
+	
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	// getter
@@ -118,7 +124,7 @@ public class App {
 	public String getName() {
 		return name;
 	}
-
+	
 	public String getLabel() {
 		return label;
 	}
@@ -129,6 +135,10 @@ public class App {
 
 	public boolean isInstalled() {
 		return installed;
+	}
+	
+	public Long getTimestamp() {
+		return timestamp;
 	}
 
 }

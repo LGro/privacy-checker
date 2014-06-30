@@ -4,7 +4,7 @@ import java.util.List;
 
 import de.otaris.zertapps.privacychecker.database.App;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
+
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
@@ -16,14 +16,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * adapter to show a list of apps with icon, name and rating 
+ * adapter to show a list of apps with icon, name and rating
  */
 public class AppListItemAdapter extends ArrayAdapter<App> {
 	private final Context context;
 	private final List<App> values;
 	private final PackageManager pm;
-	
-	
+
 	public AppListItemAdapter(Context context, PackageManager pm,
 			List<App> values) {
 		super(context, R.layout.app_list_item, values);

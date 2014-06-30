@@ -8,18 +8,18 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
-import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 
 /**
  * A class to handle Database communication
  */
 public class AppController {
-	
+
 	/**
 	 * retrieve installed apps from API
 	 * 
-	 * @param pm : Packagemanager 
+	 * @param pm
+	 *            : Packagemanager
 	 * @return ApplicationInfo array of the locally installed apps
 	 */
 	public ApplicationInfo[] getInstalledApps(PackageManager pm) {
@@ -39,10 +39,13 @@ public class AppController {
 	/**
 	 * put the locally installed app in the database
 	 * 
-	 * @param helper : AppDataSource
-	 * @param pm : Packagemanager
-	 * @throws NameNotFoundException, is thrown if app.packageName does not exist 
-	 * 	(there are installed apps without package name)
+	 * @param helper
+	 *            : AppDataSource
+	 * @param pm
+	 *            : Packagemanager
+	 * @throws NameNotFoundException
+	 *             , is thrown if app.packageName does not exist (there are
+	 *             installed apps without package name)
 	 */
 	public void putInstalledAppsInDatabase(AppDataSource helper,
 			PackageManager pm) {
@@ -56,7 +59,7 @@ public class AppController {
 				pinfo = pm.getPackageInfo(app.packageName, 0);
 
 				// TODO: ADD Rating here
-				
+
 				helper.createApp(app.packageName, pinfo.applicationInfo
 						.loadLabel(pm).toString(), pinfo.versionCode + "",
 						true, 3);

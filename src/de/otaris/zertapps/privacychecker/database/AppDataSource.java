@@ -17,7 +17,7 @@ public class AppDataSource {
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
 	private String[] allColumns = { App.ID, App.NAME, App.LABEL, App.VERSION,
-			App.INSTALLED, App.RATING };
+			App.INSTALLED, App.RATING, App.INSTALLED, App.TIMETSTAMP };
 
 	public AppDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -52,9 +52,10 @@ public class AppDataSource {
 		app.setName(cursor.getString(1));
 		app.setLabel(cursor.getString(2));
 		app.setVersion(cursor.getString(3));
+		app.setRating(cursor.getFloat(4));
 		// convert integer from SQLite to boolean in model representation
-		app.setInstalled(cursor.getInt(4) != 0);
-		app.setRating(cursor.getFloat(5));
+		app.setInstalled(cursor.getInt(5) != 0);
+		app.setTimestamp(cursor.getLong(6));
 
 		return app;
 	}
@@ -76,8 +77,13 @@ public class AppDataSource {
 		values.put(App.NAME, name);
 		values.put(App.LABEL, label);
 		values.put(App.VERSION, version);
-		values.put(App.INSTALLED, installed);
 		values.put(App.RATING, rating);
+		values.put(App.INSTALLED, installed);
+
+		// Gets current time in milliseconds since jan1,1970. The divide by 1000
+		// turns it into unix seconds instead of milliseconds.
+		long currentTimestamp = System.currentTimeMillis() / 1000;
+		values.put(App.TIMETSTAMP, currentTimestamp);
 
 		// insert into DB
 		long insertId = database.insert(App.TABLE, null, values);
@@ -150,6 +156,32 @@ public class AppDataSource {
 			apps.add(app);
 			cursor.moveToNext();
 		}
+		cursor.close();
+		return apps;
+	}
+
+	/**
+	 * Get the n most recently updated apps from the database. 
+	 * 
+	 * @param n the amount of apps to return
+	 * 
+	 * @return returns the n most recently updated apps
+	 */
+	public List<App> getLastUpdatedApps(int n) {
+		List<App> apps = new ArrayList<App>();
+
+		// build query
+		String orderBy = App.TIMETSTAMP + " ASC" + " LIMIT " + n;
+		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null,
+				null, orderBy);
+		cursor.moveToFirst();
+
+		while (!cursor.isAfterLast()) {
+			App app = cursorToApp(cursor);
+			apps.add(app);
+			cursor.moveToNext();
+		}
+
 		cursor.close();
 		return apps;
 	}
