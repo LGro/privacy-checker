@@ -55,7 +55,6 @@ public class AllAppsActivity extends FragmentActivity implements
 
 	}
 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -79,26 +78,27 @@ public class AllAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		
+
 		switch (tab.getPosition()) {
 		case 0:
-			// TODO: prepare for category list
+			CategoryList categoryList = new CategoryList();
+			categoryList.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, categoryList).commit();
 			break;
 		case 1:
 			AppsList appsList2 = new AppsList();
 			appsList2.setOrder(AppsListOrder.PRIVACY_RATING, true);
 			appsList2.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList2)
-					.commit();
+					.replace(R.id.allAppsContainer, appsList2).commit();
 			break;
 		case 2:
 			AppsList appsList3 = new AppsList();
 			appsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, false);
 			appsList3.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList3)
-					.commit();
+					.replace(R.id.allAppsContainer, appsList3).commit();
 			break;
 		default:
 			break;
@@ -113,7 +113,7 @@ public class AllAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		
+
 		switch (tab.getPosition()) {
 		case 0:
 			// TODO: prepare for category list
@@ -123,16 +123,14 @@ public class AllAppsActivity extends FragmentActivity implements
 			appsList2.setOrder(AppsListOrder.PRIVACY_RATING, false);
 			appsList2.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList2)
-					.commit();
+					.replace(R.id.allAppsContainer, appsList2).commit();
 			break;
 		case 2:
 			AppsList appsList3 = new AppsList();
 			appsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, true);
 			appsList3.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList3)
-					.commit();
+					.replace(R.id.allAppsContainer, appsList3).commit();
 			break;
 		default:
 			break;

@@ -17,8 +17,9 @@ public class AppDataSource {
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { App.ID, App.NAME, App.LABEL, App.VERSION,
-			App.PRIVACY_RATING, App.INSTALLED, App.FUNCTIONAL_RATING, App.TIMETSTAMP};
+	private String[] allColumns = { App.ID, App.CATEGORY_ID, App.NAME,
+			App.LABEL, App.VERSION, App.PRIVACY_RATING, App.INSTALLED,
+			App.FUNCTIONAL_RATING, App.TIMETSTAMP };
 
 	public AppDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -50,14 +51,15 @@ public class AppDataSource {
 		App app = new App();
 
 		app.setId(cursor.getInt(0));
-		app.setName(cursor.getString(1));
-		app.setLabel(cursor.getString(2));
-		app.setVersion(cursor.getString(3));
+		app.setCategoryId(cursor.getInt(1));
+		app.setName(cursor.getString(2));
+		app.setLabel(cursor.getString(3));
+		app.setVersion(cursor.getString(4));
 		app.setPrivacyRating(cursor.getFloat(4));
 		// convert integer from SQLite to boolean in model representation
-		app.setInstalled(cursor.getInt(5) != 0);
-		app.setFunctionalRating(cursor.getFloat(6));
-		app.setTimestamp(cursor.getLong(7));
+		app.setInstalled(cursor.getInt(6) != 0);
+		app.setFunctionalRating(cursor.getFloat(7));
+		app.setTimestamp(cursor.getLong(8));
 
 		return app;
 	}
@@ -72,8 +74,9 @@ public class AppDataSource {
 	 * @param rating
 	 * @return app object of the newly created app
 	 */
-	public App createApp(String name, String label, String version,
-			float privacyRating, boolean installed, float functionalRating) {
+	public App createApp(int categoryId, String name, String label,
+			String version, float privacyRating, boolean installed,
+			float functionalRating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(App.NAME, name);
@@ -199,9 +202,10 @@ public class AppDataSource {
 	}
 
 	/**
-	 * Get the n most recently updated apps from the database. 
+	 * Get the n most recently updated apps from the database.
 	 * 
-	 * @param n the amount of apps to return
+	 * @param n
+	 *            the amount of apps to return
 	 * 
 	 * @return returns the n most recently updated apps
 	 */
@@ -220,6 +224,38 @@ public class AppDataSource {
 			cursor.moveToNext();
 		}
 
+		cursor.close();
+		return apps;
+	}
+	/**
+	 * get all Apps from the DB that belong to the given category, ordered by given
+	 * order ascending or descending depending on third argument
+	 * 
+	 * @param categoryId
+	 * @param order
+	 * @param ascending
+	 * 
+	 * @return sorted list of all Apps from category
+	 */
+	public List<App> getAppsByCategory(int categoryId, AppsListOrder order,
+			boolean ascending) {
+		List<App> apps = new ArrayList<App>();
+
+		// build query
+		String whereClause = App.CATEGORY_ID + " = " + categoryId;
+		// set primary order depending on argument
+		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
+		// order case insensitive
+		orderBy = orderBy + App.LABEL + " COLLATE NOCASE ASC";
+		Cursor cursor = database.query(App.TABLE, allColumns, whereClause,
+				null, null, null, orderBy);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			App app = cursorToApp(cursor);
+			apps.add(app);
+			cursor.moveToNext();
+		}
 		cursor.close();
 		return apps;
 	}

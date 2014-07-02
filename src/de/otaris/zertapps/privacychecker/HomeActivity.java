@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
+import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -69,6 +70,18 @@ public class HomeActivity extends Activity {
 		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
+		
+		//TODO: find good place for this
+		//fill db-category-table with entries
+		CategoryDataSource categoryData = new CategoryDataSource(this);
+		categoryData.open();
+		categoryData.createCategory("games", "Spiele", 10);
+		categoryData.createCategory("weather", "Wetter", 20);
+		categoryData.createCategory("categoryA", "Kategorie A", 30);
+		categoryData.createCategory("categoryB", "Kategorie B", 40);
+		categoryData.createCategory("categoryC", "Kategorie C", 50);
+		categoryData.close();
+		
 	}
 
 	@Override

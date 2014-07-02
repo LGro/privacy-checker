@@ -64,8 +64,8 @@ public class AppController {
 				// statically assigned ratings for demo purposes
 				float pRating = (app.packageName.charAt(0) == 'c') ? 2 : 4;
 				float fRating = (app.packageName.charAt(0) == 'c') ? 3 : 5;
-
-				helper.createApp(app.packageName, pinfo.applicationInfo
+				//TODO: if number of categories changes modify 5
+				helper.createApp((int) Math.random()*5, app.packageName, pinfo.applicationInfo
 						.loadLabel(pm).toString(), pinfo.versionCode + "",
 						pRating, true, fRating);
 			} catch (NameNotFoundException e) {

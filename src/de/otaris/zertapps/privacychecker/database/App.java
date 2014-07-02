@@ -16,6 +16,7 @@ public class App {
 
 	// table columns
 	public static final String ID = "app_id";
+	public static final String CATEGORY_ID = "category_id";
 	public static final String NAME = "name";
 	public static final String LABEL = "label";
 	public static final String VERSION = "version";
@@ -26,13 +27,15 @@ public class App {
 
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
-			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
-			+ VERSION + " TEXT, " + PRIVACY_RATING + " FLOAT, " + INSTALLED
-			+ " INT, " + FUNCTIONAL_RATING + " FLOAT, " + TIMETSTAMP + " LONG);";
+			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
+			+ " INTEGER, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, "
+			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
+			+ " FLOAT, " + INSTALLED + " INT, " + FUNCTIONAL_RATING
+			+ " FLOAT, " + TIMETSTAMP + " LONG);";
 
 	// attributes
 	private int id;
+	private int categoryId;
 	private String name;
 	private String label;
 	private String version;
@@ -45,8 +48,11 @@ public class App {
 
 	}
 
-	public App(String name, String label, String version, float rating, boolean installed, Long timestamp) {
+	public App(int id, int categoryId, String name, String label,
+			String version, float rating, boolean installed, Long timestamp) {
 
+		this.id = id;
+		this.categoryId = categoryId;
 		this.name = name;
 		this.label = label;
 		this.version = version;
@@ -91,7 +97,11 @@ public class App {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
@@ -115,7 +125,7 @@ public class App {
 	public void setFunctionalRating(float functionalRating) {
 		this.functionalRating = functionalRating;
 	}
-	
+
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
@@ -125,6 +135,10 @@ public class App {
 		return id;
 	}
 
+	public int getCategoryId() {
+		return categoryId;
+	}
+
 	public String getVersion() {
 		return version;
 	}
@@ -132,7 +146,7 @@ public class App {
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getLabel() {
 		return label;
 	}
@@ -140,7 +154,7 @@ public class App {
 	public boolean isInstalled() {
 		return installed;
 	}
-	
+
 	public Long getTimestamp() {
 		return timestamp;
 	}
