@@ -9,6 +9,7 @@ import de.otaris.zertapps.privacychecker.database.Category;
 import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -65,6 +66,7 @@ public class CategoryList extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		// TODO: redirect
+		Intent intent = new Intent(rootActivity, AppsByCategoryActivity.class);
+		startActivity(intent);
 	}
 }

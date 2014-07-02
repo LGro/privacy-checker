@@ -55,7 +55,7 @@ public class AppDataSource {
 		app.setName(cursor.getString(2));
 		app.setLabel(cursor.getString(3));
 		app.setVersion(cursor.getString(4));
-		app.setPrivacyRating(cursor.getFloat(4));
+		app.setPrivacyRating(cursor.getFloat(5));
 		// convert integer from SQLite to boolean in model representation
 		app.setInstalled(cursor.getInt(6) != 0);
 		app.setFunctionalRating(cursor.getFloat(7));
@@ -79,6 +79,7 @@ public class AppDataSource {
 			float functionalRating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
+		values.put(App.CATEGORY_ID, categoryId);
 		values.put(App.NAME, name);
 		values.put(App.LABEL, label);
 		values.put(App.VERSION, version);

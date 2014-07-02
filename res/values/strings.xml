@@ -16,4 +16,5 @@
     <string name="title_activity_installed_apps_list">Installierte Apps</string>
     <string name="title_activity_home">Privacy-Checker</string>
     <string name="last_updated_apps">Zuletzt aktualisierte Privatsphärebewertung:</string>
+    <string name="title_activity_apps_by_category">Kategorie</string>
 </resources>
