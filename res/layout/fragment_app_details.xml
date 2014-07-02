@@ -5,7 +5,8 @@
     tools:context="de.otaris.zertapps.privacychecker.AppDetailsActivity$PlaceholderFragment" >
 
     <ImageView
-        android:id="@+id/app_details_activity_head_icon"
+        android:id="@+id/app_details_activity_head_icon"        
+        android:contentDescription="@string/app_detail_icon"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_alignParentLeft="true"
@@ -27,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/app_details_activity_head_icon"
         android:textStyle="bold"
-        android:text="App Name" />
+        android:text="@string/app_detail_name" />
 
     <TextView
         android:id="@+id/app_details_activity_head_developer"
@@ -37,10 +38,11 @@
         android:layout_marginBottom="1dp"
         android:layout_below="@+id/app_details_activity_head_name"
         android:layout_toRightOf="@+id/app_details_activity_head_icon"
-        android:text="App Developer" />
+        android:text="@string/app_detail_developer" />
 
     <ImageView
-        android:id="@+id/app_details_activity_head_rating"
+        android:id="@+id/app_details_activity_head_rating"        
+        android:contentDescription="@string/app_detail_rating_pic"
         android:layout_width="192dp"
         android:layout_height="16dp"
         android:layout_marginLeft="5dp"
@@ -56,6 +58,21 @@
         android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/app_details_activity_head_rating"
-        android:text="Installieren" />
+        android:text="@string/app_detail_button_install" />
+
+    <ListView
+        android:id="@+id/app_details_activity_head_listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_details_activity_head_button_install" >
+
+    </ListView>
 
 </RelativeLayout>

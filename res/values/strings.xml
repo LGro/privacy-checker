@@ -16,5 +16,10 @@
     <string name="title_activity_installed_apps_list">InstalledAppsListActivity</string>
     <string name="title_activity_all_apps">AllAppsActivity</string>
     <string name="title_activity_app_details">AppDetailsActivity</string>
+    <string name="app_detail_button_install">Installieren</string>
+    <string name="app_detail_name">App Name</string>
+    <string name="app_detail_developer">App Developer</string>
+    <string name="app_detail_icon">App Icon</string>
+    <string name="app_detail_rating_pic">App Rating Pic</string>
 
 </resources>
