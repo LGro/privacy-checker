@@ -112,7 +112,7 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		case 1:
 			AppsList installedAppsList1 = new AppsList();
 			installedAppsList1.setInstalledOnly();
-			installedAppsList1.setOrder(AppsListOrder.ALPHABET, true);
+			installedAppsList1.setOrder(AppsListOrder.ALPHABET, false);
 			installedAppsList1.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.installedAppsContainer, installedAppsList1)
