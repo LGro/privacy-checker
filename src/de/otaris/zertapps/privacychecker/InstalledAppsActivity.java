@@ -3,6 +3,7 @@ package de.otaris.zertapps.privacychecker;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -22,6 +23,10 @@ public class InstalledAppsActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	private boolean privacyAscending = true;
+	private boolean alphabetAscending = true;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,9 @@ public class InstalledAppsActivity extends FragmentActivity implements
 
 		// For each of the sections in the app, add a tab to the action bar.
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this));
+				.setTabListener(this).setIcon(R.drawable.ascending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this));
+				.setTabListener(this).setIcon(R.drawable.ascending));
 
 	}
 
@@ -61,6 +66,23 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	private void updateListView(ActionBar.Tab tab, AppsListOrder order, boolean ascending){
+		
+		if (ascending) {
+			tab.setIcon(R.drawable.ascending);
+		} else {
+			tab.setIcon(R.drawable.descending);
+		}
+		
+		AppsList installedAppsList = new AppsList();
+		installedAppsList.setInstalledOnly();
+		installedAppsList.setOrder(order, ascending);
+		installedAppsList.setRootActivity(this);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.installedAppsContainer, installedAppsList)
+				.commit();
+	}
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
@@ -68,22 +90,10 @@ public class InstalledAppsActivity extends FragmentActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			AppsList installedAppsList2 = new AppsList();
-			installedAppsList2.setInstalledOnly();
-			installedAppsList2.setOrder(AppsListOrder.PRIVACY_RATING, true);
-			installedAppsList2.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList2)
-					.commit();
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 1:
-			AppsList installedAppsList1 = new AppsList();
-			installedAppsList1.setInstalledOnly();
-			installedAppsList1.setOrder(AppsListOrder.ALPHABET, true);
-			installedAppsList1.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList1)
-					.commit();
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
 			break;
 		default:
 			break;
@@ -98,29 +108,20 @@ public class InstalledAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
+		
 		switch (tab.getPosition()) {
 		case 0:
-			AppsList installedAppsList2 = new AppsList();
-			installedAppsList2.setInstalledOnly();
-			installedAppsList2.setOrder(AppsListOrder.PRIVACY_RATING, false);
-			installedAppsList2.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList2)
-					.commit();
+			privacyAscending = !privacyAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 1:
-			AppsList installedAppsList1 = new AppsList();
-			installedAppsList1.setInstalledOnly();
-			installedAppsList1.setOrder(AppsListOrder.ALPHABET, false);
-			installedAppsList1.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList1)
-					.commit();
+			alphabetAscending = !alphabetAscending;
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
 			break;
 		default:
 			break;
 		}
+		
 	}
 
 	/**
