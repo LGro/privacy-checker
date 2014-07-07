@@ -3,6 +3,7 @@ package de.otaris.zertapps.privacychecker;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,17 +17,24 @@ import android.view.ViewGroup;
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class InstalledAppsActivity extends FragmentActivity implements
+public class InstalledAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
-	private boolean privacyAscending = true;
-	private boolean alphabetAscending = true;
 
+	@Override
+	protected int getTargetContainer() {
+		return R.id.installedAppsContainer;
+	}
+	
+	@Override
+	protected AppsList configureAppsList(AppsList appsList) {
+		appsList.setInstalledOnly();
+		return appsList;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +75,6 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void updateListView(ActionBar.Tab tab, AppsListOrder order, boolean ascending){
-		
-		if (ascending) {
-			tab.setIcon(R.drawable.ascending);
-		} else {
-			tab.setIcon(R.drawable.descending);
-		}
-		
-		AppsList installedAppsList = new AppsList();
-		installedAppsList.setInstalledOnly();
-		installedAppsList.setOrder(order, ascending);
-		installedAppsList.setRootActivity(this);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.installedAppsContainer, installedAppsList)
-				.commit();
-	}
-
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
@@ -111,10 +102,12 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		
 		switch (tab.getPosition()) {
 		case 0:
+			// change sorting direction
 			privacyAscending = !privacyAscending;
 			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 1:
+			// change sorting direction
 			alphabetAscending = !alphabetAscending;
 			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
 			break;

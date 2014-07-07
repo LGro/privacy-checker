@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class AllAppsActivity extends FragmentActivity implements
+public class AllAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
 
 	/**
@@ -35,6 +35,11 @@ public class AllAppsActivity extends FragmentActivity implements
 	ViewPager mViewPager;
 
 	@Override
+	protected int getTargetContainer() {
+		return R.id.allAppsContainer;
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -49,9 +54,9 @@ public class AllAppsActivity extends FragmentActivity implements
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_category)
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this));
+				.setTabListener(this).setIcon(R.drawable.ascending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
-				.setTabListener(this));
+				.setTabListener(this).setIcon(R.drawable.descending));
 
 	}
 
@@ -85,20 +90,10 @@ public class AllAppsActivity extends FragmentActivity implements
 			// TODO: prepare for category list
 			break;
 		case 1:
-			AppsList appsList2 = new AppsList();
-			appsList2.setOrder(AppsListOrder.PRIVACY_RATING, true);
-			appsList2.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList2)
-					.commit();
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 2:
-			AppsList appsList3 = new AppsList();
-			appsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, false);
-			appsList3.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList3)
-					.commit();
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalAscending);
 			break;
 		default:
 			break;
@@ -119,20 +114,14 @@ public class AllAppsActivity extends FragmentActivity implements
 			// TODO: prepare for category list
 			break;
 		case 1:
-			AppsList appsList2 = new AppsList();
-			appsList2.setOrder(AppsListOrder.PRIVACY_RATING, false);
-			appsList2.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList2)
-					.commit();
+			// change sorting direction
+			privacyAscending = !privacyAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 2:
-			AppsList appsList3 = new AppsList();
-			appsList3.setOrder(AppsListOrder.FUNCTIONAL_RATING, true);
-			appsList3.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, appsList3)
-					.commit();
+			// change sorting direction
+			functionalAscending = !functionalAscending;
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalAscending);
 			break;
 		default:
 			break;
