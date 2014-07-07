@@ -88,7 +88,11 @@ public class AppsList extends ListFragment {
 		// get all installed apps from database
 		AppDataSource appData = getAppDataSource();
 		appData.open();
-		List<App> apps = appData.getInstalledApps(order, ascending);
+		
+		List<App> apps = (installedOnly) ?
+				appData.getInstalledApps(order, ascending) :
+				appData.getAllApps(order, ascending);
+		
 		appData.close();
 
 		// set custom list adapter to display apps with icon, name and rating
