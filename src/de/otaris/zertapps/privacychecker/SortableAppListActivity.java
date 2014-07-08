@@ -26,7 +26,7 @@ public abstract class SortableAppListActivity extends FragmentActivity {
 	}
 	
 	/**
-	 * initializes or updates a apps list to the target container
+	 * initializes or updates a app list to the target container
 	 * 
 	 * @param tab the tab that's list should be updated
 	 * @param order the order criterion

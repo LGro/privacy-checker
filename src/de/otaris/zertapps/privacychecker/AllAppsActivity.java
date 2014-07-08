@@ -2,11 +2,8 @@ package de.otaris.zertapps.privacychecker;
 
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,15 +16,9 @@ import android.view.ViewGroup;
  */
 public class AllAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
-
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a {@link FragmentPagerAdapter}
-	 * derivative, which will keep every loaded fragment in memory. If this
-	 * becomes too memory intensive, it may be best to switch to a
-	 * {@link android.support.v13.app.FragmentStatePagerAdapter}.
-	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	
+	// overwrite sorting direction for privacy rating
+	protected boolean privacyAscending = false;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -54,7 +45,7 @@ public class AllAppsActivity extends SortableAppListActivity implements
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_category)
 				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this).setIcon(R.drawable.ascending));
+				.setTabListener(this).setIcon(R.drawable.descending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
 				.setTabListener(this).setIcon(R.drawable.descending));
 
@@ -125,44 +116,6 @@ public class AllAppsActivity extends SortableAppListActivity implements
 			break;
 		default:
 			break;
-		}
-	}
-
-	/**
-	 * Auto-generated code A {@link FragmentPagerAdapter} that returns a
-	 * fragment corresponding to one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class
-			// below).
-			return PlaceholderFragment.newInstance(position + 1);
-		}
-
-		@Override
-		public int getCount() {
-			// Show 2 total pages.
-			return 2;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-			case 0:
-				return getString(R.string.title_alphabet);
-			case 1:
-				return getString(R.string.title_privacy);
-			case 2:
-				return getString(R.string.title_functional);
-			}
-			return null;
 		}
 	}
 
