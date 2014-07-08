@@ -13,6 +13,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -151,6 +152,10 @@ public class AllAppsActivity extends ListActivity implements
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.i("AllAppsAcitivity", "clicked on app");
+		
+		Intent intent = new Intent(this, AppDetailsActivity.class);
+		intent.putExtra("id", (Integer)v.getTag()); 
+		startActivity(intent);
 	}
 
 	@Override
