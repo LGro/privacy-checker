@@ -15,8 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-public class AppDetailsActivity extends ListActivity {
+public class AppDetailsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +28,6 @@ public class AppDetailsActivity extends ListActivity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		
-		ArrayList<Detail> details = getDetails(getId()); 
-		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
-				getPackageManager(), details);
-		setListAdapter(adapter);
-	}
-
-	private ArrayList<Detail> getDetails(int id) {
-		ArrayList<Detail> details = new ArrayList<Detail>(); 
-		AppDataSource appDataSource = new AppDataSource(this);
-		details.add(new Rating(getId(), appDataSource));
-		//TODO: Add more Details here
-		return details;
 	}
 
 	@Override
@@ -47,7 +35,22 @@ public class AppDetailsActivity extends ListActivity {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.app_details, menu);
+		
+		ListView detailListView = (ListView) findViewById(R.id.app_details_activity_head_listView);
+		
+		ArrayList<Detail> details = getDetails(getId()); 
+		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
+				getPackageManager(), details);
+		detailListView.setAdapter(adapter);
 		return true;
+	}
+	
+	private ArrayList<Detail> getDetails(int id) {
+		ArrayList<Detail> details = new ArrayList<Detail>(); 
+		AppDataSource appDataSource = new AppDataSource(this);
+		details.add(new Rating(getId(), appDataSource));
+		//TODO: Add more Details here
+		return details;
 	}
 
 	@Override

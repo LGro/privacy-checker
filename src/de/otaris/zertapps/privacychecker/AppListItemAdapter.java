@@ -65,6 +65,8 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 		// set app rating
 		ratingView.setText("" + values.get(position).getPrivacyRating());
 
+		rowView.setTag(values.get(position).getId());
+		
 		return rowView;
 	}
 }

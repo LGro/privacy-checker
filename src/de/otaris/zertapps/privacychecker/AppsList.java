@@ -9,6 +9,7 @@ import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -117,6 +118,8 @@ public class AppsList extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		Log.i("InstalledAppsList", "clicked on app");
+		Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
+		intent.putExtra("id", (Integer)v.getTag()); 
+		startActivity(intent);
 	}
 }

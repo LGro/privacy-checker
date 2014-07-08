@@ -17,4 +17,8 @@
     <string name="title_activity_home">Privacy-Checker</string>
     <string name="last_updated_apps">Zuletzt aktualisierte Privatsphärebewertung:</string>
     <string name="title_activity_apps_by_category">Kategorie</string>
+    <string name="app_detail_icon">Icon</string>
+    <string name="app_detail_rating_pic">Bewertung</string>
+    <string name="app_detail_button_install">Installieren</string>
+    <string name="title_activity_app_details">Details</string>
 </resources>
