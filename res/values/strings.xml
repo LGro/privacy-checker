@@ -5,21 +5,16 @@
     <string name="title_home">Home</string>
     <string name="title_installed_apps">Installiert</string>
     <string name="title_all_apps">Alle Apps</string>
+    <string name="title_activity_all_apps">Alle Apps</string>
     <string name="action_settings">Settings</string>
     <string name="installed_apps_button">Installierte Apps</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_installed_apps">InstalledAppsActivity</string>
-    <string name="title_privacy">Privacy</string>
-    <string name="title_alphabet">Alphabet</string>
-    <string name="title_activity_installed_apps_list">InstalledAppsListActivity</string>
-    <string name="title_activity_all_apps">AllAppsActivity</string>
-    <string name="title_activity_app_details">AppDetailsActivity</string>
-    <string name="app_detail_button_install">Installieren</string>
-    <!-- <string name="app_detail_name">App Name</string>
-    <string name="app_detail_developer">App Entwickler</string> -->
-    <string name="app_detail_icon">App Icon</string>
-    <string name="app_detail_rating_pic">App Rating Pic</string> 
-
+    <string name="title_activity_installed_apps">Installierte Apps</string>
+    <string name="title_privacy">Privatsphäre</string>
+    <string name="title_alphabet">alphabetisch</string>
+    <string name="title_functional">Bewertung</string>
+    <string name="title_category">Kategorien</string>
+    <string name="title_activity_installed_apps_list">Installierte Apps</string>
+    <string name="title_activity_home">Privacy-Checker</string>
+    <string name="last_updated_apps">Zuletzt aktualisierte Privatsphärebewertung:</string>
+    <string name="title_activity_apps_by_category">Kategorie</string>
 </resources>

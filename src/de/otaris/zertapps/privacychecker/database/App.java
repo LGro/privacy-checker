@@ -16,37 +16,49 @@ public class App {
 
 	// table columns
 	public static final String ID = "app_id";
+	public static final String CATEGORY_ID = "category_id";
 	public static final String NAME = "name";
 	public static final String LABEL = "label";
 	public static final String VERSION = "version";
-	public static final String RATING = "rating";
+	public static final String PRIVACY_RATING = "privacy_rating";
 	public static final String INSTALLED = "installed";
+	public static final String FUNCTIONAL_RATING = "functional_rating";
+	public static final String TIMETSTAMP = "timestamp";
 
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
-			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, "
-			+ VERSION + " TEXT, " + RATING + " FLOAT, " + INSTALLED + " INT);";
+			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
+			+ " INTEGER, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, "
+			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
+			+ " FLOAT, " + INSTALLED + " INT, " + FUNCTIONAL_RATING
+			+ " FLOAT, " + TIMETSTAMP + " LONG);";
 
 	// attributes
 	private int id;
+	private int categoryId;
 	private String name;
 	private String label;
 	private String version;
-	private float rating;
+	private float privacyRating;
 	private boolean installed;
+	private float functionalRating;
+	private Long timestamp;
 
 	public App() {
 
 	}
 
-	public App(String name, String label, String version, float rating,
-			boolean installed) {
+	public App(int id, int categoryId, String name, String label,
+			String version, float rating, boolean installed, Long timestamp) {
+
+		this.id = id;
+		this.categoryId = categoryId;
 		this.name = name;
 		this.label = label;
 		this.version = version;
-		this.rating = rating;
+		this.privacyRating = rating;
 		this.installed = installed;
+		this.timestamp = timestamp;
 	}
 
 	/**
@@ -86,6 +98,14 @@ public class App {
 		this.id = id;
 	}
 
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	public void setVersion(String version) {
 		this.version = version;
 	}
@@ -94,21 +114,29 @@ public class App {
 		this.name = name;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
 	public void setInstalled(boolean installed) {
 		this.installed = installed;
 	}
 
-	public void setRating(float rating) {
-		this.rating = rating;
+	public void setPrivacyRating(float privacyRating) {
+		this.privacyRating = privacyRating;
+	}
+
+	public void setFunctionalRating(float functionalRating) {
+		this.functionalRating = functionalRating;
+	}
+
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	// getter
 	public int getId() {
 		return id;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
 	}
 
 	public String getVersion() {
@@ -123,12 +151,20 @@ public class App {
 		return label;
 	}
 
-	public float getRating() {
-		return rating;
-	}
-
 	public boolean isInstalled() {
 		return installed;
+	}
+
+	public Long getTimestamp() {
+		return timestamp;
+	}
+
+	public float getPrivacyRating() {
+		return privacyRating;
+	}
+
+	public float getFunctionalRating() {
+		return functionalRating;
 	}
 
 }

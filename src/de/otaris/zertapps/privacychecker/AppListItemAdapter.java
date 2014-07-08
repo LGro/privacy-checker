@@ -4,6 +4,7 @@ import java.util.List;
 
 import de.otaris.zertapps.privacychecker.database.App;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
@@ -21,8 +22,8 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 	private final Context context;
 	private final List<App> values;
 	private final PackageManager pm;
-	
-	
+		
+
 	public AppListItemAdapter(Context context, PackageManager pm,
 			List<App> values) {
 		super(context, R.layout.app_list_item, values);
@@ -62,9 +63,7 @@ public class AppListItemAdapter extends ArrayAdapter<App> {
 		textView.setText(values.get(position).getLabel());
 
 		// set app rating
-		ratingView.setText("" + values.get(position).getRating());
-		
-		rowView.setTag(values.get(position).getId());
+		ratingView.setText("" + values.get(position).getPrivacyRating());
 
 		return rowView;
 	}

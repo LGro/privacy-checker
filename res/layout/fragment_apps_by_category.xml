@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="de.otaris.zertapps.privacychecker.AllAppsActivity$PlaceholderFragment" >
+    tools:context="de.otaris.zertapps.privacychecker.AppsByCategoryActivity$PlaceholderFragment" >
 
     <ListView
         android:id="@+id/list"
