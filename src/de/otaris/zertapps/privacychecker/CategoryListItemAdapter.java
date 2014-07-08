@@ -38,6 +38,8 @@ public class CategoryListItemAdapter extends ArrayAdapter<Category> {
 		// set category label
 		textView.setText(values.get(position).getLabel());
 
+		// set categoryID as tag
+		rowView.setTag(values.get(position).getId());
 
 		return rowView;
 	}

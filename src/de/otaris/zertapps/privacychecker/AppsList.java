@@ -6,6 +6,7 @@ import com.google.inject.Inject;
 
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
+import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -25,12 +26,17 @@ public class AppsList extends ListFragment {
 	private AppsListOrder order;
 	
 	private boolean installedOnly = false;
+	private int categoryId = -1;
 
 	@Inject
 	private AppController appController = null;
 	@Inject
 	private AppDataSource appDataSource = null;
 	private boolean ascending;
+	
+	public void setCageoryId(int id) {
+		categoryId = id;
+	}
 
 	public void setInstalledOnly() {
 		installedOnly = true;
@@ -79,19 +85,21 @@ public class AppsList extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// insert all installed apps into database
-		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(
-				new AppDataSource(rootActivity),
-				rootActivity.getPackageManager());
 
 		// get all installed apps from database
 		AppDataSource appData = getAppDataSource();
 		appData.open();
 		
-		List<App> apps = (installedOnly) ?
-				appData.getInstalledApps(order, ascending) :
-				appData.getAllApps(order, ascending);
+		List<App> apps;
+		if (installedOnly) {
+			apps = appData.getInstalledApps(order, ascending);
+		} else {
+			if (categoryId != -1) {
+				apps = appData.getAppsByCategory(categoryId, order, ascending);
+			} else {
+				apps = appData.getAllApps(order, ascending);
+			}
+		}
 		
 		appData.close();
 

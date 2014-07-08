@@ -103,13 +103,13 @@ public class CategoryDataSource {
 	}
 
 	/**
-	 * gets singlge category by id from database
+	 * gets single category by id from database
 	 * 
 	 * @param categoryId
 	 * 
 	 * @return category object with the given id
 	 */
-	private Category getCategoryById(long categoryId) {
+	public Category getCategoryById(long categoryId) {
 		// build database query
 		Cursor cursor = database.query(Category.TABLE, allColumns, Category.ID
 				+ " = " + categoryId, null, null, null, null);

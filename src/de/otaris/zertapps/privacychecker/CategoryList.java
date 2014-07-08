@@ -45,17 +45,10 @@ public class CategoryList extends ListFragment {
 		List<Category> categories = categoryData.getAllCategories();
 		categoryData.close();
 
-		ArrayList<String> list = new ArrayList<String>();
-		for (int i = 0; i < categories.size(); ++i) {
-			list.add(categories.get(i).getLabel());
-		}
-
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                rootActivity, 
-                android.R.layout.simple_list_item_1,
-                list );
-
-		setListAdapter(arrayAdapter); 
+		// initialize category list item adapter
+		CategoryListItemAdapter adapter = new CategoryListItemAdapter(rootActivity, categories);
+		
+		setListAdapter(adapter);
 	}
 
 	@Override
@@ -67,6 +60,10 @@ public class CategoryList extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
 		Intent intent = new Intent(rootActivity, AppsByCategoryActivity.class);
+		
+		// put id from rowView tag as extra to the AppsByCategoryActivity
+		intent.putExtra("id", (Integer)v.getTag());
+		
 		startActivity(intent);
 	}
 }

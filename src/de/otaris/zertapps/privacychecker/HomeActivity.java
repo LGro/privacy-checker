@@ -61,18 +61,8 @@ public class HomeActivity extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 
-		// insert all installed apps into database
-		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppDataSource(this),
-				getPackageManager());
-		// connect to database
-		AppDataSource appData = new AppDataSource(this);
-		appData.open();
-		latestAppsList = appData.getLastUpdatedApps(4);
-		appData.close();
-		
-		//TODO: find good place for this
-		//fill db-category-table with entries
+		// TODO: find good place for this
+		// fill db-category-table with entries
 		CategoryDataSource categoryData = new CategoryDataSource(this);
 		categoryData.open();
 		categoryData.createCategory("games", "Spiele", 10);
@@ -81,7 +71,17 @@ public class HomeActivity extends Activity {
 		categoryData.createCategory("categoryB", "Kategorie B", 40);
 		categoryData.createCategory("categoryC", "Kategorie C", 50);
 		categoryData.close();
-		
+
+		// insert all installed apps into database
+		AppController appController = getAppController();
+		appController.putInstalledAppsInDatabase(new AppDataSource(this),
+				new CategoryDataSource(this), getPackageManager());
+		// connect to database
+		AppDataSource appData = new AppDataSource(this);
+		appData.open();
+		latestAppsList = appData.getLastUpdatedApps(4);
+		appData.close();
+
 	}
 
 	@Override

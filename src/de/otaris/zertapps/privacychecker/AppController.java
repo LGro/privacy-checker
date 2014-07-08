@@ -10,6 +10,8 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 import de.otaris.zertapps.privacychecker.database.App;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
+import de.otaris.zertapps.privacychecker.database.Category;
+import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 
 /**
  * A class to handle Database communication
@@ -40,7 +42,7 @@ public class AppController {
 	/**
 	 * put the locally installed app in the database
 	 * 
-	 * @param helper
+	 * @param appData
 	 *            : AppDataSource
 	 * @param pm
 	 *            : Packagemanager
@@ -48,12 +50,16 @@ public class AppController {
 	 *             , is thrown if app.packageName does not exist (there are
 	 *             installed apps without package name)
 	 */
-	public void putInstalledAppsInDatabase(AppDataSource helper,
-			PackageManager pm) {
+	public void putInstalledAppsInDatabase(AppDataSource appData,
+			CategoryDataSource categoryData, PackageManager pm) {
 
-		helper.open();
+		appData.open();
+		categoryData.open();
 
-		for (ApplicationInfo app : getInstalledApps(pm)) {
+		ApplicationInfo[] apps = getInstalledApps(pm);
+		for (int i = 0; i < apps.length; i++) {
+			ApplicationInfo app = apps[i];
+			
 			// PackageInfo is for getting the versionCode and versionName
 			PackageInfo pinfo;
 			try {
@@ -64,15 +70,33 @@ public class AppController {
 				// statically assigned ratings for demo purposes
 				float pRating = (app.packageName.charAt(0) == 'c') ? 2 : 4;
 				float fRating = (app.packageName.charAt(0) == 'c') ? 3 : 5;
-				//TODO: if number of categories changes modify 5
-				helper.createApp((int) Math.random()*5, app.packageName, pinfo.applicationInfo
-						.loadLabel(pm).toString(), pinfo.versionCode + "",
-						pRating, true, fRating);
+
+				// get all categories
+				List<Category> categories = categoryData.getAllCategories();
+				
+				// set categoryId for apps programmatically
+				int categoryId;
+				if (i < 5) {
+					categoryId = categories.get(0).getId();
+				} else if (i < 10) {
+					categoryId = categories.get(1).getId();
+				} else if (i < 15) {
+					categoryId = categories.get(2).getId();
+				} else {
+					categoryId = categories.get(3).getId();
+				}
+				
+				appData.createApp(categoryId, app.packageName,
+						pinfo.applicationInfo.loadLabel(pm).toString(),
+						pinfo.versionCode + "", pRating, true, fRating);
 			} catch (NameNotFoundException e) {
 				Log.e("AppController",
 						"NameNotFoundException: " + e.getMessage());
 			}
 		}
+		
+		appData.close();
+		categoryData.close();
 
 	}
 

@@ -113,7 +113,7 @@ public class AllAppsActivity extends SortableAppListActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			// TODO: prepare for category list
+			// do nothing ...
 			break;
 		case 1:
 			// change sorting direction
