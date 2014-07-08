@@ -14,14 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.database.App;
 
-public class AppDetailListItemAdapter extends ArrayAdapter<App> {
+public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 	private final Context context;
-	private final List<App> values;
+	private final List<Detail> values;
 	private final PackageManager pm;
-	
-	
+
 	public AppDetailListItemAdapter(Context context, PackageManager pm,
-			List<App> values) {
+			List<Detail> values) {
 		super(context, R.layout.app_list_item, values);
 		this.context = context;
 		this.values = values;
@@ -32,35 +31,42 @@ public class AppDetailListItemAdapter extends ArrayAdapter<App> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.app_list_item, parent, false);
+		// View rowView = inflater.inflate(R.layout.app_list_item, parent,
+		// false);
+		//
+		// // get views from layout
+		// TextView textView = (TextView) rowView
+		// .findViewById(R.id.app_list_item_name);
+		// TextView ratingView = (TextView) rowView
+		// .findViewById(R.id.app_list_item_rating);
+		// ImageView imageView = (ImageView) rowView
+		// .findViewById(R.id.app_list_item_icon);
 
-		// get views from layout
+		View rowView = inflater.inflate(R.layout.app_detail_list_item, parent,
+				false);
 		TextView textView = (TextView) rowView
 				.findViewById(R.id.app_list_item_name);
-		TextView ratingView = (TextView) rowView
-				.findViewById(R.id.app_list_item_rating);
-		ImageView imageView = (ImageView) rowView
-				.findViewById(R.id.app_list_item_icon);
 
-		// set app icon
-		if (values.get(position).isInstalled()) {
-			try {
-				imageView.setImageDrawable(pm.getApplicationIcon(values.get(
-						position).getName()));
-			} catch (NameNotFoundException e) {
-				Log.w("AppListItemAdapter",
-						"Couldn't load icon for app: " + e.getMessage());
-			}
-		} else {
-			// TODO: implement (get icon from PlayStore API?!)
-		}
+		// // set app icon
+		// if (values.get(position).isInstalled()) {
+		// try {
+		// imageView.setImageDrawable(pm.getApplicationIcon(values.get(
+		// position).getName()));
+		// } catch (NameNotFoundException e) {
+		// Log.w("AppListItemAdapter",
+		// "Couldn't load icon for app: " + e.getMessage());
+		// }
+		// } else {
+		// // TODO: implement (get icon from PlayStore API?!)
+		// }
 
 		// set app title
-		textView.setText(values.get(position).getLabel());
+		textView.setText(values.get(position).getDetailName());
 
 		// set app rating
-		ratingView.setText("" + values.get(position).getRating());
+		// ratingView.setText("" + values.get(position).getRating());
 
+		//rowView.setTag(values.get(position).getId());
 		return rowView;
 	}
 }

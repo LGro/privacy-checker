@@ -27,8 +27,9 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/app_details_activity_head_icon"
-        android:textStyle="bold"
-        android:text="@string/app_detail_name" />
+        android:textStyle="bold"/>
+   <!--   android:text="@string/app_detail_name"--> 
+
 
     <TextView
         android:id="@+id/app_details_activity_head_developer"
@@ -37,8 +38,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="1dp"
         android:layout_below="@+id/app_details_activity_head_name"
-        android:layout_toRightOf="@+id/app_details_activity_head_icon"
-        android:text="@string/app_detail_developer" />
+        android:layout_toRightOf="@+id/app_details_activity_head_icon" />
+  <!--      android:text="@string/app_detail_developer" --> 
 
     <ImageView
         android:id="@+id/app_details_activity_head_rating"        

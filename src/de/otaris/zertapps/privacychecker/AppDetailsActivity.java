@@ -1,15 +1,22 @@
 package de.otaris.zertapps.privacychecker;
 
+import java.util.ArrayList;
+
+import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
-public class AppDetailsActivity extends Activity {
+public class AppDetailsActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +27,19 @@ public class AppDetailsActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		
+		ArrayList<Detail> details = getDetails(getId()); 
+		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
+				getPackageManager(), details);
+		setListAdapter(adapter);
+	}
+
+	private ArrayList<Detail> getDetails(int id) {
+		ArrayList<Detail> details = new ArrayList<Detail>(); 
+		AppDataSource appDataSource = new AppDataSource(this);
+		details.add(new Rating(getId(), appDataSource));
+		//TODO: Add more Details here
+		return details;
 	}
 
 	@Override
@@ -40,6 +60,12 @@ public class AppDetailsActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private int getId() {
+		Intent intent = getIntent();
+		int id = intent.getIntExtra("id", -1);
+		return id;
 	}
 
 	/**
