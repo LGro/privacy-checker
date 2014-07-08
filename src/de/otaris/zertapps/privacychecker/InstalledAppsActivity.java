@@ -3,6 +3,8 @@ package de.otaris.zertapps.privacychecker;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -15,13 +17,24 @@ import android.view.ViewGroup;
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class InstalledAppsActivity extends FragmentActivity implements
+public class InstalledAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+
+	@Override
+	protected int getTargetContainer() {
+		return R.id.installedAppsContainer;
+	}
+	
+	@Override
+	protected AppsList configureAppsList(AppsList appsList) {
+		appsList.setInstalledOnly();
+		return appsList;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +49,9 @@ public class InstalledAppsActivity extends FragmentActivity implements
 
 		// For each of the sections in the app, add a tab to the action bar.
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this));
+				.setTabListener(this).setIcon(R.drawable.ascending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this));
+				.setTabListener(this).setIcon(R.drawable.ascending));
 
 	}
 
@@ -61,29 +74,17 @@ public class InstalledAppsActivity extends FragmentActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 
 		switch (tab.getPosition()) {
 		case 0:
-			AppsList installedAppsList2 = new AppsList();
-			installedAppsList2.setInstalledOnly();
-			installedAppsList2.setOrder(AppsListOrder.PRIVACY_RATING, true);
-			installedAppsList2.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList2)
-					.commit();
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 1:
-			AppsList installedAppsList1 = new AppsList();
-			installedAppsList1.setInstalledOnly();
-			installedAppsList1.setOrder(AppsListOrder.ALPHABET, true);
-			installedAppsList1.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList1)
-					.commit();
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
 			break;
 		default:
 			break;
@@ -98,29 +99,22 @@ public class InstalledAppsActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
+		
 		switch (tab.getPosition()) {
 		case 0:
-			AppsList installedAppsList2 = new AppsList();
-			installedAppsList2.setInstalledOnly();
-			installedAppsList2.setOrder(AppsListOrder.PRIVACY_RATING, false);
-			installedAppsList2.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList2)
-					.commit();
+			// change sorting direction
+			privacyAscending = !privacyAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
 			break;
 		case 1:
-			AppsList installedAppsList1 = new AppsList();
-			installedAppsList1.setInstalledOnly();
-			installedAppsList1.setOrder(AppsListOrder.ALPHABET, false);
-			installedAppsList1.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.installedAppsContainer, installedAppsList1)
-					.commit();
+			// change sorting direction
+			alphabetAscending = !alphabetAscending;
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
 			break;
 		default:
 			break;
 		}
+		
 	}
 
 	/**
