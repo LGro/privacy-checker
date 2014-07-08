@@ -8,10 +8,11 @@ public class Rating extends Detail {
 	private AppDataSource appDataSource;
 
 	public Rating(){
-		
+		detailName = "Rating";
 	}
 	
 	public Rating(int id, AppDataSource appDataSource){
+		this();
 		this.appId = id;
 		this.appDataSource = appDataSource;
 	}

@@ -39,8 +39,7 @@ public class AppDetailsActivity extends Activity {
 		ListView detailListView = (ListView) findViewById(R.id.app_details_activity_head_listView);
 		
 		ArrayList<Detail> details = getDetails(getId()); 
-		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
-				getPackageManager(), details);
+		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this, details);
 		detailListView.setAdapter(adapter);
 		return true;
 	}

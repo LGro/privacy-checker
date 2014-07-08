@@ -3,70 +3,46 @@ package de.otaris.zertapps.privacychecker;
 import java.util.List;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import de.otaris.zertapps.privacychecker.database.App;
 
 public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 	private final Context context;
 	private final List<Detail> values;
-	private final PackageManager pm;
 
-	public AppDetailListItemAdapter(Context context, PackageManager pm,
+	public AppDetailListItemAdapter(Context context,
 			List<Detail> values) {
-		super(context, R.layout.app_list_item, values);
+		super(context, R.layout.app_detail_list_item, values);
 		this.context = context;
 		this.values = values;
-		this.pm = pm;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		// View rowView = inflater.inflate(R.layout.app_list_item, parent,
-		// false);
-		//
-		// // get views from layout
-		// TextView textView = (TextView) rowView
-		// .findViewById(R.id.app_list_item_name);
-		// TextView ratingView = (TextView) rowView
-		// .findViewById(R.id.app_list_item_rating);
-		// ImageView imageView = (ImageView) rowView
-		// .findViewById(R.id.app_list_item_icon);
-
-		View rowView = inflater.inflate(R.layout.app_detail_list_item, parent,
-				false);
-		TextView textView = (TextView) rowView
-				.findViewById(R.id.app_list_item_name);
-
-		// // set app icon
-		// if (values.get(position).isInstalled()) {
-		// try {
-		// imageView.setImageDrawable(pm.getApplicationIcon(values.get(
-		// position).getName()));
-		// } catch (NameNotFoundException e) {
-		// Log.w("AppListItemAdapter",
-		// "Couldn't load icon for app: " + e.getMessage());
-		// }
-		// } else {
-		// // TODO: implement (get icon from PlayStore API?!)
-		// }
-
-		// set app title
-		textView.setText(values.get(position).getDetailName());
-
-		// set app rating
-		// ratingView.setText("" + values.get(position).getRating());
-
-		//rowView.setTag(values.get(position).getId());
-		return rowView;
+		
+		String detailViewClass = values.get(position).getClass().getName();
+		String detailViewClassFullPath = detailViewClass + "ViewHelper";
+		try {
+			Class viewClass = Class.forName(detailViewClassFullPath);
+			DetailViewHelper detailViewHelper = (DetailViewHelper) viewClass.newInstance();
+			
+			return detailViewHelper.getView(context, parent, values.get(position));
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Log.e("AppDetailListItemAdapter", "Error: Detail View Class Not Found. Expected " + detailViewClassFullPath);
+		return null;
 	}
 }

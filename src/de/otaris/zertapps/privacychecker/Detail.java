@@ -2,9 +2,9 @@ package de.otaris.zertapps.privacychecker;
 
 public abstract class Detail {
 
-	private int appId;
+	protected int appId;
 	
-	private String detailName;
+	protected String detailName;
 	
 	public void setDetailName(String detailName){
 		this.detailName = detailName;
