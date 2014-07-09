@@ -7,6 +7,7 @@ import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -38,16 +39,20 @@ public class AppDetailsActivity extends Activity {
 		
 		ListView detailListView = (ListView) findViewById(R.id.app_details_activity_head_listView);
 		
-		ArrayList<Detail> details = getDetails(getId()); 
+		ArrayList<Detail> details = getDetails(); 
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this, details);
 		detailListView.setAdapter(adapter);
 		return true;
 	}
 	
-	private ArrayList<Detail> getDetails(int id) {
+	private ArrayList<Detail> getDetails() {
+		int id = getIntent().getIntExtra("id", -1);
 		ArrayList<Detail> details = new ArrayList<Detail>(); 
 		AppDataSource appDataSource = new AppDataSource(this);
-		details.add(new Rating(getId(), appDataSource));
+		appDataSource.open();
+		App app = appDataSource.getAppById(id);
+		appDataSource.close();
+		details.add(new Description(app));
 		//TODO: Add more Details here
 		return details;
 	}
@@ -64,12 +69,7 @@ public class AppDetailsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private int getId() {
-		Intent intent = getIntent();
-		int id = intent.getIntExtra("id", -1);
-		return id;
-	}
-
+	
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */

@@ -19,7 +19,7 @@ public class AppDataSource {
 	private DatabaseHelper dbHelper;
 	private String[] allColumns = { App.ID, App.CATEGORY_ID, App.NAME,
 			App.LABEL, App.VERSION, App.PRIVACY_RATING, App.INSTALLED,
-			App.FUNCTIONAL_RATING, App.TIMETSTAMP };
+			App.FUNCTIONAL_RATING, App.TIMESTAMP, App.DESCRIPTION};
 
 	public AppDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -60,6 +60,7 @@ public class AppDataSource {
 		app.setInstalled(cursor.getInt(6) != 0);
 		app.setFunctionalRating(cursor.getFloat(7));
 		app.setTimestamp(cursor.getLong(8));
+		app.setDescription(cursor.getString(9));
 
 		return app;
 	}
@@ -76,7 +77,7 @@ public class AppDataSource {
 	 */
 	public App createApp(int categoryId, String name, String label,
 			String version, float privacyRating, boolean installed,
-			float functionalRating) {
+			float functionalRating, String description) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(App.CATEGORY_ID, categoryId);
@@ -89,7 +90,8 @@ public class AppDataSource {
 		// Gets current time in milliseconds since jan1,1970. The divide by 1000
 		// turns it into unix seconds instead of milliseconds.
 		long currentTimestamp = System.currentTimeMillis() / 1000;
-		values.put(App.TIMETSTAMP, currentTimestamp);
+		values.put(App.TIMESTAMP, currentTimestamp);
+		values.put(App.DESCRIPTION, description);
 
 		// insert into DB
 		long insertId = database.insert(App.TABLE, null, values);
@@ -214,7 +216,7 @@ public class AppDataSource {
 		List<App> apps = new ArrayList<App>();
 
 		// build query
-		String orderBy = App.TIMETSTAMP + " ASC" + " LIMIT " + n;
+		String orderBy = App.TIMESTAMP + " ASC" + " LIMIT " + n;
 		Cursor cursor = database.query(App.TABLE, allColumns, null, null, null,
 				null, orderBy);
 		cursor.moveToFirst();

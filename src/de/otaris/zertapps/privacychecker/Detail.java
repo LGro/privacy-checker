@@ -1,24 +1,17 @@
 package de.otaris.zertapps.privacychecker;
 
+import de.otaris.zertapps.privacychecker.database.App;
+
 public abstract class Detail {
 
-	protected int appId;
+	protected final App app;
 	
-	protected String detailName;
-	
-	public void setDetailName(String detailName){
-		this.detailName = detailName;
+	public Detail(App app){
+		this.app = app;
 	}
 	
-	public String getDetailName(){
-		return this.detailName;
+	public App getApp() {
+		return app;
 	}
 
-	public int getAppId() {
-		return appId;
-	}
-
-	public void setAppId(int appId) {
-		this.appId = appId;
-	}
 }

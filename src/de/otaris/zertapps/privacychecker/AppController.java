@@ -87,7 +87,7 @@ public class AppController {
 				
 				appData.createApp(categoryId, app.packageName,
 						pinfo.applicationInfo.loadLabel(pm).toString(),
-						pinfo.versionCode + "", pRating, true, fRating);
+						pinfo.versionCode + "", pRating, true, fRating, "Description DescriptionDescript ionDescriptionDes criptionDescrip tionDescriptionDe scriptionDescriptio nDescriptionDes criptionDescription");
 			} catch (NameNotFoundException e) {
 				Log.e("AppController",
 						"NameNotFoundException: " + e.getMessage());

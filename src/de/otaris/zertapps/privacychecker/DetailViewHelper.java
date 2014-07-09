@@ -7,3 +7,5 @@ import android.view.ViewGroup;
 public abstract class DetailViewHelper {
 	public abstract View getView(Context context, ViewGroup parent, Detail detail) throws IllegalArgumentException;
 }
+
+

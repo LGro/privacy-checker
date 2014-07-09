@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+<TextView
+    android:id="@+id/app_detail_description_title"
+    android:layout_width="174dp"
+    android:layout_height="40dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginLeft="22dp"
+    android:layout_marginTop="16dp"
+    android:text="Beschreibung"
+    android:textSize="20dp"
+    android:textStyle="bold" />
+
+<TextView
+    android:id="@+id/app_detail_description_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/app_detail_description_title"
+    android:layout_below="@+id/app_detail_description_title"
+    android:layout_marginRight="22dp"
+    android:maxLines="2"
+    android:text="Dies wird die Beschreibung der App, ein sehr langer Text, der dem Nutzer verdeutliche soll, wie die App funktioniert." />
+
+<ToggleButton
+    android:id="@+id/app_detail_description_more"
+    style="?android:attr/buttonStyleSmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentRight="true"
+    android:layout_below="@+id/app_detail_description_text"
+    android:layout_marginTop="15px"
+    android:textOn="Weniger Anzeigen"
+    android:textOff="Mehr Anzeigen" />
+
+
+</RelativeLayout>
+

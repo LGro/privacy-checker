@@ -23,7 +23,8 @@ public class App {
 	public static final String PRIVACY_RATING = "privacy_rating";
 	public static final String INSTALLED = "installed";
 	public static final String FUNCTIONAL_RATING = "functional_rating";
-	public static final String TIMETSTAMP = "timestamp";
+	public static final String TIMESTAMP = "timestamp";
+	public static final String DESCRIPTION = "description";
 
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
@@ -31,7 +32,7 @@ public class App {
 			+ " INTEGER, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, "
 			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
 			+ " FLOAT, " + INSTALLED + " INT, " + FUNCTIONAL_RATING
-			+ " FLOAT, " + TIMETSTAMP + " LONG);";
+			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT);";
 
 	// attributes
 	private int id;
@@ -43,13 +44,14 @@ public class App {
 	private boolean installed;
 	private float functionalRating;
 	private Long timestamp;
+	private String description;
 
 	public App() {
 
 	}
 
 	public App(int id, int categoryId, String name, String label,
-			String version, float rating, boolean installed, Long timestamp) {
+			String version, float rating, boolean installed, Long timestamp, String description) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -59,7 +61,10 @@ public class App {
 		this.privacyRating = rating;
 		this.installed = installed;
 		this.timestamp = timestamp;
+		this.description = description;
 	}
+
+	
 
 	/**
 	 * create table if it isn't existing yet
@@ -129,6 +134,10 @@ public class App {
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	// getter
 	public int getId() {
@@ -166,5 +175,11 @@ public class App {
 	public float getFunctionalRating() {
 		return functionalRating;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+
+	
 
 }

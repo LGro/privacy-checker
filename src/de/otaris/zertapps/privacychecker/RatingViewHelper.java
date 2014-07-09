@@ -23,8 +23,6 @@ public class RatingViewHelper extends DetailViewHelper {
 		TextView textView = (TextView) rowView
 				.findViewById(R.id.app_detail_list_item_name);
 
-		textView.setText(rating.getDetailName());
-		
 		return rowView;
 	}
 
