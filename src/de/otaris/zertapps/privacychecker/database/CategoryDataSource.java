@@ -8,7 +8,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-
+/**
+ * 
+ * Handles requests concerning Categories on the Database
+ *
+ */
 public class CategoryDataSource {
 
 	private SQLiteDatabase database;
