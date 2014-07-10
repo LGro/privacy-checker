@@ -17,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /**
@@ -81,7 +83,6 @@ public class HomeActivity extends Activity {
 		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
-
 	}
 
 	@Override
@@ -168,6 +169,17 @@ public class HomeActivity extends Activity {
 		AppListItemAdapter adapter = new AppListItemAdapter(this,
 				getPackageManager(), latestAppsList);
 		ListView laList = (ListView) findViewById(R.id.latest_apps_listview);
+//		laList.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
+//				intent.putExtra("id", (Integer)view.getTag()); 
+//				startActivity(intent);
+//			}
+//			
+//		});
 		laList.setAdapter(adapter);
 	}
 

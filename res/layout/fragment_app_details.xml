@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/app_details_activity_head_name"
         android:layout_width="192dp"
-        android:layout_height="16dp"
+        android:layout_height="20dp"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="5dp"
@@ -34,9 +34,9 @@
     <TextView
         android:id="@+id/app_details_activity_head_developer"
         android:layout_width="192dp"
-        android:layout_height="16dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="3dp"
         android:layout_below="@+id/app_details_activity_head_name"
         android:layout_toRightOf="@+id/app_details_activity_head_icon" />
   <!--      android:text="@string/app_detail_developer" --> 
@@ -44,10 +44,10 @@
     <ImageView
         android:id="@+id/app_details_activity_head_rating"        
         android:contentDescription="@string/app_detail_rating_pic"
-        android:layout_width="192dp"
-        android:layout_height="16dp"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="3dp"
         android:layout_toRightOf="@+id/app_details_activity_head_icon"
         android:layout_below="@+id/app_details_activity_head_developer"
         android:src="@drawable/ic_launcher" />
