@@ -1,32 +1,23 @@
 package de.otaris.zertapps.privacychecker;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.inject.Inject;
 
 import de.otaris.zertapps.privacychecker.database.Category;
 import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class CategoryList extends ListFragment {
 
 	private Activity rootActivity;
 
-	@Inject
-	private CategoryDataSource categoryDataSource = null;
+	
 
 	public CategoryList() {
 	}
