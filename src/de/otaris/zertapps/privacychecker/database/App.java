@@ -16,7 +16,7 @@ public interface App {
 
 	public String getLabel();
 
-	public boolean getIsInstalled();
+	public boolean isInstalled();
 	
 	public Long getTimestamp();
 
@@ -36,7 +36,7 @@ public interface App {
 
 	public void setName(String name);
 
-	public void setIsInstalled(boolean installed);
+	public void setInstalled(boolean installed);
 
 	public void setPrivacyRating(float privacyRating);
 

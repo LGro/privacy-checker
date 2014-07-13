@@ -49,7 +49,7 @@ public class AppDetailsActivity extends Activity {
 		// Open DB and and retrieve the App by ID
 		AppDataSource appData = new AppDataSource(this);
 		appData.open();
-		App app = appData.getAppById(appID);
+		AppCompact app = appData.getAppById(appID);
 		appData.close();
 		
 		// Get all the views ...

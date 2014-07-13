@@ -29,7 +29,7 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 	ViewPager mViewPager;
 	
 	// overwrite default privacy sorting direction
-	protected boolean privacyAscending = false;
+	protected boolean privacyIsAscending = false;
 
 	@Override
 	protected int getTargetContainer() {
@@ -97,13 +97,13 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		case 1:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
 		case 2:
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalAscending);
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
 			break;
 		default:
 			break;
@@ -122,18 +122,18 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		switch (tab.getPosition()) {
 		case 0:
 			// change sorting direction
-			alphabetAscending = !alphabetAscending;
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
+			alphabetIsAscending = !alphabetIsAscending;
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		case 1:
 			// change sorting direction
-			privacyAscending = !privacyAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
+			privacyIsAscending = !privacyIsAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
 		case 2:
 			// change sorting direction
-			functionalAscending = !functionalAscending;
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalAscending);
+			functionalIsAscending = !functionalIsAscending;
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
 			break;
 		default:
 			break;

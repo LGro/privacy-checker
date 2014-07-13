@@ -9,7 +9,7 @@ import android.util.Log;
  * Attention: When adding a new column, mind adding it in the matching
  * DataSource's cursorTo... method.
  */
-public class AppCompact implements App{
+public class AppCompact implements App {
 
 	// table name
 	public static final String TABLE = "tbl_app";
@@ -51,7 +51,8 @@ public class AppCompact implements App{
 	}
 
 	public AppCompact(int id, int categoryId, String name, String label,
-			String version, float rating, boolean installed, Long timestamp, String description) {
+			String version, float rating, boolean installed, Long timestamp,
+			String description) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -63,8 +64,6 @@ public class AppCompact implements App{
 		this.timestamp = timestamp;
 		this.description = description;
 	}
-
-	
 
 	/**
 	 * create table if it isn't existing yet
@@ -89,9 +88,9 @@ public class AppCompact implements App{
 	 */
 	public static void onUpgrade(SQLiteDatabase db, int oldVersion,
 			int newVersion) {
-		Log.w(AppCompact.class.getCanonicalName(), "upgrading database from version "
-				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
+		Log.w(AppCompact.class.getCanonicalName(),
+				"upgrading database from version " + oldVersion + " to "
+						+ newVersion + ", which will destroy all old data");
 
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
 
@@ -119,8 +118,8 @@ public class AppCompact implements App{
 		this.name = name;
 	}
 
-	public void setIsInstalled(boolean installed) {
-		this.isInstalled = installed;
+	public void setInstalled(boolean isInstalled) {
+		this.isInstalled = isInstalled;
 	}
 
 	public void setPrivacyRating(float privacyRating) {
@@ -134,7 +133,7 @@ public class AppCompact implements App{
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -160,7 +159,7 @@ public class AppCompact implements App{
 		return label;
 	}
 
-	public boolean getIsInstalled() {
+	public boolean isInstalled() {
 		return isInstalled;
 	}
 
@@ -175,11 +174,9 @@ public class AppCompact implements App{
 	public float getFunctionalRating() {
 		return functionalRating;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-
-	
 
 }

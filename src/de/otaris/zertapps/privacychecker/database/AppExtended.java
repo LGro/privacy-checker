@@ -60,7 +60,7 @@ public class AppExtended implements App {
 	}
 
 	@Override
-	public boolean getIsInstalled() {
+	public boolean isInstalled() {
 		return isInstalled;
 	}
 
@@ -110,7 +110,7 @@ public class AppExtended implements App {
 	}
 
 	@Override
-	public void setIsInstalled(boolean isInstalled) {
+	public void setInstalled(boolean isInstalled) {
 		this.isInstalled = isInstalled;
 	}
 

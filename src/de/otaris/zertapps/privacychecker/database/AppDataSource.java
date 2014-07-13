@@ -57,7 +57,7 @@ public class AppDataSource {
 		app.setVersion(cursor.getString(4));
 		app.setPrivacyRating(cursor.getFloat(5));
 		// convert integer from SQLite to boolean in model representation
-		app.setIsInstalled(cursor.getInt(6) != 0);
+		app.setInstalled(cursor.getInt(6) != 0);
 		app.setFunctionalRating(cursor.getFloat(7));
 		app.setTimestamp(cursor.getLong(8));
 		app.setDescription(cursor.getString(9));
