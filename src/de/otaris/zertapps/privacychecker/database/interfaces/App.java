@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.database;
+package de.otaris.zertapps.privacychecker.database.interfaces;
 
 /**
  * represents all similarities between AppCompact and AppExtended

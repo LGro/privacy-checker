@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import de.otaris.zertapps.privacychecker.database.AppCompact;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
-import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -76,10 +76,10 @@ public class HomeActivity extends Activity {
 
 		// insert all installed apps into database
 		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppDataSource(this),
+		appController.putInstalledAppsInDatabase(new AppCompactDataSource(this),
 				new CategoryDataSource(this), getPackageManager());
 		// connect to database
-		AppDataSource appData = new AppDataSource(this);
+		AppCompactDataSource appData = new AppCompactDataSource(this);
 		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();

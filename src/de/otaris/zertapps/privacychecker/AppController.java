@@ -8,9 +8,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
-import de.otaris.zertapps.privacychecker.database.Category;
-import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 
 /**
  * A class to handle Database communication
@@ -49,7 +49,7 @@ public class AppController {
 	 *             , is thrown if app.packageName does not exist (there are
 	 *             installed apps without package name)
 	 */
-	public void putInstalledAppsInDatabase(AppDataSource appData,
+	public void putInstalledAppsInDatabase(AppCompactDataSource appData,
 			CategoryDataSource categoryData, PackageManager pm) {
 
 		appData.open();

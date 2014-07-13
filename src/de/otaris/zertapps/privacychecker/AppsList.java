@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import de.otaris.zertapps.privacychecker.database.AppCompact;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
-import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class AppsList extends ListFragment {
 	@Inject
 	private AppController appController = null;
 	@Inject
-	private AppDataSource appDataSource = null;
+	private AppCompactDataSource appDataSource = null;
 	private boolean ascending;
 	
 	public void setCageoryId(int id) {
@@ -56,14 +56,14 @@ public class AppsList extends ListFragment {
 	}
 
 	// lazy initialization getter for AppDataSource
-	public AppDataSource getAppDataSource() {
+	public AppCompactDataSource getAppDataSource() {
 		if (appDataSource == null)
-			appDataSource = new AppDataSource(rootActivity);
+			appDataSource = new AppCompactDataSource(rootActivity);
 
 		return appDataSource;
 	}
 
-	public void setAppDataSource(AppDataSource appDataSource) {
+	public void setAppDataSource(AppCompactDataSource appDataSource) {
 		this.appDataSource = appDataSource;
 	}
 
@@ -88,7 +88,7 @@ public class AppsList extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// get all installed apps from database
-		AppDataSource appData = getAppDataSource();
+		AppCompactDataSource appData = getAppDataSource();
 		appData.open();
 		
 		List<AppCompact> apps;

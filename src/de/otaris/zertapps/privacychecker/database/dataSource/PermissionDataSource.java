@@ -1,5 +1,8 @@
-package de.otaris.zertapps.privacychecker.database;
+package de.otaris.zertapps.privacychecker.database.dataSource;
 
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,12 +13,12 @@ import android.database.sqlite.SQLiteDatabase;
  * Handles requests concerning Permissions to the database.
  * 
  */
-public class PermissionDataSource {
-	
+public class PermissionDataSource extends DataSource<Permission> {
+
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
 	private String[] allColumns = { Permission.ID, Permission.NAME,
-			Permission.LABEL, Permission.DESCRIPTION};
+			Permission.LABEL, Permission.DESCRIPTION };
 
 	public PermissionDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -43,7 +46,7 @@ public class PermissionDataSource {
 	 * @param cursor
 	 * @return cursor data as App object
 	 */
-	private Permission cursorToPermission(Cursor cursor) {
+	protected Permission cursorToModel(Cursor cursor) {
 		Permission permission = new Permission();
 
 		permission.setId(cursor.getInt(0));
@@ -54,7 +57,6 @@ public class PermissionDataSource {
 		return permission;
 	}
 
-	
 	/**
 	 * create app in DB by all attributes
 	 * 
@@ -89,12 +91,12 @@ public class PermissionDataSource {
 	 */
 	public Permission getPermissionById(long permissionId) {
 		// build database query
-		Cursor cursor = database.query(Permission.TABLE, allColumns, Permission.ID + " = "
-				+ permissionId, null, null, null, null);
+		Cursor cursor = database.query(Permission.TABLE, allColumns,
+				Permission.ID + " = " + permissionId, null, null, null, null);
 		cursor.moveToFirst();
 
 		// convert to App object
-		Permission newPermission = cursorToPermission(cursor);
+		Permission newPermission = cursorToModel(cursor);
 		cursor.close();
 
 		// return app object

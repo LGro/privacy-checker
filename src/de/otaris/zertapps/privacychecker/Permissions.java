@@ -1,6 +1,6 @@
 package de.otaris.zertapps.privacychecker;
 
-import de.otaris.zertapps.privacychecker.database.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 public class Permissions extends Detail {
 

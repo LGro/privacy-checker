@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import de.otaris.zertapps.privacychecker.database.Category;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 
 /**
  * adapter to show a list of category names  

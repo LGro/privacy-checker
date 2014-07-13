@@ -13,8 +13,8 @@ import com.robotium.solo.Solo;
 import de.otaris.zertapps.privacychecker.AppController;
 import de.otaris.zertapps.privacychecker.HomeActivity;
 import de.otaris.zertapps.privacychecker.InstalledAppsActivity;
-import de.otaris.zertapps.privacychecker.database.App;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.interfaces.App;
 import android.test.ActivityInstrumentationTestCase2;
 
 //@RunWith(RobolectricTestRunner.class)

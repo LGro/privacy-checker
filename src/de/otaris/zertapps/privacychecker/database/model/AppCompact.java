@@ -1,5 +1,6 @@
-package de.otaris.zertapps.privacychecker.database;
+package de.otaris.zertapps.privacychecker.database.model;
 
+import de.otaris.zertapps.privacychecker.database.interfaces.App;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 

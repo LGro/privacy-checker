@@ -2,8 +2,8 @@ package de.otaris.zertapps.privacychecker;
 
 import java.util.ArrayList;
 
-import de.otaris.zertapps.privacychecker.database.AppCompact;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import android.R.drawable;
 import android.app.Activity;
 import android.app.Fragment;
@@ -47,7 +47,7 @@ public class AppDetailsActivity extends Activity {
 		Integer appID = intent.getIntExtra("id", -1);
 		
 		// Open DB and and retrieve the App by ID
-		AppDataSource appData = new AppDataSource(this);
+		AppCompactDataSource appData = new AppCompactDataSource(this);
 		appData.open();
 		AppCompact app = appData.getAppById(appID);
 		appData.close();
@@ -90,7 +90,7 @@ public class AppDetailsActivity extends Activity {
 	private ArrayList<Detail> getDetails() {
 		int id = getIntent().getIntExtra("id", -1);
 		ArrayList<Detail> details = new ArrayList<Detail>(); 
-		AppDataSource appDataSource = new AppDataSource(this);
+		AppCompactDataSource appDataSource = new AppCompactDataSource(this);
 		appDataSource.open();
 		AppCompact app = appDataSource.getAppById(id);
 		appDataSource.close();

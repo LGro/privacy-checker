@@ -1,27 +1,30 @@
-package de.otaris.zertapps.privacychecker.database;
+package de.otaris.zertapps.privacychecker.database.dataSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.otaris.zertapps.privacychecker.AppsListOrder;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import de.otaris.zertapps.privacychecker.AppsListOrder;
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * Handles requests concerning Apps to the database.
  */
-public class AppDataSource {
+public class AppCompactDataSource extends DataSource<AppCompact> {
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { AppCompact.ID, AppCompact.CATEGORY_ID, AppCompact.NAME,
-			AppCompact.LABEL, AppCompact.VERSION, AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
-			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP, AppCompact.DESCRIPTION};
+	private String[] allColumns = { AppCompact.ID, AppCompact.CATEGORY_ID,
+			AppCompact.NAME, AppCompact.LABEL, AppCompact.VERSION,
+			AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
+			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP,
+			AppCompact.DESCRIPTION };
 
-	public AppDataSource(Context context) {
+	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
 	}
 
@@ -47,7 +50,7 @@ public class AppDataSource {
 	 * @param cursor
 	 * @return cursor data as App object
 	 */
-	private AppCompact cursorToApp(Cursor cursor) {
+	protected AppCompact cursorToModel(Cursor cursor) {
 		AppCompact app = new AppCompact();
 
 		app.setId(cursor.getInt(0));
@@ -92,7 +95,7 @@ public class AppDataSource {
 		long currentTimestamp = System.currentTimeMillis() / 1000;
 		values.put(AppCompact.TIMESTAMP, currentTimestamp);
 		values.put(AppCompact.DESCRIPTION, description);
-		
+
 		// insert into DB
 		long insertId = database.insert(AppCompact.TABLE, null, values);
 
@@ -109,12 +112,12 @@ public class AppDataSource {
 	 */
 	public AppCompact getAppById(long appId) {
 		// build database query
-		Cursor cursor = database.query(AppCompact.TABLE, allColumns, AppCompact.ID + " = "
-				+ appId, null, null, null, null);
+		Cursor cursor = database.query(AppCompact.TABLE, allColumns,
+				AppCompact.ID + " = " + appId, null, null, null, null);
 		cursor.moveToFirst();
 
 		// convert to App object
-		AppCompact newApp = cursorToApp(cursor);
+		AppCompact newApp = cursorToModel(cursor);
 		cursor.close();
 
 		// return app object
@@ -141,26 +144,15 @@ public class AppDataSource {
 	 * @return sorted list of all apps
 	 */
 	public List<AppCompact> getAllApps(AppsListOrder order, boolean ascending) {
-		List<AppCompact> apps = new ArrayList<AppCompact>();
-
 		// set primary order depending on argument
 		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
 		// order case insensitive
 		orderBy = orderBy + AppCompact.LABEL + " COLLATE NOCASE ASC";
 
-		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null, null, null,
-				null, orderBy);
+		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null,
+				null, null, null, orderBy);
 
-		cursor.moveToFirst();
-
-		while (!cursor.isAfterLast()) {
-			AppCompact app = cursorToApp(cursor);
-			apps.add(app);
-			cursor.moveToNext();
-		}
-
-		cursor.close();
-		return apps;
+		return cursorToModelList(cursor);
 	}
 
 	/**
@@ -182,8 +174,8 @@ public class AppDataSource {
 	 * 
 	 * @return sorted list of all locally installed Apps
 	 */
-	public List<AppCompact> getInstalledApps(AppsListOrder order, boolean ascending) {
-		List<AppCompact> apps = new ArrayList<AppCompact>();
+	public List<AppCompact> getInstalledApps(AppsListOrder order,
+			boolean ascending) {
 
 		// build query
 		String whereClause = AppCompact.INSTALLED + " = 1";
@@ -191,17 +183,10 @@ public class AppDataSource {
 		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
 		// order case insensitive
 		orderBy = orderBy + AppCompact.LABEL + " COLLATE NOCASE ASC";
-		Cursor cursor = database.query(AppCompact.TABLE, allColumns, whereClause,
-				null, null, null, orderBy);
+		Cursor cursor = database.query(AppCompact.TABLE, allColumns,
+				whereClause, null, null, null, orderBy);
 
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			AppCompact app = cursorToApp(cursor);
-			apps.add(app);
-			cursor.moveToNext();
-		}
-		cursor.close();
-		return apps;
+		return cursorToModelList(cursor);
 	}
 
 	/**
@@ -213,26 +198,17 @@ public class AppDataSource {
 	 * @return returns the n most recently updated apps
 	 */
 	public List<AppCompact> getLastUpdatedApps(int n) {
-		List<AppCompact> apps = new ArrayList<AppCompact>();
-
 		// build query
 		String orderBy = AppCompact.TIMESTAMP + " ASC" + " LIMIT " + n;
-		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null, null, null,
-				null, orderBy);
-		cursor.moveToFirst();
+		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null,
+				null, null, null, orderBy);
 
-		while (!cursor.isAfterLast()) {
-			AppCompact app = cursorToApp(cursor);
-			apps.add(app);
-			cursor.moveToNext();
-		}
-
-		cursor.close();
-		return apps;
+		return cursorToModelList(cursor);
 	}
+
 	/**
-	 * get all Apps from the DB that belong to the given category, ordered by given
-	 * order ascending or descending depending on third argument
+	 * get all Apps from the DB that belong to the given category, ordered by
+	 * given order ascending or descending depending on third argument
 	 * 
 	 * @param categoryId
 	 * @param order
@@ -240,26 +216,17 @@ public class AppDataSource {
 	 * 
 	 * @return sorted list of all Apps from category
 	 */
-	public List<AppCompact> getAppsByCategory(int categoryId, AppsListOrder order,
-			boolean ascending) {
-		List<AppCompact> apps = new ArrayList<AppCompact>();
-
+	public List<AppCompact> getAppsByCategory(int categoryId,
+			AppsListOrder order, boolean ascending) {
 		// build query
 		String whereClause = AppCompact.CATEGORY_ID + " = " + categoryId;
 		// set primary order depending on argument
 		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
 		// order case insensitive
 		orderBy = orderBy + AppCompact.LABEL + " COLLATE NOCASE ASC";
-		Cursor cursor = database.query(AppCompact.TABLE, allColumns, whereClause,
-				null, null, null, orderBy);
+		Cursor cursor = database.query(AppCompact.TABLE, allColumns,
+				whereClause, null, null, null, orderBy);
 
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			AppCompact app = cursorToApp(cursor);
-			apps.add(app);
-			cursor.moveToNext();
-		}
-		cursor.close();
-		return apps;
+		return cursorToModelList(cursor);
 	}
 }

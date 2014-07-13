@@ -1,6 +1,5 @@
-package de.otaris.zertapps.privacychecker.database;
+package de.otaris.zertapps.privacychecker.database.dataSource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -8,16 +7,21 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.model.Category;
+
 /**
  * 
  * Handles requests concerning Categories on the Database
  *
  */
-public class CategoryDataSource {
+public class CategoryDataSource extends DataSource<Category> {
 
 	private SQLiteDatabase database;
 	private DatabaseHelper dbHelper;
-	private String[] allColumns = { Category.ID, Category.NAME, Category.LABEL, Category.ORDER };
+	private String[] allColumns = { Category.ID, Category.NAME, Category.LABEL,
+			Category.ORDER };
+
 	public CategoryDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
 	}
@@ -46,7 +50,7 @@ public class CategoryDataSource {
 	 * @return cursor data as Category object
 	 */
 
-	private Category cursorToCategory(Cursor cursor) {
+	protected Category cursorToModel(Cursor cursor) {
 		Category category = new Category();
 
 		category.setId(cursor.getInt(0));
@@ -64,21 +68,10 @@ public class CategoryDataSource {
 	 * @return sorted list of all categories
 	 */
 	public List<Category> getAllCategories() {
-		List<Category> categories = new ArrayList<Category>();
-
 		Cursor cursor = database.query(Category.TABLE, allColumns, null, null,
 				null, null, Category.ORDER + " ASC");
 
-		cursor.moveToFirst();
-
-		while (!cursor.isAfterLast()) {
-			Category category = cursorToCategory(cursor);
-			categories.add(category);
-			cursor.moveToNext();
-		}
-
-		cursor.close();
-		return categories;
+		return cursorToModelList(cursor);
 	}
 
 	/**
@@ -91,8 +84,7 @@ public class CategoryDataSource {
 	 * 
 	 * @return category object of the newly created category
 	 */
-	public Category createCategory(String name, String label,
-			int order) {
+	public Category createCategory(String name, String label, int order) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Category.NAME, name);
@@ -120,7 +112,7 @@ public class CategoryDataSource {
 		cursor.moveToFirst();
 
 		// convert to App object
-		Category newCategory = cursorToCategory(cursor);
+		Category newCategory = cursorToModel(cursor);
 		cursor.close();
 
 		// return app object

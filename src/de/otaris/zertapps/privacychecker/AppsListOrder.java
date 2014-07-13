@@ -1,6 +1,6 @@
 package de.otaris.zertapps.privacychecker;
 
-import de.otaris.zertapps.privacychecker.database.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * provides criteria for sorting any list of apps

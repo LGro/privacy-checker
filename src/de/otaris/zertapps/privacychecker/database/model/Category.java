@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.database;
+package de.otaris.zertapps.privacychecker.database.model;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -45,9 +45,9 @@ public class Category {
 	// upgrade Method
 	public static void onUpgrade(SQLiteDatabase db, int oldVersion,
 			int newVersion) {
-		Log.w(AppCompact.class.getCanonicalName(), "upgrading database from version "
-				+ oldVersion + " to " + newVersion
-				+ ", which will destroy all old data");
+		Log.w(AppCompact.class.getCanonicalName(),
+				"upgrading database from version " + oldVersion + " to "
+						+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
 		onCreate(db);
 	}

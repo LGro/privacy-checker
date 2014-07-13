@@ -1,7 +1,7 @@
 package de.otaris.zertapps.privacychecker;
 
-import de.otaris.zertapps.privacychecker.database.Category;
-import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
