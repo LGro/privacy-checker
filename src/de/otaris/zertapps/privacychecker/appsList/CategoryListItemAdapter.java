@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.List;
 

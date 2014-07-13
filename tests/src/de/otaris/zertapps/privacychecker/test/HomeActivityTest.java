@@ -4,9 +4,9 @@ import com.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
-import de.otaris.zertapps.privacychecker.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.HomeActivity;
-import de.otaris.zertapps.privacychecker.InstalledAppsActivity;
+import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
+import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 
 public class HomeActivityTest extends
 		ActivityInstrumentationTestCase2<HomeActivity> {

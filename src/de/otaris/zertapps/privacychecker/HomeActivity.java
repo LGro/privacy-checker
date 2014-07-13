@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
+import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
+import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
+import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;

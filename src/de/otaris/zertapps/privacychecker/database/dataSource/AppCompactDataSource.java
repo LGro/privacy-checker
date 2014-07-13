@@ -7,7 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import de.otaris.zertapps.privacychecker.AppsListOrder;
+import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 

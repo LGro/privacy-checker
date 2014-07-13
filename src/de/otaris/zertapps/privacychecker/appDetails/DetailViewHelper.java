@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appDetails;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

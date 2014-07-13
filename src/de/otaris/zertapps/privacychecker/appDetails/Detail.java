@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appDetails;
 
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 

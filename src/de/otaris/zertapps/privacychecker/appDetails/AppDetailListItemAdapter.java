@@ -1,7 +1,9 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appDetails;
 
 import java.util.List;
 
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.R.layout;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;

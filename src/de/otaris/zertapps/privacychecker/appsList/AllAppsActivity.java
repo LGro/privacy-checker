@@ -1,47 +1,42 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appsList;
 
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
-import de.otaris.zertapps.privacychecker.database.model.Category;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.R.drawable;
+import de.otaris.zertapps.privacychecker.R.id;
+import de.otaris.zertapps.privacychecker.R.layout;
+import de.otaris.zertapps.privacychecker.R.menu;
+import de.otaris.zertapps.privacychecker.R.string;
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class AppsByCategoryActivity extends SortableAppListActivity implements
+public class AllAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
+	
+	// overwrite sorting direction for privacy rating
+	protected boolean privacyIsAscending = false;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
-	// overwrite default privacy sorting direction
-	protected boolean privacyIsAscending = false;
 
 	@Override
 	protected int getTargetContainer() {
-		return R.id.appsByCategoryContainer;
-	}
-
-	
-	@Override
-	protected AppsList configureAppsList(AppsList appsList) {
-		Intent intent = getIntent();
-		appsList.setCageoryId(intent.getIntExtra("id", -1));
-		return appsList;
+		return R.id.allAppsContainer;
 	}
 
 	@Override
@@ -49,21 +44,15 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		super.onCreate(savedInstanceState);
 
 		// prepared for tab layout needed in future
-		setContentView(R.layout.activity_apps_by_category);
+		setContentView(R.layout.activity_all_apps);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
-		CategoryDataSource categoryData = new CategoryDataSource(this);
-		categoryData.open();
-		Category category = categoryData.getCategoryById(getIntent().getIntExtra("id", -1));
-		actionBar.setTitle(category.getLabel());
-		categoryData.close();
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this).setIcon(R.drawable.ascending));
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_category)
+				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
 				.setTabListener(this).setIcon(R.drawable.descending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
@@ -75,7 +64,7 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.apps_by_category, menu);
+		getMenuInflater().inflate(R.menu.all_apps, menu);
 		return true;
 	}
 
@@ -97,7 +86,10 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
+			CategoryList categoryList = new CategoryList();
+			categoryList.setRootActivity(this);
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.allAppsContainer, categoryList).commit();
 			break;
 		case 1:
 			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
@@ -121,9 +113,7 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			// change sorting direction
-			alphabetIsAscending = !alphabetIsAscending;
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
+			// do nothing ...
 			break;
 		case 1:
 			// change sorting direction
@@ -167,7 +157,7 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_apps_by_category,
+			View rootView = inflater.inflate(R.layout.fragment_all_apps,
 					container, false);
 			return rootView;
 		}

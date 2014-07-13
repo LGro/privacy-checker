@@ -1,7 +1,12 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appDetails;
 
 import java.util.ArrayList;
 
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.R.id;
+import de.otaris.zertapps.privacychecker.R.layout;
+import de.otaris.zertapps.privacychecker.R.menu;
+import de.otaris.zertapps.privacychecker.appDetails.description.Description;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import android.R.drawable;

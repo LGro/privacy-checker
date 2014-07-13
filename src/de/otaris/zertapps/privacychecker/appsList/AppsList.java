@@ -1,9 +1,13 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.List;
 
 import com.google.inject.Inject;
 
+import de.otaris.zertapps.privacychecker.AppController;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.R.layout;
+import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;

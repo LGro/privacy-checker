@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.otaris.zertapps.privacychecker.InstalledAppsActivity"
+            android:name="de.otaris.zertapps.privacychecker.appLists.InstalledAppsActivity"
             android:label="@string/title_activity_installed_apps"
             android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
             <meta-data
@@ -31,7 +31,7 @@
                 android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
         </activity>
         <activity
-            android:name="de.otaris.zertapps.privacychecker.AllAppsActivity"
+            androde.otaris.zertapps.privacychecker.appLists.AllAppsActivitysActivity"
             android:label="@string/title_activity_all_apps"
             android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
             <meta-data
@@ -39,17 +39,16 @@
                 android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
         </activity>
         <activity
-            android:name="de.otaris.zertapps.privacychecker.AppDetailsActivity"
+            android:name="de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity"
             android:label="@string/title_activity_app_details"
-            android:parentActivityName="de.otaris.zertapps.privacychecker.AllAppsActivity" >
+            android:parentActivde.otaris.zertapps.privacychecker.appLists.AllAppsActivitysActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.otaris.zertapps.privacychecker.AllAppsActivity" />
         </activity>
-        <activity
-            android:name="de.otaris.zertapps.privacychecker.AppsByCategoryActivity"
+        <activityde.otaris.zertapps.privacychecker.appLists.AppsByCategoryActivitycker.AppsByCategoryActivity"
             android:label="@string/title_activity_apps_by_category"
-            android:parentActivityName="de.otaris.zertapps.privacychecker.AllAppsActivity" >
+            android:parentActivde.otaris.zertapps.privacychecker.appLists.AllAppsActivitysActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.otaris.zertapps.privacychecker.AllAppsActivity" />

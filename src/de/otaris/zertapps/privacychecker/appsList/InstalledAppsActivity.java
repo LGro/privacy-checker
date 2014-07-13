@@ -1,27 +1,30 @@
-package de.otaris.zertapps.privacychecker;
+package de.otaris.zertapps.privacychecker.appsList;
 
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.R.drawable;
+import de.otaris.zertapps.privacychecker.R.id;
+import de.otaris.zertapps.privacychecker.R.layout;
+import de.otaris.zertapps.privacychecker.R.menu;
+import de.otaris.zertapps.privacychecker.R.string;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class AllAppsActivity extends SortableAppListActivity implements
+public class InstalledAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
-	
-	// overwrite sorting direction for privacy rating
-	protected boolean privacyIsAscending = false;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -30,7 +33,13 @@ public class AllAppsActivity extends SortableAppListActivity implements
 
 	@Override
 	protected int getTargetContainer() {
-		return R.id.allAppsContainer;
+		return R.id.installedAppsContainer;
+	}
+	
+	@Override
+	protected AppsList configureAppsList(AppsList appsList) {
+		appsList.setInstalledOnly();
+		return appsList;
 	}
 
 	@Override
@@ -38,19 +47,17 @@ public class AllAppsActivity extends SortableAppListActivity implements
 		super.onCreate(savedInstanceState);
 
 		// prepared for tab layout needed in future
-		setContentView(R.layout.activity_all_apps);
+		setContentView(R.layout.activity_installed_apps);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_category)
-				.setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this).setIcon(R.drawable.descending));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
-				.setTabListener(this).setIcon(R.drawable.descending));
+				.setTabListener(this).setIcon(R.drawable.ascending));
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
+				.setTabListener(this).setIcon(R.drawable.ascending));
 
 	}
 
@@ -58,7 +65,7 @@ public class AllAppsActivity extends SortableAppListActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.all_apps, menu);
+		getMenuInflater().inflate(R.menu.installed_apps, menu);
 		return true;
 	}
 
@@ -73,23 +80,17 @@ public class AllAppsActivity extends SortableAppListActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 
 		switch (tab.getPosition()) {
 		case 0:
-			CategoryList categoryList = new CategoryList();
-			categoryList.setRootActivity(this);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.allAppsContainer, categoryList).commit();
-			break;
-		case 1:
 			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
-		case 2:
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+		case 1:
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		default:
 			break;
@@ -104,24 +105,22 @@ public class AllAppsActivity extends SortableAppListActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
+		
 		switch (tab.getPosition()) {
 		case 0:
-			// do nothing ...
-			break;
-		case 1:
 			// change sorting direction
 			privacyIsAscending = !privacyIsAscending;
 			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
-		case 2:
+		case 1:
 			// change sorting direction
-			functionalIsAscending = !functionalIsAscending;
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			alphabetIsAscending = !alphabetIsAscending;
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		default:
 			break;
 		}
+		
 	}
 
 	/**
@@ -151,7 +150,7 @@ public class AllAppsActivity extends SortableAppListActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_all_apps,
+			View rootView = inflater.inflate(R.layout.fragment_installed_apps,
 					container, false);
 			return rootView;
 		}
