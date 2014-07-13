@@ -81,10 +81,10 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
 		case 1:
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		default:
 			break;
@@ -103,13 +103,13 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		switch (tab.getPosition()) {
 		case 0:
 			// change sorting direction
-			privacyAscending = !privacyAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
+			privacyIsAscending = !privacyIsAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
 		case 1:
 			// change sorting direction
-			alphabetAscending = !alphabetAscending;
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetAscending);
+			alphabetIsAscending = !alphabetIsAscending;
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		default:
 			break;

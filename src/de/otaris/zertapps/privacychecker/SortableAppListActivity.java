@@ -3,11 +3,14 @@ package de.otaris.zertapps.privacychecker;
 import android.app.ActionBar;
 import android.support.v4.app.FragmentActivity;
 
+/**
+ * provides list rendering functionality for sortable app lists
+ */
 public abstract class SortableAppListActivity extends FragmentActivity {
 
-	protected boolean privacyAscending = true;
-	protected boolean alphabetAscending = true;
-	protected boolean functionalAscending = false;
+	protected boolean privacyIsAscending = true;
+	protected boolean alphabetIsAscending = true;
+	protected boolean functionalIsAscending = false;
 	
 
 	/**
@@ -26,7 +29,7 @@ public abstract class SortableAppListActivity extends FragmentActivity {
 	}
 	
 	/**
-	 * initializes or updates a apps list to the target container
+	 * initializes or updates a app list to the target container
 	 * 
 	 * @param tab the tab that's list should be updated
 	 * @param order the order criterion
