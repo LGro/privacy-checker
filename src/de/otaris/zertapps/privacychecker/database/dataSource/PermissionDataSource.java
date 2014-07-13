@@ -1,13 +1,12 @@
 package de.otaris.zertapps.privacychecker.database.dataSource;
 
-import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
-import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import de.otaris.zertapps.privacychecker.database.model.Permission;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * Handles requests concerning Permissions to the database.
@@ -15,29 +14,11 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class PermissionDataSource extends DataSource<Permission> {
 
-	private SQLiteDatabase database;
-	private DatabaseHelper dbHelper;
 	private String[] allColumns = { Permission.ID, Permission.NAME,
 			Permission.LABEL, Permission.DESCRIPTION };
 
 	public PermissionDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
-	}
-
-	/**
-	 * open DB connection
-	 * 
-	 * @throws SQLException
-	 */
-	public void open() throws SQLException {
-		database = dbHelper.getWritableDatabase();
-	}
-
-	/**
-	 * close DB connection
-	 */
-	public void close() {
-		dbHelper.close();
 	}
 
 	/**

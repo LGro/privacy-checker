@@ -3,7 +3,10 @@ package de.otaris.zertapps.privacychecker.database.dataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * provides abstract functionality for processing of database results
@@ -13,6 +16,9 @@ import android.database.Cursor;
  */
 public abstract class DataSource<T> {
 
+	protected SQLiteDatabase database;
+	protected DatabaseHelper dbHelper;
+
 	/**
 	 * convert cursor to model instance
 	 * 
@@ -20,6 +26,22 @@ public abstract class DataSource<T> {
 	 * @return model with attributes
 	 */
 	protected abstract T cursorToModel(Cursor cursor);
+
+	/**
+	 * open DB connection
+	 * 
+	 * @throws SQLException
+	 */
+	public void open() throws SQLException {
+		database = dbHelper.getWritableDatabase();
+	}
+
+	/**
+	 * close DB connection
+	 */
+	public void close() {
+		dbHelper.close();
+	}
 
 	/**
 	 * creates a list of models from a given type T by using the cursorToModel

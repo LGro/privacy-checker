@@ -5,8 +5,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.Category;
 
@@ -17,29 +15,11 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
  */
 public class CategoryDataSource extends DataSource<Category> {
 
-	private SQLiteDatabase database;
-	private DatabaseHelper dbHelper;
 	private String[] allColumns = { Category.ID, Category.NAME, Category.LABEL,
 			Category.ORDER };
 
 	public CategoryDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
-	}
-
-	/**
-	 * open DB connection
-	 * 
-	 * @throws SQLException
-	 */
-	public void open() throws SQLException {
-		database = dbHelper.getWritableDatabase();
-	}
-
-	/**
-	 * close DB connection
-	 */
-	public void close() {
-		dbHelper.close();
 	}
 
 	/**

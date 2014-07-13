@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
@@ -16,8 +15,6 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
  */
 public class AppCompactDataSource extends DataSource<AppCompact> {
 
-	private SQLiteDatabase database;
-	private DatabaseHelper dbHelper;
 	private String[] allColumns = { AppCompact.ID, AppCompact.CATEGORY_ID,
 			AppCompact.NAME, AppCompact.LABEL, AppCompact.VERSION,
 			AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
@@ -26,22 +23,6 @@ public class AppCompactDataSource extends DataSource<AppCompact> {
 
 	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
-	}
-
-	/**
-	 * open DB connection
-	 * 
-	 * @throws SQLException
-	 */
-	public void open() throws SQLException {
-		database = dbHelper.getWritableDatabase();
-	}
-
-	/**
-	 * close DB connection
-	 */
-	public void close() {
-		dbHelper.close();
 	}
 
 	/**
