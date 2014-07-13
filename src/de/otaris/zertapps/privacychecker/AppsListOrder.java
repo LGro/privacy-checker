@@ -1,6 +1,6 @@
 package de.otaris.zertapps.privacychecker;
 
-import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppCompact;
 
 /**
  * provides criteria for sorting any list of apps
@@ -15,14 +15,14 @@ public enum AppsListOrder {
 	public String toString() {
 		switch (this) {
 		case PRIVACY_RATING:
-			return App.PRIVACY_RATING;
+			return AppCompact.PRIVACY_RATING;
 
 		case ALPHABET:
 			// order case insensitive
-			return App.LABEL + " COLLATE NOCASE";
+			return AppCompact.LABEL + " COLLATE NOCASE";
 
 		case FUNCTIONAL_RATING:
-			return App.FUNCTIONAL_RATING;
+			return AppCompact.FUNCTIONAL_RATING;
 		}
 		return "";
 

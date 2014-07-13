@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		App.onCreate(db);
+		AppCompact.onCreate(db);
 		Category.onCreate(db);
 		// Permission.onCreate(db);
 		// Comment.onCreate(db);
@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		App.onUpgrade(db, oldVersion, newVersion);
+		AppCompact.onUpgrade(db, oldVersion, newVersion);
 		Category.onUpgrade(db, oldVersion, newVersion);
 		// Permission.onUpgrade(db, oldVersion, newVersion);
 		// Comment.onUpgrade(db, oldVersion, newVersion);		

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppCompact;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 import android.annotation.SuppressLint;
@@ -91,7 +91,7 @@ public class AppsList extends ListFragment {
 		AppDataSource appData = getAppDataSource();
 		appData.open();
 		
-		List<App> apps;
+		List<AppCompact> apps;
 		if (installedOnly) {
 			apps = appData.getInstalledApps(order, ascending);
 		} else {
@@ -105,7 +105,7 @@ public class AppsList extends ListFragment {
 		appData.close();
 
 		// set custom list adapter to display apps with icon, name and rating
-		ArrayAdapter<App> adapter = new AppListItemAdapter(rootActivity,
+		ArrayAdapter<AppCompact> adapter = new AppListItemAdapter(rootActivity,
 				rootActivity.getPackageManager(), apps);
 		setListAdapter(adapter);
 	}

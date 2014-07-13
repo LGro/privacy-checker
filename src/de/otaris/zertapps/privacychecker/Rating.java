@@ -1,11 +1,11 @@
 package de.otaris.zertapps.privacychecker;
 
-import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppCompact;
 
 public class Rating extends Detail {
 	
 	
-	public Rating(App app){
+	public Rating(AppCompact app){
 		super(app);
 		
 	}

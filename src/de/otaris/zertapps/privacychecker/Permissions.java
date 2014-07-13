@@ -2,11 +2,11 @@ package de.otaris.zertapps.privacychecker;
 
 import de.otaris.zertapps.privacychecker.database.AppCompact;
 
-public class Description extends Detail {
+public class Permissions extends Detail {
 
-	public Description(AppCompact app){
+	public Permissions(AppCompact app) {
 		super(app);
+		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 }

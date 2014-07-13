@@ -32,7 +32,7 @@ public class Comment {
 		// upgrade Method
 		public static void onUpgrade(SQLiteDatabase db, int oldVersion,
 				int newVersion) {
-			Log.w(App.class.getCanonicalName(), "upgrading database from version "
+			Log.w(AppCompact.class.getCanonicalName(), "upgrading database from version "
 					+ oldVersion + " to " + newVersion
 					+ ", which will destroy all old data");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);

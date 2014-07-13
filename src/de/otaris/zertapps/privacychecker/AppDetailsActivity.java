@@ -2,7 +2,7 @@ package de.otaris.zertapps.privacychecker;
 
 import java.util.ArrayList;
 
-import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppCompact;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.R.drawable;
 import android.app.Activity;
@@ -92,7 +92,7 @@ public class AppDetailsActivity extends Activity {
 		ArrayList<Detail> details = new ArrayList<Detail>(); 
 		AppDataSource appDataSource = new AppDataSource(this);
 		appDataSource.open();
-		App app = appDataSource.getAppById(id);
+		AppCompact app = appDataSource.getAppById(id);
 		appDataSource.close();
 		details.add(new Description(app));
 		//TODO: Add more Details here

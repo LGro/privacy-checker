@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import de.otaris.zertapps.privacychecker.database.App;
+import de.otaris.zertapps.privacychecker.database.AppCompact;
 import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import de.otaris.zertapps.privacychecker.database.CategoryDataSource;
 import android.app.Activity;
@@ -27,7 +27,7 @@ import android.widget.ListView;
  */
 public class HomeActivity extends Activity {
 
-	private List<App> latestAppsList;
+	private List<AppCompact> latestAppsList;
 	@Inject
 	private AppController appController = null;
 
