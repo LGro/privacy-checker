@@ -18,7 +18,7 @@ public class AllAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
 	
 	// overwrite sorting direction for privacy rating
-	protected boolean privacyAscending = false;
+	protected boolean privacyIsAscending = false;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -81,10 +81,10 @@ public class AllAppsActivity extends SortableAppListActivity implements
 			// TODO: prepare for category list
 			break;
 		case 1:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
 		case 2:
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalAscending);
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
 			break;
 		default:
 			break;
@@ -106,13 +106,13 @@ public class AllAppsActivity extends SortableAppListActivity implements
 			break;
 		case 1:
 			// change sorting direction
-			privacyAscending = !privacyAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyAscending);
+			privacyIsAscending = !privacyIsAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
 			break;
 		case 2:
 			// change sorting direction
-			functionalAscending = !functionalAscending;
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalAscending);
+			functionalIsAscending = !functionalIsAscending;
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
 			break;
 		default:
 			break;
