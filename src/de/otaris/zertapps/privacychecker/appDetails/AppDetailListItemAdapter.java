@@ -2,15 +2,12 @@ package de.otaris.zertapps.privacychecker.appDetails;
 
 import java.util.List;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.layout;
 import android.content.Context;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import de.otaris.zertapps.privacychecker.R;
 
 public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 	private final Context context;

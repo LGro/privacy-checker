@@ -1,10 +1,12 @@
 package de.otaris.zertapps.privacychecker.database;
 
-import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import de.otaris.zertapps.privacychecker.database.model.Category;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppPermission;
+import de.otaris.zertapps.privacychecker.database.model.Category;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -19,7 +21,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		AppCompact.onCreate(db);
 		Category.onCreate(db);
-		// Permission.onCreate(db);
+		Permission.onCreate(db);
+		AppPermission.onCreate(db);
 		// Comment.onCreate(db);
 		// Rating.onCreate(db);
 	}
@@ -28,8 +31,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		AppCompact.onUpgrade(db, oldVersion, newVersion);
 		Category.onUpgrade(db, oldVersion, newVersion);
-		// Permission.onUpgrade(db, oldVersion, newVersion);
-		// Comment.onUpgrade(db, oldVersion, newVersion);		
+		Permission.onUpgrade(db, oldVersion, newVersion);
+		AppPermission.onUpgrade(db, oldVersion, newVersion);
+		// Comment.onUpgrade(db, oldVersion, newVersion);
 		// Rating.onUpgrade(db, oldVersion, newVersion);
 
 		onCreate(db);

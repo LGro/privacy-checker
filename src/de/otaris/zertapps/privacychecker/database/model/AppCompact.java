@@ -27,6 +27,7 @@ public class AppCompact implements App {
 	public static final String TIMESTAMP = "timestamp";
 	public static final String DESCRIPTION = "description";
 
+	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all references invalid
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID

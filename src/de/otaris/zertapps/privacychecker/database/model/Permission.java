@@ -6,55 +6,56 @@ import android.util.Log;
 public class Permission {
 
 	// Database table
-	public static final String TABLE = "permission";
+	public static final String TABLE = "tbl_permission";
 	// Columns
 	public static final String ID = "permission_id";
 	public static final String NAME = "name";
 	public static final String LABEL = "label";
 	public static final String DESCRIPTION = "description";
+	public static final String CRITICALITY = "criticality";
 
 	// Creation statement
 	private static final String Create_Permission_Table = "CREATE TABLE "
-			+ TABLE + "(" + ID
-			+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT);";
+			+ TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
+			+ " TEXT UNIQUE ON CONFLICT IGNORE, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT, "
+			+ CRITICALITY + " INTEGER);";
 
-	
 	private int id;
 	private String name;
 	private String label;
 	private String description;
-	
+	private int criticality;
+
 	// empty constructor
-		public Permission() {
+	public Permission() {
 
-		}
-		
-		public Permission(int id, String name, String label, String description){
-			this.id = id;
-			this.name = name;
-			this.label = label;
-			this.description = description;
-		}
+	}
 
-		// create table if it isn't existing yet
-		public static void onCreate(SQLiteDatabase db) {
-			db.execSQL(Create_Permission_Table);
-		}
+	public Permission(int id, String name, String label, String description,
+			int criticality) {
+		this.id = id;
+		this.name = name;
+		this.label = label;
+		this.description = description;
+		this.criticality = criticality;
+	}
 
-		// upgrade Method
-		public static void onUpgrade(SQLiteDatabase db, int oldVersion,
-				int newVersion) {
-			Log.w(AppCompact.class.getCanonicalName(), "upgrading database from version "
-					+ oldVersion + " to " + newVersion
-					+ ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS " + TABLE);
-			onCreate(db);
-		}
+	// create table if it isn't existing yet
+	public static void onCreate(SQLiteDatabase db) {
+		db.execSQL(Create_Permission_Table);
+	}
 
-	
-	
-	//getter and setter
+	// upgrade Method
+	public static void onUpgrade(SQLiteDatabase db, int oldVersion,
+			int newVersion) {
+		Log.w(AppCompact.class.getCanonicalName(),
+				"upgrading database from version " + oldVersion + " to "
+						+ newVersion + ", which will destroy all old data");
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+		onCreate(db);
+	}
+
+	// getter and setter
 	public int getId() {
 		return id;
 	}
@@ -87,5 +88,12 @@ public class Permission {
 		this.description = description;
 	}
 
-	
+	public int getCriticality() {
+		return criticality;
+	}
+
+	public void setCriticality(int criticality) {
+		this.criticality = criticality;
+	}
+
 }

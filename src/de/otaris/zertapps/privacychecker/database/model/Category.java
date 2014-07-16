@@ -6,7 +6,7 @@ import android.util.Log;
 public class Category {
 
 	// Database table
-	public static final String TABLE = "category";
+	public static final String TABLE = "tbl_category";
 	// Columns
 	public static final String ID = "category_id";
 	public static final String NAME = "name";

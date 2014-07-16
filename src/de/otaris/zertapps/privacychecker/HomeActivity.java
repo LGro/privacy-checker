@@ -1,6 +1,24 @@
 package de.otaris.zertapps.privacychecker;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.List;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.inject.Inject;
 
@@ -10,19 +28,6 @@ import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
 /**
  * Is called when app is started, handles navigation to installedAppsActivity
@@ -79,13 +84,45 @@ public class HomeActivity extends Activity {
 
 		// insert all installed apps into database
 		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppCompactDataSource(this),
-				new CategoryDataSource(this), getPackageManager());
+		appController.putInstalledAppsInDatabase(this, getPackageManager());
+		
+		exportDB();
+		
 		// connect to database
 		AppCompactDataSource appData = new AppCompactDataSource(this);
 		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
+	}
+
+	private void exportDB() {
+		try {
+			File sd = Environment.getExternalStorageDirectory();
+			File data = Environment.getDataDirectory();
+
+			if (sd.canWrite()) {
+				String currentDBPath = "//data//"
+						+ "de.otaris.zertapps.privacychecker" + "//databases//"
+						+ "DB_privacy-checker_apps";
+				String backupDBPath = "/storage/sdcard1/Pca/pca.sqlite";
+				File currentDB = new File(data, currentDBPath);
+				File backupDB = new File(backupDBPath);
+
+				FileChannel src = new FileInputStream(currentDB).getChannel();
+				FileChannel dst = new FileOutputStream(backupDB).getChannel();
+				dst.transferFrom(src, 0, src.size());
+				src.close();
+				dst.close();
+				Toast.makeText(getBaseContext(), backupDB.toString(),
+						Toast.LENGTH_LONG).show();
+
+			}
+		} catch (Exception e) {
+
+			Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG)
+					.show();
+
+		}
 	}
 
 	@Override
@@ -172,17 +209,17 @@ public class HomeActivity extends Activity {
 		AppListItemAdapter adapter = new AppListItemAdapter(this,
 				getPackageManager(), latestAppsList);
 		ListView laList = (ListView) findViewById(R.id.latest_apps_listview);
-//		laList.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
-//				intent.putExtra("id", (Integer)view.getTag()); 
-//				startActivity(intent);
-//			}
-//			
-//		});
+		// laList.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> parent, View view,
+		// int position, long id) {
+		// Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
+		// intent.putExtra("id", (Integer)view.getTag());
+		// startActivity(intent);
+		// }
+		//
+		// });
 		laList.setAdapter(adapter);
 	}
 

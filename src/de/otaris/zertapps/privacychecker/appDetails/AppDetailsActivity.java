@@ -8,7 +8,9 @@ import de.otaris.zertapps.privacychecker.R.layout;
 import de.otaris.zertapps.privacychecker.R.menu;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import android.R.drawable;
 import android.app.Activity;
 import android.app.Fragment;
@@ -95,9 +97,9 @@ public class AppDetailsActivity extends Activity {
 	private ArrayList<Detail> getDetails() {
 		int id = getIntent().getIntExtra("id", -1);
 		ArrayList<Detail> details = new ArrayList<Detail>(); 
-		AppCompactDataSource appDataSource = new AppCompactDataSource(this);
+		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		AppCompact app = appDataSource.getAppById(id);
+		AppExtended app = appDataSource.getAppById(id);
 		appDataSource.close();
 		details.add(new Description(app));
 		//TODO: Add more Details here

@@ -1,21 +1,16 @@
 package de.otaris.zertapps.privacychecker.appDetails.description;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.appDetails.Detail;
-import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appDetails.Detail;
+import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 
 public class DescriptionViewHelper extends DetailViewHelper {
 

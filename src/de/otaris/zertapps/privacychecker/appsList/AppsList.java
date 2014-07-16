@@ -2,28 +2,19 @@ package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.List;
 
-import com.google.inject.Inject;
-
-import de.otaris.zertapps.privacychecker.AppController;
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
-import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 public class AppsList extends ListFragment {
 
@@ -33,10 +24,6 @@ public class AppsList extends ListFragment {
 	private boolean installedOnly = false;
 	private int categoryId = -1;
 
-	@Inject
-	private AppController appController = null;
-	@Inject
-	private AppCompactDataSource appDataSource = null;
 	private boolean ascending;
 	
 	public void setCageoryId(int id) {
@@ -45,30 +32,6 @@ public class AppsList extends ListFragment {
 
 	public void setInstalledOnly() {
 		installedOnly = true;
-	}
-	
-	// lazy initialization getter for AppController
-	public AppController getAppController() {
-		if (appController == null)
-			appController = new AppController();
-
-		return appController;
-	}
-
-	public void setAppController(AppController appController) {
-		this.appController = appController;
-	}
-
-	// lazy initialization getter for AppDataSource
-	public AppCompactDataSource getAppDataSource() {
-		if (appDataSource == null)
-			appDataSource = new AppCompactDataSource(rootActivity);
-
-		return appDataSource;
-	}
-
-	public void setAppDataSource(AppCompactDataSource appDataSource) {
-		this.appDataSource = appDataSource;
 	}
 
 	public AppsList() {
@@ -92,7 +55,7 @@ public class AppsList extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// get all installed apps from database
-		AppCompactDataSource appData = getAppDataSource();
+		AppCompactDataSource appData = new AppCompactDataSource(rootActivity);
 		appData.open();
 		
 		List<AppCompact> apps;
@@ -123,7 +86,7 @@ public class AppsList extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
 		Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
-		intent.putExtra("id", (Integer)v.getTag()); 
+		intent.putExtra("id", (Integer)v.getTag());
 		startActivity(intent);
 	}
 }

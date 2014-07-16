@@ -1,16 +1,16 @@
 package de.otaris.zertapps.privacychecker.appDetails;
 
-import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
 public abstract class Detail {
 
-	protected final AppCompact app;
+	protected final AppExtended app;
 	
-	public Detail(AppCompact app){
+	public Detail(AppExtended app){
 		this.app = app;
 	}
 	
-	public AppCompact getApp() {
+	public AppExtended getApp() {
 		return app;
 	}
 

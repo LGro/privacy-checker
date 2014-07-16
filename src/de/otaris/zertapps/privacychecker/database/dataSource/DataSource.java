@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
