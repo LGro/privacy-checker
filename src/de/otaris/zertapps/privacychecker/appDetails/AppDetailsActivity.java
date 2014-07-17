@@ -7,6 +7,7 @@ import de.otaris.zertapps.privacychecker.R.id;
 import de.otaris.zertapps.privacychecker.R.layout;
 import de.otaris.zertapps.privacychecker.R.menu;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
+import de.otaris.zertapps.privacychecker.appDetails.permissions.Permissions;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
@@ -101,6 +102,7 @@ public class AppDetailsActivity extends Activity {
 		appDataSource.open();
 		AppExtended app = appDataSource.getAppById(id);
 		appDataSource.close();
+		//details.add(new Permissions(app));
 		details.add(new Description(app));
 		//TODO: Add more Details here
 		return details;

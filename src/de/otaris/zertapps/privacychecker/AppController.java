@@ -111,13 +111,22 @@ public class AppController {
 				String[] permissions = getPermissions(pm, app);
 				for (String permission : permissions) {
 					String[] permissionArray = permission.split("\\.");
-					String permissionWithoutClassName = (permissionArray.length < 1) ? "" : permissionArray[permissionArray.length-1];
-					
-					Permission newPermission = permissionData.createPermission(
-							permissionWithoutClassName, permissionWithoutClassName, "",
-							(int) Math.round((Math.random() * 10)));
+					String permissionWithoutClassName = (permissionArray.length < 1) ? ""
+							: permissionArray[permissionArray.length - 1];
+
+					// get existing permission
+					Permission existingPermission = permissionData
+							.getPermissionByName(permissionWithoutClassName);
+
+					// if permission does not exist yet create it
+					if (existingPermission == null) {
+						existingPermission = permissionData.createPermission(
+								permissionWithoutClassName,
+								permissionWithoutClassName, "",
+								(int) Math.round((Math.random() * 10)));
+					}
 					appPermissionData.createAppPermission(newApp.getId(),
-							newPermission.getId());
+							existingPermission.getId());
 				}
 			} catch (NameNotFoundException e) {
 				Log.e("AppController",

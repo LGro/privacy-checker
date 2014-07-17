@@ -26,6 +26,10 @@ public class PermissionDataSource extends DataSource<Permission> {
 	 * @return cursor data as App object
 	 */
 	protected Permission cursorToModel(Cursor cursor) {
+		
+		if(cursor.getCount() == 0)
+			return null;	
+		
 		Permission permission = new Permission();
 
 		permission.setId(cursor.getInt(0));
@@ -82,5 +86,15 @@ public class PermissionDataSource extends DataSource<Permission> {
 
 		// return Permission object
 		return newPermission;
+	}
+
+	public Permission getPermissionByName(String permissionWithoutClassName) {
+		Cursor cursor = database.query(Permission.TABLE, allColumns,
+				Permission.NAME + " = '" + permissionWithoutClassName + "'", null, null, null, null);
+		cursor.moveToFirst();
+
+		Permission permission = cursorToModel(cursor);
+		cursor.close();
+		return permission;
 	}
 }

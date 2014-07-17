@@ -70,7 +70,11 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		permissions = sortPermissions(permissions);
 		return permissions;
 	}
-
+	/**
+	 * sorts a list of Permission by their criticality by using quicksort
+	 * @param permissions the list to sort
+	 * @return a sorted list of Permission
+	 */
 	private ArrayList<Permission> sortPermissions(
 			ArrayList<Permission> permissions) {
 

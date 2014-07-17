@@ -17,7 +17,7 @@ public class Permission {
 	// Creation statement
 	private static final String Create_Permission_Table = "CREATE TABLE "
 			+ TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
-			+ " TEXT UNIQUE ON CONFLICT IGNORE, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT, "
+			+ " TEXT, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT, "
 			+ CRITICALITY + " INTEGER);";
 
 	private int id;

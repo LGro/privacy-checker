@@ -3,6 +3,9 @@ package de.otaris.zertapps.privacychecker;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
@@ -83,11 +86,18 @@ public class HomeActivity extends Activity {
 		categoryData.close();
 
 		// insert all installed apps into database
-		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(this, getPackageManager());
-		
-		exportDB();
-		
+		// AppController appController = getAppController();
+		// appController.putInstalledAppsInDatabase(this, getPackageManager());
+
+		// exportDB();
+		try {
+			importDB();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.e("HomeActivity", "DB import failed: " + e.getMessage());
+		}
+
 		// connect to database
 		AppCompactDataSource appData = new AppCompactDataSource(this);
 		appData.open();
@@ -104,7 +114,7 @@ public class HomeActivity extends Activity {
 				String currentDBPath = "//data//"
 						+ "de.otaris.zertapps.privacychecker" + "//databases//"
 						+ "DB_privacy-checker_apps";
-				String backupDBPath = "/storage/sdcard1/Pca/pca.sqlite";
+				String backupDBPath = sd + "/Pca/pca.sqlite";
 				File currentDB = new File(data, currentDBPath);
 				File backupDB = new File(backupDBPath);
 
@@ -116,6 +126,8 @@ public class HomeActivity extends Activity {
 				Toast.makeText(getBaseContext(), backupDB.toString(),
 						Toast.LENGTH_LONG).show();
 
+			} else {
+				Log.e("exportDB", "sdcard nicht beschreibbar");
 			}
 		} catch (Exception e) {
 
@@ -124,6 +136,31 @@ public class HomeActivity extends Activity {
 
 		}
 	}
+
+	private void importDB() throws IOException {
+		 //Open your local db as the input stream
+		InputStream myInput = getAssets().open("pca.db");
+		 
+		// Path to the just created empty db
+		String outFileName = "//data//data//"
+				+ "de.otaris.zertapps.privacychecker" + "//databases//"
+				+ "DB_privacy-checker_apps";
+		 
+		//Open the empty db as the output stream
+		OutputStream myOutput = new FileOutputStream(outFileName);
+		 
+		//transfer bytes from the inputfile to the outputfile
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = myInput.read(buffer))>0){
+		myOutput.write(buffer, 0, length);
+		}
+		 
+		//Close the streams
+		myOutput.flush();
+		myOutput.close();
+		myInput.close();
+}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
