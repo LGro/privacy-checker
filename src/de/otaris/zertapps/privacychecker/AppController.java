@@ -120,10 +120,8 @@ public class AppController {
 
 					// if permission does not exist yet create it
 					if (existingPermission == null) {
-						existingPermission = permissionData.createPermission(
-								permissionWithoutClassName,
-								permissionWithoutClassName, "",
-								(int) Math.round((Math.random() * 10)));
+						existingPermission = permissionData.createPermissionByName(
+								permissionWithoutClassName);
 					}
 					appPermissionData.createAppPermission(newApp.getId(),
 							existingPermission.getId());
