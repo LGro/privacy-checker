@@ -13,13 +13,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
+import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 public class PermissionsList extends ListFragment {
 
 	private Activity rootActivity;
+	private Detail detail;
+	public Detail getDetail() {
+		return detail;
+	}
+
+	public void setDetail(Detail detail) {
+		this.detail = detail;
+	}
+
+	public Activity getRootActivity() {
+		return rootActivity;
+	}
+
 	public PermissionsList() {
 	}
 
@@ -27,13 +42,19 @@ public class PermissionsList extends ListFragment {
 		this.rootActivity = rootActivity;
 	}
 
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Permissions permissions = (Permissions) detail;
+		AppExtended app = permissions.getApp();
+		
+		List<Permission> permissionList = app.getPermissionList();
 
 		// set custom list adapter to display apps with icon, name and rating
 		ArrayAdapter<Permission> adapter = new PermissionsListItemAdapter(rootActivity,
-				rootActivity.getPackageManager(), permissionsList);
+				rootActivity.getPackageManager(), permissionList);
 		setListAdapter(adapter);
 	}
 

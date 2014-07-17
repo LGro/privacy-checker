@@ -21,7 +21,7 @@ public class PermissionsListItemAdapter extends ArrayAdapter<Permission>{
 	private final List<Permission> values;
 		
 
-	public PermissionsListItemAdapter(Context context,	List<Permission> values) {
+	public PermissionsListItemAdapter(Context context,	PackageManager pm, List<Permission> values) {
 		super(context, android.R.layout.simple_list_item_1, values);
 		this.context = context;
 		this.values = values;

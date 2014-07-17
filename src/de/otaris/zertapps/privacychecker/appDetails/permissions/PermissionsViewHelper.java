@@ -44,12 +44,12 @@ public class PermissionsViewHelper extends DetailViewHelper {
 		List<Permission> permissionList = app.getPermissionList();
 		
 		String[] permis = new String[permissionList.size()]; 
+		
 		for (int i=0; i<permissionList.size(); i++) {
 			permis[i]= permissionList.get(i).getLabel();
 			}
 
-	    final ListView listview = (ListView) findViewById(R.id.listview);
-	    
+	       
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
@@ -63,26 +63,26 @@ public class PermissionsViewHelper extends DetailViewHelper {
 
 		ToggleButton button = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_permissions_more);
-		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton toggleButton,
-					boolean isChecked) {
-				TextView descriptionTextView = (TextView) ((View) toggleButton
-						.getParent())
-						.findViewById(R.id.app_detail_permissions_text);
-				//changes fulltext to shorten version 
-				if (isChecked) {
-					descriptionTextView.setMaxLines(200);
-				} else {
-					descriptionTextView.setMaxLines(2);
-				}
-
-			}
-		});
+//		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//			@Override
+//			public void onCheckedChanged(CompoundButton toggleButton,
+//					boolean isChecked) {
+//				TextView descriptionTextView = (TextView) ((View) toggleButton
+//						.getParent())
+//						.findViewById(R.id.app_detail_permissions_text);
+//				//changes fulltext to shorten version 
+//				if (isChecked) {
+//					descriptionTextView.setMaxLines(200);
+//				} else {
+//					descriptionTextView.setMaxLines(2);
+//				}
+//
+//			}
+//		});
 
 		return rowView;
-		
+	
 	}
 
 }

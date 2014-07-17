@@ -36,7 +36,7 @@
     android:textOn="Weniger Anzeigen"
     android:textOff="Mehr Anzeigen" />
 
-<ListView
+<!-- <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         android:layout_alignParentTop="true" >
     </ListView>
 
-
+-->
 
 </RelativeLayout>
 
