@@ -88,11 +88,11 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		ArrayList<Permission> lessCritical = new ArrayList<Permission>(
 				permissions.size());
 
-		for (Permission permission : permissions) {
-			if (permission.getCriticality() > firstCriticality)
-				moreCritical.add(permission);
+		for (int i = 1; i < permissions.size(); i++) {
+			if (permissions.get(i).getCriticality() > firstCriticality)
+				moreCritical.add(permissions.get(i));
 			else
-				lessCritical.add(permission);
+				lessCritical.add(permissions.get(i));
 		}
 		
 		moreCritical = sortPermissions(moreCritical);

@@ -102,8 +102,9 @@ public class AppDetailsActivity extends Activity {
 		appDataSource.open();
 		AppExtended app = appDataSource.getAppById(id);
 		appDataSource.close();
-		//details.add(new Permissions(app));
 		details.add(new Description(app));
+		details.add(new Permissions(app));
+		
 		//TODO: Add more Details here
 		return details;
 	}
