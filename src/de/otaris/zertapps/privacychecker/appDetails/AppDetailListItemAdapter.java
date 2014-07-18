@@ -31,13 +31,13 @@ public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 			
 			return detailViewHelper.getView(context, parent, values.get(position));
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			Log.e("AppDetailListItemAdapter", e.getMessage());
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
+			Log.e("AppDetailListItemAdapter", e.getMessage());
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			Log.e("AppDetailListItemAdapter", e.getMessage());
 			e.printStackTrace();
 		}
 		
