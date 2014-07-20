@@ -49,7 +49,7 @@
                 android:value="de.otaris.zertapps.privacychecker.AllAppsActivity" />
         </activity>
         <activity
-            android:name="de.otaris.zertapps.privacychecker.appsList.AppsByCategoryActivitycker.AppsByCategoryActivity"
+            android:name="de.otaris.zertapps.privacychecker.appsList.AppsByCategoryActivity"
             android:label="@string/title_activity_apps_by_category"
             android:parentActivityName="de.otaris.zertapps.privacychecker.appsList.AllAppsActivity" >
             <meta-data
