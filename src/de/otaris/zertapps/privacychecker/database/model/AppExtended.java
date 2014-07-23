@@ -14,14 +14,64 @@ public class AppExtended implements App {
 
 	private AppCompact appCompact;
 	private ArrayList<Permission> permissionList;
+	//Array with permissionID and RatingPermission
+	private int[][] permissionRating;
+	//weighted rating in total
+	private float rating;
+	private float expertRating;
+	private float nonExpertRating;
+	//automatic generated rating
+	private float technicalRating;
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
 	}
 
 	// getters and setters
+	
+	
 	public ArrayList<Permission> getPermissionList() {
 		return permissionList;
+	}
+
+	public int[][] getPermissionRating() {
+		return permissionRating;
+	}
+
+	public void setPermissionRating(int[][] permissionRating) {
+		this.permissionRating = permissionRating;
+	}
+
+	public float getRating() {
+		return rating;
+	}
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+
+	public float getExpertRating() {
+		return expertRating;
+	}
+
+	public void setExpertRating(float expertRating) {
+		this.expertRating = expertRating;
+	}
+
+	public float getNonExpertRating() {
+		return nonExpertRating;
+	}
+
+	public void setNonExpertRating(float nonExpertRating) {
+		this.nonExpertRating = nonExpertRating;
+	}
+
+	public float getTechnicalRating() {
+		return technicalRating;
+	}
+
+	public void setTechnicalRating(float technicalRating) {
+		this.technicalRating = technicalRating;
 	}
 
 	@Override

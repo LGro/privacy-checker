@@ -2,7 +2,12 @@ package de.otaris.zertapps.privacychecker.database.model;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
+/**
+ * represents the Permission entity in the database
+ * 
+ * Attention: When adding a new column, mind adding it in the matching
+ * DataSource's cursorTo... method.
+ */
 public class Permission {
 
 	// Database table
