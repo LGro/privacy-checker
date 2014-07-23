@@ -2,21 +2,8 @@ package de.otaris.zertapps.privacychecker.appDetails;
 
 import java.util.ArrayList;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.R.menu;
-import de.otaris.zertapps.privacychecker.appDetails.description.Description;
-import de.otaris.zertapps.privacychecker.appDetails.permissions.Permissions;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
-import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import de.otaris.zertapps.privacychecker.database.model.AppExtended;
-import android.R.drawable;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -31,6 +18,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appDetails.description.Description;
+import de.otaris.zertapps.privacychecker.appDetails.privacyRating.PrivacyRating;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
 public class AppDetailsActivity extends Activity {
 
@@ -103,7 +97,8 @@ public class AppDetailsActivity extends Activity {
 		AppExtended app = appDataSource.getAppById(id);
 		appDataSource.close();
 		details.add(new Description(app));
-		details.add(new Permissions(app));
+//		details.add(new Permissions(app));
+		details.add(new PrivacyRating(app));
 		
 		//TODO: Add more Details here
 		return details;
