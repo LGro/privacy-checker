@@ -27,10 +27,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
-	private double round(float f){
-		return (java.lang.Math.round( f * 10 ) / 10.0) ;
+	private double round(float f) {
+		return (java.lang.Math.round(f * 10) / 10.0);
 	}
-	
+
 	@Override
 	public View getView(Context context, ViewGroup parent, Detail detail)
 			throws IllegalArgumentException {
@@ -77,7 +77,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		
 		TextView explanationRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_explanation);
-		explanationRating.setText("Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von qualifizierten Experten und die dritte ist die von anderen Nutzern. ");
+		explanationRating.setText("Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen. ");
 		
 		List<Permission> permissionList = app.getPermissionList();
 
@@ -114,8 +114,9 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				
 				
 				overlay.addView(layout);
-		});
-
+			}
+			});
+		
 			
 		
 		ToggleButton button = (ToggleButton) rowView
@@ -145,9 +146,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 
 			}
-		});
-		
+			});
 		return rowView;
 	}
-
 }
