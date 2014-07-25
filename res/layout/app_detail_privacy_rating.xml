@@ -14,18 +14,6 @@
         android:textSize="20dp"
         android:textStyle="bold" />
 
-    <ToggleButton
-        android:id="@+id/app_detail_rating_more"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/app_detail_rating_permissions_list"
-        android:layout_marginTop="15px"
-        android:textOff="Mehr Anzeigen"
-        android:textOn="Weniger Anzeigen" />
-
     <TextView
         android:id="@+id/app_detail_rating_text"
         android:layout_width="wrap_content"
