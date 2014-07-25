@@ -77,7 +77,6 @@ public class PermissionDataSource extends DataSource<Permission> {
 	public Permission createPermissionByName(String name) {
 		// set values for columns
 		ContentValues values = new ContentValues();
-		values = setContentValuesByName(name);
 
 		// insert into DB
 		long insertId = database.insert(Permission.TABLE, null, values);
@@ -149,14 +148,14 @@ public class PermissionDataSource extends DataSource<Permission> {
 
 		case "RECEIVE_SMS":
 			label = "SMS empfangen";
-			description = "App kann SMS empfangen und verarbeiten. App kann an Gerät gesendete SMS überwachen und löschen (im Hintergrund).";
+			description = "App kann SMS empfangen und verarbeiten. App kann an Gerï¿½t gesendete SMS ï¿½berwachen und lï¿½schen (im Hintergrund).";
 			criticality = 2;
 
 			return putValues(name, label, description, criticality);
 
 		case "RECEIVE_MMS":
 			label = "MMS empfangen";
-			description = "App kann MMS empfangen und verarbeiten. App kann an Gerät gesendete MMS überwachen und löschen (im Hintergrund).";
+			description = "App kann MMS empfangen und verarbeiten. App kann an Gerï¿½t gesendete MMS ï¿½berwachen und lï¿½schen (im Hintergrund).";
 			criticality = 3;
 
 			return putValues(name, label, description, criticality);
@@ -177,42 +176,42 @@ public class PermissionDataSource extends DataSource<Permission> {
 
 		case "WRITE_SMS":
 			label = "SMS oder MMS bearbeiten";
-			description = "App kann auf dem Telefon oder der SIM-Karte gespeicherte SMS bzw. MMS bearbeiten. App kann auch Nachrichten löschen.";
+			description = "App kann auf dem Telefon oder der SIM-Karte gespeicherte SMS bzw. MMS bearbeiten. App kann auch Nachrichten lï¿½schen.";
 			criticality = 6;
 
 			return putValues(name, label, description, criticality);
 
 		case "RECEIVE_WAP_PUSH":
 			label = "Textnachrichten (WAP) empfangen";
-			description = "App kann WAP-Nachrichten empfangen und verarbeiten. Nachrichten können überwacht und gelöscht werden (im Hintergrund).";
+			description = "App kann WAP-Nachrichten empfangen und verarbeiten. Nachrichten kï¿½nnen ï¿½berwacht und gelï¿½scht werden (im Hintergrund).";
 			criticality = 7;
 
 			return putValues(name, label, description, criticality);
 
 		case "READ_CONTACTS":
 			label = "Kontakte lesen";
-			description = "App kann gespeicherte Kontakte lesen (einschließlich der Häufigkeit, wie oft mit einer Person kommuniziert wurde). App kann diese Daten speichern und ggf. im Hintergrund weiterleiten.";
+			description = "App kann gespeicherte Kontakte lesen (einschlieï¿½lich der Hï¿½ufigkeit, wie oft mit einer Person kommuniziert wurde). App kann diese Daten speichern und ggf. im Hintergrund weiterleiten.";
 			criticality = 8;
 
 			return putValues(name, label, description, criticality);
 
 		case "WRITE_CONTACTS":
-			label = "Kontakte ändern";
-			description = "App kann gespeicherte Kontaktdaten ändern. App kann gespeicherte Kontaktdaten löschen.";
+			label = "Kontakte ï¿½ndern";
+			description = "App kann gespeicherte Kontaktdaten ï¿½ndern. App kann gespeicherte Kontaktdaten lï¿½schen.";
 			criticality = 9;
 
 			return putValues(name, label, description, criticality);
 
 		case "READ_CALL_LOG":
 			label = "Anrufliste lesen";
-			description = "App kann Anrufliste lesen (einschließlich Daten über ein-/ausgehende Anrufe). App kann diese Daten speichern und ggf. im Hintergrund weiterleiten.";
+			description = "App kann Anrufliste lesen (einschlieï¿½lich Daten ï¿½ber ein-/ausgehende Anrufe). App kann diese Daten speichern und ggf. im Hintergrund weiterleiten.";
 			criticality = 10;
 
 			return putValues(name, label, description, criticality);
 
 		case "WRITE_CALL_LOG":
 			label = "Anrufliste bearbeiten";
-			description = "App kann Anrufliste ändern. App kann Anrufliste löschen.";
+			description = "App kann Anrufliste ï¿½ndern. App kann Anrufliste lï¿½schen.";
 			criticality = 11;
 
 			return putValues(name, label, description, criticality);
@@ -233,112 +232,112 @@ public class PermissionDataSource extends DataSource<Permission> {
 
 		case "READ_PROFILE":
 			label = "Meine Kontaktkarte lesen";
-			description = "App kann auf dem Gerät gespeicherte personenbezogene Profildaten (des Besitzers) lesen, einschließlich Ihres Namens und Ihrer Kontaktdaten. App kann Sie somit identifizieren und Ihre Profildaten anandere senden.";
+			description = "App kann auf dem Gerï¿½t gespeicherte personenbezogene Profildaten (des Besitzers) lesen, einschlieï¿½lich Ihres Namens und Ihrer Kontaktdaten. App kann Sie somit identifizieren und Ihre Profildaten anandere senden.";
 			criticality = 14;
 
 			return putValues(name, label, description, criticality);
 
 		case "WRITE_PROFILE":
-			label = "Meine Kontaktkarte ändern";
-			description = "App kann auf dem Gerät gespeicherte personenbezogene Profildaten (des Besitzers) ändern, einschließlich Ihres Namens und Ihrer Kontaktdaten, sowie Daten hinzufügen. App kann Sie somit identifizieren und Ihre Profildaten an andere senden.";
+			label = "Meine Kontaktkarte ï¿½ndern";
+			description = "App kann auf dem Gerï¿½t gespeicherte personenbezogene Profildaten (des Besitzers) ï¿½ndern, einschlieï¿½lich Ihres Namens und Ihrer Kontaktdaten, sowie Daten hinzufï¿½gen. App kann Sie somit identifizieren und Ihre Profildaten an andere senden.";
 			criticality = 15;
 
 			return putValues(name, label, description, criticality);
 
 		case "READ_CALENDAR":
 			label = "Kalendertermine lesen";
-			description = "App kann auf dem Gerät gespeicherte Termine lesen. App kann möglicherweise Kalenderdaten weiterleiten oder speichern.";
+			description = "App kann auf dem Gerï¿½t gespeicherte Termine lesen. App kann mï¿½glicherweise Kalenderdaten weiterleiten oder speichern.";
 			criticality = 16;
 
 			return putValues(name, label, description, criticality);
 
 		case "WRITE_CALENDAR":
-			label = "Kalendertermine hinzufügen oder ändern";
-			description = "App kann auf dem Gerät gespeicherte Termine ändern, hinzufügen oder entfernen (im Hintergrund). App kann E-Mails an Termingäste senden.";
+			label = "Kalendertermine hinzufï¿½gen oder ï¿½ndern";
+			description = "App kann auf dem Gerï¿½t gespeicherte Termine ï¿½ndern, hinzufï¿½gen oder entfernen (im Hintergrund). App kann E-Mails an Termingï¿½ste senden.";
 			criticality = 17;
 
 			return putValues(name, label, description, criticality);
 
 		case "READ_USER_DICTIONARY":
-			label = "Begriffe lesen, die zum Wörterbuch hinzugefügt wurden";
-			description = "App kann alle Wörter, Namen und Ausdrücke lesen, die ein Nutzer in seinem Wörterbuch gespeichert hat.";
+			label = "Begriffe lesen, die zum Wï¿½rterbuch hinzugefï¿½gt wurden";
+			description = "App kann alle Wï¿½rter, Namen und Ausdrï¿½cke lesen, die ein Nutzer in seinem Wï¿½rterbuch gespeichert hat.";
 			criticality = 18;
 
 			return putValues(name, label, description, criticality);
 
 		case "READ_HISTORY_BOOKMARKS":
-			label = "Lesezeichen für Webseiten und das Webprotokoll lesen";
-			description = "App kann Verlauf aller mit dem Browser besuchten Adressen und sämtliche Lesezeichen des Browsers lesen.";
+			label = "Lesezeichen fï¿½r Webseiten und das Webprotokoll lesen";
+			description = "App kann Verlauf aller mit dem Browser besuchten Adressen und sï¿½mtliche Lesezeichen des Browsers lesen.";
 			criticality = 19;
 
 			return putValues(name, label, description, criticality);
 
 		case "WRITE_HISTORY_BOOKMARKS":
-			label = "Lesezeichen für Webseiten setzen und das Webprotokoll aufzeichnen";
-			description = "App kann Browserverlauf und Lesezeichen ändern und löschen.";
+			label = "Lesezeichen fï¿½r Webseiten setzen und das Webprotokoll aufzeichnen";
+			description = "App kann Browserverlauf und Lesezeichen ï¿½ndern und lï¿½schen.";
 			criticality = 20;
 
 			return putValues(name, label, description, criticality);
 
 		case "ADD_VOICEMAIL":
-			label = "Mailbox-Nachrichten hinzufügen";
-			description = "App kann Sprachnachrichten zum Mailbox-Posteingang hinzufügen.";
+			label = "Mailbox-Nachrichten hinzufï¿½gen";
+			description = "App kann Sprachnachrichten zum Mailbox-Posteingang hinzufï¿½gen.";
 			criticality = 21;
 
 			return putValues(name, label, description, criticality);
 
 		case "ACCESS_FINE_LOCATION":
 			label = "Genauer Standort (GPS- und netzwerkbasiert)";
-			description = "App kann genaue Position anhand von GPS-Daten oder über Sendemasten/WLAN ermitteln.";
+			description = "App kann genaue Position anhand von GPS-Daten oder ï¿½ber Sendemasten/WLAN ermitteln.";
 			criticality = 22;
 
 			return putValues(name, label, description, criticality);
 
 		case "ACCESS_COARSE_LOCATION":
-			label = "Ungefährer Standort (netzwerkbasiert)";
-			description = "App kann ungefähren Standort über Sendemasten/WLAN ermitteln.";
+			label = "Ungefï¿½hrer Standort (netzwerkbasiert)";
+			description = "App kann ungefï¿½hren Standort ï¿½ber Sendemasten/WLAN ermitteln.";
 			criticality = 23;
 
 			return putValues(name, label, description, criticality);
 
 		case "ACCESS_MOCK_LOCATION":
-			label = "Simulierte Standortquellen für Testzwecke";
-			description = "App kann simulierte Standortquellen für Testzwecke erstellen oder einen neuen Standortanbieter installieren. App kann GPS-Standort/-Status überschreiben.";
+			label = "Simulierte Standortquellen fï¿½r Testzwecke";
+			description = "App kann simulierte Standortquellen fï¿½r Testzwecke erstellen oder einen neuen Standortanbieter installieren. App kann GPS-Standort/-Status ï¿½berschreiben.";
 			criticality = 24;
 
 			return putValues(name, label, description, criticality);
 
 		case "INTERNET":
 			label = "Voller Netzwerkzugriff";
-			description = "App kann eigene Internetverbindungen über benutzerdefinierte Netzwerkprotokolle herstellen. Der Browser und andere Apps bieten die Möglichkeit, Daten über das Internet zu versenden. Daher ist diese Berechtigung nicht zwingend erforderlich, um Daten über das Internet versenden zu können.";
+			description = "App kann eigene Internetverbindungen ï¿½ber benutzerdefinierte Netzwerkprotokolle herstellen. Der Browser und andere Apps bieten die Mï¿½glichkeit, Daten ï¿½ber das Internet zu versenden. Daher ist diese Berechtigung nicht zwingend erforderlich, um Daten ï¿½ber das Internet versenden zu kï¿½nnen.";
 			criticality = 25;
 
 			return putValues(name, label, description, criticality);
 
 		case "CHANGE_WIFI_STATE":
 			label = "WLAN-Verbindungen herstellen und trennen";
-			description = "App kann Verbindung zu WLAN-Zugriffpunkten herstellen und trennen, sowie Änderungen an den WLAN-Einstellungen vornehmen.";
+			description = "App kann Verbindung zu WLAN-Zugriffpunkten herstellen und trennen, sowie ï¿½nderungen an den WLAN-Einstellungen vornehmen.";
 			criticality = 26;
 
 			return putValues(name, label, description, criticality);
 
 		case "CHANGE_WIMAX_STATE":
-			label = "WiMAX-Status ändern";
+			label = "WiMAX-Status ï¿½ndern";
 			description = "App kann Verbindung zu WiMAX*-Netzwerken herstellen und trennen. WiMAX ist eine drahtlose Zugriffstechnik zu Breitbandinternet.";
 			criticality = 27;
 
 			return putValues(name, label, description, criticality);
 
 		case "BLUETOOTH":
-			label = "Pairing mit Bluetooth-Geräten durchführen";
-			description = "App kann die Bluetooth-Konfiguration des Gerätes einsehen und Verbindungen mit gekoppelten Geräten herstellen und akzeptieren.";
+			label = "Pairing mit Bluetooth-Gerï¿½ten durchfï¿½hren";
+			description = "App kann die Bluetooth-Konfiguration des Gerï¿½tes einsehen und Verbindungen mit gekoppelten Gerï¿½ten herstellen und akzeptieren.";
 			criticality = 28;
 
 			return putValues(name, label, description, criticality);
 
 		case "BLUETOOTH_ADMIN":
 			label = "Auf Bluetooth-Einstellungen zugreifen";
-			description = "App kann Bluetooth-Einstellungen konfigurieren, Remote-Geräte erkennen und Verbindungen zu diesen herstellen.";
+			description = "App kann Bluetooth-Einstellungen konfigurieren, Remote-Gerï¿½te erkennen und Verbindungen zu diesen herstellen.";
 			criticality = 29;
 
 			return putValues(name, label, description, criticality);
@@ -351,29 +350,29 @@ public class PermissionDataSource extends DataSource<Permission> {
 			return putValues(name, label, description, criticality);
 
 		case "AUTHENTICATE_ACCOUNTS":
-			label = "Konten erstellen und Passwörter festlegen";
-			description = "App kann die Kontoauthentifizierungsfunktion des Konto-Managers verwenden, einschließlich Erstellen von Konten und Abrufen und Festlegen der entsprechenden Passwörter. Bspw. Google-, Twitter- oder Facebook-Konto.";
+			label = "Konten erstellen und Passwï¿½rter festlegen";
+			description = "App kann die Kontoauthentifizierungsfunktion des Konto-Managers verwenden, einschlieï¿½lich Erstellen von Konten und Abrufen und Festlegen der entsprechenden Passwï¿½rter. Bspw. Google-, Twitter- oder Facebook-Konto.";
 			criticality = 31;
 
 			return putValues(name, label, description, criticality);
 
 		case "USE_CREDENTIALS":
-			label = "Konten auf dem Gerät verwenden";
-			description = "App kann sich über die Konten auf dem Gerät anmelden (Authentifizierungstoken anfordern). App kann sich somit bspw. mit dem Google-Konto anmelden. Bspw. Google-, Twitter oder Facebook-Konto.";
+			label = "Konten auf dem Gerï¿½t verwenden";
+			description = "App kann sich ï¿½ber die Konten auf dem Gerï¿½t anmelden (Authentifizierungstoken anfordern). App kann sich somit bspw. mit dem Google-Konto anmelden. Bspw. Google-, Twitter oder Facebook-Konto.";
 			criticality = 32;
 
 			return putValues(name, label, description, criticality);
 
 		case "MANAGE_ACCOUNTS":
-			label = "Konten hinzufügen oder entfernen";
-			description = "App kann Konten dem Konto-Manager des Geräts hinzufügen oder Konten (inkl. deren Passwörter) vom Gerät löschen. Bspw. Google-, Twitter oder Facebook-Konto.";
+			label = "Konten hinzufï¿½gen oder entfernen";
+			description = "App kann Konten dem Konto-Manager des Gerï¿½ts hinzufï¿½gen oder Konten (inkl. deren Passwï¿½rter) vom Gerï¿½t lï¿½schen. Bspw. Google-, Twitter oder Facebook-Konto.";
 			criticality = 33;
 
 			return putValues(name, label, description, criticality);
 
 		case "CHANGE_WIFI_MULTICAST_STATE":
 			label = "WLAN-Multicast-Empfang zulassen";
-			description = "App kann Datenpakete empfangen, die mithilfe von Multicast-Adressen an sämtliche Geräte in einem WLAN-Netzwerk versendet wurden, nicht nur an Ihr Gerät.";
+			description = "App kann Datenpakete empfangen, die mithilfe von Multicast-Adressen an sï¿½mtliche Gerï¿½te in einem WLAN-Netzwerk versendet wurden, nicht nur an Ihr Gerï¿½t.";
 			criticality = 34;
 
 			return putValues(name, label, description, criticality);
@@ -387,91 +386,91 @@ public class PermissionDataSource extends DataSource<Permission> {
 
 		case "CAMERA":
 			label = "Bilder und Videos aufnehmen";
-			description = "App kann Bilder und Videos mit der Kamera aufnehmen (jederzeit und ohne Ihre Bestätigung).";
+			description = "App kann Bilder und Videos mit der Kamera aufnehmen (jederzeit und ohne Ihre Bestï¿½tigung).";
 			criticality = 36;
 
 			return putValues(name, label, description, criticality);
 
 		case "PROCESS_OUTGOING_CALLS":
 			label = "Ausgehende Anrufe umleiten";
-			description = "App kann ausgehende Anrufe verarbeiten und die zu wählende Nummer ändern. App kann ausgehende Anrufe überwachen, umleiten und unterbinden.";
+			description = "App kann ausgehende Anrufe verarbeiten und die zu wï¿½hlende Nummer ï¿½ndern. App kann ausgehende Anrufe ï¿½berwachen, umleiten und unterbinden.";
 			criticality = 37;
 
 			return putValues(name, label, description, criticality);
 
 		case "READ_PHONE_STATE":
-			label = "Telefonstatus und Identität abrufen";
-			description = "App kann Telefonnummer und Geräte-IDs erfassen. App kann feststellen, ob gerade ein Gespräch geführt wird und die Rufnummer verbundener Anrufer lesen.";
+			label = "Telefonstatus und Identitï¿½t abrufen";
+			description = "App kann Telefonnummer und Gerï¿½te-IDs erfassen. App kann feststellen, ob gerade ein Gesprï¿½ch gefï¿½hrt wird und die Rufnummer verbundener Anrufer lesen.";
 			criticality = 38;
 
 			return putValues(name, label, description, criticality);
 
 		case "CALL_PHONE":
 			label = "Telefonnummern direkt anrufen";
-			description = "App kann ohne Ihr Eingreifen Telefonnummern wählen (kein Notruf). Dies kann zu unerwarteten Kosten und Anrufen führen.";
+			description = "App kann ohne Ihr Eingreifen Telefonnummern wï¿½hlen (kein Notruf). Dies kann zu unerwarteten Kosten und Anrufen fï¿½hren.";
 			criticality = 39;
 
 			return putValues(name, label, description, criticality);
 
 		case "USE_SIP":
-			label = "Internetanrufe tätigen/annehmen";
-			description = "App kann SIP-Dienste zum Tätigen und Annehmen von Internetanrufen verwenden.";
+			label = "Internetanrufe tï¿½tigen/annehmen";
+			description = "App kann SIP-Dienste zum Tï¿½tigen und Annehmen von Internetanrufen verwenden.";
 			criticality = 40;
 
 			return putValues(name, label, description, criticality);
 
 		case "WRITE_EXTERNAL_STORAGE":
-			label = "SD-Karteninhalte ändern oder löschen";
-			description = "App kann auf die SD-Karte schreiben und Daten darauf löschen.";
+			label = "SD-Karteninhalte ï¿½ndern oder lï¿½schen";
+			description = "App kann auf die SD-Karte schreiben und Daten darauf lï¿½schen.";
 			criticality = 41;
 
 			return putValues(name, label, description, criticality);
 
 		case "DISABLE_KEYGUARD":
 			label = "Display-Sperre deaktivieren";
-			description = "App kann Tastensperre (inkl. Passwortschutz) deaktivieren. Das Telefon deaktiviert die Sperre bspw. wenn ein Anruf eingeht und aktiviert sie nach dem Gespräch wieder.";
+			description = "App kann Tastensperre (inkl. Passwortschutz) deaktivieren. Das Telefon deaktiviert die Sperre bspw. wenn ein Anruf eingeht und aktiviert sie nach dem Gesprï¿½ch wieder.";
 			criticality = 42;
 
 			return putValues(name, label, description, criticality);
 
 		case "GET_TASKS":
 			label = "Aktive Apps abrufen";
-			description = "App kann Infos zu aktuellen und kürzlich ausgeführten Aufgaben abrufen. App kann damit möglicherweise ermitteln, welche Apps auf dem Gerät zum Einsatz kommen.";
+			description = "App kann Infos zu aktuellen und kï¿½rzlich ausgefï¿½hrten Aufgaben abrufen. App kann damit mï¿½glicherweise ermitteln, welche Apps auf dem Gerï¿½t zum Einsatz kommen.";
 			criticality = 43;
 
 			return putValues(name, label, description, criticality);
 
 		case "SYSTEM_ALERT_WINDOW":
-			label = "Über andere Apps einblenden";
-			description = "App kann über andere Apps oder Teile der Benutzeroberfläche Einblendungen vornehmen. Dies kann zu unerwarteten veränderten Darstellungen anderer Apps führen.";
+			label = "ï¿½ber andere Apps einblenden";
+			description = "App kann ï¿½ber andere Apps oder Teile der Benutzeroberflï¿½che Einblendungen vornehmen. Dies kann zu unerwarteten verï¿½nderten Darstellungen anderer Apps fï¿½hren.";
 			criticality = 44;
 
 			return putValues(name, label, description, criticality);
 
 		case "INSTALL_SHORTCUT":
-			label = "Verknüpfungen installieren";
-			description = "App kann Verknüpfungen zum Startbildschirm hinzufügen (ohne Eingreifen des Nutzers).";
+			label = "Verknï¿½pfungen installieren";
+			description = "App kann Verknï¿½pfungen zum Startbildschirm hinzufï¿½gen (ohne Eingreifen des Nutzers).";
 			criticality = 45;
 
 			return putValues(name, label, description, criticality);
 
 		case "UNINSTALL_SHORTCUT":
-			label = "Verknüpfungen deinstallieren";
-			description = "App kann Verknüpfungen vom Startbildschirm entfernen (ohne Eingreifen des Nutzers).";
+			label = "Verknï¿½pfungen deinstallieren";
+			description = "App kann Verknï¿½pfungen vom Startbildschirm entfernen (ohne Eingreifen des Nutzers).";
 			criticality = 46;
 
 			return putValues(name, label, description, criticality);
 
 		case "SUBSCRIBED_FEEDS_WRITE":
 			label = "Abonnierte Feeds schreiben";
-			description = "App kann Änderungen an kürzlich synchronisierten Newsfeeds vornehmen. App kann somit Ihre synchronisierten Newsfeeds ändern. Newsfeeds sind über das Internet angebotene Nachrichtenströme, die mit einem Feedreader gelesen werden können. Damit lassen sich Webseiten, deren Inhalt sich häufig ändert, verfolgen, ohne die Seite unmittelbar besuchen zu müssen.";
+			description = "App kann ï¿½nderungen an kï¿½rzlich synchronisierten Newsfeeds vornehmen. App kann somit Ihre synchronisierten Newsfeeds ï¿½ndern. Newsfeeds sind ï¿½ber das Internet angebotene Nachrichtenstrï¿½me, die mit einem Feedreader gelesen werden kï¿½nnen. Damit lassen sich Webseiten, deren Inhalt sich hï¿½ufig ï¿½ndert, verfolgen, ohne die Seite unmittelbar besuchen zu mï¿½ssen.";
 			criticality = 47;
 
 			return putValues(name, label, description, criticality);
 
 		case "CLEAR_APP_CACHE":
-			label = "Alle Cache-Daten der App löschen";
-			description = "App kann Speicherplatz durch Löschen von Dateien in den Cache-Verzeichnissen anderer Apps freisetzen. Cache bezeichnet einen schnellen Zwischenspeicher, der (erneute) Zugriffe auf ein langsames Hintergrundmedium oder aufwändige Neuberechnungen zu vermeiden hilft.";
+			label = "Alle Cache-Daten der App lï¿½schen";
+			description = "App kann Speicherplatz durch Lï¿½schen von Dateien in den Cache-Verzeichnissen anderer Apps freisetzen. Cache bezeichnet einen schnellen Zwischenspeicher, der (erneute) Zugriffe auf ein langsames Hintergrundmedium oder aufwï¿½ndige Neuberechnungen zu vermeiden hilft.";
 			criticality = 48;
 
 			return putValues(name, label, description, criticality);

@@ -35,7 +35,7 @@ public class PermissionsListItemAdapter extends ArrayAdapter<Permission> {
 		textView.setText(values.get(position).getLabel());
 
 		// set permission as tag
-		rowView.setTag(values.get(position));
+		rowView.setTag(values.get(position).getId());
 
 		return rowView;
 	}
