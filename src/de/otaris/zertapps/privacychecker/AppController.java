@@ -14,6 +14,7 @@ import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSourc
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -62,11 +63,13 @@ public class AppController {
 		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
 				context);
 		PermissionDataSource permissionData = new PermissionDataSource(context);
+		RatingAppDataSource ratingData = new RatingAppDataSource(context);
 
 		appData.open();
 		permissionData.open();
 		appPermissionData.open();
 		categoryData.open();
+		ratingData.open();
 
 		ApplicationInfo[] apps = getInstalledApps(pm);
 		for (int i = 0; i < apps.length; i++) {

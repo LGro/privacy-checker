@@ -33,33 +33,124 @@
         android:layout_alignLeft="@+id/app_detail_rating_title"
         android:layout_below="@+id/app_detail_rating_title"
         android:layout_marginTop="144dp"
-        android:maxLines="2"
-        android:text="Dies wird die Beschreibung der App, ein sehr langer Text, der dem Nutzer verdeutliche soll, wie die App funktioniert." />
+        android:maxLines="2" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/app_detail_privacy_rating_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/app_detail_rating_title"
         android:layout_below="@+id/app_detail_rating_title"
         android:layout_marginTop="21dp"
-        android:text="1,0" 
+        android:text="1,0"
         android:textSize="40dp"/>
 
+
+
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/app_detail_privacy_rating_image"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_value"
+        android:layout_below="@+id/app_detail_privacy_rating_value"
         android:src="@drawable/lock1" />
 
-    <ListView
-        android:id="@+id/app_detail_rating_permissions_list"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_count"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_below="@+id/app_detail_rating_text" >
+        android:layout_alignRight="@+id/app_detail_privacy_rating_value"
+        android:layout_below="@+id/app_detail_privacy_rating_image"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_linie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/app_detail_privacy_rating_count"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_value"
+        android:layout_marginLeft="53dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_value"
+        android:src="@drawable/linie" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_automatic"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_linie"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
+        android:src="@drawable/icongear" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_nonexpert"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/app_detail_privacy_rating_automatic"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
+        android:src="@drawable/iconnonexpert" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_expert"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/app_detail_privacy_rating_nonexpert"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
+        android:src="@drawable/iconexpert" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_automatic_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_automatic"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_automatic"
+        android:layout_marginTop="8dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_nonexpert_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_automatic_text"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_nonexpert"
+        android:layout_marginTop="8dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_expert_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_nonexpert_text"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_expert"
+        android:layout_marginTop="8dp"
+        android:text="TextView" />
+
+     <ToggleButton
+         android:id="@+id/app_detail_privacy_rating_more"
+         style="?android:attr/buttonStyleSmall"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_below="@+id/app_detail_privacy_rating_linie"
+         android:textOff="Mehr Anzeigen"
+         android:textOn="Weniger Anzeigen" />
+
+     <TextView
+         android:id="@+id/app_detail_privacy_rating_explanation"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/app_detail_rating_text"
+         android:layout_below="@+id/app_detail_rating_text"
+         android:text="TextView" 
+         android:visibility="invisible" />
+     
+      <ListView
+          android:id="@+id/app_detail_rating_permissions_list"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/app_detail_rating_text"
+          android:layout_below="@+id/app_detail_privacy_rating_explanation"
+          android:visibility="invisible" >
+
     </ListView>
 
 </RelativeLayout>

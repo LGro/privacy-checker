@@ -2,6 +2,7 @@ package de.otaris.zertapps.privacychecker.database.model;
 
 import java.util.ArrayList;
 
+import android.database.Cursor;
 import de.otaris.zertapps.privacychecker.database.interfaces.App;
 
 /**
@@ -18,20 +19,65 @@ public class AppExtended implements App {
 	private int[][] permissionRating;
 	//weighted rating in total
 	private float rating;
-	private float expertRating;
-	private float nonExpertRating;
+	private ArrayList<Integer> expertRating;
+	private float totalExpertRating;
+	private ArrayList<Integer> nonExpertRating;
+	private float totalNonExpertRating;
 	//automatic generated rating
-	private float technicalRating;
+	private float automaticRating;
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
 	}
 
+		
 	// getters and setters
-	
 	
 	public ArrayList<Permission> getPermissionList() {
 		return permissionList;
+	}
+
+	public float getTotalExpertRating() {
+		return totalExpertRating;
+	}
+
+	public void setTotalExpertRating(ArrayList<Integer> expertRating) {
+		
+		float totalExpertRating = 0;
+		int i = expertRating.size();
+		if(i == 0)
+			this.totalExpertRating = 0;
+		else {
+		
+		for (int rating : expertRating) {
+			totalExpertRating += rating;
+		}
+		
+		totalExpertRating /= i;
+		
+		this.totalExpertRating = totalExpertRating;
+		}
+	}
+
+	public float getTotalNonExpertRating() {
+		return totalNonExpertRating;
+	}
+
+	public void setTotalNonExpertRating(ArrayList<Integer> nonExpertRating) {
+		float totalNonExpertRating = 0;
+		int i = nonExpertRating.size();
+		if(i == 0)
+			this.totalNonExpertRating = 0;
+		else {
+		
+		for (int rating : nonExpertRating) {
+			totalNonExpertRating += rating;
+		}
+		
+		totalNonExpertRating /= i;
+		
+		this.totalNonExpertRating = totalNonExpertRating;
+		}
 	}
 
 	public int[][] getPermissionRating() {
@@ -46,32 +92,35 @@ public class AppExtended implements App {
 		return rating;
 	}
 
-	public void setRating(float rating) {
-		this.rating = rating;
+	public void setRating() {
+		this.rating = (automaticRating + totalExpertRating + totalNonExpertRating) / 3;
 	}
-
-	public float getExpertRating() {
+	
+	public ArrayList<Integer> getExpertRating() {
 		return expertRating;
 	}
 
-	public void setExpertRating(float expertRating) {
+	public void setExpertRating(ArrayList<Integer> expertRating) {
 		this.expertRating = expertRating;
+		setTotalExpertRating(expertRating);
 	}
 
-	public float getNonExpertRating() {
+	public ArrayList<Integer> getNonExpertRating() {
 		return nonExpertRating;
 	}
 
-	public void setNonExpertRating(float nonExpertRating) {
+	public void setNonExpertRating(ArrayList<Integer> nonExpertRating) {
 		this.nonExpertRating = nonExpertRating;
+		setTotalNonExpertRating(nonExpertRating);
+		
 	}
 
-	public float getTechnicalRating() {
-		return technicalRating;
+	public float getAutomaticRating() {
+		return automaticRating;
 	}
 
-	public void setTechnicalRating(float technicalRating) {
-		this.technicalRating = technicalRating;
+	public void setAutomaticRating(float automaticRating) {
+		this.automaticRating = automaticRating;
 	}
 
 	@Override

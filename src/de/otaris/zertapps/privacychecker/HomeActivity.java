@@ -86,10 +86,10 @@ public class HomeActivity extends Activity {
 		categoryData.close();
 
 		// insert all installed apps into database
-		// AppController appController = getAppController();
-		// appController.putInstalledAppsInDatabase(this, getPackageManager());
+		 //AppController appController = getAppController();
+		 //appController.putInstalledAppsInDatabase(this, getPackageManager());
 
-		// exportDB();
+		 //exportDB();
 		try {
 			importDB();
 		} catch (IOException e) {

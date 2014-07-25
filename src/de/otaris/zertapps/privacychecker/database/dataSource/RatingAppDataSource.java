@@ -6,8 +6,12 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
+import android.util.Log;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppPermission;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
 import de.otaris.zertapps.privacychecker.database.model.RatingPermission;
 
@@ -63,6 +67,69 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 
 		return ratingApp;
 	}
+	
+	/**
+	 * retrieve all values from an app id from experts
+	 * 
+	 * @param appId
+	 * @return a list of values
+	 */
+	public ArrayList<Integer> getExpertValuesById(long appId) {
+		ArrayList<Integer> values = new ArrayList<Integer>();
+
+		// build query
+		String whereClause = RatingApp.USER_TYPE + " = 1" + " AND "
+				+ RatingApp.APP_ID + " = " + appId;
+
+		Cursor cursor = database.query(RatingApp.TABLE, allColumns,
+				whereClause, null, null, null, null);
+		// put values in list
+		for (RatingApp ratingApp : cursorToModelList(cursor)) {
+			values.add(ratingApp.getValue());
+		}
+
+		return values;
+	}
+
+	/**
+	 * retrieve all values from an app id from nonExperts
+	 * 
+	 * @param appId
+	 * @return a list of values
+	 */
+	public ArrayList<Integer> getNonExpertValuesById(long appId) {
+		ArrayList<Integer> values = new ArrayList<Integer>();
+
+		// build query
+		String whereClause = RatingApp.USER_TYPE + " = 0" + " AND "
+				+ RatingApp.APP_ID + " = " + appId;
+
+		Cursor cursor = database.query(RatingApp.TABLE, allColumns,
+				whereClause, null, null, null, null);
+
+		// put values in list
+		for (RatingApp ratingApp : cursorToModelList(cursor)) {
+			values.add(ratingApp.getValue());
+		}
+
+		return values;
+	}
+
+	/**
+	 * calculates an automatic rating for a given app
+	 * 
+	 * @param id
+	 * @return rating value
+	 */
+	public int generateAutomaticRatingById(int id) {
+
+		appPermissionData.open();
+		int numberOfPermissions = appPermissionData.getPermissionsByAppId(id)
+				.size();
+		appPermissionData.close();
+		
+		return numberOfPermissions % 5;
+	}
 
 	/**
 	 * retrieves a rating by RatingApp_id
@@ -84,66 +151,7 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 		return newRating;
 	}
 
-	/**
-	 * retrieve all values from an app id from experts
-	 * 
-	 * @param ratingId
-	 * @return a list of values
-	 */
-	public ArrayList<Integer> getExpertValuesById(long ratingId) {
-		ArrayList<Integer> values = new ArrayList<Integer>();
-
-		// build query
-		String whereClause = RatingApp.USER_TYPE + " = 1" + " AND "
-				+ RatingApp.ID + "= ratingId";
-
-		Cursor cursor = database.query(RatingApp.TABLE, allColumns,
-				whereClause, null, null, null, null);
-		// put values in list
-		for (RatingApp ratingApp : cursorToModelList(cursor)) {
-			values.add(ratingApp.getValue());
-		}
-
-		return values;
-	}
-
-	/**
-	 * retrieve all values from an app id from nonExperts
-	 * 
-	 * @param ratingId
-	 * @return a list of values
-	 */
-	public ArrayList<Integer> getNonExpertValuesById(long ratingId) {
-		ArrayList<Integer> values = new ArrayList<Integer>();
-
-		// build query
-		String whereClause = RatingApp.USER_TYPE + " = 0" + " AND "
-				+ RatingApp.ID + "= ratingId";
-
-		Cursor cursor = database.query(RatingApp.TABLE, allColumns,
-				whereClause, null, null, null, null);
-
-		// put values in list
-		for (RatingApp ratingApp : cursorToModelList(cursor)) {
-			values.add(ratingApp.getValue());
-		}
-
-		return values;
-	}
-
-	/**
-	 * calculates an automatic rating for a given app
-	 * 
-	 * @param id
-	 * @return rating value
-	 */
-	public int generateAutomaticRatingById(int id) {
-
-		int numberOfPermissions = appPermissionData.getPermissionsByAppId(id)
-				.size();
-
-		return numberOfPermissions % 5;
-	}
+	
 
 	/**
 	 * calculates a total rating for a given app regarding the automatic rating,
@@ -178,6 +186,12 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 		nonExpertRating = nonExpertRating / nonExperts;
 
 		return (generateAutomaticRatingById(id) + expertRating + nonExpertRating) / 3;
+	}
+	
+	public float getTotalRatingByAppId(int appId){
+		
+	return generateTotalRating(appId);
+		
 	}
 
 }
