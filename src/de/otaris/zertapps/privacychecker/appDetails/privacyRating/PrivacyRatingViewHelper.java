@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
@@ -40,32 +43,36 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		PrivacyRating rating = (PrivacyRating) detail;
 		AppExtended app = rating.getApp();
 		TextView privacyRatingTextView = (TextView) rowView
-			.findViewById(R.id.app_detail_privacy_rating_value);
-		
-		privacyRatingTextView.setText(round(app.getRating())+ "");
-		
-		
-		
+				.findViewById(R.id.app_detail_privacy_rating_value);
+
+		privacyRatingTextView.setText(round(app.getRating()) + "");
+
 		TextView privacyRatingCount = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_count);
-		privacyRatingCount.setText("(" + (app.getNonExpertRating().size() + app.getExpertRating().size()) + ")");
-		
+		privacyRatingCount.setText("("
+				+ (app.getNonExpertRating().size() + app.getExpertRating()
+						.size()) + ")");
+
 		TextView automaticRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_automatic_text);
 		automaticRating.setText(round(app.getAutomaticRating()) + "");
-		
+
 		TextView nonExpertRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_nonexpert_text);
-		nonExpertRating.setText(round(app.getTotalNonExpertRating()) + " (" + app.getNonExpertRating().size() + ")");
-		
+		nonExpertRating.setText(round(app.getTotalNonExpertRating()) + " ("
+				+ app.getNonExpertRating().size() + ")");
+
 		TextView expertRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_expert_text);
-		expertRating.setText(round(app.getTotalExpertRating()) + " (" + app.getExpertRating().size() + ")");
-		
+		expertRating.setText(round(app.getTotalExpertRating()) + " ("
+				+ app.getExpertRating().size() + ")");
+
 		TextView explanationRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_explanation);
-		explanationRating.setText("Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen. ");
-		
+		// TODO: move to "Strings" XML and don't set programmatically
+		explanationRating
+				.setText("Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen. ");
+
 		List<Permission> permissionList = app.getPermissionList();
 
 		// get permission list view
@@ -104,26 +111,22 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				overlay.addView(layout);
 			}
 		});
-		
-			
-		
+
 		ToggleButton button = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_privacy_rating_more);
-		ListView permissions = (ListView) rowView.findViewById(R.id.app_detail_rating_permissions_list);
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
 			@Override
-			
-
 			public void onCheckedChanged(CompoundButton toggleButton,
 					boolean isChecked) {
-				
+
 				TextView explanation = (TextView) ((View) toggleButton
-						.getParent()).findViewById(R.id.app_detail_privacy_rating_explanation);
-				
+						.getParent())
+						.findViewById(R.id.app_detail_privacy_rating_explanation);
+
 				ListView permissions = (ListView) ((View) toggleButton
-						.getParent()).findViewById(R.id.app_detail_rating_permissions_list);
-				//changes fulltext to shorten version 
+						.getParent())
+						.findViewById(R.id.app_detail_rating_permissions_list);
+				// changes fulltext to shorten version
 				if (isChecked) {
 					permissions.setVisibility(View.VISIBLE);
 					explanation.setVisibility(View.VISIBLE);
@@ -131,10 +134,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					permissions.setVisibility(View.INVISIBLE);
 					explanation.setVisibility(View.INVISIBLE);
 				}
-
-
 			}
-			});
+		});
 		return rowView;
 	}
 }
