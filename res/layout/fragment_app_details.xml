@@ -1,5 +1,10 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	 xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/app_detail_privacy_rating_container" >
+
+<RelativeLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.otaris.zertapps.privacychecker.AppDetailsActivity$PlaceholderFragment" >
@@ -77,3 +82,13 @@
     </ListView>
 
 </RelativeLayout>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent_grey"
+    android:visibility="invisible"
+   android:id="@+id/app_detail_overlay">
+   
+      
+</RelativeLayout>
+</FrameLayout>

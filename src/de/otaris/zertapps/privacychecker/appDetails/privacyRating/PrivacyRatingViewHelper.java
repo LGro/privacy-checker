@@ -11,6 +11,7 @@ import de.otaris.zertapps.privacychecker.appDetails.permissions.Permissions;
 import de.otaris.zertapps.privacychecker.appDetails.permissions.PermissionsListItemAdapter;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -65,10 +67,21 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Display Overlay
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
 				
+				RelativeLayout overlay = (RelativeLayout) parent.getRootView().findViewById(R.id.app_detail_overlay);
+				overlay.setVisibility(View.VISIBLE);
+				LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+				RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.app_detail_rating_permission_overlay, overlay, false);
+				Permission permission = (Permission) view.getTag(); 
+				TextView permissionLabel = (TextView) layout.findViewById(R.id.app_detail_rating_permission_name);
+				permissionLabel.setText(permission.getLabel());
+				TextView permissionDescription = (TextView) layout.findViewById(R.id.app_detail_rating_permission_name);
+				
+				
+				overlay.addView(layout);	
+			
 			}
 		});
 		
