@@ -5,23 +5,20 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.RateApp.RateApp;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
+import de.otaris.zertapps.privacychecker.appDetails.header.ExtendedHeader;
+import de.otaris.zertapps.privacychecker.appDetails.header.Header;
 import de.otaris.zertapps.privacychecker.appDetails.privacyRating.PrivacyRating;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
@@ -57,37 +54,19 @@ public class AppDetailsActivity extends Activity {
 		AppCompact app = appData.getAppById(appID);
 		appData.close();
 
-		// Get all the views ...
-		TextView nameView = (TextView) findViewById(R.id.app_details_activity_head_name);
-		TextView developerView = (TextView) findViewById(R.id.app_details_activity_head_developer);
-		ImageView ratingView = (ImageView) findViewById(R.id.app_details_activity_head_rating);
-		ImageView iconView = (ImageView) findViewById(R.id.app_details_activity_head_icon);
-		Button button = (Button) findViewById(R.id.app_details_activity_head_button_install);
+		Header header = new ExtendedHeader();
+		View headerView = header.getView(this, app);
 
-		// ... and fill them with the right information about the app.
-		// Set icon, button and rating.
-		if (app.isInstalled()) {
-			button.setText("Deinstallieren");
-			try {
-				iconView.setImageDrawable(getPackageManager()
-						.getApplicationIcon(app.getName()));
-				ratingView.setImageResource(getIconRating(app
-						.getPrivacyRating()));
-			} catch (NameNotFoundException e) {
-				Log.w("AppListItemAdapter",
-						"Couldn't load icons for app: " + e.getMessage());
-			}
-		} else {
-			button.setText("Installieren");
-			// TODO: implement (get icon from PlayStore API?!)
-		}
-		// Set name and developer
-		nameView.setText(app.getLabel());
-		developerView.setText(app.getName());
-
-		// Find the listView and set a custom adapter to it.
-		ListView detailListView = (ListView) findViewById(R.id.app_details_activity_head_listView);
-
+		RelativeLayout relLayout = (RelativeLayout) findViewById(R.id.app_details_layout);
+		relLayout.addView(headerView);
+		int headerId = headerView.getId();
+		
+		ListView detailListView = (ListView) findViewById(R.id.app_detail_list);
+		
+		RelativeLayout.LayoutParams listLayout = new RelativeLayout.LayoutParams(detailListView.getLayoutParams());
+		listLayout.addRule(RelativeLayout.BELOW, headerId);
+		detailListView.setLayoutParams(listLayout);
+		
 		ArrayList<Detail> details = getDetails();
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
 				details);
@@ -121,23 +100,6 @@ public class AppDetailsActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	private Integer getIconRating(float rating) {
-		if (rating > 4.5 && rating <= 5) {
-			return R.drawable.lock5;
-		} else if (rating > 3.5 && rating <= 4.5) {
-			return R.drawable.lock4;
-		} else if (rating > 2.5 && rating <= 3.5) {
-			return R.drawable.lock3;
-		} else if (rating > 1.5 && rating <= 2.5) {
-			return R.drawable.lock2;
-		} else if (rating > 0 && rating <= 1.5) {
-			return R.drawable.lock1;
-		} else {
-			throw new IllegalArgumentException(
-					"Rating not is not between 0 and 5.");
-		}
 	}
 
 	/**

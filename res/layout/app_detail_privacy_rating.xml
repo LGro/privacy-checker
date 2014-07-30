@@ -118,6 +118,7 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_alignParentRight="true"
+         android:layout_alignParentBottom="true"
          android:layout_below="@+id/app_detail_privacy_rating_linie"
          android:textOff="Mehr Anzeigen"
          android:textOn="Weniger Anzeigen" />
@@ -128,8 +129,8 @@
          android:layout_height="wrap_content"
          android:layout_alignLeft="@+id/app_detail_rating_text"
          android:layout_below="@+id/app_detail_rating_text"
-         android:text="TextView" 
-         android:visibility="invisible" />
+         android:text="Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen."
+         android:visibility="gone" />
      
       <ListView
           android:id="@+id/app_detail_rating_permissions_list"

@@ -1,0 +1,97 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+            android:id="@+id/app_detail_header_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/app_detail_icon"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
+        <!-- android:text="@string/app_detail_name" -->
+
+        <TextView
+            android:id="@+id/app_detail_header_developer"
+            android:layout_width="192dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/app_detail_header_name"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/app_detail_header_icon"
+            android:text="App Developer" />
+
+        <!-- android:text="@string/app_detail_developer" -->
+
+        <ImageView
+            android:id="@+id/app_detail_header_rating_pic"
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/app_detail_header_developer"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/app_detail_header_icon"
+            android:src="@drawable/lock2"
+            android:text="App Rating" />
+
+        <TextView
+            android:id="@+id/app_detail_header_name"
+            android:layout_width="192dp"
+            android:layout_height="20dp"
+            android:layout_alignLeft="@+id/app_detail_header_developer"
+            android:layout_alignTop="@+id/app_detail_header_icon"
+            android:text="App Name"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/app_detail_header_button_install"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="128dp"
+            android:layout_height="32dp"
+            android:layout_alignBottom="@+id/app_detail_header_rating_pic"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/app_detail_header_privacy_rating_amount"
+            android:text="Installieren" />
+
+        <TextView
+            android:id="@+id/app_detail_header_ps_rating_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/app_detail_header_ps_rating_image"
+            android:layout_alignLeft="@+id/app_detail_header_privacy_rating_amount"
+            android:text="(50k)" />
+
+        <TextView
+            android:id="@+id/app_detail_header_privacy_rating_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/app_detail_header_rating_pic"
+            android:layout_toRightOf="@+id/app_detail_header_rating_pic"
+            android:text="(7.453)" />
+
+        <ImageView
+            android:id="@+id/app_detail_header_ps_rating_image"
+            android:layout_width="80dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/app_detail_header_rating_pic"
+            android:layout_toLeftOf="@+id/app_detail_header_ps_rating_amount"
+            android:src="@drawable/lock5"
+            android:text="App Rating" />
+
+        <Button
+            android:id="@+id/app_detail_header_button_ps"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="128dp"
+            android:layout_height="32dp"
+            android:layout_alignLeft="@+id/app_detail_header_button_install"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/app_detail_header_privacy_rating_amount"
+            android:text="im Play Store" />
+
+</RelativeLayout>
