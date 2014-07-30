@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.RateApp.RateApp;
@@ -44,31 +45,34 @@ public class AppDetailsActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.app_details, menu);
-		
-		// Get the App ID from the intent, which was passed from the previous activity
+
+		// Get the App ID from the intent, which was passed from the previous
+		// activity
 		Intent intent = getIntent();
 		Integer appID = intent.getIntExtra("id", -1);
-		
+
 		// Open DB and and retrieve the App by ID
 		AppCompactDataSource appData = new AppCompactDataSource(this);
 		appData.open();
 		AppCompact app = appData.getAppById(appID);
 		appData.close();
-		
+
 		// Get all the views ...
 		TextView nameView = (TextView) findViewById(R.id.app_details_activity_head_name);
 		TextView developerView = (TextView) findViewById(R.id.app_details_activity_head_developer);
 		ImageView ratingView = (ImageView) findViewById(R.id.app_details_activity_head_rating);
 		ImageView iconView = (ImageView) findViewById(R.id.app_details_activity_head_icon);
 		Button button = (Button) findViewById(R.id.app_details_activity_head_button_install);
-		
+
 		// ... and fill them with the right information about the app.
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
 			button.setText("Deinstallieren");
 			try {
-				iconView.setImageDrawable(getPackageManager().getApplicationIcon(app.getName()));
-				ratingView.setImageResource(getIconRating(app.getPrivacyRating()));
+				iconView.setImageDrawable(getPackageManager()
+						.getApplicationIcon(app.getName()));
+				ratingView.setImageResource(getIconRating(app
+						.getPrivacyRating()));
 			} catch (NameNotFoundException e) {
 				Log.w("AppListItemAdapter",
 						"Couldn't load icons for app: " + e.getMessage());
@@ -80,29 +84,30 @@ public class AppDetailsActivity extends Activity {
 		// Set name and developer
 		nameView.setText(app.getLabel());
 		developerView.setText(app.getName());
-		
+
 		// Find the listView and set a custom adapter to it.
 		ListView detailListView = (ListView) findViewById(R.id.app_details_activity_head_listView);
-		
-		ArrayList<Detail> details = getDetails(); 
-		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this, details);
+
+		ArrayList<Detail> details = getDetails();
+		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
+				details);
 		detailListView.setAdapter(adapter);
 		return true;
 	}
-	
+
 	private ArrayList<Detail> getDetails() {
 		int id = getIntent().getIntExtra("id", -1);
-		ArrayList<Detail> details = new ArrayList<Detail>(); 
+		ArrayList<Detail> details = new ArrayList<Detail>();
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
 		AppExtended app = appDataSource.getAppById(id);
 		appDataSource.close();
 		details.add(new Description(app));
-//		details.add(new Permissions(app));
+		// details.add(new Permissions(app));
 		details.add(new PrivacyRating(app));
 		details.add(new RateApp(app));
-		
-		//TODO: Add more Details here
+
+		// TODO: Add more Details here
 		return details;
 	}
 
@@ -118,8 +123,7 @@ public class AppDetailsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	
-	private Integer getIconRating(float rating){
+	private Integer getIconRating(float rating) {
 		if (rating > 4.5 && rating <= 5) {
 			return R.drawable.lock5;
 		} else if (rating > 3.5 && rating <= 4.5) {
@@ -131,7 +135,8 @@ public class AppDetailsActivity extends Activity {
 		} else if (rating > 0 && rating <= 1.5) {
 			return R.drawable.lock1;
 		} else {
-			throw new IllegalArgumentException("Rating not is not between 0 and 5.");
+			throw new IllegalArgumentException(
+					"Rating not is not between 0 and 5.");
 		}
 	}
 
@@ -148,9 +153,20 @@ public class AppDetailsActivity extends Activity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_app_details,
 					container, false);
-			
+
 			return rootView;
 		}
+	}
+
+	/**
+	 * onClick method for hiding the overlay RelativeLayout
+	 * 
+	 * @param v
+	 */
+	public void hideOverlay(View v) {
+		RelativeLayout overlay = (RelativeLayout) findViewById(R.id.app_detail_overlay);
+		overlay.removeAllViews();
+		overlay.setVisibility(ViewGroup.INVISIBLE);
 	}
 
 }
