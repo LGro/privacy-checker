@@ -12,7 +12,7 @@
         android:layout_marginLeft="22dp"
         android:layout_marginTop="16dp"
         android:text="Privatsphäre Bewerten"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <Button

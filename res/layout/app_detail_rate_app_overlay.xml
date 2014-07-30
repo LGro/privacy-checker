@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_detail_rating_permission_overlay"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="50dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="30dp"
+    android:background="@color/white" >
+
+    <TextView
+        android:id="@+id/app_detail_rating_permission_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="4dp"
+        android:text="@string/app_detail_rate_app_heading"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/app_detail_rate_app_overlay_send"
+        android:layout_alignLeft="@+id/app_detail_rating_permission_name"
+        android:layout_below="@+id/app_detail_rating_permission_name" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permissions_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/app_detail_rate_app_overlay_permissions_title"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permissions_title"
+                android:layout_marginTop="8dp"
+                android:text="Berechtigungen Hinweis" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_unexpected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignBottom="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/app_detail_rate_app_overlay_expected"
+                android:text="Unerwartet" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permission1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permissions_text"
+                android:layout_marginTop="16dp"
+                android:text="1. Permission A" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permission2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permission1"
+                android:layout_marginTop="4dp"
+                android:text="2. Permission A" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permission3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permission2"
+                android:layout_marginTop="4dp"
+                android:text="3. Permission A" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permission4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permission3"
+                android:layout_marginTop="4dp"
+                android:text="4. Permission A" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permission5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permission4"
+                android:layout_marginTop="4dp"
+                android:text="5. Permission A" />
+
+            <RadioGroup
+                android:id="@+id/app_detail_rate_app_overlay_permission_radiogroup1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignRight="@+id/app_detail_rate_app_overlay_unexpected"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_permission1"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp" >
+
+                <RadioButton
+                    android:id="@+id/radio0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radio2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/app_detail_rate_app_overlay_permission_radiogroup2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignRight="@+id/app_detail_rate_app_overlay_unexpected"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_permission2"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp" >
+
+                <RadioButton
+                    android:id="@+id/RadioButton02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/app_detail_rate_app_overlay_permission_radiogroup3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignRight="@+id/app_detail_rate_app_overlay_unexpected"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_permission3"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp" >
+
+                <RadioButton
+                    android:id="@+id/RadioButton04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/app_detail_rate_app_overlay_permission_radiogroup4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignRight="@+id/app_detail_rate_app_overlay_unexpected"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_permission4"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp" >
+
+                <RadioButton
+                    android:id="@+id/RadioButton05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton06"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp" />
+            </RadioGroup>
+
+            <RadioGroup
+                android:id="@+id/app_detail_rate_app_overlay_permission_radiogroup5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignRight="@+id/app_detail_rate_app_overlay_unexpected"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_permission5"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp" >
+
+                <RadioButton
+                    android:id="@+id/RadioButton07"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/RadioButton08"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="34dp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_total_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_permission5"
+                android:layout_marginTop="16dp"
+                android:text="Gesamtbewertung"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/app_detail_rate_app_overlay_rating_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/app_detail_rate_app_total_rate"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_launcher"
+                android:tag="1" />
+
+            <ImageButton
+                android:id="@+id/app_detail_rate_app_overlay_rating_2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_1"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_1"
+                android:src="@drawable/ic_launcher"
+                android:tag="2" />
+
+            <ImageButton
+                android:id="@+id/app_detail_rate_app_overlay_rating_3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_2"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_2"
+                android:src="@drawable/ic_launcher"
+                android:tag="3" />
+
+            <ImageButton
+                android:id="@+id/app_detail_rate_app_overlay_rating_4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_3"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_3"
+                android:src="@drawable/ic_launcher"
+                android:tag="4" />
+
+            <ImageButton
+                android:id="@+id/app_detail_rate_app_overlay_rating_5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_4"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_4"
+                android:src="@drawable/ic_launcher"
+                android:tag="5" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_permissions_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:text="Berechtigungen"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/app_detail_rate_app_overlay_permission1"
+                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_rating_5"
+                android:text="Erwartet" />
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_value_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/app_detail_rate_app_overlay_rating_5"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="3dp"
+                android:text="X Schloesser"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/app_detail_rate_app_overlay_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:text="Senden" />
+
+</RelativeLayout>

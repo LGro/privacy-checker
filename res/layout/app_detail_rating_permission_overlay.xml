@@ -2,44 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/app_detail_rating_permission_overlay"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:layout_marginLeft="10dp" 
-    android:layout_marginRight="10dp" 
-    android:layout_marginTop="100dp" 
+    android:layout_height="fill_parent"
     android:layout_marginBottom="100dp"
-    android:background="@color/white">
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="100dp"
+    android:background="@color/white" >
 
-        <TextView
-            android:id="@+id/app_detail_rating_permission_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="1,0"
-            android:textSize="20dp" />
+    <TextView
+        android:id="@+id/app_detail_rating_permission_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Permission Label"
+        android:textSize="20sp" />
 
-        <ScrollView
-            android:id="@+id/scrollView1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/app_detail_rating_permission_name"
-            android:layout_marginTop="43dp" >
+    <ScrollView
+        android:id="@+id/app_detail_rating_permission_scrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/app_detail_rating_permission_name"
+        android:layout_marginTop="43dp" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-                
-                <TextView
-            android:id="@+id/app_detail_rating_permission_description"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/app_detail_rating_permission_name"
-            android:layout_marginTop="23dp"
-            android:text="Permission Details"/>          
-            </LinearLayout>
-        </ScrollView>
-        
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/app_detail_rating_permission_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:text="Permission Details" />
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

@@ -22,5 +22,6 @@
     <string name="app_detail_button_install">Installieren</string>
     <string name="title_activity_app_details">Details</string>
     <string name="app_detail_privacy_rating_title">Privatsphäre Bewertung</string>
-    
+    <string name="app_detail_rate_app_heading">Privatsphäre Bewerten</string>
+
 </resources>
