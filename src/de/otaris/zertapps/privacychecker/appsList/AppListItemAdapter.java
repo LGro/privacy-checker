@@ -64,12 +64,14 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 		// set app title
 		textView.setText(values.get(position).getLabel());
 		rowView.setTag(values.get(position).getId());
-		RatingController ratingController = new RatingController();		
+		RatingController ratingController = new RatingController();
 		float privacyRating = values.get(position).getPrivacyRating();
-		ratingImage.setImageResource(ratingController.getIconRating(privacyRating));
+		ratingImage.setImageResource(ratingController
+				.getIconRatingLocks(privacyRating));
 		float funcRating = values.get(position).getFunctionalRating();
-		psImage.setImageResource(ratingController.getIconRating(funcRating));
-		
+		psImage.setImageResource(ratingController
+				.getIconRatingStars(funcRating));
+
 		return rowView;
 	}
 }

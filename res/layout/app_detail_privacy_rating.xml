@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_image"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
         android:layout_alignLeft="@+id/app_detail_privacy_rating_value"
         android:layout_below="@+id/app_detail_privacy_rating_value"
         android:src="@drawable/lock1" />
@@ -63,24 +63,24 @@
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_automatic"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignTop="@+id/app_detail_privacy_rating_linie"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
         android:src="@drawable/icongear" />
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_nonexpert"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_below="@+id/app_detail_privacy_rating_automatic"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
         android:src="@drawable/iconnonexpert" />
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_expert"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_below="@+id/app_detail_privacy_rating_nonexpert"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
         android:src="@drawable/iconexpert" />

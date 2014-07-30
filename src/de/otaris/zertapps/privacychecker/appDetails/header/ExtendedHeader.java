@@ -16,8 +16,8 @@ import de.otaris.zertapps.privacychecker.database.interfaces.App;
 public class ExtendedHeader implements Header {
 
 	@Override
-	public View getView(Activity activity, 
-			App app) throws IllegalArgumentException {
+	public View getView(Activity activity, App app)
+			throws IllegalArgumentException {
 
 		LayoutInflater inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -33,6 +33,8 @@ public class ExtendedHeader implements Header {
 				.findViewById(R.id.app_detail_header_developer);
 		ImageView ratingView = (ImageView) rowView
 				.findViewById(R.id.app_detail_header_rating_pic);
+		ImageView ratingViewPS = (ImageView) rowView
+				.findViewById(R.id.app_detail_header_ps_rating_image);
 		ImageView iconView = (ImageView) rowView
 				.findViewById(R.id.app_detail_header_icon);
 		Button buttonInstall = (Button) rowView
@@ -51,8 +53,7 @@ public class ExtendedHeader implements Header {
 			try {
 				iconView.setImageDrawable(activity.getPackageManager()
 						.getApplicationIcon(app.getName()));
-				ratingView.setImageResource(new RatingController().getIconRating(app
-						.getPrivacyRating()));
+
 			} catch (NameNotFoundException e) {
 				Log.w("AppListItemAdapter",
 						"Couldn't load icons for app: " + e.getMessage());
@@ -61,12 +62,18 @@ public class ExtendedHeader implements Header {
 			buttonInstall.setText("Installieren");
 			// TODO: implement (get icon from PlayStore API?!)
 		}
+
+		// Set the icons for locks and stars according to their amount
+		ratingView.setImageResource(new RatingController()
+				.getIconRatingLocks(app.getPrivacyRating()));
+		ratingViewPS.setImageResource(new RatingController()
+				.getIconRatingStars(app.getPrivacyRating()));
+
 		// Set name and developer
 		nameView.setText(app.getLabel());
 		developerView.setText(app.getName());
 
 		return rowView;
 	}
-	
-	
+
 }
