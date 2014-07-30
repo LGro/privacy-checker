@@ -235,7 +235,8 @@
                 android:layout_below="@+id/app_detail_rate_app_total_rate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
-                android:src="@drawable/ic_launcher"
+                android:background="@null"
+                android:src="@drawable/lock_white"
                 android:tag="1" />
 
             <ImageButton
@@ -245,7 +246,8 @@
                 android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_1"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_1"
-                android:src="@drawable/ic_launcher"
+                android:background="@null"
+                android:src="@drawable/lock_white"
                 android:tag="2" />
 
             <ImageButton
@@ -255,7 +257,8 @@
                 android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_2"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_2"
-                android:src="@drawable/ic_launcher"
+                android:background="@null"
+                android:src="@drawable/lock_white"
                 android:tag="3" />
 
             <ImageButton
@@ -265,7 +268,8 @@
                 android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_3"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_3"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/lock_white"
+                android:background="@null"
                 android:tag="4" />
 
             <ImageButton
@@ -275,7 +279,8 @@
                 android:layout_alignTop="@+id/app_detail_rate_app_overlay_rating_4"
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_4"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/lock_white"
+                android:background="@null"
                 android:tag="5" />
 
             <TextView

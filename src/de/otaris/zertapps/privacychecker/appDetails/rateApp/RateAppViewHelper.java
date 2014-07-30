@@ -16,6 +16,9 @@ import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
+/**
+ * 
+ */
 public class RateAppViewHelper extends DetailViewHelper{
 
 	@Override
@@ -66,6 +69,7 @@ public class RateAppViewHelper extends DetailViewHelper{
 				layout.findViewById(R.id.app_detail_rate_app_overlay_rating_3).setOnClickListener(new TotalRatingListener());
 				layout.findViewById(R.id.app_detail_rate_app_overlay_rating_4).setOnClickListener(new TotalRatingListener());
 				layout.findViewById(R.id.app_detail_rate_app_overlay_rating_5).setOnClickListener(new TotalRatingListener());
+				
 			}
 		});
 		
