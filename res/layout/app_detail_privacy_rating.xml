@@ -13,51 +13,24 @@
         android:text="@string/app_detail_privacy_rating_title"
         android:textSize="20dp"
         android:textStyle="bold" />
-
+    
     <TextView
-        android:id="@+id/app_detail_rating_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/app_detail_rating_title"
-        android:layout_below="@+id/app_detail_rating_title"
-        android:layout_marginTop="144dp"
-        android:maxLines="2" />
-
-    <TextView
-        android:id="@+id/app_detail_privacy_rating_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/app_detail_rating_title"
-        android:layout_below="@+id/app_detail_rating_title"
-        android:layout_marginTop="21dp"
-        android:text="1,0"
-        android:textSize="40dp"/>
-
-
-
-    <ImageView
-        android:id="@+id/app_detail_privacy_rating_image"
-        android:layout_width="80dp"
-        android:layout_height="20dp"
-        android:layout_alignLeft="@+id/app_detail_privacy_rating_value"
-        android:layout_below="@+id/app_detail_privacy_rating_value"
-        android:src="@drawable/lock1" />
-
-    <TextView
-        android:id="@+id/app_detail_privacy_rating_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/app_detail_privacy_rating_value"
-        android:layout_below="@+id/app_detail_privacy_rating_image"
-        android:text="TextView" />
+          android:id="@+id/app_detail_privacy_rating_value"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/app_detail_rating_title"
+          android:layout_below="@+id/app_detail_rating_title"
+          android:layout_marginLeft="14dp"
+          android:text="1,0"
+          android:textSize="40dp" />
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_linie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/app_detail_privacy_rating_count"
         android:layout_alignTop="@+id/app_detail_privacy_rating_value"
-        android:layout_marginLeft="53dp"
+        android:layout_alignBottom="@+id/app_detail_privacy_rating_count"
+        android:layout_marginLeft="48dp"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_value"
         android:src="@drawable/line_v" />
 
@@ -65,6 +38,8 @@
         android:id="@+id/app_detail_privacy_rating_automatic"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
         android:layout_alignTop="@+id/app_detail_privacy_rating_linie"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
         android:src="@drawable/icongear" />
@@ -73,6 +48,8 @@
         android:id="@+id/app_detail_privacy_rating_nonexpert"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
         android:layout_below="@+id/app_detail_privacy_rating_automatic"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
         android:src="@drawable/iconnonexpert" />
@@ -81,36 +58,11 @@
         android:id="@+id/app_detail_privacy_rating_expert"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
         android:layout_below="@+id/app_detail_privacy_rating_nonexpert"
         android:layout_toRightOf="@+id/app_detail_privacy_rating_linie"
         android:src="@drawable/iconexpert" />
-
-    <TextView
-        android:id="@+id/app_detail_privacy_rating_automatic_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/app_detail_privacy_rating_automatic"
-        android:layout_toRightOf="@+id/app_detail_privacy_rating_automatic"
-        android:layout_marginTop="8dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/app_detail_privacy_rating_nonexpert_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/app_detail_privacy_rating_automatic_text"
-        android:layout_alignTop="@+id/app_detail_privacy_rating_nonexpert"
-        android:layout_marginTop="8dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/app_detail_privacy_rating_expert_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/app_detail_privacy_rating_nonexpert_text"
-        android:layout_alignTop="@+id/app_detail_privacy_rating_expert"
-        android:layout_marginTop="8dp"
-        android:text="TextView" />
 
      <ToggleButton
          android:id="@+id/app_detail_privacy_rating_more"
@@ -131,6 +83,17 @@
          android:layout_below="@+id/app_detail_rating_text"
          android:text="Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen."
          android:visibility="gone" />
+         
+         <TextView
+        android:id="@+id/app_detail_rating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_rating_title"
+        android:layout_below="@+id/app_detail_rating_title"
+        android:layout_marginTop="144dp"
+        android:maxLines="2" />
+     
+      
      
       <ListView
           android:id="@+id/app_detail_rating_permissions_list"
@@ -141,5 +104,52 @@
           android:visibility="invisible" >
 
     </ListView>
+
+      <ImageView
+          android:id="@+id/app_detail_privacy_rating_image"
+          android:layout_width="80dp"
+          android:layout_height="20dp"
+          android:layout_alignLeft="@+id/app_detail_rating_title"
+          android:layout_below="@+id/app_detail_privacy_rating_value"
+          android:src="@drawable/lock1" />
+
+      <TextView
+          android:id="@+id/app_detail_privacy_rating_count"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignLeft="@+id/app_detail_rating_title"
+          android:layout_below="@+id/app_detail_privacy_rating_image"
+          android:layout_marginLeft="14dp"
+          android:text="TextView" />
+
+      <TextView
+          android:id="@+id/app_detail_privacy_rating_automatic_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="4dp"
+          android:layout_marginTop="4dp"
+          android:layout_alignTop="@+id/app_detail_privacy_rating_automatic"
+          android:layout_toRightOf="@+id/app_detail_privacy_rating_automatic"
+          android:text="TextView" />
+
+      <TextView
+          android:id="@+id/app_detail_privacy_rating_nonexpert_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="4dp"
+          android:layout_marginTop="4dp"
+          android:layout_toRightOf="@+id/app_detail_privacy_rating_nonexpert"
+          android:layout_alignTop="@+id/app_detail_privacy_rating_nonexpert"
+          android:text="TextView" />
+
+      <TextView
+          android:id="@+id/app_detail_privacy_rating_expert_text"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="4dp"
+          android:layout_marginTop="4dp"
+          android:layout_toRightOf="@+id/app_detail_privacy_rating_expert"
+          android:layout_alignTop="@+id/app_detail_privacy_rating_expert"
+          android:text="TextView" />
 
 </RelativeLayout>
