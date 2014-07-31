@@ -103,6 +103,9 @@ public class HomeActivity extends Activity {
 		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
+		
+		UserStudyLogger.LOGGING_ENABLED = true;
+		UserStudyLogger.getInstance().log("activity_home");
 	}
 
 	private void exportDB() {

@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 import de.otaris.zertapps.privacychecker.R.drawable;
 import de.otaris.zertapps.privacychecker.R.id;
 import de.otaris.zertapps.privacychecker.R.layout;
@@ -57,6 +58,8 @@ public class AllAppsActivity extends SortableAppListActivity implements
 				.setTabListener(this).setIcon(R.drawable.descending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
 				.setTabListener(this).setIcon(R.drawable.descending));
+		
+		UserStudyLogger.getInstance().log("activity_all");
 
 	}
 
