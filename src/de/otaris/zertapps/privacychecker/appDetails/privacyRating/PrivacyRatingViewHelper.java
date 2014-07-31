@@ -2,17 +2,6 @@ package de.otaris.zertapps.privacychecker.appDetails.privacyRating;
 
 import java.util.List;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.RatingController;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.appDetails.Detail;
-import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
-import de.otaris.zertapps.privacychecker.appDetails.permissions.Permissions;
-import de.otaris.zertapps.privacychecker.appDetails.permissions.PermissionsListItemAdapter;
-import de.otaris.zertapps.privacychecker.database.model.AppExtended;
-import de.otaris.zertapps.privacychecker.database.model.Permission;
-import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +9,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.RatingController;
+import de.otaris.zertapps.privacychecker.appDetails.Detail;
+import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.permissions.PermissionsListItemAdapter;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
@@ -114,12 +110,16 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				RelativeLayout layout = (RelativeLayout) inflater.inflate(
 						R.layout.app_detail_rating_permission_overlay, overlay,
 						false);
-				Permission permission = (Permission) view.getTag();
-				TextView permissionLabel = (TextView) layout
+				Permission permission = (Permission) parent
+						.getItemAtPosition(position);
+
+				TextView permissionLabelText = (TextView) layout
 						.findViewById(R.id.app_detail_rating_permission_name);
-				permissionLabel.setText(permission.getLabel());
-				TextView permissionDescription = (TextView) layout
-						.findViewById(R.id.app_detail_rating_permission_name);
+				permissionLabelText.setText(permission.getLabel());
+
+				TextView permissionDescriptionText = (TextView) layout
+						.findViewById(R.id.app_detail_rating_permission_description);
+				permissionDescriptionText.setText(permission.getDescription());
 
 				overlay.addView(layout);
 			}
