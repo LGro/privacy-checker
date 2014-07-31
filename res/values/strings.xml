@@ -23,5 +23,10 @@
     <string name="title_activity_app_details">Details</string>
     <string name="app_detail_privacy_rating_title">Privatsphäre Bewertung</string>
     <string name="app_detail_rate_app_heading">Privatsphäre Bewerten</string>
+    <string name="app_detail_rate_app_value_1">Sehr Schlecht</string>
+    <string name="app_detail_rate_app_value_2">Mangelhaft</string>
+    <string name="app_detail_rate_app_value_3">Mittelmäßig</string>
+    <string name="app_detail_rate_app_value_4">Okay</string>
+    <string name="app_detail_rate_app_value_5">Gut</string>
 
 </resources>

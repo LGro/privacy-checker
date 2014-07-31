@@ -67,7 +67,7 @@ public class ExtendedHeader implements Header {
 		ratingView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
 		ratingViewPS.setImageResource(new RatingController()
-				.getIconRatingStars(app.getPrivacyRating()));
+				.getIconRatingStars(app.getFunctionalRating()));
 
 		// Set name and developer
 		nameView.setText(app.getLabel());
