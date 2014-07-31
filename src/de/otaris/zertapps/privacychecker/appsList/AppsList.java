@@ -20,12 +20,12 @@ public class AppsList extends ListFragment {
 
 	private Activity rootActivity;
 	private AppsListOrder order;
-	
+
 	private boolean installedOnly = false;
 	private int categoryId = -1;
 
 	private boolean ascending;
-	
+
 	public void setCageoryId(int id) {
 		categoryId = id;
 	}
@@ -57,7 +57,7 @@ public class AppsList extends ListFragment {
 		// get all installed apps from database
 		AppCompactDataSource appData = new AppCompactDataSource(rootActivity);
 		appData.open();
-		
+
 		List<AppCompact> apps;
 		if (installedOnly) {
 			apps = appData.getInstalledApps(order, ascending);
@@ -68,7 +68,7 @@ public class AppsList extends ListFragment {
 				apps = appData.getAllApps(order, ascending);
 			}
 		}
-		
+
 		appData.close();
 
 		// set custom list adapter to display apps with icon, name and rating
@@ -86,7 +86,8 @@ public class AppsList extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
 		Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
-		intent.putExtra("id", (Integer)v.getTag());
+		AppCompact app = (AppCompact) list.getItemAtPosition(position);
+		intent.putExtra("AppCompact", app);
 		startActivity(intent);
 	}
 }

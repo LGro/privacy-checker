@@ -20,17 +20,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
 
+import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
 import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * Is called when app is started, handles navigation to installedAppsActivity
@@ -86,10 +90,10 @@ public class HomeActivity extends Activity {
 		categoryData.close();
 
 		// insert all installed apps into database
-		 //AppController appController = getAppController();
-		 //appController.putInstalledAppsInDatabase(this, getPackageManager());
+		// AppController appController = getAppController();
+		// appController.putInstalledAppsInDatabase(this, getPackageManager());
 
-		 //exportDB();
+		// exportDB();
 		try {
 			importDB();
 		} catch (IOException e) {
@@ -103,7 +107,7 @@ public class HomeActivity extends Activity {
 		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
-		
+
 		UserStudyLogger.LOGGING_ENABLED = false;
 		UserStudyLogger.getInstance().log("activity_home");
 	}
@@ -141,29 +145,29 @@ public class HomeActivity extends Activity {
 	}
 
 	private void importDB() throws IOException {
-		 //Open your local db as the input stream
+		// Open your local db as the input stream
 		InputStream myInput = getAssets().open("pca.db");
-		 
+
 		// Path to the just created empty db
 		String outFileName = "//data//data//"
 				+ "de.otaris.zertapps.privacychecker" + "//databases//"
 				+ "DB_privacy-checker_apps";
-		 
-		//Open the empty db as the output stream
+
+		// Open the empty db as the output stream
 		OutputStream myOutput = new FileOutputStream(outFileName);
-		 
-		//transfer bytes from the inputfile to the outputfile
+
+		// transfer bytes from the inputfile to the outputfile
 		byte[] buffer = new byte[1024];
 		int length;
-		while ((length = myInput.read(buffer))>0){
-		myOutput.write(buffer, 0, length);
+		while ((length = myInput.read(buffer)) > 0) {
+			myOutput.write(buffer, 0, length);
 		}
-		 
-		//Close the streams
+
+		// Close the streams
 		myOutput.flush();
 		myOutput.close();
 		myInput.close();
-}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -249,17 +253,20 @@ public class HomeActivity extends Activity {
 		AppListItemAdapter adapter = new AppListItemAdapter(this,
 				getPackageManager(), latestAppsList);
 		ListView laList = (ListView) findViewById(R.id.latest_apps_listview);
-		// laList.setOnItemClickListener(new OnItemClickListener() {
-		//
-		// @Override
-		// public void onItemClick(AdapterView<?> parent, View view,
-		// int position, long id) {
-		// Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
-		// intent.putExtra("id", (Integer)view.getTag());
-		// startActivity(intent);
-		// }
-		//
-		// });
+		laList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(view.getContext(),
+						AppDetailsActivity.class);
+				AppCompact app = (AppCompact) parent
+						.getItemAtPosition(position);
+				intent.putExtra("AppCompact", app);
+				startActivity(intent);
+			}
+
+		});
 		laList.setAdapter(adapter);
 	}
 

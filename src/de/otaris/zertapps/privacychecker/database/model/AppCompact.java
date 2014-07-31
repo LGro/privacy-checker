@@ -1,8 +1,10 @@
 package de.otaris.zertapps.privacychecker.database.model;
 
-import de.otaris.zertapps.privacychecker.database.interfaces.App;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
+import de.otaris.zertapps.privacychecker.database.interfaces.App;
 
 /**
  * represents the App entity in the database
@@ -10,7 +12,7 @@ import android.util.Log;
  * Attention: When adding a new column, mind adding it in the matching
  * DataSource's cursorTo... method.
  */
-public class AppCompact implements App {
+public class AppCompact implements App, Parcelable {
 
 	// table name
 	public static final String TABLE = "tbl_app";
@@ -180,5 +182,53 @@ public class AppCompact implements App {
 	public String getDescription() {
 		return description;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeInt(categoryId);
+		dest.writeString(name);
+		dest.writeString(label);
+		dest.writeString(version);
+		dest.writeFloat(privacyRating);
+		dest.writeByte((byte) (isInstalled ? 1 : 0));
+		dest.writeFloat(functionalRating);
+		dest.writeLong(timestamp);
+		dest.writeString(description);
+	}
+	
+	private void readFromParcel(Parcel in) {
+		id = in.readInt();
+		categoryId = in.readInt();
+		name = in.readString();
+		label = in.readString();
+		version = in.readString();
+		privacyRating = in.readFloat();
+		isInstalled = in.readByte() != 0;
+		functionalRating = in.readFloat();
+		timestamp = in.readLong();
+		description = in.readString();
+	}
+	
+	// this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<AppCompact> CREATOR = new Parcelable.Creator<AppCompact>() {
+        public AppCompact createFromParcel(Parcel in) {
+            return new AppCompact(in);
+        }
+
+        public AppCompact[] newArray(int size) {
+            return new AppCompact[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private AppCompact(Parcel in) {
+    	readFromParcel(in);
+    }
 
 }

@@ -43,16 +43,9 @@ public class AppDetailsActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.app_details, menu);
 
-		// Get the App ID from the intent, which was passed from the previous
-		// activity
+		// Get the App from the intent passed from the previous activity
 		Intent intent = getIntent();
-		Integer appID = intent.getIntExtra("id", -1);
-
-		// Open DB and and retrieve the App by ID
-		AppCompactDataSource appData = new AppCompactDataSource(this);
-		appData.open();
-		AppCompact app = appData.getAppById(appID);
-		appData.close();
+		AppCompact app = intent.getParcelableExtra("AppCompact");
 
 		Header header = new ExtendedHeader();
 		View headerView = header.getView(this, app);
@@ -76,16 +69,17 @@ public class AppDetailsActivity extends Activity {
 	}
 
 	private ArrayList<Detail> getDetails() {
-		int id = getIntent().getIntExtra("id", -1);
+		AppCompact app = getIntent().getParcelableExtra("AppCompact");
+
 		ArrayList<Detail> details = new ArrayList<Detail>();
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		AppExtended app = appDataSource.getAppById(id);
+		AppExtended appExtended = appDataSource.getAppById(app.getId());
 		appDataSource.close();
-		details.add(new Description(app));
-		// details.add(new Permissions(app));
-		details.add(new PrivacyRating(app));
-		details.add(new RateApp(app));
+		details.add(new Description(appExtended));
+		// details.add(new Permissions(appExtended));
+		details.add(new PrivacyRating(appExtended));
+		details.add(new RateApp(appExtended));
 
 		// TODO: Add more Details here
 		return details;
