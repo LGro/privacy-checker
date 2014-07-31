@@ -60,13 +60,14 @@ public class AppDetailsActivity extends Activity {
 		RelativeLayout relLayout = (RelativeLayout) findViewById(R.id.app_details_layout);
 		relLayout.addView(headerView);
 		int headerId = headerView.getId();
-		
+
 		ListView detailListView = (ListView) findViewById(R.id.app_detail_list);
-		
-		RelativeLayout.LayoutParams listLayout = new RelativeLayout.LayoutParams(detailListView.getLayoutParams());
+
+		RelativeLayout.LayoutParams listLayout = new RelativeLayout.LayoutParams(
+				detailListView.getLayoutParams());
 		listLayout.addRule(RelativeLayout.BELOW, headerId);
 		detailListView.setLayoutParams(listLayout);
-		
+
 		ArrayList<Detail> details = getDetails();
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
 				details);
@@ -129,6 +130,25 @@ public class AppDetailsActivity extends Activity {
 		RelativeLayout overlay = (RelativeLayout) findViewById(R.id.app_detail_overlay);
 		overlay.removeAllViews();
 		overlay.setVisibility(ViewGroup.INVISIBLE);
+	}
+
+	/**
+	 * checks weather the overlay is visible or not
+	 * 
+	 * @return vsiblity of overlay
+	 */
+	private boolean overlayIsVisible() {
+		RelativeLayout overlay = (RelativeLayout) findViewById(R.id.app_detail_overlay);
+		return overlay.getVisibility() == ViewGroup.VISIBLE;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (overlayIsVisible()) {
+			hideOverlay(null);
+		} else {
+			finish();
+		}
 	}
 
 }
