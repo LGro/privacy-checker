@@ -2,7 +2,8 @@ package de.otaris.zertapps.privacychecker.database.model;
 
 import java.util.ArrayList;
 
-import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 import de.otaris.zertapps.privacychecker.database.interfaces.App;
 
 /**
@@ -11,28 +12,28 @@ import de.otaris.zertapps.privacychecker.database.interfaces.App;
  * Ratings, Details
  *
  */
-public class AppExtended implements App {
+public class AppExtended implements App, Parcelable {
 
 	private AppCompact appCompact;
 	private ArrayList<Permission> permissionList;
-	//Array with permissionID and RatingPermission
+	// Array with permissionID and RatingPermission
+	// TODO: better use PermissionRating object containing Permission Object?!
 	private int[][] permissionRating;
-	//weighted rating in total
+	// weighted rating in total
 	private float rating;
 	private ArrayList<Integer> expertRating;
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
 	private float totalNonExpertRating;
-	//automatic generated rating
+	// automatic generated rating
 	private float automaticRating;
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
 	}
 
-		
 	// getters and setters
-	
+
 	public ArrayList<Permission> getPermissionList() {
 		return permissionList;
 	}
@@ -42,20 +43,20 @@ public class AppExtended implements App {
 	}
 
 	public void setTotalExpertRating(ArrayList<Integer> expertRating) {
-		
+
 		float totalExpertRating = 0;
 		int i = expertRating.size();
-		if(i == 0)
+		if (i == 0)
 			this.totalExpertRating = 0;
 		else {
-		
-		for (int rating : expertRating) {
-			totalExpertRating += rating;
-		}
-		
-		totalExpertRating /= i;
-		
-		this.totalExpertRating = totalExpertRating;
+
+			for (int rating : expertRating) {
+				totalExpertRating += rating;
+			}
+
+			totalExpertRating /= i;
+
+			this.totalExpertRating = totalExpertRating;
 		}
 	}
 
@@ -66,17 +67,17 @@ public class AppExtended implements App {
 	public void setTotalNonExpertRating(ArrayList<Integer> nonExpertRating) {
 		float totalNonExpertRating = 0;
 		int i = nonExpertRating.size();
-		if(i == 0)
+		if (i == 0)
 			this.totalNonExpertRating = 0;
 		else {
-		
-		for (int rating : nonExpertRating) {
-			totalNonExpertRating += rating;
-		}
-		
-		totalNonExpertRating /= i;
-		
-		this.totalNonExpertRating = totalNonExpertRating;
+
+			for (int rating : nonExpertRating) {
+				totalNonExpertRating += rating;
+			}
+
+			totalNonExpertRating /= i;
+
+			this.totalNonExpertRating = totalNonExpertRating;
 		}
 	}
 
@@ -95,7 +96,7 @@ public class AppExtended implements App {
 	public void setRating() {
 		this.rating = (automaticRating + totalExpertRating + totalNonExpertRating) / 3;
 	}
-	
+
 	public ArrayList<Integer> getExpertRating() {
 		return expertRating;
 	}
@@ -112,7 +113,7 @@ public class AppExtended implements App {
 	public void setNonExpertRating(ArrayList<Integer> nonExpertRating) {
 		this.nonExpertRating = nonExpertRating;
 		setTotalNonExpertRating(nonExpertRating);
-		
+
 	}
 
 	public float getAutomaticRating() {
@@ -225,6 +226,53 @@ public class AppExtended implements App {
 	@Override
 	public void setDescription(String description) {
 		appCompact.setDescription(description);
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(appCompact, 0);
+		dest.writeList(permissionList);
+		dest.writeArray(permissionRating);
+		dest.writeList(expertRating);
+		dest.writeFloat(totalExpertRating);
+		dest.writeList(nonExpertRating);
+		dest.writeFloat(totalNonExpertRating);
+		dest.writeFloat(automaticRating);
+	}
+
+	private void readFromParcel(Parcel in) {
+		appCompact = in.readParcelable(AppCompact.class.getClassLoader());
+		permissionList = new ArrayList<Permission>();
+		in.readTypedList(permissionList, Permission.CREATOR);
+		// TODO: fix for two dimensional array
+		// permissionRating = in.readArray(Integer.class.getClassLoader());
+		expertRating = (ArrayList<Integer>) in.readSerializable();
+		totalExpertRating = in.readFloat();
+		nonExpertRating = (ArrayList<Integer>) in.readSerializable();
+		automaticRating = in.readFloat();
+	}
+
+	// this is used to regenerate your object. All Parcelables must have a
+	// CREATOR that implements these two methods
+	public static final Parcelable.Creator<AppExtended> CREATOR = new Parcelable.Creator<AppExtended>() {
+		public AppExtended createFromParcel(Parcel in) {
+			return new AppExtended(in);
+		}
+
+		public AppExtended[] newArray(int size) {
+			return new AppExtended[size];
+		}
+	};
+
+	// example constructor that takes a Parcel and gives you an object populated
+	// with it's values
+	private AppExtended(Parcel in) {
+		readFromParcel(in);
 	}
 
 }

@@ -1,6 +1,8 @@
 package de.otaris.zertapps.privacychecker.database.model;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 /**
  * represents the Permission entity in the database
@@ -8,7 +10,7 @@ import android.util.Log;
  * Attention: When adding a new column, mind adding it in the matching
  * DataSource's cursorTo... method.
  */
-public class Permission {
+public class Permission implements Parcelable {
 
 	// Database table
 	public static final String TABLE = "tbl_permission";
@@ -99,6 +101,46 @@ public class Permission {
 
 	public void setCriticality(int criticality) {
 		this.criticality = criticality;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(id);
+		dest.writeString(name);
+		dest.writeString(label);
+		dest.writeString(description);
+		dest.writeInt(criticality);
+	}
+
+	private void readFromParcel(Parcel in) {
+		id = in.readInt();
+		name = in.readString();
+		label = in.readString();
+		description = in.readString();
+		criticality = in.readInt();
+	}
+
+	// this is used to regenerate your object. All Parcelables must have a
+	// CREATOR that implements these two methods
+	public static final Parcelable.Creator<Permission> CREATOR = new Parcelable.Creator<Permission>() {
+		public Permission createFromParcel(Parcel in) {
+			return new Permission(in);
+		}
+
+		public Permission[] newArray(int size) {
+			return new Permission[size];
+		}
+	};
+
+	// constructor that takes a Parcel and gives you an object populated with
+	// it's values
+	private Permission(Parcel in) {
+		readFromParcel(in);
 	}
 
 }

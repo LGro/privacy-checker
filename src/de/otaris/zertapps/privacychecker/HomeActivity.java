@@ -34,7 +34,6 @@ import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * Is called when app is started, handles navigation to installedAppsActivity

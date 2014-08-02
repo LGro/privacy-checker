@@ -20,7 +20,6 @@ import de.otaris.zertapps.privacychecker.appDetails.header.ExtendedHeader;
 import de.otaris.zertapps.privacychecker.appDetails.header.Header;
 import de.otaris.zertapps.privacychecker.appDetails.privacyRating.PrivacyRating;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RateApp;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
@@ -74,14 +73,13 @@ public class AppDetailsActivity extends Activity {
 		ArrayList<Detail> details = new ArrayList<Detail>();
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		AppExtended appExtended = appDataSource.getAppById(app.getId());
+		AppExtended appExtended = appDataSource.extendAppCompact(app);
 		appDataSource.close();
 		details.add(new Description(appExtended));
 		// details.add(new Permissions(appExtended));
 		details.add(new PrivacyRating(appExtended));
 		details.add(new RateApp(appExtended));
 
-		// TODO: Add more Details here
 		return details;
 	}
 

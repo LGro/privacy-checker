@@ -29,7 +29,8 @@ public class AppCompact implements App, Parcelable {
 	public static final String TIMESTAMP = "timestamp";
 	public static final String DESCRIPTION = "description";
 
-	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all references invalid
+	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all
+	// references invalid
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
@@ -201,7 +202,7 @@ public class AppCompact implements App, Parcelable {
 		dest.writeLong(timestamp);
 		dest.writeString(description);
 	}
-	
+
 	private void readFromParcel(Parcel in) {
 		id = in.readInt();
 		categoryId = in.readInt();
@@ -214,21 +215,23 @@ public class AppCompact implements App, Parcelable {
 		timestamp = in.readLong();
 		description = in.readString();
 	}
-	
-	// this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<AppCompact> CREATOR = new Parcelable.Creator<AppCompact>() {
-        public AppCompact createFromParcel(Parcel in) {
-            return new AppCompact(in);
-        }
 
-        public AppCompact[] newArray(int size) {
-            return new AppCompact[size];
-        }
-    };
+	// this is used to regenerate your object. All Parcelables must have a
+	// CREATOR that implements these two methods
+	public static final Parcelable.Creator<AppCompact> CREATOR = new Parcelable.Creator<AppCompact>() {
+		public AppCompact createFromParcel(Parcel in) {
+			return new AppCompact(in);
+		}
 
-    // example constructor that takes a Parcel and gives you an object populated with it's values
-    private AppCompact(Parcel in) {
-    	readFromParcel(in);
-    }
+		public AppCompact[] newArray(int size) {
+			return new AppCompact[size];
+		}
+	};
+
+	// constructor that takes a Parcel and gives you an object populated with
+	// it's values
+	private AppCompact(Parcel in) {
+		readFromParcel(in);
+	}
 
 }

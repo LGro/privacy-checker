@@ -5,7 +5,6 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
@@ -13,7 +12,8 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 /**
  * Handles requests concerning Apps to the database.
  */
-public class AppCompactDataSource extends DataSource<AppCompact> {
+public class AppCompactDataSource extends DataSource<AppCompact> implements
+		AppDataSource<AppCompact> {
 
 	private String[] allColumns = { AppCompact.ID, AppCompact.CATEGORY_ID,
 			AppCompact.NAME, AppCompact.LABEL, AppCompact.VERSION,
@@ -87,11 +87,24 @@ public class AppCompactDataSource extends DataSource<AppCompact> {
 	/**
 	 * gets single app by id from database
 	 * 
+	 * public alias for getAppById(long)
+	 * 
 	 * @param appId
 	 *            id to identify a single app
 	 * @return app object for given id
 	 */
-	public AppCompact getAppById(long appId) {
+	public AppCompact getAppById(int appId) {
+		return getAppById((long) appId);
+	}
+
+	/**
+	 * gets single app by id from database
+	 * 
+	 * @param appId
+	 *            id to identify a single app
+	 * @return app object for given id
+	 */
+	protected AppCompact getAppById(long appId) {
 		// build database query
 		Cursor cursor = database.query(AppCompact.TABLE, allColumns,
 				AppCompact.ID + " = " + appId, null, null, null, null);
