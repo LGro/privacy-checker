@@ -107,7 +107,7 @@ public class HomeActivity extends Activity {
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
 
-		UserStudyLogger.LOGGING_ENABLED = false;
+		UserStudyLogger.LOGGING_ENABLED = true;
 		UserStudyLogger.getInstance().log("activity_home");
 	}
 
