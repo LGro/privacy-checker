@@ -23,11 +23,11 @@
     <string name="title_activity_app_details">Details</string>
     <string name="app_detail_privacy_rating_title">Privatsphäre Bewertung</string>
     <string name="app_detail_rate_app_heading">Privatsphäre Bewerten</string>
-    <string name="app_detail_rate_app_value_1">Sehr Schlecht</string>
-    <string name="app_detail_rate_app_value_2">Mangelhaft</string>
+    <string name="app_detail_rate_app_value_1">Richtig schlecht</string>
+    <string name="app_detail_rate_app_value_2">Nicht so gut</string>
     <string name="app_detail_rate_app_value_3">Mittelmäßig</string>
-    <string name="app_detail_rate_app_value_4">Okay</string>
-    <string name="app_detail_rate_app_value_5">Gut</string>
+    <string name="app_detail_rate_app_value_4">Gut</string>
+    <string name="app_detail_rate_app_value_5">Exzellent</string>
     <string name="app_details_privacy_rating_explanation">Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen.</string>
 
 </resources>

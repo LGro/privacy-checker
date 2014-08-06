@@ -46,7 +46,7 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 		values.put(RatingApp.USER_TYPE, isExpert);
 
 		// insert into DB
-		long insertId = database.insert(AppCompact.TABLE, null, values);
+		long insertId = database.insert(RatingApp.TABLE, null, values);
 
 		// get recently inserted App by ID
 		return getRatingAppById(insertId);
