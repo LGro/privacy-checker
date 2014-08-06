@@ -77,6 +77,10 @@ public class PermissionDataSource extends DataSource<Permission> {
 	public Permission createPermissionByName(String name) {
 		// set values for columns
 		ContentValues values = new ContentValues();
+		values.put(Permission.NAME, name);
+		values.put(Permission.LABEL, name);
+		values.put(Permission.DESCRIPTION, name);
+		values.put(Permission.CRITICALITY, 50);
 
 		// insert into DB
 		long insertId = database.insert(Permission.TABLE, null, values);
