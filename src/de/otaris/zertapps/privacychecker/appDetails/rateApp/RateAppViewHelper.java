@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
@@ -150,7 +151,7 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 						// loop over permissions and their radiobuttons to
 						// retrieve rating of the permission
-						for (int i = 1; i <= permissions1.size(); i++) {
+						for (int i = 1; i <= (Math.min(5, permissions1.size())); i++) {
 
 							// get rating for permission
 							String attributePermission = "app_detail_rate_app_overlay_permission_radiogroup"
@@ -208,6 +209,9 @@ public class RateAppViewHelper extends DetailViewHelper {
 						ratingAppData.close();
 						ratingPermissionData.close();
 						appPermissionData.close();
+						
+						//close overlay
+						((AppDetailsActivity)v1.getContext()).hideOverlay(v1);
 					}
 
 				});
