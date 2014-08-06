@@ -88,6 +88,13 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				permissionList));
 		listView.setScrollContainer(false);
 
+		// scale list depending on its size
+		ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
+		final float scale = context.getResources().getDisplayMetrics().density;
+		int pixels = (int) (48 * scale + 0.5f);
+		updatedLayout.height = pixels * listView.getCount();
+		listView.setLayoutParams(updatedLayout);
+
 		// set click listener for list items
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
