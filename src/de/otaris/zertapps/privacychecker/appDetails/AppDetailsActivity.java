@@ -60,6 +60,7 @@ public class AppDetailsActivity extends Activity {
 		listLayout.addRule(RelativeLayout.BELOW, headerId);
 		detailListView.setLayoutParams(listLayout);
 
+		// Get all the details to be shown in the detail view.
 		ArrayList<Detail> details = getDetails();
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
 				details);
@@ -67,6 +68,9 @@ public class AppDetailsActivity extends Activity {
 		return true;
 	}
 
+	/**
+	 * Create a list of details.
+	 */
 	private ArrayList<Detail> getDetails() {
 		AppCompact app = getIntent().getParcelableExtra("AppCompact");
 
