@@ -28,6 +28,7 @@ public class AppCompact implements App, Parcelable {
 	public static final String FUNCTIONAL_RATING = "functional_rating";
 	public static final String TIMESTAMP = "timestamp";
 	public static final String DESCRIPTION = "description";
+	public static final String ICON = "icon";
 
 	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all
 	// references invalid
@@ -36,8 +37,9 @@ public class AppCompact implements App, Parcelable {
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
 			+ " INTEGER, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, "
 			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
-			+ " FLOAT, " + INSTALLED + " INT, " + FUNCTIONAL_RATING
-			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT);";
+			+ " FLOAT, " + INSTALLED + " INTEGER, " + FUNCTIONAL_RATING
+			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT, "
+			+ ICON + " BLOB);";
 
 	// attributes
 	private int id;
@@ -50,6 +52,7 @@ public class AppCompact implements App, Parcelable {
 	private float functionalRating;
 	private Long timestamp;
 	private String description;
+	private byte[] icon;
 
 	public AppCompact() {
 
@@ -57,7 +60,7 @@ public class AppCompact implements App, Parcelable {
 
 	public AppCompact(int id, int categoryId, String name, String label,
 			String version, float rating, boolean installed, Long timestamp,
-			String description) {
+			String description, byte[] icon) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -68,6 +71,7 @@ public class AppCompact implements App, Parcelable {
 		this.isInstalled = installed;
 		this.timestamp = timestamp;
 		this.description = description;
+		this.icon = icon;
 	}
 
 	/**
@@ -143,6 +147,10 @@ public class AppCompact implements App, Parcelable {
 		this.description = description;
 	}
 
+	public void setIcon(byte[] icon) {
+		this.icon = icon;
+	}
+
 	// getter
 	public int getId() {
 		return id;
@@ -184,6 +192,12 @@ public class AppCompact implements App, Parcelable {
 		return description;
 	}
 
+	public byte[] getIcon() {
+		return icon;
+	}
+
+	// parcelable requirements...
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -201,6 +215,8 @@ public class AppCompact implements App, Parcelable {
 		dest.writeFloat(functionalRating);
 		dest.writeLong(timestamp);
 		dest.writeString(description);
+		dest.writeInt(icon.length);
+		dest.writeByteArray(icon);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -214,6 +230,8 @@ public class AppCompact implements App, Parcelable {
 		functionalRating = in.readFloat();
 		timestamp = in.readLong();
 		description = in.readString();
+		icon = new byte[in.readInt()];
+		in.readByteArray(icon);
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

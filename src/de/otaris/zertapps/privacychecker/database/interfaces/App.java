@@ -17,15 +17,17 @@ public interface App {
 	public String getLabel();
 
 	public boolean isInstalled();
-	
+
 	public Long getTimestamp();
 
 	public float getPrivacyRating();
 
 	public float getFunctionalRating();
-	
+
 	public String getDescription();
-	
+
+	public byte[] getIcon();
+
 	public void setId(int id);
 
 	public void setCategoryId(int categoryId);
@@ -43,9 +45,9 @@ public interface App {
 	public void setFunctionalRating(float functionalRating);
 
 	public void setTimestamp(Long timestamp);
-	
+
 	public void setDescription(String description);
 
+	public void setIcon(byte[] icon);
 
-	
 }

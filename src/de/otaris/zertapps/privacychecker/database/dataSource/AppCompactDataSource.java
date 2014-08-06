@@ -19,7 +19,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 			AppCompact.NAME, AppCompact.LABEL, AppCompact.VERSION,
 			AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
 			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP,
-			AppCompact.DESCRIPTION };
+			AppCompact.DESCRIPTION, AppCompact.ICON };
 
 	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -45,6 +45,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		app.setFunctionalRating(cursor.getFloat(7));
 		app.setTimestamp(cursor.getLong(8));
 		app.setDescription(cursor.getString(9));
+		app.setIcon(cursor.getBlob(10));
 
 		return app;
 	}
@@ -61,7 +62,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 */
 	public AppCompact createApp(int categoryId, String name, String label,
 			String version, float privacyRating, boolean installed,
-			float functionalRating, String description) {
+			float functionalRating, String description, byte[] icon) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(AppCompact.CATEGORY_ID, categoryId);
@@ -76,6 +77,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		long currentTimestamp = System.currentTimeMillis() / 1000;
 		values.put(AppCompact.TIMESTAMP, currentTimestamp);
 		values.put(AppCompact.DESCRIPTION, description);
+		values.put(AppCompact.ICON, icon);
 
 		// insert into DB
 		long insertId = database.insert(AppCompact.TABLE, null, values);
