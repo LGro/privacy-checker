@@ -67,13 +67,17 @@
     <ToggleButton
         android:id="@+id/app_detail_privacy_rating_more"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/app_detail_rating_permissions_list"
-        android:textOff="Mehr Anzeigen"
-        android:textOn="Weniger Anzeigen" />
+        android:layout_marginTop="16px"
+        android:layout_marginRight="24px"
+        android:background="@layout/app_detail_show_more_less"
+        android:text="@null"
+        android:textOn="@null"
+        android:textOff="@null" />
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_image"
