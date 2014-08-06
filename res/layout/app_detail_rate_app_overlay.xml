@@ -103,7 +103,7 @@
                 android:paddingBottom="2dp" >
 
                 <RadioButton
-                    android:id="@+id/RadioButton01"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="34dp"
@@ -111,7 +111,7 @@
                     android:tag="1" />
 
                 <RadioButton
-                    android:id="@+id/RadioButton02"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -129,7 +129,7 @@
                 android:paddingBottom="2dp" >
 
                 <RadioButton
-                    android:id="@+id/RadioButton03"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="34dp"
@@ -137,7 +137,7 @@
                     android:tag="3" />
 
                 <RadioButton
-                    android:id="@+id/RadioButton04"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton04"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -155,7 +155,7 @@
                 android:paddingBottom="2dp" >
 
                 <RadioButton
-                    android:id="@+id/RadioButton05"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton05"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="34dp"
@@ -163,7 +163,7 @@
                     android:tag="5" />
 
                 <RadioButton
-                    android:id="@+id/RadioButton06"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton06"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -181,7 +181,7 @@
                 android:paddingBottom="2dp" >
 
                 <RadioButton
-                    android:id="@+id/RadioButton07"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton07"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="34dp"
@@ -189,7 +189,7 @@
                     android:tag="7" />
 
                 <RadioButton
-                    android:id="@+id/RadioButton08"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton08"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -206,7 +206,7 @@
                 android:paddingBottom="2dp" >
 
                 <RadioButton
-                    android:id="@+id/RadioButton09"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton09"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="34dp"
@@ -214,7 +214,7 @@
                 	android:tag="9"/>
 
                 <RadioButton
-                    android:id="@+id/RadioButton10"
+                    android:id="@+id/app_detail_rate_app_overlay_RadioButton10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp" 

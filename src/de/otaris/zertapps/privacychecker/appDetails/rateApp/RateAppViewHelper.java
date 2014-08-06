@@ -38,7 +38,7 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 		View rowView = inflater.inflate(R.layout.app_detail_rate_app, parent,
 				false);
-		
+
 		Button button = (Button) rowView
 				.findViewById(R.id.app_detail_rate_app_button);
 		button.setTag(detail.getApp().getId());
@@ -57,41 +57,48 @@ public class RateAppViewHelper extends DetailViewHelper {
 				AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
 						v.getRootView().getContext());
 				appPermissionData.open();
-				//get permissions for the app
+				// get permissions for the app
 				ArrayList<Permission> permissions = appPermissionData
 						.getPermissionsByAppId(appId);
 
 				overlay.addView(layout);
 				List<TextView> permissionList = new ArrayList<TextView>();
 
+				// loop over permissions to set label etc
 				for (int i = 1; i <= (Math.min(5, permissions.size())); i++) {
 
 					// set name and label for the permissions
 					String attribute = "app_detail_rate_app_overlay_permission"
 							+ i;
-
 					String packageName = v.getContext().getPackageName();
+					int permissionIdentifierId = v.getResources()
+							.getIdentifier(attribute, "id", packageName);
 
-					int resourceId = v.getResources().getIdentifier(attribute,
-							"id", packageName);
+					TextView permission = (TextView) layout
+							.findViewById(permissionIdentifierId);
 
-					TextView permission = (TextView) v.getRootView()
-							.findViewById(resourceId);
 					permission.setVisibility(View.VISIBLE);
 					permission.setText(permissions.get(i - 1).getLabel());
 					permission.setTag(permissions.get(i - 1).getId());
 					permissionList.add(permission);
+				}
 
+				// loop over locks to set TotalRatingListener
+				for (int i = 1; i <= 5; i++) {
+
+					String packageName = v.getContext().getPackageName();
 					String attribute2 = "app_detail_rate_app_overlay_rating_"
 							+ i;
-					int resourceId2 = v.getResources().getIdentifier(
+					int ratingIdentifierId = v.getResources().getIdentifier(
 							attribute2, "id", packageName);
 
-					layout.findViewById(resourceId2).setOnClickListener(
+					layout.findViewById(ratingIdentifierId).setOnClickListener(
 							new TotalRatingListener());
 				}
 				appPermissionData.close();
 
+				// functionality and design of overlay after pushing the send
+				// button
 				Button sendButton = (Button) v.getRootView().findViewById(
 						R.id.app_detail_rate_app_overlay_send);
 				sendButton.setTag(appId);
@@ -107,46 +114,63 @@ public class RateAppViewHelper extends DetailViewHelper {
 								v1.getContext());
 						AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
 								v1.getContext());
+
 						ratingAppData.open();
 						ratingPermissionData.open();
+						appPermissionData.open();
 
-						//to count how many locks are checked
+						// to count how many locks are checked
 						int count = 0;
 						int appId = (Integer) v1.getTag();
+						String packageName = v1.getContext().getPackageName();
 
-						
+						// loop over locks to retrieve app rating
 						for (int i = 1; i <= 5; i++) {
 
 							// get total rating
 							String attribute = "app_detail_rate_app_overlay_rating_"
 									+ i;
 
-							String packageName = v1.getContext()
-									.getPackageName();
-
-							int resourceId10 = v1.getResources().getIdentifier(
-									attribute, "id", packageName);
+							int ratingIdentifier2 = v1
+									.getResources()
+									.getIdentifier(attribute, "id", packageName);
 
 							ToggleButton button = (ToggleButton) v1
-									.getRootView().findViewById(resourceId10);
+									.getRootView().findViewById(
+											ratingIdentifier2);
 
 							if (button.isChecked()) {
 								count++;
 							}
+						}
+
+						// list of permissions
+						ArrayList<Permission> permissions1 = appPermissionData
+								.getPermissionsByAppId(appId);
+
+						// loop over permissions and their radiobuttons to
+						// retrieve rating of the permission
+						for (int i = 1; i <= permissions1.size(); i++) {
 
 							// get rating for permission
 							String attributePermission = "app_detail_rate_app_overlay_permission_radiogroup"
 									+ i;
-							int resourceId3 = v1.getResources().getIdentifier(
-									attributePermission, "id", packageName);
+							int permissionIdentifier2 = v1.getResources()
+									.getIdentifier(attributePermission, "id",
+											packageName);
 
 							RadioGroup radioGroup = (RadioGroup) v1
-									.getRootView().findViewById(resourceId3);
+									.getRootView().findViewById(
+											permissionIdentifier2);
+
 							int buttonId = radioGroup.getCheckedRadioButtonId();
 							RadioButton radioButton = (RadioButton) v1
 									.getRootView().findViewById(buttonId);
-							Integer buttonTag = Integer.parseInt(radioButton
-									.getTag().toString());
+
+							String buttonTagString = (String) radioButton
+									.getTag();
+							Integer buttonTag = Integer
+									.parseInt(buttonTagString);
 
 							// create RatingPermissions and therefore retrieve
 							// permissions
@@ -154,10 +178,15 @@ public class RateAppViewHelper extends DetailViewHelper {
 									+ i;
 							int resourceId4 = v1.getResources().getIdentifier(
 									attributePermission2, "id", packageName);
-							TextView permission = (TextView) v1.getRootView()
-									.findViewById(resourceId4);
-							Integer permissionId = Integer.parseInt(permission
-									.getTag().toString());
+							TextView permissionRadio = (TextView) v1
+									.getRootView().findViewById(resourceId4);
+
+							// String permissionIdString = (String)
+							// permissionRadio.getTag();
+							// Integer permissionId =
+							// Integer.parseInt(permissionIdString);
+							Integer permissionId = (Integer) permissionRadio
+									.getTag();
 
 							int appPermissionId = appPermissionData
 									.getAppPermissionByAppAndPermissionId(
