@@ -91,7 +91,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		// scale list depending on its size
 		ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
 		final float scale = context.getResources().getDisplayMetrics().density;
-		int pixels = (int) (48 * scale + 0.5f);
+		int pixels = (int) (49 * scale);
 		updatedLayout.height = pixels * listView.getCount();
 		listView.setLayoutParams(updatedLayout);
 
