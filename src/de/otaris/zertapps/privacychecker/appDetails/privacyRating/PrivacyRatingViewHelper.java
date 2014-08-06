@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -17,8 +16,10 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.LoggingShowMore;
 import de.otaris.zertapps.privacychecker.appDetails.permissions.PermissionsListItemAdapter;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -125,6 +126,10 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 				// add view to overlay
 				overlay.addView(layout);
+
+				// log
+				UserStudyLogger.getInstance().log(
+						"overlay_permission-" + permission.getName());
 			}
 		});
 
@@ -132,12 +137,15 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		ToggleButton showMoreButton = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_privacy_rating_more);
 		// set click listener
+		abstract class LoggingOnCheckedChangeListener extends LoggingShowMore {
+		}
 		showMoreButton
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				.setOnCheckedChangeListener(new LoggingOnCheckedChangeListener() {
 
 					@Override
 					public void onCheckedChanged(CompoundButton toggleButton,
 							boolean isChecked) {
+						super.onCheckedChanged(toggleButton, isChecked);
 
 						// get explanation text view
 						TextView explanation = (TextView) ((View) toggleButton

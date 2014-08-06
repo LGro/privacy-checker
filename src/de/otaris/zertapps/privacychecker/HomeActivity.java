@@ -107,8 +107,8 @@ public class HomeActivity extends Activity {
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
 
+		// enable/disable logging
 		UserStudyLogger.LOGGING_ENABLED = true;
-		UserStudyLogger.getInstance().log("activity_home");
 	}
 
 	private void exportDB() {
@@ -197,6 +197,8 @@ public class HomeActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		UserStudyLogger.getInstance().log("activity_home");
 
 		populateLatestAppListView();
 	}

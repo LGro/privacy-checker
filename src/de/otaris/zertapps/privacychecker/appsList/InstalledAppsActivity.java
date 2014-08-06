@@ -1,25 +1,17 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.UserStudyLogger;
-import de.otaris.zertapps.privacychecker.R.drawable;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.R.menu;
-import de.otaris.zertapps.privacychecker.R.string;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -157,6 +149,11 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 					container, false);
 			return rootView;
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 
 }

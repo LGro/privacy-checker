@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.LoggingShowMore;
 
 public class DescriptionViewHelper extends DetailViewHelper {
 
@@ -36,11 +36,15 @@ public class DescriptionViewHelper extends DetailViewHelper {
 
 		ToggleButton button = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_description_more);
-		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		
+		abstract class LoggingOnCheckedChangeListener extends LoggingShowMore {}
+		button.setOnCheckedChangeListener(new LoggingOnCheckedChangeListener() {
 
 			@Override
 			public void onCheckedChanged(CompoundButton toggleButton,
 					boolean isChecked) {
+				super.onCheckedChanged(toggleButton, isChecked);
+				
 				TextView descriptionTextView = (TextView) ((View) toggleButton
 						.getParent())
 						.findViewById(R.id.app_detail_description_text);

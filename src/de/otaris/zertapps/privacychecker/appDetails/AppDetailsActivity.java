@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
 import de.otaris.zertapps.privacychecker.appDetails.header.ExtendedHeader;
 import de.otaris.zertapps.privacychecker.appDetails.header.Header;
@@ -141,6 +142,15 @@ public class AppDetailsActivity extends Activity {
 		} else {
 			finish();
 		}
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		AppCompact app = getIntent().getParcelableExtra("AppCompact");
+		
+		UserStudyLogger.getInstance().log("activity_details-" + app.getLabel());
 	}
 
 }
