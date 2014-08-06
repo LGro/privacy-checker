@@ -93,17 +93,21 @@ public class HomeActivity extends Activity {
 		// appController.putInstalledAppsInDatabase(this, getPackageManager());
 
 		// exportDB();
+
+		// connect to database
+		AppCompactDataSource appData = new AppCompactDataSource(this);
+		appData.open();
+
 		try {
 			importDB();
+			getAppController()
+					.updateInstalledApps(appData, getPackageManager());
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Log.e("HomeActivity", "DB import failed: " + e.getMessage());
 		}
-
-		// connect to database
-		AppCompactDataSource appData = new AppCompactDataSource(this);
-		appData.open();
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
 

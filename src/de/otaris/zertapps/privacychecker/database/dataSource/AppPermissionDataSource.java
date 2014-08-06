@@ -67,7 +67,8 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		}
 		permissionData.close();
 
-		permissions = sortPermissions(permissions);
+		// TODO: fix sorting and re-enable
+		//permissions = sortPermissions(permissions);
 		return permissions;
 	}
 

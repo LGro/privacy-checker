@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.otaris.zertapps.privacychecker.IconController;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
 import de.otaris.zertapps.privacychecker.database.interfaces.App;
@@ -60,7 +61,7 @@ public class ExtendedHeader implements Header {
 			}
 		} else {
 			buttonInstall.setText("Installieren");
-			// TODO: implement (get icon from PlayStore API?!)
+			iconView.setImageBitmap(IconController.byteArrayToBitmap(app.getIcon()));
 		}
 
 		// Set the icons for locks and stars according to their amount

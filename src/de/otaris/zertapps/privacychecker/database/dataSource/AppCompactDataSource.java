@@ -225,4 +225,32 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 
 		return cursorToModelList(cursor);
 	}
+
+	public AppCompact updateAppById(int appId, int categoryId, String name,
+			String label, String version, float privacyRating,
+			boolean installed, float functionalRating, String description,
+			byte[] icon) {
+
+		String filter = AppCompact.ID + " = " + appId;
+
+		// set values for columns
+		ContentValues values = new ContentValues();
+		values.put(AppCompact.CATEGORY_ID, categoryId);
+		values.put(AppCompact.NAME, name);
+		values.put(AppCompact.LABEL, label);
+		values.put(AppCompact.VERSION, version);
+		values.put(AppCompact.PRIVACY_RATING, privacyRating);
+		values.put(AppCompact.INSTALLED, installed);
+		values.put(AppCompact.FUNCTIONAL_RATING, functionalRating);
+		// Gets current time in milliseconds since jan1,1970. The divide by 1000
+		// turns it into unix seconds instead of milliseconds.
+		long currentTimestamp = System.currentTimeMillis() / 1000;
+		values.put(AppCompact.TIMESTAMP, currentTimestamp);
+		values.put(AppCompact.DESCRIPTION, description);
+		values.put(AppCompact.ICON, icon);
+
+		database.update(AppCompact.TABLE, values, filter, null);
+
+		return getAppById(appId);
+	}
 }

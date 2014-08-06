@@ -174,6 +174,11 @@ public class AppExtended implements App, Parcelable {
 		return appCompact.getDescription();
 	}
 
+	@Override
+	public byte[] getIcon() {
+		return appCompact.getIcon();
+	}
+
 	public void setPermissionList(ArrayList<Permission> permissionList) {
 		this.permissionList = permissionList;
 	}
@@ -226,6 +231,11 @@ public class AppExtended implements App, Parcelable {
 	@Override
 	public void setDescription(String description) {
 		appCompact.setDescription(description);
+	}
+
+	@Override
+	public void setIcon(byte[] icon) {
+		appCompact.setIcon(icon);
 	}
 
 	@Override

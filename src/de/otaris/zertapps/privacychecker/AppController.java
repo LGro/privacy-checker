@@ -1,7 +1,6 @@
 package de.otaris.zertapps.privacychecker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -11,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
@@ -110,7 +110,9 @@ public class AppController {
 								pRating,
 								true,
 								fRating,
-								"Description DescriptionDescript ionDescriptionDes criptionDescrip tionDescriptionDe scriptionDescriptio nDescriptionDes criptionDescription");
+								"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+								IconController.drawableToByteArray(pm
+										.getApplicationIcon(app.packageName)));
 				String[] permissions = getPermissions(pm, app);
 				for (String permission : permissions) {
 					String[] permissionArray = permission.split("\\.");
@@ -123,8 +125,8 @@ public class AppController {
 
 					// if permission does not exist yet create it
 					if (existingPermission == null) {
-						existingPermission = permissionData.createPermissionByName(
-								permissionWithoutClassName);
+						existingPermission = permissionData
+								.createPermissionByName(permissionWithoutClassName);
 					}
 					appPermissionData.createAppPermission(newApp.getId(),
 							existingPermission.getId());
@@ -156,5 +158,31 @@ public class AppController {
 		}
 
 		return requestedPermissions;
+	}
+
+	/**
+	 * scans database and sets installed = 1 for all installed apps
+	 * 
+	 * @param appData
+	 *            a data source that already has been opened (!)
+	 */
+	public void updateInstalledApps(AppCompactDataSource appData,
+			PackageManager pm) {
+		List<AppCompact> apps = appData.getAllApps();
+
+		for (AppCompact app : apps) {
+			try {
+				pm.getApplicationInfo(app.getName(),
+						PackageManager.GET_META_DATA);
+
+				appData.updateAppById(app.getId(), app.getCategoryId(),
+						app.getName(), app.getLabel(), app.getVersion(),
+						app.getPrivacyRating(), true,
+						app.getFunctionalRating(), app.getDescription(),
+						app.getIcon());
+			} catch (NameNotFoundException e) {
+				// do nothing
+			}
+		}
 	}
 }

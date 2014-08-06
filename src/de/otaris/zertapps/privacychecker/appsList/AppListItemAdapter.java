@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.otaris.zertapps.privacychecker.IconController;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
@@ -58,7 +59,8 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 						"Couldn't load icon for app: " + e.getMessage());
 			}
 		} else {
-			// TODO: implement (get icon from PlayStore API?!)
+			imageView.setImageBitmap(IconController.byteArrayToBitmap(values
+					.get(position).getIcon()));
 		}
 
 		// set app title
