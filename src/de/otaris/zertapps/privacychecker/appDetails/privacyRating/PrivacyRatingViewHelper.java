@@ -88,71 +88,80 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				permissionList));
 		listView.setScrollContainer(false);
 
-		// show max 4 permissions
-		// ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
-		// final float scale =
-		// context.getResources().getDisplayMetrics().density;
-		// int pixels = (int) (22 * scale +0.5f);
-		// updatedLayout.height = pixels * listView.getCount();
-		// listView.setLayoutParams(updatedLayout);
-		//
+		// set click listener for list items
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
+				// get overlay from details fragment
 				RelativeLayout overlay = (RelativeLayout) parent.getRootView()
 						.findViewById(R.id.app_detail_overlay);
+
+				// show overlay
 				overlay.setVisibility(View.VISIBLE);
+
+				// inflate specific permissions overlay layout from xml
 				LayoutInflater inflater = LayoutInflater.from(parent
 						.getContext());
 				RelativeLayout layout = (RelativeLayout) inflater.inflate(
 						R.layout.app_detail_rating_permission_overlay, overlay,
 						false);
+
+				// get previously selected permission that need to be displayed
 				Permission permission = (Permission) parent
 						.getItemAtPosition(position);
 
+				// set permission label
 				TextView permissionLabelText = (TextView) layout
 						.findViewById(R.id.app_detail_rating_permission_name);
 				permissionLabelText.setText(permission.getLabel());
 
+				// set permission description
 				TextView permissionDescriptionText = (TextView) layout
 						.findViewById(R.id.app_detail_rating_permission_description);
 				permissionDescriptionText.setText(permission.getDescription());
 
+				// add view to overlay
 				overlay.addView(layout);
 			}
 		});
 
-		ToggleButton button = (ToggleButton) rowView
+		// get "show more" button
+		ToggleButton showMoreButton = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_privacy_rating_more);
-		ListView permissions = (ListView) rowView
-				.findViewById(R.id.app_detail_rating_permissions_list);
-		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		// set click listener
+		showMoreButton
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			@Override
-			public void onCheckedChanged(CompoundButton toggleButton,
-					boolean isChecked) {
+					@Override
+					public void onCheckedChanged(CompoundButton toggleButton,
+							boolean isChecked) {
 
-				TextView explanation = (TextView) ((View) toggleButton
-						.getParent())
-						.findViewById(R.id.app_detail_privacy_rating_explanation);
+						// get explanation text view
+						TextView explanation = (TextView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_privacy_rating_explanation);
 
-				ListView permissions = (ListView) ((View) toggleButton
-						.getParent())
-						.findViewById(R.id.app_detail_rating_permissions_list);
-				// changes fulltext to shorten version
-				if (isChecked) {
-					permissions.setVisibility(View.VISIBLE);
-					explanation.setVisibility(View.VISIBLE);
-				} else {
-					permissions.setVisibility(View.GONE);
-					explanation.setVisibility(View.GONE);
-				}
+						// get permissions list
+						ListView permissions = (ListView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_rating_permissions_list);
 
-			}
-		});
+						if (isChecked) {
+							// show explanation and permissions list
+							permissions.setVisibility(View.VISIBLE);
+							explanation.setVisibility(View.VISIBLE);
+						} else {
+							// hide explanation and permissions list
+							permissions.setVisibility(View.GONE);
+							explanation.setVisibility(View.GONE);
+						}
+
+					}
+				});
+
 		return rowView;
 	}
 }

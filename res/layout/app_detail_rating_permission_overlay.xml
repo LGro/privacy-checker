@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="11dp"
         android:text="Permission Label"
         android:textSize="20sp" />
 
@@ -22,21 +24,22 @@
         android:id="@+id/app_detail_rating_permission_scrollview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/app_detail_rating_permission_name"
+        android:layout_marginRight="22dp"
         android:layout_below="@+id/app_detail_rating_permission_name"
-        android:layout_marginTop="43dp" >
+        android:layout_marginTop="8dp" >
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="269dp"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/app_detail_rating_permission_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="23dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:text="Permission Details" />
+
         </LinearLayout>
     </ScrollView>
 
