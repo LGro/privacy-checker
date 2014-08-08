@@ -81,7 +81,6 @@ public class AppDetailsActivity extends Activity {
 		AppExtended appExtended = appDataSource.extendAppCompact(app);
 		appDataSource.close();
 		details.add(new Description(appExtended));
-		// details.add(new Permissions(appExtended));
 		details.add(new PrivacyRating(appExtended));
 		details.add(new RateApp(appExtended));
 
