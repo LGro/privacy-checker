@@ -1,7 +1,6 @@
 package de.otaris.zertapps.privacychecker;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.Context;
@@ -23,6 +22,8 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
  * A class to handle Database communication
  */
 public class AppController {
+
+	public static final int PERMISSION_MIN_CRITICALITY = 50;
 
 	/**
 	 * retrieve installed apps from API
@@ -56,6 +57,7 @@ public class AppController {
 	 *             , is thrown if app.packageName does not exist (there are
 	 *             installed apps without package name)
 	 */
+	@Deprecated
 	public void putInstalledAppsInDatabase(Context context, PackageManager pm) {
 
 		AppCompactDataSource appData = new AppCompactDataSource(context);
@@ -110,21 +112,21 @@ public class AppController {
 								pRating,
 								true,
 								fRating,
-								"Description DescriptionDescript ionDescriptionDes criptionDescrip tionDescriptionDe scriptionDescriptio nDescriptionDes criptionDescription");
+								"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+								IconController.drawableToByteArray(pm
+										.getApplicationIcon(app.packageName)),
+								pRating);
 				String[] permissions = getPermissions(pm, app);
 				for (String permission : permissions) {
-					String[] permissionArray = permission.split("\\.");
-					String permissionWithoutClassName = (permissionArray.length < 1) ? ""
-							: permissionArray[permissionArray.length - 1];
 
 					// get existing permission
 					Permission existingPermission = permissionData
-							.getPermissionByName(permissionWithoutClassName);
+							.getPermissionByName(permission);
 
 					// if permission does not exist yet create it
 					if (existingPermission == null) {
-						existingPermission = permissionData.createPermissionByName(
-								permissionWithoutClassName);
+						existingPermission = permissionData
+								.createPermissionByName(permission);
 					}
 					appPermissionData.createAppPermission(newApp.getId(),
 							existingPermission.getId());
@@ -156,5 +158,150 @@ public class AppController {
 		}
 
 		return requestedPermissions;
+	}
+
+	/**
+	 * scans database and sets installed = 1 for all installed apps
+	 * 
+	 * @param appData
+	 *            a data source that already has been opened (!)
+	 */
+	@Deprecated
+	public void updateInstalledApps(AppCompactDataSource appData,
+			PackageManager pm) {
+		List<AppCompact> apps = appData.getAllApps();
+
+		for (AppCompact app : apps) {
+			try {
+				pm.getApplicationInfo(app.getName(),
+						PackageManager.GET_META_DATA);
+
+				appData.updateAppById(app.getId(), app.getCategoryId(),
+						app.getName(), app.getLabel(), app.getVersion(),
+						app.getPrivacyRating(), true,
+						app.getFunctionalRating(), app.getDescription(),
+						app.getIcon(), app.getAutomaticRating());
+			} catch (NameNotFoundException e) {
+				// do nothing
+			}
+		}
+	}
+
+	/**
+	 * Scans all installed apps on the device and inserts the ones that aren't
+	 * already covered by the privacy-checker database.
+	 * 
+	 * New apps are inserted into the database with an automatically generated
+	 * privacy rating depending on its set of permissions.
+	 * 
+	 * @param context
+	 * @param pm
+	 */
+	public void insertUncoveredInstalledApps(Context context, PackageManager pm) {
+		AppCompactDataSource appData = new AppCompactDataSource(context);
+		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
+				context);
+		PermissionDataSource permissionData = new PermissionDataSource(context);
+		appData.open();
+		appPermissionData.open();
+		permissionData.open();
+
+		// iterate over all apps that are installed on the device
+		ApplicationInfo[] apps = getInstalledApps(pm);
+		for (int i = 0; i < apps.length; i++) {
+			AppCompact app = appData.getAppByName(apps[i].packageName);
+
+			// if the app isn't installed yet...
+			if (app == null) {
+				try {
+					// get package info for package name
+					PackageInfo pInfo = pm.getPackageInfo(apps[i].packageName,
+							0);
+
+					// get requested permissions
+					String[] permissions = getPermissions(pm, apps[i]);
+
+					// get automatic privacy rating depending on the requested
+					// permissions
+					float privacyRating = getAutomaticPrivacyRating(context,
+							pm, permissions);
+
+					// create app
+					app = appData.createApp(0, apps[i].packageName, apps[i]
+							.loadLabel(pm).toString(), pInfo.versionCode + "",
+							privacyRating, true, 0/* functionalRating */, "",
+							IconController.drawableToByteArray(pm
+									.getApplicationIcon(apps[i].packageName)),
+							privacyRating);
+
+					// link all required permissions to the newly created app
+					for (String permission : permissions)
+						appPermissionData.createAppPermission(app.getId(),
+								permissionData.getPermissionByName(permission)
+										.getId());
+
+				} catch (NameNotFoundException e) {
+					e.printStackTrace();
+					Log.e("AppController",
+							"Error: Cannot find package info for "
+									+ apps[i].packageName + " - skipping app");
+				}
+			} else {
+				// ... otherwise, if the app is installed: set installed = 1
+				appData.updateAppById(app.getId(), app.getCategoryId(),
+						app.getName(), app.getLabel(), app.getVersion(),
+						app.getPrivacyRating(), true,
+						app.getFunctionalRating(), app.getDescription(),
+						app.getIcon(), app.getAutomaticRating());
+			}
+		}
+
+		appData.close();
+		appPermissionData.close();
+		permissionData.close();
+	}
+
+	/**
+	 * Calculate automatic privacy rating for a given application.
+	 * 
+	 * This method has to ensure that all new permissions are inserted into the
+	 * database! Because InsertIncoveredInstalledApps relies on this.
+	 * 
+	 * @param context
+	 * @param pm
+	 *            package manager
+	 * @param appInfo
+	 *            application thats privacy rating should be calculated
+	 * 
+	 * @return value between 0 and 5 that represents the privacy friendliness of
+	 *         the given app
+	 */
+	private float getAutomaticPrivacyRating(Context context, PackageManager pm,
+			String[] permissions) {
+		PermissionDataSource permissionData = new PermissionDataSource(context);
+
+		float automaticPrivacyRating = 0;
+
+		permissionData.open();
+		for (String permission : permissions) {
+			// get permission with criticality from database
+			Permission p = permissionData.getPermissionByName(permission);
+
+			// if requested permission doesn't exist -> create it
+			if (p == null)
+				p = permissionData.createPermission(permission, permission,
+						permission, PERMISSION_MIN_CRITICALITY);
+
+			// accumulate current permission's criticality
+			automaticPrivacyRating += p.getCriticality();
+		}
+		permissionData.close();
+
+		// normalize accumulated criticality to privacy rating within [0:5]
+		automaticPrivacyRating /= permissions.length;
+		automaticPrivacyRating /= PERMISSION_MIN_CRITICALITY;
+		automaticPrivacyRating *= 5;
+
+		return automaticPrivacyRating;
 	}
 }

@@ -1,5 +1,6 @@
 package de.otaris.zertapps.privacychecker.database.interfaces;
 
+
 /**
  * represents all similarities between AppCompact and AppExtended
  *
@@ -17,15 +18,21 @@ public interface App {
 	public String getLabel();
 
 	public boolean isInstalled();
-	
+
 	public Long getTimestamp();
 
 	public float getPrivacyRating();
 
 	public float getFunctionalRating();
-	
+
 	public String getDescription();
-	
+
+	public float getAutomaticRating();
+
+	public void setAutomaticRating(float automaticRating);
+
+	public byte[] getIcon();
+
 	public void setId(int id);
 
 	public void setCategoryId(int categoryId);
@@ -43,9 +50,9 @@ public interface App {
 	public void setFunctionalRating(float functionalRating);
 
 	public void setTimestamp(Long timestamp);
-	
+
 	public void setDescription(String description);
 
+	public void setIcon(byte[] icon);
 
-	
 }

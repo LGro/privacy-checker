@@ -19,7 +19,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 			AppCompact.NAME, AppCompact.LABEL, AppCompact.VERSION,
 			AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
 			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP,
-			AppCompact.DESCRIPTION };
+			AppCompact.DESCRIPTION, AppCompact.ICON,
+			AppCompact.AUTOMATIC_RATING };
 
 	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -32,6 +33,9 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 * @return cursor data as App object
 	 */
 	protected AppCompact cursorToModel(Cursor cursor) {
+		if (cursor.getCount() == 0)
+			return null;
+
 		AppCompact app = new AppCompact();
 
 		app.setId(cursor.getInt(0));
@@ -45,6 +49,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		app.setFunctionalRating(cursor.getFloat(7));
 		app.setTimestamp(cursor.getLong(8));
 		app.setDescription(cursor.getString(9));
+		app.setIcon(cursor.getBlob(10));
+		app.setAutomaticRating(cursor.getFloat(11));
 
 		return app;
 	}
@@ -61,7 +67,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 */
 	public AppCompact createApp(int categoryId, String name, String label,
 			String version, float privacyRating, boolean installed,
-			float functionalRating, String description) {
+			float functionalRating, String description, byte[] icon,
+			float automaticRating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(AppCompact.CATEGORY_ID, categoryId);
@@ -76,6 +83,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		long currentTimestamp = System.currentTimeMillis() / 1000;
 		values.put(AppCompact.TIMESTAMP, currentTimestamp);
 		values.put(AppCompact.DESCRIPTION, description);
+		values.put(AppCompact.ICON, icon);
+		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
 
 		// insert into DB
 		long insertId = database.insert(AppCompact.TABLE, null, values);
@@ -222,5 +231,48 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 				whereClause, null, null, null, orderBy);
 
 		return cursorToModelList(cursor);
+	}
+
+	public AppCompact updateAppById(int appId, int categoryId, String name,
+			String label, String version, float privacyRating,
+			boolean installed, float functionalRating, String description,
+			byte[] icon, float automaticRating) {
+
+		String filter = AppCompact.ID + " = " + appId;
+
+		// set values for columns
+		ContentValues values = new ContentValues();
+		values.put(AppCompact.CATEGORY_ID, categoryId);
+		values.put(AppCompact.NAME, name);
+		values.put(AppCompact.LABEL, label);
+		values.put(AppCompact.VERSION, version);
+		values.put(AppCompact.PRIVACY_RATING, privacyRating);
+		values.put(AppCompact.INSTALLED, installed);
+		values.put(AppCompact.FUNCTIONAL_RATING, functionalRating);
+		// Gets current time in milliseconds since jan1,1970. The divide by 1000
+		// turns it into unix seconds instead of milliseconds.
+		long currentTimestamp = System.currentTimeMillis() / 1000;
+		values.put(AppCompact.TIMESTAMP, currentTimestamp);
+		values.put(AppCompact.DESCRIPTION, description);
+		values.put(AppCompact.ICON, icon);
+		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
+
+		database.update(AppCompact.TABLE, values, filter, null);
+
+		return getAppById(appId);
+	}
+
+	public AppCompact getAppByName(String name) {
+		// build database query
+		Cursor cursor = database.query(AppCompact.TABLE, allColumns,
+				AppCompact.NAME + " = '" + name + "'", null, null, null, null);
+		cursor.moveToFirst();
+
+		// convert to App object
+		AppCompact app = cursorToModel(cursor);
+		cursor.close();
+
+		// return app object
+		return app;
 	}
 }

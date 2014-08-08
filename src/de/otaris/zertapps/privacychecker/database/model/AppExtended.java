@@ -25,8 +25,6 @@ public class AppExtended implements App, Parcelable {
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
 	private float totalNonExpertRating;
-	// automatic generated rating
-	private float automaticRating;
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
@@ -94,7 +92,7 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	public void setRating() {
-		this.rating = (automaticRating + totalExpertRating + totalNonExpertRating) / 3;
+		this.rating = (appCompact.getAutomaticRating() + totalExpertRating + totalNonExpertRating) / 3;
 	}
 
 	public ArrayList<Integer> getExpertRating() {
@@ -114,14 +112,6 @@ public class AppExtended implements App, Parcelable {
 		this.nonExpertRating = nonExpertRating;
 		setTotalNonExpertRating(nonExpertRating);
 
-	}
-
-	public float getAutomaticRating() {
-		return automaticRating;
-	}
-
-	public void setAutomaticRating(float automaticRating) {
-		this.automaticRating = automaticRating;
 	}
 
 	@Override
@@ -172,6 +162,11 @@ public class AppExtended implements App, Parcelable {
 	@Override
 	public String getDescription() {
 		return appCompact.getDescription();
+	}
+
+	@Override
+	public byte[] getIcon() {
+		return appCompact.getIcon();
 	}
 
 	public void setPermissionList(ArrayList<Permission> permissionList) {
@@ -229,6 +224,21 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
+	public void setIcon(byte[] icon) {
+		appCompact.setIcon(icon);
+	}
+
+	@Override
+	public float getAutomaticRating() {
+		return appCompact.getAutomaticRating();
+	}
+
+	@Override
+	public void setAutomaticRating(float automaticRating) {
+		appCompact.setAutomaticRating(automaticRating);
+	}
+
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -242,7 +252,6 @@ public class AppExtended implements App, Parcelable {
 		dest.writeFloat(totalExpertRating);
 		dest.writeList(nonExpertRating);
 		dest.writeFloat(totalNonExpertRating);
-		dest.writeFloat(automaticRating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -254,7 +263,6 @@ public class AppExtended implements App, Parcelable {
 		expertRating = (ArrayList<Integer>) in.readSerializable();
 		totalExpertRating = in.readFloat();
 		nonExpertRating = (ArrayList<Integer>) in.readSerializable();
-		automaticRating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

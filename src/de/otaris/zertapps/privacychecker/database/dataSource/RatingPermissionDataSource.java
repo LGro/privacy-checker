@@ -31,7 +31,7 @@ public class RatingPermissionDataSource extends DataSource<RatingPermission> {
 		values.put(RatingPermission.USER_TYPE, isExpert);
 
 		// insert into DB
-		long insertId = database.insert(AppPermission.TABLE, null, values);
+		long insertId = database.insert(RatingPermission.TABLE, null, values);
 
 		// get recently inserted App by ID
 		return getRatingPermissionById(insertId);

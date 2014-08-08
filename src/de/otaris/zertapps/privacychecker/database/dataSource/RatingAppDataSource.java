@@ -46,7 +46,7 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 		values.put(RatingApp.USER_TYPE, isExpert);
 
 		// insert into DB
-		long insertId = database.insert(AppCompact.TABLE, null, values);
+		long insertId = database.insert(RatingApp.TABLE, null, values);
 
 		// get recently inserted App by ID
 		return getRatingAppById(insertId);
@@ -67,7 +67,7 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 
 		return ratingApp;
 	}
-	
+
 	/**
 	 * retrieve all values from an app id from experts
 	 * 
@@ -116,22 +116,6 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 	}
 
 	/**
-	 * calculates an automatic rating for a given app
-	 * 
-	 * @param id
-	 * @return rating value
-	 */
-	public int generateAutomaticRatingById(int id) {
-
-		appPermissionData.open();
-		int numberOfPermissions = appPermissionData.getPermissionsByAppId(id)
-				.size();
-		appPermissionData.close();
-		
-		return numberOfPermissions % 5;
-	}
-
-	/**
 	 * retrieves a rating by RatingApp_id
 	 * 
 	 * @param ratingId
@@ -151,23 +135,20 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 		return newRating;
 	}
 
-	
-
 	/**
-	 * calculates a total rating for a given app regarding the automatic rating,
-	 * the expert rating and the non-expert rating
+	 * calculates a total rating for a given app regarding the expert rating and
+	 * the non-expert rating
 	 * 
-	 * @param id
+	 * @param appId
 	 * @return rating
 	 */
-
-	public float generateTotalRating(int id) {
+	public float calculateTotalExpertAndNonExpertRating(int appId) {
 		float expertRating = 0;
 		float nonExpertRating = 0;
 		int experts = 1;
 		int nonExperts = 1;
-		//calculates mean for expert rating
-		for (int i : getExpertValuesById(id)) {
+		// calculates mean for expert rating
+		for (int i : getExpertValuesById(appId)) {
 			expertRating += i;
 			experts++;
 		}
@@ -175,8 +156,8 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 			experts--;
 		}
 		expertRating = expertRating / experts;
-		//calculates mean for non-expert rating
-		for (int i : getNonExpertValuesById(id)) {
+		// calculates mean for non-expert rating
+		for (int i : getNonExpertValuesById(appId)) {
 			nonExpertRating += i;
 			nonExperts++;
 		}
@@ -185,13 +166,13 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 		}
 		nonExpertRating = nonExpertRating / nonExperts;
 
-		return (generateAutomaticRatingById(id) + expertRating + nonExpertRating) / 3;
+		return (expertRating + nonExpertRating) / 3;
 	}
-	
-	public float getTotalRatingByAppId(int appId){
-		
-	return generateTotalRating(appId);
-		
+
+	public float getTotalExpertAndNonExpertRatingByAppId(int appId) {
+
+		return calculateTotalExpertAndNonExpertRating(appId);
+
 	}
 
 }

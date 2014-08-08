@@ -15,7 +15,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
 /**
  * 
  * Handles requests concerning the App Permission relation on the Database
- *
+ * 
  */
 public class AppPermissionDataSource extends DataSource<AppPermission> {
 
@@ -67,12 +67,16 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		}
 		permissionData.close();
 
-		permissions = sortPermissions(permissions);
+		// TODO: fix sorting and re-enable
+		//permissions = sortPermissions(permissions);
 		return permissions;
 	}
+
 	/**
 	 * sorts a list of Permission by their criticality by using quicksort
-	 * @param permissions the list to sort
+	 * 
+	 * @param permissions
+	 *            the list to sort
 	 * @return a sorted list of Permission
 	 */
 	private ArrayList<Permission> sortPermissions(
@@ -80,7 +84,7 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 
 		if (permissions.size() <= 1)
 			return permissions;
-		
+
 		int firstCriticality = permissions.get(0).getCriticality();
 
 		ArrayList<Permission> moreCritical = new ArrayList<Permission>(
@@ -94,7 +98,7 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 			else
 				lessCritical.add(permissions.get(i));
 		}
-		
+
 		moreCritical = sortPermissions(moreCritical);
 		lessCritical = sortPermissions(lessCritical);
 
@@ -146,4 +150,18 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 
 	}
 
+	public AppPermission getAppPermissionByAppAndPermissionId(long appId,
+			long permissionId) {
+		Cursor cursor = database.query(AppPermission.TABLE, allColumns,
+				AppPermission.APP_ID + "=" + appId + " AND "
+						+ AppPermission.PERMISSION_ID + "=" + permissionId,
+				null, null, null, null);
+		cursor.moveToFirst();
+		
+		//convert to AppPermission object
+		AppPermission newAppPermission = cursorToModel(cursor);
+		cursor.close();
+		
+		return newAppPermission;
+	}
 }
