@@ -66,12 +66,13 @@ public class PermissionDataSource extends DataSource<Permission> {
 		// get recently inserted Permission by ID
 		return getPermissionById(insertId);
 	}
+
 	/**
 	 * Method to create a Permission only by it's name
+	 * 
 	 * @param name
-	 * 			-> String: Name of the permission 
-	 * @return
-	 * 			a Permission with all attributes set correctly
+	 *            -> String: Name of the permission
+	 * @return a Permission with all attributes set correctly
 	 */
 
 	public Permission createPermissionByName(String name) {
@@ -110,14 +111,15 @@ public class PermissionDataSource extends DataSource<Permission> {
 		return newPermission;
 	}
 
-	public Permission getPermissionByName(String permissionWithoutClassName) {
+	public Permission getPermissionByName(String permissionName) {
 		Cursor cursor = database.query(Permission.TABLE, allColumns,
-				Permission.NAME + " = '" + permissionWithoutClassName + "'",
-				null, null, null, null);
+				Permission.NAME + " = '" + permissionName + "'", null, null,
+				null, null);
 		cursor.moveToFirst();
 
 		Permission permission = cursorToModel(cursor);
 		cursor.close();
+
 		return permission;
 	}
 }

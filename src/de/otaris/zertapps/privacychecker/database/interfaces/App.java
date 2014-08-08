@@ -1,5 +1,6 @@
 package de.otaris.zertapps.privacychecker.database.interfaces;
 
+
 /**
  * represents all similarities between AppCompact and AppExtended
  *
@@ -25,6 +26,10 @@ public interface App {
 	public float getFunctionalRating();
 
 	public String getDescription();
+
+	public float getAutomaticRating();
+
+	public void setAutomaticRating(float automaticRating);
 
 	public byte[] getIcon();
 

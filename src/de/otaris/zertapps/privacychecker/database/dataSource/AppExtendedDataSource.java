@@ -53,15 +53,12 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 				.getExpertValuesById(app.getId());
 		ArrayList<Integer> ratingsNonExperts = ratingAppData
 				.getNonExpertValuesById(app.getId());
-		float technicalRating = ratingAppData.generateAutomaticRatingById(app
-				.getId());
 		ratingAppData.close();
 
 		app.setPermissionList(permissions);
 		// order is important, setRating() depends on the other ratings
 		app.setExpertRating(ratingsExperts);
 		app.setNonExpertRating(ratingsNonExperts);
-		app.setAutomaticRating(technicalRating);
 		app.setRating();
 
 		return app;
@@ -106,6 +103,7 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	 * @param appId
 	 * @return the new App
 	 */
+	@Override
 	public AppExtended getAppById(int appId) {
 		appData.open();
 		AppCompact app = appData.getAppById(appId);
@@ -114,6 +112,7 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 		return extendAppCompact(app);
 	}
 
+	@Override
 	public List<AppExtended> getInstalledApps(AppsListOrder order,
 			boolean ascending) {
 		appData.open();
@@ -123,6 +122,7 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 		return extendAppCompactList(apps);
 	}
 
+	@Override
 	public List<AppExtended> getAppsByCategory(int categoryId,
 			AppsListOrder order, boolean ascending) {
 		appData.open();
@@ -133,6 +133,7 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 		return extendAppCompactList(apps);
 	}
 
+	@Override
 	public List<AppExtended> getAllApps(AppsListOrder order, boolean ascending) {
 		appData.open();
 		List<AppCompact> apps = appData.getAllApps();
@@ -141,12 +142,28 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 		return extendAppCompactList(apps);
 	}
 
+	@Override
 	public List<AppExtended> getLastUpdatedApps(int n) {
 		appData.open();
 		List<AppCompact> apps = appData.getLastUpdatedApps(n);
 		appData.close();
 
 		return extendAppCompactList(apps);
+	}
+
+	@Override
+	public AppExtended updateAppById(int appId, int categoryId, String name,
+			String label, String version, float privacyRating,
+			boolean installed, float functionalRating, String description,
+			byte[] icon, float automaticRating) {
+
+		appData.open();
+		AppCompact app = appData.updateAppById(appId, categoryId, name, label,
+				version, privacyRating, installed, functionalRating,
+				description, icon, automaticRating);
+		appData.close();
+
+		return extendAppCompact(app);
 	}
 
 }
