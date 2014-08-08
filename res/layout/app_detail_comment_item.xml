@@ -6,7 +6,8 @@
 <TextView
     android:id="@+id/app_detail_comment_item_version"
     android:layout_width="wrap_content"
-    android:layout_height="40dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="22dp"
     android:layout_above="@+id/app_detail_comment_item_content"
     android:layout_alignParentRight="true"
     android:text="Version" />
@@ -16,6 +17,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="true"
+    android:layout_marginLeft="22dp"
     android:layout_alignParentTop="true"
     android:text="01.01.2016" />
 
@@ -24,7 +26,12 @@
     android:layout_width="260dp"
     android:layout_height="wrap_content"
     android:layout_alignParentLeft="true"
+    android:layout_marginRight="22dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginLeft="22dp"
+    android:layout_marginBottom="22dp"
     android:layout_below="@+id/app_detail_comment_item_date"
     android:text="Kommentar Kommentar Kommentar Kommentaaaaaaaaaaaahar" />
+
 
 </RelativeLayout>

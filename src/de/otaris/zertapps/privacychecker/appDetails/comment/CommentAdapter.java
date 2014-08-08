@@ -41,11 +41,11 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 				.findViewById(R.id.app_detail_comment_item_date);
 		
 		// set comment title
-		dateView.setText(values.get(position).getDate());
-		rowView.setTag(values.get(position).getId());
+		dateView.setText(values.get(position).getDate() + "");
+		//rowView.setTag(values.get(position).getId());
 		
-		versionView.setText(values.get(position).getVersion());
-		contentView.setText(values.get(position).getContent());
+		versionView.setText(values.get(position).getVersion() + "");
+		contentView.setText(values.get(position).getContent() + "");
 		return rowView;
 	}
 }
