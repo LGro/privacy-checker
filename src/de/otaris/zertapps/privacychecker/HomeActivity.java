@@ -1,19 +1,14 @@
 package de.otaris.zertapps.privacychecker;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.inject.Inject;
 
@@ -31,8 +25,8 @@ import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
 import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
@@ -58,14 +52,9 @@ public class HomeActivity extends Activity {
 	}
 
 	/**
-	 * Auto generated code
-	 * 
-	 * + Insert all installed apps to database on start. This is done to make
-	 * sure there are apps in the database.
-	 * 
-	 * + Connect to local database and retrieve last updated apps. Store them in
-	 * a list. Do this at this stage to avoid retrieving those apps everytime
-	 * you return to the homescreen.
+	 * Connect to local database and retrieve last updated apps. Store them in a
+	 * list. Do this at this stage to avoid retrieving those apps everytime you
+	 * return to the homescreen.
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,99 +66,40 @@ public class HomeActivity extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 
-		// TODO: find good place for this
-		// fill db-category-table with entries
-		CategoryDataSource categoryData = new CategoryDataSource(this);
-		categoryData.open();
-		categoryData.createCategory("games", "Spiele", 10);
-		categoryData.createCategory("weather", "Wetter", 20);
-		categoryData.createCategory("categoryA", "Kategorie A", 30);
-		categoryData.createCategory("categoryB", "Kategorie B", 40);
-		categoryData.createCategory("categoryC", "Kategorie C", 50);
-		categoryData.close();
+		// DatabaseHelper dbHelper = new DatabaseHelper(this);
+		// dbHelper.fillDatabaseFromDevice();
+		// dbHelper.recalculateAutomaticRatingForAllApps();
+		// dbHelper.exportDatabase(this);
 
-		// insert all installed apps into database
-		// AppController appController = getAppController();
-		// appController.putInstalledAppsInDatabase(this, getPackageManager());
+		SharedPreferences wmbPreference = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+		if (isFirstRun) {
+			// Code to run once
+			SharedPreferences.Editor editor = wmbPreference.edit();
+			editor.putBoolean("FIRSTRUN", false);
+			editor.commit();
 
-		// exportDB();
+			try {
+				DatabaseHelper dbHelper = new DatabaseHelper(this);
+				dbHelper.importDatabase();
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e("HomeActivity", "DB import failed: " + e.getMessage());
+			}
 
-		// connect to database
+			getAppController().insertUncoveredInstalledApps(this,
+					getPackageManager());
+		}
+
 		AppCompactDataSource appData = new AppCompactDataSource(this);
 		appData.open();
 
-		try {
-			importDB();
-			getAppController()
-					.updateInstalledApps(appData, getPackageManager());
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			Log.e("HomeActivity", "DB import failed: " + e.getMessage());
-		}
 		latestAppsList = appData.getLastUpdatedApps(4);
 		appData.close();
 
 		UserStudyLogger.LOGGING_ENABLED = false;
 		UserStudyLogger.getInstance().log("activity_home");
-	}
-
-	private void exportDB() {
-		try {
-			File sd = Environment.getExternalStorageDirectory();
-			File data = Environment.getDataDirectory();
-
-			if (sd.canWrite()) {
-				String currentDBPath = "//data//"
-						+ "de.otaris.zertapps.privacychecker" + "//databases//"
-						+ "DB_privacy-checker_apps";
-				String backupDBPath = sd + "/Pca/pca.sqlite";
-				File currentDB = new File(data, currentDBPath);
-				File backupDB = new File(backupDBPath);
-
-				FileChannel src = new FileInputStream(currentDB).getChannel();
-				FileChannel dst = new FileOutputStream(backupDB).getChannel();
-				dst.transferFrom(src, 0, src.size());
-				src.close();
-				dst.close();
-				Toast.makeText(getBaseContext(), backupDB.toString(),
-						Toast.LENGTH_LONG).show();
-
-			} else {
-				Log.e("exportDB", "sdcard nicht beschreibbar");
-			}
-		} catch (Exception e) {
-
-			Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG)
-					.show();
-
-		}
-	}
-
-	private void importDB() throws IOException {
-		// Open your local db as the input stream
-		InputStream myInput = getAssets().open("pca.db");
-
-		// Path to the just created empty db
-		String outFileName = "//data//data//"
-				+ "de.otaris.zertapps.privacychecker" + "//databases//"
-				+ "DB_privacy-checker_apps";
-
-		// Open the empty db as the output stream
-		OutputStream myOutput = new FileOutputStream(outFileName);
-
-		// transfer bytes from the inputfile to the outputfile
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = myInput.read(buffer)) > 0) {
-			myOutput.write(buffer, 0, length);
-		}
-
-		// Close the streams
-		myOutput.flush();
-		myOutput.close();
-		myInput.close();
 	}
 
 	@Override
