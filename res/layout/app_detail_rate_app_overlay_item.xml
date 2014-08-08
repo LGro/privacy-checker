@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+	
+	<TextView
+        android:id="@+id/app_detail_rate_app_overlay_item_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="TextView" />
+	
+    <TextView
+        android:id="@+id/app_detail_rate_app_overlay_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="25dp"   
+        android:layout_marginLeft="5dp"   
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_item_radioGroup"
+        android:layout_toRightOf="@+id/app_detail_rate_app_overlay_item_number"
+        android:text="TextView" />
+
+    <RadioGroup
+        android:id="@+id/app_detail_rate_app_overlay_item_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/app_detail_rate_app_overlay_item_radio_expected"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+        	android:layout_marginRight="20dp" />
+
+        <RadioButton
+            android:id="@+id/app_detail_rate_app_overlay_item_radio_unexpected"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:layout_marginRight="10dp" />
+
+    </RadioGroup>
+
+    
+
+</RelativeLayout>

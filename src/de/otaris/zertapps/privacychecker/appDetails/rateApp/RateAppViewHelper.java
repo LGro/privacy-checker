@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -61,28 +62,28 @@ public class RateAppViewHelper extends DetailViewHelper {
 				// get permissions for the app
 				ArrayList<Permission> permissions = appPermissionData
 						.getPermissionsByAppId(appId);
-
 				overlay.addView(layout);
-				List<TextView> permissionList = new ArrayList<TextView>();
 
-				// loop over permissions to set label etc
-				for (int i = 1; i <= (Math.min(5, permissions.size())); i++) {
-
-					// set name and label for the permissions
-					String attribute = "app_detail_rate_app_overlay_permission"
-							+ i;
-					String packageName = v.getContext().getPackageName();
-					int permissionIdentifierId = v.getResources()
-							.getIdentifier(attribute, "id", packageName);
-
-					TextView permission = (TextView) layout
-							.findViewById(permissionIdentifierId);
-
-					permission.setVisibility(View.VISIBLE);
-					permission.setText(permissions.get(i - 1).getLabel());
-					permission.setTag(permissions.get(i - 1).getId());
-					permissionList.add(permission);
+				// Fill the listview with permissions
+				ListView permissionListView = (ListView) v.getRootView()
+						.findViewById(R.id.app_detail_rate_app_overlay_list);
+				RateAppListItemAdapter raliAdapter = new RateAppListItemAdapter(
+						v.getContext(), v.getContext().getPackageManager(),
+						permissions);
+				permissionListView.setAdapter(raliAdapter);
+				
+				/*
+				 * scale list depending on its size,
+				 * but only if there are less than 5 items
+				 */
+				if(permissions.size() < 5){
+					ViewGroup.LayoutParams updatedLayout = permissionListView.getLayoutParams();
+					final float scale = v.getContext().getResources().getDisplayMetrics().density;
+					int pixels = (int) (40 * scale);
+					updatedLayout.height = pixels * permissionListView.getCount();
+					permissionListView.setLayoutParams(updatedLayout);
 				}
+				
 
 				// loop over locks to set TotalRatingListener
 				for (int i = 1; i <= 5; i++) {
@@ -104,8 +105,10 @@ public class RateAppViewHelper extends DetailViewHelper {
 						R.id.app_detail_rate_app_overlay_send);
 				sendButton.setTag(appId);
 
+				/*
+				 * "Senden"-button logic
+				 */
 				sendButton.setOnClickListener(new OnClickListener() {
-
 					@Override
 					public void onClick(View v1) {
 
@@ -120,7 +123,9 @@ public class RateAppViewHelper extends DetailViewHelper {
 						ratingPermissionData.open();
 						appPermissionData.open();
 
-						// to count how many locks are checked
+						/*
+						 * Count locks for the rating.
+						 */
 						int count = 0;
 						int appId = (Integer) v1.getTag();
 						String packageName = v1.getContext().getPackageName();
@@ -144,8 +149,12 @@ public class RateAppViewHelper extends DetailViewHelper {
 								count++;
 							}
 						}
-
-						// list of permissions
+						
+						/* ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+						 * ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+						 * TODO: Permission Rating
+						 *
+						//Get all the permissions and associated radiobuttons
 						ArrayList<Permission> permissions1 = appPermissionData
 								.getPermissionsByAppId(appId);
 
@@ -199,9 +208,12 @@ public class RateAppViewHelper extends DetailViewHelper {
 								ratingPermissionData.createRatingPermission(0,
 										appPermissionId, false);
 							}
-
 						}
-
+						*
+						* ----- ----- ----- ----- ----- ----- ----- ----- ----- 
+						* ----- ----- ----- ----- ----- ----- ----- ----- -----  
+						*/
+						
 						// create new RatingApp with default isExpert = false
 						RatingApp newRatingApp = ratingAppData.createRatingApp(
 								count, appId, false);
@@ -209,9 +221,9 @@ public class RateAppViewHelper extends DetailViewHelper {
 						ratingAppData.close();
 						ratingPermissionData.close();
 						appPermissionData.close();
-						
-						//close overlay
-						((AppDetailsActivity)v1.getContext()).hideOverlay(v1);
+
+						// close overlay
+						((AppDetailsActivity) v1.getContext()).hideOverlay(v1);
 					}
 
 				});
@@ -221,5 +233,4 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 		return rowView;
 	}
-
 }
