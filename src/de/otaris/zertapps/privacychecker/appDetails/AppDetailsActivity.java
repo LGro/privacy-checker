@@ -126,6 +126,8 @@ public class AppDetailsActivity extends Activity {
 		RelativeLayout overlay = (RelativeLayout) findViewById(R.id.app_detail_overlay);
 		overlay.removeAllViews();
 		overlay.setVisibility(ViewGroup.INVISIBLE);
+
+		UserStudyLogger.getInstance().log("hide_overlay");
 	}
 
 	/**
@@ -146,13 +148,13 @@ public class AppDetailsActivity extends Activity {
 			finish();
 		}
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 
 		AppCompact app = getIntent().getParcelableExtra("AppCompact");
-		
+
 		UserStudyLogger.getInstance().log("activity_details-" + app.getLabel());
 	}
 

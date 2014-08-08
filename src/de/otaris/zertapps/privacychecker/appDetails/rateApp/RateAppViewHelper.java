@@ -15,12 +15,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
 
@@ -47,6 +50,8 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 			@Override
 			public void onClick(View v) {
+				UserStudyLogger.getInstance().log("overlay_rateApp");
+
 				RelativeLayout overlay = (RelativeLayout) v.getRootView()
 						.findViewById(R.id.app_detail_overlay);
 				overlay.setVisibility(View.VISIBLE);
@@ -209,9 +214,13 @@ public class RateAppViewHelper extends DetailViewHelper {
 						ratingAppData.close();
 						ratingPermissionData.close();
 						appPermissionData.close();
-						
-						//close overlay
-						((AppDetailsActivity)v1.getContext()).hideOverlay(v1);
+
+						// log
+						UserStudyLogger.getInstance().log(
+								"overlay_rateApp-" + count);
+
+						// close overlay
+						((AppDetailsActivity) v1.getContext()).hideOverlay(v1);
 					}
 
 				});
