@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
 import de.otaris.zertapps.privacychecker.appDetails.header.ExtendedHeader;
@@ -40,7 +41,7 @@ public class AppDetailsActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.app_details, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 
 		// Get the App from the intent passed from the previous activity
 		Intent intent = getIntent();
@@ -89,11 +90,10 @@ public class AppDetailsActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_imprint) {
+			Intent intent = new Intent(this, ImprintActivity.class);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
