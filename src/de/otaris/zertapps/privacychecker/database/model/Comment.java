@@ -5,38 +5,96 @@ import android.util.Log;
 
 public class Comment {
 	// Database table
-		public static final String TABLE_COMMENT = "COMMENT";
-		// Columns
-		public static final String COMMENT_ID = "COMMENT_ID";
-		public static final String COMMENT_CONTENT = "name";
-		public static final String COMMENT_VERSION = "version";
-		public static final String COMMENT_DATE = "date";
-		public static final String COMMENT_APP_ID = "app_id";
+	public static final String TABLE = "tbl_comment";
+	// Columns
+	public static final String ID = "comment_id";
+	public static final String CONTENT = "content";
+	public static final String VERSION = "version";
+	public static final String DATE = "date";
+	public static final String APP_ID = "app_id";
 
-		// Creation statement
-		private static final String Create_Comment_Table = "CREATE TABLE "
-				+ TABLE_COMMENT + "(" + COMMENT_ID
-				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + COMMENT_CONTENT
-				+ " TEXT, " + COMMENT_VERSION + " TEXT, " + COMMENT_DATE + " TEXT, " + COMMENT_APP_ID + " INTEGER FOREIGN KEY);";
+	// Creation statement
+	private static final String Create_Comment_Table = "CREATE TABLE " + TABLE
+			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CONTENT
+			+ " TEXT, " + VERSION + " TEXT, " + DATE + " INTEGER , " + APP_ID
+			+ " INTEGER );";
 
-		// empty constructor
-		public Comment() {
+	// empty constructor
+	public Comment() {
 
-		}
+	}
 
-		// create table if it isn't existing yet
-		public static void onCreate(SQLiteDatabase db) {
-			db.execSQL(Create_Comment_Table);
-		}
+	// attriutes
+	private int id;
+	private String content;
+	private String version;
+	private int date;
+	private int appId;
 
-		// upgrade Method
-		public static void onUpgrade(SQLiteDatabase db, int oldVersion,
-				int newVersion) {
-			Log.w(AppCompact.class.getCanonicalName(), "upgrading database from version "
-					+ oldVersion + " to " + newVersion
-					+ ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENT);
-			onCreate(db);
-		}
+	public Comment(int id, String content, String version, int date,
+			int app_id) {
+		this.id = id;
+		this.content = content;
+		this.version = version;
+		this.date = date;
+		this.appId = app_id;
+	}
 
+	// create table if it isn't existing yet
+	public static void onCreate(SQLiteDatabase db) {
+		db.execSQL(Create_Comment_Table);
+	}
+
+	// upgrade Method
+	public static void onUpgrade(SQLiteDatabase db, int oldVersion,
+			int newVersion) {
+		Log.w(AppCompact.class.getCanonicalName(),
+				"upgrading database from version " + oldVersion + " to "
+						+ newVersion + ", which will destroy all old data");
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+		onCreate(db);
+	}
+	
+	//getters and setters
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public int getDate() {
+		return date;
+	}
+
+	public void setDate(int date) {
+		this.date = date;
+	}
+
+	public int getAppId() {
+		return appId;
+	}
+
+	public void setAppId(int app_id) {
+		this.appId = appId;
+	}
+
+	
 }
