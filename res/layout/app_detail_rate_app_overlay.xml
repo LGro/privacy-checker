@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-    	android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:text="@string/app_detail_rate_app_heading"
         android:textSize="20sp" />
 
@@ -24,15 +24,31 @@
         android:id="@+id/scrollView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-   		android:layout_marginRight="10dp"
         android:layout_above="@+id/app_detail_rate_app_overlay_send"
         android:layout_alignLeft="@+id/app_detail_rating_permission_name"
-        android:layout_below="@+id/app_detail_rating_permission_name" >
+        android:layout_below="@+id/app_detail_rate_app_expert"
+        android:layout_marginRight="10dp" >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="320dp"
             android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/app_detail_rate_app_overlay_expert_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/app_detail_rate_app_overlay_expert_text" />
+
+            <CheckBox
+                android:id="@+id/app_detail_rate_app_overlay_expert_check"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignTop="@+id/app_detail_rate_app_overlay_expert_text" 
+                android:layout_toRightOf="@+id/app_detail_rate_app_overlay_expert_text"
+                android:layout_marginRight="10dp">
+            </CheckBox>
 
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permissions_text"
@@ -43,89 +59,89 @@
                 android:layout_below="@+id/app_detail_rate_app_overlay_permissions_title"
                 android:layout_marginTop="8dp"
                 android:text="Berechtigungen Hinweis" />
-            
+
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_expected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/app_detail_rate_app_overlay_permission1"
                 android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_unexpected"
-                android:text="Erwartet"  
-                android:singleLine="true"/>
-            
+                android:singleLine="true"
+                android:text="Erwartet" />
+
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_unexpected"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignBottom="@+id/app_detail_rate_app_overlay_expected"
+                android:layout_alignParentRight="true"
                 android:layout_marginLeft="8dp"
-                android:text="Unerwartet" 
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="Unerwartet" />
 
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permission1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignLeft="@+id/app_detail_rate_app_overlay_permission_radiogroup1"
-                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup1"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/app_detail_rate_app_overlay_permissions_text"
                 android:layout_marginTop="16dp"
+                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup1"
                 android:scrollHorizontally="false"
                 android:text="1. Permission A"
                 android:visibility="gone" />
-            
+
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permission2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignLeft="@+id/app_detail_rate_app_overlay_permission_radiogroup2"
-                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup2"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/app_detail_rate_app_overlay_permission1"
                 android:layout_marginTop="4dp"
-                android:text="2. Permission A"
+                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup2"
                 android:scrollHorizontally="false"
+                android:text="2. Permission A"
                 android:visibility="gone" />
-            
+
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permission3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignLeft="@+id/app_detail_rate_app_overlay_permission_radiogroup3"
-                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup3"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/app_detail_rate_app_overlay_permission2"
                 android:layout_marginTop="4dp"
-                android:text="3. Permission A"
+                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup3"
                 android:scrollHorizontally="false"
+                android:text="3. Permission A"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permission4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignLeft="@+id/app_detail_rate_app_overlay_permission_radiogroup4"
-                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup4"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/app_detail_rate_app_overlay_permission3"
                 android:layout_marginTop="4dp"
-                android:text="4. Permission A"
+                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup4"
                 android:scrollHorizontally="false"
+                android:text="4. Permission A"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permission5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignLeft="@+id/app_detail_rate_app_overlay_permission_radiogroup5"
-                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup5"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/app_detail_rate_app_overlay_permission4"
                 android:layout_marginTop="4dp"
-                android:text="5. Permission A"
+                android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_permission_radiogroup5"
                 android:scrollHorizontally="false"
+                android:text="5. Permission A"
                 android:visibility="gone" />
 
             <RadioGroup
@@ -228,9 +244,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:checked="true" 
+                    android:checked="true"
                     android:tag="8" />
             </RadioGroup>
+
             <RadioGroup
                 android:id="@+id/app_detail_rate_app_overlay_permission_radiogroup5"
                 android:layout_width="wrap_content"
@@ -246,15 +263,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="34dp"
-                	android:tag="9"/>
+                    android:tag="9" />
 
                 <RadioButton
                     android:id="@+id/app_detail_rate_app_overlay_RadioButton10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp" 
-                    android:checked="true" 
-                    android:tag="10"/>
+                    android:layout_marginLeft="12dp"
+                    android:checked="true"
+                    android:tag="10" />
             </RadioGroup>
 
             <TextView
@@ -271,15 +288,15 @@
                 android:id="@+id/app_detail_rate_app_overlay_rating_1"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@layout/app_detail_rate_app_overlay_check"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/app_detail_rate_app_total_rate"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="1"
                 android:text="@null"
-                android:textOn="@null"
                 android:textOff="@null"
-                android:tag="1" />
+                android:textOn="@null" />
 
             <ToggleButton
                 android:id="@+id/app_detail_rate_app_overlay_rating_2"
@@ -289,10 +306,10 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_1"
                 android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="2"
                 android:text="@null"
-                android:textOn="@null"
                 android:textOff="@null"
-                android:tag="2" />
+                android:textOn="@null" />
 
             <ToggleButton
                 android:id="@+id/app_detail_rate_app_overlay_rating_3"
@@ -302,10 +319,10 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_2"
                 android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="3"
                 android:text="@null"
-                android:textOn="@null"
                 android:textOff="@null"
-                android:tag="3" />
+                android:textOn="@null" />
 
             <ToggleButton
                 android:id="@+id/app_detail_rate_app_overlay_rating_4"
@@ -315,10 +332,10 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_3"
                 android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="4"
                 android:text="@null"
-                android:textOn="@null"
                 android:textOff="@null"
-                android:tag="4" />
+                android:textOn="@null" />
 
             <ToggleButton
                 android:id="@+id/app_detail_rate_app_overlay_rating_5"
@@ -328,23 +345,19 @@
                 android:layout_marginLeft="15dp"
                 android:layout_toRightOf="@+id/app_detail_rate_app_overlay_rating_4"
                 android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="5"
                 android:text="@null"
-                android:textOn="@null"
                 android:textOff="@null"
-                
-                android:tag="5" />
+                android:textOn="@null" />
 
             <TextView
                 android:id="@+id/app_detail_rate_app_overlay_permissions_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
+                android:layout_below="@+id/app_detail_rate_app_overlay_expert_text"
                 android:text="Berechtigungen"
                 android:textSize="18sp" />
-
-           
 
             <TextView
                 android:id="@+id/app_detail_rate_app_value_text"
@@ -356,9 +369,6 @@
                 android:layout_marginTop="3dp"
                 android:text="X Schloesser"
                 android:visibility="gone" />
-
-
-
         </RelativeLayout>
     </ScrollView>
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -45,6 +46,7 @@ public class RateAppViewHelper extends DetailViewHelper {
 		button.setTag(detail.getApp().getId());
 		button.setOnClickListener(new OnClickListener() {
 
+			//Overlay functionality
 			@Override
 			public void onClick(View v) {
 				RelativeLayout overlay = (RelativeLayout) v.getRootView()
@@ -63,8 +65,17 @@ public class RateAppViewHelper extends DetailViewHelper {
 						.getPermissionsByAppId(appId);
 
 				overlay.addView(layout);
+				
+				//Expert - functionality
+				CheckBox expertCheck = (CheckBox) v.getRootView().findViewById(R.id.app_detail_rate_app_overlay_expert_check);
+				
+				//if (expertCheck.isChecked())
+				
+						
+				
+				
 				List<TextView> permissionList = new ArrayList<TextView>();
-
+								
 				// loop over permissions to set label etc
 				for (int i = 1; i <= (Math.min(5, permissions.size())); i++) {
 
