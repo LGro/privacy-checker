@@ -41,7 +41,7 @@ public class CommentViewHelper extends DetailViewHelper {
 		comments.add(new Comment(83, "Hallo", "1. Version", 846, detail
 				.getApp().getId()));
 		comments.add(new Comment(42, "Was soll das hier?", "700. Version",
-				9752, detail.getApp().getId()));
+				1786876999, detail.getApp().getId()));
 		comments.add(new Comment(3,
 				"Was hfusgakdinehaudkfleuanskdoeuwendiezwoeneo das hier?",
 				"700. Version", 23, detail.getApp().getId()));
@@ -59,7 +59,7 @@ public class CommentViewHelper extends DetailViewHelper {
 		  ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
 		  final float scale = context.getResources().getDisplayMetrics().density; 
 		  int pixels = (int) (49 * scale); 
-		  updatedLayout.height = pixels * listView.getCount(); 
+		  updatedLayout.height = pixels * 2; 
 		  listView.setLayoutParams(updatedLayout);
 		 
 

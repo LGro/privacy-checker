@@ -28,10 +28,10 @@ public class Comment {
 	private int id;
 	private String content;
 	private String version;
-	private int date;
+	private long date;
 	private int appId;
 
-	public Comment(int id, String content, String version, int date,
+	public Comment(int id, String content, String version, long date,
 			int app_id) {
 		this.id = id;
 		this.content = content;
@@ -80,11 +80,11 @@ public class Comment {
 		this.version = version;
 	}
 
-	public int getDate() {
+	public long getDate() {
 		return date;
 	}
 
-	public void setDate(int date) {
+	public void setDate(long date) {
 		this.date = date;
 	}
 

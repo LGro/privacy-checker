@@ -1,5 +1,6 @@
 package de.otaris.zertapps.privacychecker.appDetails.comment;
 
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
+
+import java.util.Date;
 
 public class CommentAdapter extends ArrayAdapter<Comment>{
 	
@@ -26,6 +29,7 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 		this.pm = pm;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
@@ -39,9 +43,13 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 				.findViewById(R.id.app_detail_comment_item_version);
 		TextView dateView = (TextView) rowView
 				.findViewById(R.id.app_detail_comment_item_date);
-		
-		// set comment title
-		dateView.setText(values.get(position).getDate() + "");
+		//get Date
+		Date date = new Date((long) values.get(position).getDate());
+		String stringDate = date + "";
+		String[] parts = stringDate.split(" ");
+		stringDate = parts[2] + "." + parts[1] + " " + parts[5] + " " + parts[3];
+		// set comment title 
+		dateView.setText(stringDate);
 		//rowView.setTag(values.get(position).getId());
 		
 		versionView.setText(values.get(position).getVersion() + "");

@@ -32,7 +32,7 @@ public class CommentDataSource extends DataSource<Comment> {
 		comment.setId(cursor.getInt(0));
 		comment.setContent(cursor.getString(1));
 		comment.setVersion(cursor.getString(2));
-		comment.setDate(cursor.getInt(3));
+		comment.setDate(cursor.getLong(3));
 		comment.setAppId(cursor.getInt(4));
 		
 		return comment;
@@ -47,7 +47,7 @@ public class CommentDataSource extends DataSource<Comment> {
 	 * @return the new Comment
 	 */
 	public Comment createComment(String content, String version,
-			int date, int appId) {
+			long date, int appId) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Comment.CONTENT, content);
