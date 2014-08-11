@@ -43,17 +43,19 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 				.findViewById(R.id.app_detail_comment_item_version);
 		TextView dateView = (TextView) rowView
 				.findViewById(R.id.app_detail_comment_item_date);
+		
 		//get Date
 		Date date = new Date((long) values.get(position).getDate());
 		String stringDate = date + "";
 		String[] parts = stringDate.split(" ");
 		stringDate = parts[2] + "." + parts[1] + " " + parts[5] + " " + parts[3];
-		// set comment title 
-		dateView.setText(stringDate);
-		//rowView.setTag(values.get(position).getId());
 		
+		// set the apropriate informationen to the views
+		dateView.setText(stringDate);
 		versionView.setText(values.get(position).getVersion() + "");
 		contentView.setText(values.get(position).getContent() + "");
+		
+		//rowView.setTag(values.get(position).getId());
 		return rowView;
 	}
 }

@@ -33,6 +33,9 @@ public class CommentViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_comment, parent,
 				false);
 
+		/*
+		 * Get the list of comments, create an adapter, set the adapter to the list
+		 */
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		CommentDataSource commentData = new CommentDataSource(context);
 		commentData.open();
