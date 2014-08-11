@@ -12,6 +12,11 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 
+/**
+ * Displays an app description that is extendible by clicking a "show more"
+ * button.
+ *
+ */
 public class DescriptionViewHelper extends DetailViewHelper {
 
 	@Override
@@ -29,11 +34,14 @@ public class DescriptionViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_description,
 				parent, false);
 
+		// get TextView
 		TextView descriptionTextView = (TextView) rowView
 				.findViewById(R.id.app_detail_description_text);
 
+		// set app description as text for TextView
 		descriptionTextView.setText(description.getApp().getDescription());
 
+		// "show more" buttons
 		ToggleButton button = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_description_more);
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -44,7 +52,8 @@ public class DescriptionViewHelper extends DetailViewHelper {
 				TextView descriptionTextView = (TextView) ((View) toggleButton
 						.getParent())
 						.findViewById(R.id.app_detail_description_text);
-				//changes fulltext to shorten version 
+
+				// changes fulltext to shorten version and vice versa
 				if (isChecked) {
 					descriptionTextView.setMaxLines(200);
 				} else {

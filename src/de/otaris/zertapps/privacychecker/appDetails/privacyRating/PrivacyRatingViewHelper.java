@@ -23,9 +23,20 @@ import de.otaris.zertapps.privacychecker.appDetails.permissions.PermissionsListI
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
+/**
+ * Displays the total privacy rating and its three components (automatic,
+ * non-expert and expert rating).
+ * 
+ * After clicking a "show more" button to extend the detail view, an explanation
+ * of the privacy rating and a list of permissions is shown.
+ * 
+ * When the user selects a permission from this list, an overlay displaying the
+ * permission's label and explanation is shown.
+ *
+ */
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
-	private double round(float f) {
+	private double roundToOneDecimalPlace(float f) {
 		return (java.lang.Math.round(f * 10) / 10.0);
 	}
 
@@ -42,36 +53,42 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_privacy_rating,
 				parent, false);
 
-		// TextView textView = (TextView) rowView
-		// .findViewById(R.id.app_detail_list_item_name);
-		// get permissions list from permissions detail
+		// privacy rating
 		PrivacyRating rating = (PrivacyRating) detail;
 		AppExtended app = rating.getApp();
 		TextView privacyRatingTextView = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_value);
+		privacyRatingTextView.setText(roundToOneDecimalPlace(app
+				.getPrivacyRating()) + "");
 
-		privacyRatingTextView.setText(round(app.getRating()) + "");
-
+		// privacy rating count
 		TextView privacyRatingCount = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_count);
 		privacyRatingCount.setText("("
 				+ (app.getNonExpertRating().size() + app.getExpertRating()
 						.size()) + ")");
 
+		// automatic rating
 		TextView automaticRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_automatic_text);
-		automaticRating.setText(round(app.getAutomaticRating()) + "");
+		automaticRating
+				.setText(roundToOneDecimalPlace(app.getAutomaticRating()) + "");
 
+		// non-expert rating
 		TextView nonExpertRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_nonexpert_text);
-		nonExpertRating.setText(round(app.getTotalNonExpertRating()) + " ("
+		nonExpertRating.setText(roundToOneDecimalPlace(app
+				.getTotalNonExpertRating())
+				+ " ("
 				+ app.getNonExpertRating().size() + ")");
 
+		// expert rating
 		TextView expertRating = (TextView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_expert_text);
-		expertRating.setText(round(app.getTotalExpertRating()) + " ("
-				+ app.getExpertRating().size() + ")");
+		expertRating.setText(roundToOneDecimalPlace(app.getTotalExpertRating())
+				+ " (" + app.getExpertRating().size() + ")");
 
+		// privacy rating locks-icon
 		ImageView privacyRatingIcon = (ImageView) rowView
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		privacyRatingIcon.setImageResource(new RatingController()
