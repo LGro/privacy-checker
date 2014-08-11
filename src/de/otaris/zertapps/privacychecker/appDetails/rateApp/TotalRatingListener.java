@@ -1,7 +1,6 @@
 package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
@@ -10,11 +9,13 @@ import de.otaris.zertapps.privacychecker.R;
  * handles clicks on locks for total rating by updating the images
  */
 public class TotalRatingListener implements View.OnClickListener {
-	
+
 	@Override
 	public void onClick(View v) {
 
+		// retrieve the tag of the selected button
 		int tag = Integer.parseInt((String) v.getTag());
+		// get all the buttons from the view
 		ToggleButton button1 = (ToggleButton) v.getRootView().findViewById(
 				R.id.app_detail_rate_app_overlay_rating_1);
 		ToggleButton button2 = (ToggleButton) v.getRootView().findViewById(
@@ -29,9 +30,7 @@ public class TotalRatingListener implements View.OnClickListener {
 				R.id.app_detail_rate_app_value_text);
 		valueText.setVisibility(View.VISIBLE);
 
-		// sets the chosen locks green
-		// for (int i = 1; i <= tag; i++) {
-
+		// sets the chosen locks green/white depending on the tag
 		switch (tag) {
 
 		case 1:
