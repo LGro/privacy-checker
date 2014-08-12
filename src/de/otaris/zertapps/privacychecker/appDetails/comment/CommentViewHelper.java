@@ -92,8 +92,17 @@ public class CommentViewHelper extends DetailViewHelper {
 						int pixels = (int) (49 * scale);
 
 						if (isChecked) {
-							updatedLayout.height = pixels * listView.getCount();
+							// TODO: change 200 to maximum height per comment
+							updatedLayout.height = 200 * listView.getCount();
 							listView.setLayoutParams(updatedLayout);
+
+							// int maxListHeight = 0;
+							// for (int i = 0; i < listView.getCount(); i++) {
+							// maxListHeight += listView.getChildAt(i)
+							// .getHeight();
+							// }
+							// updatedLayout.height = maxListHeight;
+							// listView.setLayoutParams(updatedLayout);
 						} else {
 							updatedLayout.height = pixels * 2;
 							listView.setLayoutParams(updatedLayout);
