@@ -17,6 +17,11 @@ import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 import de.otaris.zertapps.privacychecker.database.dataSource.CommentDataSource;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
 
+/**
+ * Displays user Comments, by clicking the show more button all user comments
+ * that are in the database are shown
+ *
+ */
 public class CommentViewHelper extends DetailViewHelper {
 
 	@Override
@@ -34,7 +39,8 @@ public class CommentViewHelper extends DetailViewHelper {
 				false);
 
 		/*
-		 * Get the list of comments, create an adapter, set the adapter to the list
+		 * Get the list of comments, create an adapter, set the adapter to the
+		 * list
 		 */
 		ArrayList<Comment> comments = new ArrayList<Comment>();
 		CommentDataSource commentData = new CommentDataSource(context);
@@ -57,14 +63,12 @@ public class CommentViewHelper extends DetailViewHelper {
 
 		listView.setAdapter(adapter);
 
-		
-		 // scale list depending on its size
-		  ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
-		  final float scale = context.getResources().getDisplayMetrics().density; 
-		  int pixels = (int) (49 * scale); 
-		  updatedLayout.height = pixels * 2; 
-		  listView.setLayoutParams(updatedLayout);
-		 
+		// scale list depending on its size
+		ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
+		final float scale = context.getResources().getDisplayMetrics().density;
+		int pixels = (int) (49 * scale);
+		updatedLayout.height = pixels * 2;
+		listView.setLayoutParams(updatedLayout);
 
 		// get "show more" button
 		ToggleButton showMoreButton = (ToggleButton) rowView
@@ -77,10 +81,13 @@ public class CommentViewHelper extends DetailViewHelper {
 					public void onCheckedChanged(CompoundButton toggleButton,
 							boolean isChecked) {
 
-						ListView listView = (ListView) toggleButton.getRootView().findViewById(R.id.app_detail_comment_list);
+						ListView listView = (ListView) toggleButton
+								.getRootView().findViewById(
+										R.id.app_detail_comment_list);
 						ViewGroup.LayoutParams updatedLayout = listView
 								.getLayoutParams();
-						final float scale = toggleButton.getRootView().getContext().getResources()
+						final float scale = toggleButton.getRootView()
+								.getContext().getResources()
 								.getDisplayMetrics().density;
 						int pixels = (int) (49 * scale);
 

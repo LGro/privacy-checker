@@ -1,6 +1,5 @@
 package de.otaris.zertapps.privacychecker.appDetails.comment;
 
-import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -15,8 +14,12 @@ import de.otaris.zertapps.privacychecker.database.model.Comment;
 
 import java.util.Date;
 
-public class CommentAdapter extends ArrayAdapter<Comment>{
-	
+/**
+ * Adapter that handles the headlines of comments (date + time)
+ *
+ */
+public class CommentAdapter extends ArrayAdapter<Comment> {
+
 	private final Context context;
 	private final List<Comment> values;
 	private final PackageManager pm;
@@ -29,12 +32,12 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 		this.pm = pm;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View rowView = inflater.inflate(R.layout.app_detail_comment_item, parent, false);
+		View rowView = inflater.inflate(R.layout.app_detail_comment_item,
+				parent, false);
 
 		// get views from layout
 		TextView contentView = (TextView) rowView
@@ -43,19 +46,20 @@ public class CommentAdapter extends ArrayAdapter<Comment>{
 				.findViewById(R.id.app_detail_comment_item_version);
 		TextView dateView = (TextView) rowView
 				.findViewById(R.id.app_detail_comment_item_date);
-		
-		//get Date
+
+		// get Date
 		Date date = new Date((long) values.get(position).getDate());
 		String stringDate = date + "";
 		String[] parts = stringDate.split(" ");
-		stringDate = parts[2] + "." + parts[1] + " " + parts[5] + " " + parts[3];
-		
+		stringDate = parts[2] + "." + parts[1] + " " + parts[5] + " "
+				+ parts[3];
+
 		// set the apropriate informationen to the views
 		dateView.setText(stringDate);
 		versionView.setText(values.get(position).getVersion() + "");
 		contentView.setText(values.get(position).getContent() + "");
-		
-		//rowView.setTag(values.get(position).getId());
+
+		// rowView.setTag(values.get(position).getId());
 		return rowView;
 	}
 }
