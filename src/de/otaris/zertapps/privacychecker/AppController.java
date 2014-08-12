@@ -39,10 +39,13 @@ public class AppController {
 
 		// create result list without apps with no name (system apps?)
 		List<ApplicationInfo> results = new ArrayList<ApplicationInfo>();
-		for (int i = 0; i < apps.size(); i++) {
-			if (apps.get(i).packageName != null
-					&& apps.get(i).packageName != "")
-				results.add(apps.get(i));
+
+		for (ApplicationInfo app : apps) {
+			// filter apps without a package name and labels that are empty or
+			// equal to the package name
+			if (app.packageName != null && app.packageName != ""
+					&& app.packageName != app.loadLabel(pm).toString())
+				results.add(app);
 		}
 		return results.toArray(new ApplicationInfo[0]);
 	}
