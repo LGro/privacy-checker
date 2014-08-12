@@ -9,6 +9,10 @@ import android.view.ViewGroup;
  * details activity, given a specific instance of a Detail object.
  */
 public abstract class DetailViewHelper {
+
+	protected abstract void initializeViews(View contextView);
+
 	public abstract View getView(Context context, ViewGroup parent,
 			Detail detail) throws IllegalArgumentException;
+
 }

@@ -26,13 +26,41 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
  * <li>privacy rating</li>
  * <li>funcational/PlayStore rating</li>
  * <li>install/uninstall button</li>
- * <li>"to Playstore" button</li>
+ * <li>"to PlayStore" button</li>
  * </ul>
  */
-public class ExtendedHeader implements Header {
-	
-	private void initializeGuiElements() {
-		// TODO ????
+public class ExtendedHeader extends Header {
+
+	protected TextView appNameView;
+	protected TextView developerTextView;
+	protected ImageView privacyRatingImageView;
+	protected ImageView playStoreRatingImageView;
+	protected ImageView appIconImageView;
+	protected Button installUninstallButton;
+	protected Button viewInPlayStoreButton;
+	// TODO: this is currently not used; create attribute for app in database
+	protected TextView playStoreRatingAmountTextView;
+	protected TextView privacyRatingAmountTextView;
+
+	protected void initializeViews(View contextView) {
+		appNameView = (TextView) contextView
+				.findViewById(R.id.app_detail_header_name);
+		developerTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_header_developer);
+		privacyRatingImageView = (ImageView) contextView
+				.findViewById(R.id.app_detail_header_rating_pic);
+		playStoreRatingImageView = (ImageView) contextView
+				.findViewById(R.id.app_detail_header_ps_rating_image);
+		appIconImageView = (ImageView) contextView
+				.findViewById(R.id.app_detail_header_icon);
+		installUninstallButton = (Button) contextView
+				.findViewById(R.id.app_detail_header_button_install);
+		viewInPlayStoreButton = (Button) contextView
+				.findViewById(R.id.app_detail_header_button_ps);
+		playStoreRatingAmountTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_header_ps_rating_amount);
+		privacyRatingAmountTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_header_privacy_rating_amount);
 	}
 
 	@Override
@@ -45,36 +73,18 @@ public class ExtendedHeader implements Header {
 		View rowView = inflater.inflate(R.layout.app_detail_header, null);
 
 		// set some id
-		// TODO: Is there a way of doing this so there is nExtendedHeadero conflict possible?
+		// TODO: Is there a way of doing this so there is nExtendedHeadero
+		// conflict possible?
 		rowView.setId(170892);
 
-		// Get all the views ...
-		TextView nameView = (TextView) rowView
-				.findViewById(R.id.app_detail_header_name);
-		TextView developerView = (TextView) rowView
-				.findViewById(R.id.app_detail_header_developer);
-		ImageView ratingView = (ImageView) rowView
-				.findViewById(R.id.app_detail_header_rating_pic);
-		ImageView ratingViewPS = (ImageView) rowView
-				.findViewById(R.id.app_detail_header_ps_rating_image);
-		ImageView iconView = (ImageView) rowView
-				.findViewById(R.id.app_detail_header_icon);
-		Button buttonInstall = (Button) rowView
-				.findViewById(R.id.app_detail_header_button_install);
-		Button buttonPs = (Button) rowView
-				.findViewById(R.id.app_detail_header_button_ps);
-		// TODO: where is this information located? where to get from?
-		TextView psRatingAmount = (TextView) rowView
-				.findViewById(R.id.app_detail_header_ps_rating_amount);
-		TextView privacyRatingAmount = (TextView) rowView
-				.findViewById(R.id.app_detail_header_privacy_rating_amount);
+		initializeViews(rowView);
 
 		// ... and fill them with the right information about the app.
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
-			buttonInstall.setText("Deinstallieren");
+			installUninstallButton.setText("Deinstallieren");
 			try {
-				iconView.setImageDrawable(activity.getPackageManager()
+				appIconImageView.setImageDrawable(activity.getPackageManager()
 						.getApplicationIcon(app.getName()));
 
 			} catch (NameNotFoundException e) {
@@ -82,13 +92,13 @@ public class ExtendedHeader implements Header {
 						"Couldn't load icons for app: " + e.getMessage());
 			}
 		} else {
-			buttonInstall.setText("Installieren");
-			iconView.setImageBitmap(IconController.byteArrayToBitmap(app
-					.getIcon()));
+			installUninstallButton.setText("Installieren");
+			appIconImageView.setImageBitmap(IconController
+					.byteArrayToBitmap(app.getIcon()));
 		}
 
-		buttonPs.setTag(app);
-		buttonPs.setOnClickListener(new OnClickListener() {
+		viewInPlayStoreButton.setTag(app);
+		viewInPlayStoreButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -100,17 +110,18 @@ public class ExtendedHeader implements Header {
 		});
 
 		// Set the icons for locks and stars according to their amount
-		ratingView.setImageResource(new RatingController()
+		privacyRatingImageView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
-		ratingViewPS.setImageResource(new RatingController()
+		playStoreRatingImageView.setImageResource(new RatingController()
 				.getIconRatingStars(app.getFunctionalRating()));
 		int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
 				+ app.getExpertRating().size();
-		privacyRatingAmount.setText(totalNumberOfPrivacyRatings + "");
+		privacyRatingAmountTextView.setText(totalNumberOfPrivacyRatings + "");
 
 		// Set name and developer
-		nameView.setText(app.getLabel());
-		developerView.setText(app.getName());
+		appNameView.setText(app.getLabel());
+		// TODO: set developer
+		developerTextView.setText("");
 
 		return rowView;
 	}

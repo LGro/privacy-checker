@@ -38,6 +38,13 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
  */
 public class RateAppViewHelper extends DetailViewHelper {
 
+	protected Button rateAppButton;
+
+	protected void initializeViews(View contextView) {
+		rateAppButton = (Button) contextView
+				.findViewById(R.id.app_detail_rate_app_button);
+	}
+
 	@Override
 	public View getView(Context context, ViewGroup parent, Detail detail)
 			throws IllegalArgumentException {
@@ -50,9 +57,9 @@ public class RateAppViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_rate_app, parent,
 				false);
 
+		initializeViews(rowView);
+
 		// Logic for the rate app button
-		Button rateAppButton = (Button) rowView
-				.findViewById(R.id.app_detail_rate_app_button);
 		rateAppButton.setTag(detail.getApp().getId());
 		rateAppButton.setOnClickListener(new OnClickListener() {
 

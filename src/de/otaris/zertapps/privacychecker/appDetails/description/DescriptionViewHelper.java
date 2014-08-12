@@ -19,6 +19,13 @@ import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
  */
 public class DescriptionViewHelper extends DetailViewHelper {
 
+	protected TextView descriptionTextView;
+
+	protected void initializeViews(View contextView) {
+		descriptionTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_description_text);
+	}
+
 	@Override
 	public View getView(Context context, ViewGroup parent, Detail detail)
 			throws IllegalArgumentException {
@@ -34,13 +41,11 @@ public class DescriptionViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_description,
 				parent, false);
 
-		// get TextView
-		TextView descriptionTextView = (TextView) rowView
-				.findViewById(R.id.app_detail_description_text);
+		initializeViews(rowView);
 
 		// set description or "no description" text for empty descriptions
 		String descriptionText;
-		if (description.getApp().getDescription() == "") {
+		if (description.getApp().getDescription() != "") {
 			descriptionText = description.getApp().getDescription();
 		} else {
 			descriptionText = context.getResources().getString(
