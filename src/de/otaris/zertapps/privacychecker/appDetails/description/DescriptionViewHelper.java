@@ -38,8 +38,17 @@ public class DescriptionViewHelper extends DetailViewHelper {
 		TextView descriptionTextView = (TextView) rowView
 				.findViewById(R.id.app_detail_description_text);
 
+		// set description or "no description" text for empty descriptions
+		String descriptionText;
+		if (description.getApp().getDescription() == "") {
+			descriptionText = description.getApp().getDescription();
+		} else {
+			descriptionText = context.getResources().getString(
+					R.string.app_details_no_description_available);
+		}
+
 		// set app description as text for TextView
-		descriptionTextView.setText(description.getApp().getDescription());
+		descriptionTextView.setText(descriptionText);
 
 		// "show more" buttons
 		ToggleButton button = (ToggleButton) rowView
@@ -65,5 +74,4 @@ public class DescriptionViewHelper extends DetailViewHelper {
 
 		return rowView;
 	}
-
 }
