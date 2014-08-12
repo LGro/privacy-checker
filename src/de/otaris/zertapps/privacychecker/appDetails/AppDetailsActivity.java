@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
+import de.otaris.zertapps.privacychecker.appDetails.comment.Comment;
 import de.otaris.zertapps.privacychecker.appDetails.header.ExtendedHeader;
 import de.otaris.zertapps.privacychecker.appDetails.header.Header;
 import de.otaris.zertapps.privacychecker.appDetails.privacyRating.PrivacyRating;
@@ -80,9 +81,10 @@ public class AppDetailsActivity extends Activity {
 		AppExtended appExtended = appDataSource.extendAppCompact(app);
 		appDataSource.close();
 		details.add(new Description(appExtended));
-		// details.add(new Permissions(appExtended));
 		details.add(new PrivacyRating(appExtended));
 		details.add(new RateApp(appExtended));
+		details.add(new Comment(appExtended));
+		
 
 		return details;
 	}
