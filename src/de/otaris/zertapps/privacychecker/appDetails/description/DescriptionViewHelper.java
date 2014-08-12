@@ -12,7 +12,19 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 
+/**
+ * Displays an app description that is extendible by clicking a "show more"
+ * button.
+ *
+ */
 public class DescriptionViewHelper extends DetailViewHelper {
+
+	protected TextView descriptionTextView;
+
+	protected void initializeViews(View contextView) {
+		descriptionTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_description_text);
+	}
 
 	@Override
 	public View getView(Context context, ViewGroup parent, Detail detail)
@@ -29,11 +41,21 @@ public class DescriptionViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_description,
 				parent, false);
 
-		TextView descriptionTextView = (TextView) rowView
-				.findViewById(R.id.app_detail_description_text);
+		initializeViews(rowView);
 
-		descriptionTextView.setText(description.getApp().getDescription());
+		// set description or "no description" text for empty descriptions
+		String descriptionText;
+		if (description.getApp().getDescription() != "") {
+			descriptionText = description.getApp().getDescription();
+		} else {
+			descriptionText = context.getResources().getString(
+					R.string.app_details_no_description_available);
+		}
 
+		// set app description as text for TextView
+		descriptionTextView.setText(descriptionText);
+
+		// "show more" buttons
 		ToggleButton button = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_description_more);
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -44,7 +66,8 @@ public class DescriptionViewHelper extends DetailViewHelper {
 				TextView descriptionTextView = (TextView) ((View) toggleButton
 						.getParent())
 						.findViewById(R.id.app_detail_description_text);
-				//changes fulltext to shorten version 
+
+				// changes fulltext to shorten version and vice versa
 				if (isChecked) {
 					descriptionTextView.setMaxLines(200);
 				} else {
@@ -56,5 +79,4 @@ public class DescriptionViewHelper extends DetailViewHelper {
 
 		return rowView;
 	}
-
 }

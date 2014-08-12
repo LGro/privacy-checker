@@ -19,13 +19,54 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
-import de.otaris.zertapps.privacychecker.appDetails.permissions.PermissionsListItemAdapter;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
+/**
+ * Displays the total privacy rating and its three components (automatic,
+ * non-expert and expert rating).
+ * 
+ * After clicking a "show more" button to extend the detail view, an explanation
+ * of the privacy rating and a list of permissions is shown.
+ * 
+ * When the user selects a permission from this list, an overlay displaying the
+ * permission's label and explanation is shown.
+ *
+ */
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
-	private double round(float f) {
+	protected TextView privacyRatingTextView;
+	protected TextView privacyRatingCountTextView;
+	protected TextView automaticRatingTextView;
+	protected TextView nonExpertRatingTextView;
+	protected TextView expertRatingTextView;
+	protected ImageView privacyRatingIconTextView;
+	protected ListView permissionListView;
+
+	/**
+	 * initialize all relevant views
+	 * 
+	 * @param contextView
+	 *            view that wraps the relevant subviews
+	 */
+	protected void initializeViews(View contextView) {
+		privacyRatingTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_value);
+		privacyRatingCountTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_count);
+		automaticRatingTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_automatic_text);
+		nonExpertRatingTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_nonexpert_text);
+		expertRatingTextView = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_expert_text);
+		privacyRatingIconTextView = (ImageView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_image);
+		permissionListView = (ListView) contextView
+				.findViewById(R.id.app_detail_rating_permissions_list);
+	}
+
+	private double roundToOneDecimalPlace(float f) {
 		return (java.lang.Math.round(f * 10) / 10.0);
 	}
 
@@ -42,61 +83,56 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_privacy_rating,
 				parent, false);
 
-		// TextView textView = (TextView) rowView
-		// .findViewById(R.id.app_detail_list_item_name);
-		// get permissions list from permissions detail
+		initializeViews(rowView);
+
+		// privacy rating
 		PrivacyRating rating = (PrivacyRating) detail;
 		AppExtended app = rating.getApp();
-		TextView privacyRatingTextView = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_value);
+		privacyRatingTextView.setText(roundToOneDecimalPlace(app
+				.getPrivacyRating()) + "");
 
-		privacyRatingTextView.setText(round(app.getRating()) + "");
-
-		TextView privacyRatingCount = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_count);
-		privacyRatingCount.setText("("
+		// privacy rating count
+		privacyRatingCountTextView.setText("("
 				+ (app.getNonExpertRating().size() + app.getExpertRating()
 						.size()) + ")");
 
-		TextView automaticRating = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_automatic_text);
-		automaticRating.setText(round(app.getAutomaticRating()) + "");
+		// automatic rating
+		automaticRatingTextView.setText(roundToOneDecimalPlace(app
+				.getAutomaticRating()) + "");
 
-		TextView nonExpertRating = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_nonexpert_text);
-		nonExpertRating.setText(round(app.getTotalNonExpertRating()) + " ("
+		// non-expert rating
+		nonExpertRatingTextView.setText(roundToOneDecimalPlace(app
+				.getTotalNonExpertRating())
+				+ " ("
 				+ app.getNonExpertRating().size() + ")");
 
-		TextView expertRating = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_expert_text);
-		expertRating.setText(round(app.getTotalExpertRating()) + " ("
-				+ app.getExpertRating().size() + ")");
+		// expert rating
+		expertRatingTextView.setText(roundToOneDecimalPlace(app
+				.getTotalExpertRating())
+				+ " ("
+				+ app.getExpertRating().size()
+				+ ")");
 
-		ImageView privacyRatingIcon = (ImageView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_image);
-		privacyRatingIcon.setImageResource(new RatingController()
+		// privacy rating locks-icon
+		privacyRatingIconTextView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
 
 		List<Permission> permissionList = app.getPermissionList();
 
-		// get permission list view
-		ListView listView = (ListView) rowView
-				.findViewById(R.id.app_detail_rating_permissions_list);
-
 		// add list item adapter for permissions
-		listView.setAdapter(new PermissionsListItemAdapter(context,
+		permissionListView.setAdapter(new PermissionsListItemAdapter(context,
 				permissionList));
-		listView.setScrollContainer(false);
+		permissionListView.setScrollContainer(false);
 
 		// scale list depending on its size
-		ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
-		final float scale = context.getResources().getDisplayMetrics().density;
-		int pixels = (int) (49 * scale);
-		updatedLayout.height = pixels * listView.getCount();
-		listView.setLayoutParams(updatedLayout);
+		ViewGroup.LayoutParams updatedLayout = permissionListView
+				.getLayoutParams();
+		int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
+		updatedLayout.height = pixels * permissionListView.getCount();
+		permissionListView.setLayoutParams(updatedLayout);
 
 		// set click listener for list items
-		listView.setOnItemClickListener(new OnItemClickListener() {
+		permissionListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,

@@ -32,7 +32,7 @@ public class Comment {
 	private int appId;
 
 	public Comment(int id, String content, String version, long date,
-			int app_id) {
+			int appId) {
 		this.id = id;
 		this.content = content;
 		this.version = version;
@@ -95,6 +95,4 @@ public class Comment {
 	public void setAppId(int app_id) {
 		this.appId = appId;
 	}
-
-	
 }

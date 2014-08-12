@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="15dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="35dp"
+    android:background="@color/white" >
+
+    <TextView
+        android:id="@+id/app_detai_rate_app_overlay_successful_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Vielen Dank für die Bewertung der App!" />
+
+    <ImageView
+        android:id="@+id/app_detai_rate_app_overlay_successful_line"
+        android:layout_width="512dp"
+        android:layout_height="8dp"
+        android:layout_below="@+id/app_detai_rate_app_overlay_successful_text"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/line_h" />
+
+    <Button
+        android:id="@+id/app_detai_rate_app_overlay_successful_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/app_detai_rate_app_overlay_successful_line"
+        android:layout_centerHorizontal="true"
+        android:text="Ok" />
+
+</RelativeLayout>

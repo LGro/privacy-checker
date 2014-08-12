@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.otaris.zertapps.privacychecker.R;
 
+/**
+ * List adapter to handle multiple details of one app.
+ *
+ */
 public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 	private final Context context;
 	private final List<Detail> values;
@@ -22,13 +26,20 @@ public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
+		// get class name of the detail object at "position"
 		String detailViewClass = values.get(position).getClass().getName();
+
+		// infer specific detail ViewHelper class name
 		String detailViewClassFullPath = detailViewClass + "ViewHelper";
 		try {
-			Class viewClass = Class.forName(detailViewClassFullPath);
+			// get specific detail dependent ViewHelper class
+			Class<?> viewClass = Class.forName(detailViewClassFullPath);
+			// instantiate the ViewHelper matching the current detail object
 			DetailViewHelper detailViewHelper = (DetailViewHelper) viewClass
 					.newInstance();
 
+			// return the view returned by the ViewHelper given the Detail at
+			// "position"
 			return detailViewHelper.getView(context, parent,
 					values.get(position));
 		} catch (ClassNotFoundException e) {
