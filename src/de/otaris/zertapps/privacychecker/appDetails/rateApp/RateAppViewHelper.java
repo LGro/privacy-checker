@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -234,7 +235,8 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 						// Create a message for a successful transmission
 						AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-								v1.getContext());
+								new ContextThemeWrapper(v1.getContext(),
+										R.style.AlertDialogCustom));
 						alertDialog
 								.setTitle("Vielen Dank für das Bewerten dieser App!");
 						alertDialog.setIcon(R.drawable.ic_launcher);
