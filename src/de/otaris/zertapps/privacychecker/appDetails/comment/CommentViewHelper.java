@@ -7,10 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
+import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
@@ -23,6 +22,17 @@ import de.otaris.zertapps.privacychecker.database.model.Comment;
  *
  */
 public class CommentViewHelper extends DetailViewHelper {
+
+	protected ListView commentListView;
+	protected ToggleButton showMoreButton;
+
+	@Override
+	protected void initializeViews(View contextView) {
+		commentListView = (ListView) contextView
+				.findViewById(R.id.app_detail_comment_list);
+		showMoreButton = (ToggleButton) contextView
+				.findViewById(R.id.app_detail_comment_more_button);
+	}
 
 	@Override
 	public View getView(Context context, ViewGroup parent, Detail detail)
@@ -38,6 +48,8 @@ public class CommentViewHelper extends DetailViewHelper {
 		View rowView = inflater.inflate(R.layout.app_detail_comment, parent,
 				false);
 
+		initializeViews(rowView);
+
 		/*
 		 * Get the list of comments, create an adapter, set the adapter to the
 		 * list
@@ -46,33 +58,20 @@ public class CommentViewHelper extends DetailViewHelper {
 		CommentDataSource commentData = new CommentDataSource(context);
 		commentData.open();
 		comments = commentData.getCommentsByAppId(detail.getApp().getId());
-		// TODO: remove added comments here
-		comments.add(new Comment(83, "Hallo", "1. Version", 846, detail
-				.getApp().getId()));
-		comments.add(new Comment(42, "Was soll das hier?", "700. Version",
-				1786876999, detail.getApp().getId()));
-		comments.add(new Comment(3,
-				"Was hfusgakdinehaudkfleuanskdoeuwendiezwoeneo das hier?",
-				"700. Version", 23, detail.getApp().getId()));
-		commentData.close();
 
-		ListView listView = (ListView) rowView
-				.findViewById(R.id.app_detail_comment_list);
 		CommentAdapter adapter = new CommentAdapter(context,
 				context.getPackageManager(), comments);
 
-		listView.setAdapter(adapter);
+		commentListView.setAdapter(adapter);
 
 		// scale list depending on its size
-		ViewGroup.LayoutParams updatedLayout = listView.getLayoutParams();
+		ViewGroup.LayoutParams updatedLayout = commentListView
+				.getLayoutParams();
 		final float scale = context.getResources().getDisplayMetrics().density;
 		int pixels = (int) (49 * scale);
 		updatedLayout.height = pixels * 2;
-		listView.setLayoutParams(updatedLayout);
+		commentListView.setLayoutParams(updatedLayout);
 
-		// get "show more" button
-		ToggleButton showMoreButton = (ToggleButton) rowView
-				.findViewById(R.id.app_detail_comment_more_button);
 		// set click listener
 		showMoreButton
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -103,5 +102,4 @@ public class CommentViewHelper extends DetailViewHelper {
 				});
 		return rowView;
 	}
-
 }

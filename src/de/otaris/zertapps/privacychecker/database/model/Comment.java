@@ -37,7 +37,7 @@ public class Comment {
 		this.content = content;
 		this.version = version;
 		this.date = date;
-		this.appId = app_id;
+		this.appId = appId;
 	}
 
 	// create table if it isn't existing yet
