@@ -40,7 +40,8 @@ public class AppController {
 		// create result list without apps with no name (system apps?)
 		List<ApplicationInfo> results = new ArrayList<ApplicationInfo>();
 		for (int i = 0; i < apps.size(); i++) {
-			if (apps.get(i).className != null && apps.get(i).className != "")
+			if (apps.get(i).packageName != null
+					&& apps.get(i).packageName != "")
 				results.add(apps.get(i));
 		}
 		return results.toArray(new ApplicationInfo[0]);
@@ -144,6 +145,15 @@ public class AppController {
 
 	}
 
+	/**
+	 * get permissions for a given aplication info
+	 * 
+	 * @param pm
+	 *            packagemanager used to retrieve the permissions
+	 * @param appInfo
+	 *            app thats permissions are requested
+	 * @return array of strings ofor each permission that's required
+	 */
 	public String[] getPermissions(PackageManager pm, ApplicationInfo appInfo) {
 		// initialize list with all installed apps
 		PackageInfo packageInfo;
@@ -157,7 +167,8 @@ public class AppController {
 			e.printStackTrace();
 		}
 
-		return requestedPermissions;
+		return (requestedPermissions == null) ? new String[0]
+				: requestedPermissions;
 	}
 
 	/**
@@ -198,6 +209,7 @@ public class AppController {
 	 * @param pm
 	 */
 	public void insertUncoveredInstalledApps(Context context, PackageManager pm) {
+		// prepare datasources
 		AppCompactDataSource appData = new AppCompactDataSource(context);
 		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
 				context);
@@ -256,6 +268,7 @@ public class AppController {
 			}
 		}
 
+		// close datasources
 		appData.close();
 		appPermissionData.close();
 		permissionData.close();
@@ -278,6 +291,11 @@ public class AppController {
 	 */
 	private float getAutomaticPrivacyRating(Context context, PackageManager pm,
 			String[] permissions) {
+
+		// return 5 (max privacy rating) if no permissions are required
+		if (permissions.length == 0)
+			return 5;
+
 		PermissionDataSource permissionData = new PermissionDataSource(context);
 
 		float automaticPrivacyRating = 0;
