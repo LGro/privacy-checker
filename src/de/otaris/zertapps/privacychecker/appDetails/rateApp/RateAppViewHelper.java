@@ -21,7 +21,6 @@ import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSo
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
-import de.otaris.zertapps.privacychecker.database.model.RatingApp;
 
 /*
  * Inflates the layout containing the elements to rate a app.
@@ -105,10 +104,11 @@ public class RateAppViewHelper extends DetailViewHelper {
 				for (int i = 1; i <= 5; i++) {
 
 					String packageName = v.getContext().getPackageName();
-					String attribute2 = "app_detail_rate_app_overlay_rating_"
+					String ratingIdentifierName = "app_detail_rate_app_overlay_rating_"
 							+ i;
+					// retrieve ID of the lock
 					int ratingIdentifierId = v.getResources().getIdentifier(
-							attribute2, "id", packageName);
+							ratingIdentifierName, "id", packageName);
 
 					layout.findViewById(ratingIdentifierId).setOnClickListener(
 							new TotalRatingListener());
@@ -149,16 +149,16 @@ public class RateAppViewHelper extends DetailViewHelper {
 						for (int i = 1; i <= 5; i++) {
 
 							// get total rating
-							String attribute = "app_detail_rate_app_overlay_rating_"
+							String ratingIdentifierName = "app_detail_rate_app_overlay_rating_"
 									+ i;
 
-							int ratingIdentifier2 = v1
-									.getResources()
-									.getIdentifier(attribute, "id", packageName);
+							int ratingIdentifierId = v1.getResources()
+									.getIdentifier(ratingIdentifierName, "id",
+											packageName);
 
 							ToggleButton button = (ToggleButton) v1
 									.getRootView().findViewById(
-											ratingIdentifier2);
+											ratingIdentifierId);
 
 							if (button.isChecked()) {
 								count++;
@@ -233,21 +233,25 @@ public class RateAppViewHelper extends DetailViewHelper {
 						((AppDetailsActivity) v1.getContext()).hideOverlay(v1);
 
 						// Create a message for a successful transmission
-						AlertDialog.Builder alertDialog = new AlertDialog.Builder(v1.getContext());
-						alertDialog.setTitle("Vielen Dank für das Bewerten dieser App!");
+						AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+								v1.getContext());
+						alertDialog
+								.setTitle("Vielen Dank für das Bewerten dieser App!");
 						alertDialog.setIcon(R.drawable.ic_launcher);
-						alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,int id) {
-								// if this button is clicked, just close
-								// the dialog box and do nothing
-								dialog.cancel();
-							}
-						});
+						alertDialog.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog,
+											int id) {
+										// if this button is clicked, just close
+										// the dialog box and do nothing
+										dialog.cancel();
+									}
+								});
 						alertDialog.show();
-						
+
 					}
 				});
-				
+
 			}
 		});
 

@@ -6,12 +6,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -41,17 +37,15 @@ public class RateAppListItemAdapter extends ArrayAdapter<Permission> {
 				.findViewById(R.id.app_detail_rate_app_overlay_item_number);
 		TextView textViewName = (TextView) rowView
 				.findViewById(R.id.app_detail_rate_app_overlay_item_name);
-		RadioButton radio0 = (RadioButton) rowView
-				.findViewById(R.id.app_detail_rate_app_overlay_item_radio_expected);
-		RadioButton radio1 = (RadioButton) rowView
-				.findViewById(R.id.app_detail_rate_app_overlay_item_radio_unexpected);
+		// RadioButton radio0 = (RadioButton) rowView
+		// .findViewById(R.id.app_detail_rate_app_overlay_item_radio_expected);
+		// RadioButton radio1 = (RadioButton) rowView
+		// .findViewById(R.id.app_detail_rate_app_overlay_item_radio_unexpected);
 
 		// Set the appropriate information to the objects
 		textViewNumber.setText((position + 1) + ".");
 		textViewName.setText(values.get(position).getLabel());
-		
-		
-		
+
 		return rowView;
 	}
 }
