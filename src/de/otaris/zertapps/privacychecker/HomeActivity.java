@@ -5,8 +5,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -32,12 +34,18 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 /**
  * Is called when app is started, handles navigation to installedAppsActivity
  * and AllAppsActivity
+ * 
+ * Splash Screen Code taken from:
+ * http://www.41post.com/4588/programming/android-coding-a-loading-screen-part-1
  */
 public class HomeActivity extends Activity {
 
 	private List<AppCompact> latestAppsList;
 	@Inject
 	private AppController appController = null;
+
+	// A ProgressDialog object
+	private ProgressDialog progressDialog;
 
 	// lazy initialization getter for AppController
 	public AppController getAppController() {
@@ -80,23 +88,12 @@ public class HomeActivity extends Activity {
 			editor.putBoolean("FIRSTRUN", false);
 			editor.commit();
 
-			try {
-				DatabaseHelper dbHelper = new DatabaseHelper(this);
-				dbHelper.importDatabase();
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e("HomeActivity", "DB import failed: " + e.getMessage());
-			}
-
-			getAppController().insertUncoveredInstalledApps(this,
-					getPackageManager());
+			// Initialize a LoadViewTask object and call the execute() method
+			new InitializeDatabaseTask().execute();
 		}
 
-		AppCompactDataSource appData = new AppCompactDataSource(this);
-		appData.open();
-
-		latestAppsList = appData.getLastUpdatedApps(4);
-		appData.close();
+		// retreive apps for recent apps list
+		prepareLatestAppsList();
 
 		UserStudyLogger.LOGGING_ENABLED = false;
 		UserStudyLogger.getInstance().log("activity_home");
@@ -179,6 +176,17 @@ public class HomeActivity extends Activity {
 	}
 
 	/**
+	 * retrieve the data for the list of most recently updated apps
+	 */
+	private void prepareLatestAppsList() {
+		AppCompactDataSource appData = new AppCompactDataSource(this);
+		appData.open();
+
+		latestAppsList = appData.getLastUpdatedApps(4);
+		appData.close();
+	}
+
+	/**
 	 * Show latest apps in the list view. The list of apps is created on start.
 	 */
 	private void populateLatestAppListView() {
@@ -203,4 +211,55 @@ public class HomeActivity extends Activity {
 		laList.setAdapter(adapter);
 	}
 
+	/**
+	 * Asynchronously handles database import and the insertion of uncovered
+	 * apps into the database while displaying a loading splash screen.
+	 */
+	private class InitializeDatabaseTask extends AsyncTask<Void, Integer, Void> {
+		// Before running code in the separate thread
+		@Override
+		protected void onPreExecute() {
+			// TODO: replace with @String ressources?!
+			progressDialog = ProgressDialog.show(HomeActivity.this,
+					"Lade Apps",
+					"Installierte Apps werden erstmalig erfasst...", false,
+					false);
+		}
+
+		// The code to be executed in a background thread.
+		@Override
+		protected Void doInBackground(Void... params) {
+
+			// Get the current thread's token
+			synchronized (this) {
+				try {
+					// import database from asset
+					DatabaseHelper dbHelper = new DatabaseHelper(
+							HomeActivity.this);
+					dbHelper.importDatabase();
+				} catch (IOException e) {
+					e.printStackTrace();
+					Log.e("HomeActivity", "DB import failed: " + e.getMessage());
+				}
+
+				// scan device for installed apps and insert the missing ones
+				// into the database
+				getAppController().insertUncoveredInstalledApps(
+						HomeActivity.this, getPackageManager());
+			}
+
+			return null;
+		}
+
+		// after executing the code in the thread
+		@Override
+		protected void onPostExecute(Void result) {
+			// close the progress dialog
+			progressDialog.dismiss();
+
+			// initialize the app list
+			prepareLatestAppsList();
+			populateLatestAppListView();
+		}
+	}
 }
