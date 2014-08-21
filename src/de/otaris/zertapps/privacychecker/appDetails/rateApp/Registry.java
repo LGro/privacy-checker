@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 /**
- * Registry that stores key value pairs for static access.
- *
+ * Registry that stores key value pairs and RatingElement objects for static
+ * access.
  */
 public class Registry {
 
@@ -22,17 +22,22 @@ public class Registry {
 	}
 
 	/**
-	 * validates source class
+	 * validates source package
 	 * 
-	 * @param sourceClass
+	 * @param sourcePackage
 	 *            full class name
-	 * @return matches java class name conventions
+	 * @return matches java package name conventions
 	 */
-	private boolean validateSourcePackage(String sourceClass) {
-		return sourceClass
+	private boolean validateSourcePackage(String sourcePackage) {
+		return sourcePackage
 				.matches("^[a-zA-Z_\\$][\\w\\$]*(?:\\.[a-zA-Z_\\$][\\w\\$]*)*$");
 	}
 
+	/**
+	 * processes RatingElements HashMap to ArrayList
+	 * 
+	 * @return ArrayList of RatingElements
+	 */
 	public ArrayList<RatingElement> getRatingElements() {
 		ArrayList<RatingElement> ratingElements = new ArrayList<RatingElement>();
 
@@ -46,10 +51,11 @@ public class Registry {
 		return ratingElements;
 	}
 
-	public RatingElement getRatingElement(int position) {
-		return ratingElements.get(position);
-	}
-
+	/**
+	 * add rating element to registry hash map
+	 * 
+	 * @param element
+	 */
 	public void addRatingElement(RatingElement element) {
 		if (ratingElements == null)
 			ratingElements = new HashMap<Class<?>, RatingElement>();

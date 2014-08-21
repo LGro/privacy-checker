@@ -1,29 +1,14 @@
 package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 
-import java.util.ArrayList;
-
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsRating.PermissionsRating;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
-import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.appDetails.RateAppOverlayOnClickListener;
 
 /*
  * Inflates the layout containing the elements to rate a app.
@@ -58,128 +43,8 @@ public class RateAppViewHelper extends DetailViewHelper {
 		initializeViews(rowView);
 
 		rateAppButton.setTag(detail.getApp());
-		rateAppButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				// Create overlay
-				RelativeLayout overlay = (RelativeLayout) v.getRootView()
-						.findViewById(R.id.app_detail_overlay);
-				overlay.setVisibility(View.VISIBLE);
-				LayoutInflater inflater = LayoutInflater.from(v.getContext());
-				RelativeLayout layout = (RelativeLayout) inflater.inflate(
-						R.layout.app_detail_rate_app_overlay, overlay, false);
-				overlay.addView(layout);
-
-				// Get all the rating elements to be shown in the rating
-				// overlay.
-				ArrayList<RatingElement> ratingElements = getRatingElements((AppExtended) v
-						.getTag());
-				ArrayAdapter<RatingElement> adapter = new RatingElementListAdapter(
-						v.getContext(), ratingElements);
-				ListView ratingElementListView = (ListView) overlay
-						.findViewById(R.id.app_detail_rate_app_overlay_list);
-				ratingElementListView.setAdapter(adapter);
-
-				Button sendRatingButton = (Button) overlay
-						.findViewById(R.id.app_detail_rate_app_overlay_send);
-				sendRatingButton.setOnClickListener(new OnClickListener() {
-					protected void callAlert(String message,
-							final Context context) {
-						final Dialog dialog = new Dialog(context);
-						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-						dialog.setContentView(R.layout.app_detail_alert_dialog);
-						dialog.getWindow().setBackgroundDrawable(
-								new ColorDrawable(Color.WHITE));
-
-						TextView tvTitle = (TextView) dialog
-								.findViewById(R.id.app_detail_alert_dialog_textview_title);
-						tvTitle.setText("Privacy Checker Hinweis");
-
-						TextView tvText = (TextView) dialog
-								.findViewById(R.id.app_detail_alert_dialog_textview_description);
-						tvText.setText(message);
-
-						Button buttonOk = (Button) dialog
-								.findViewById(R.id.app_detail_alert_dialog_button_ok);
-						buttonOk
-								.setOnClickListener(new OnClickListener() {
-									public void onClick(View v) {
-										// Do your stuff...
-										dialog.dismiss();
-									}
-								});
-						dialog.show();
-					}
-
-					@Override
-					public void onClick(View v) {
-
-						ArrayList<String> errors = new ArrayList<String>();
-
-						Registry reg = Registry.getInstance();
-						ArrayList<RatingElement> ratingElements = reg
-								.getRatingElements();
-						// iterate over all rating elements
-						for (RatingElement element : ratingElements) {
-							// validate and save
-							try {
-								element.validate();
-								element.save(v.getContext());
-							} catch (RatingValidationException e) {
-								errors.add((String) v.getResources().getText(
-										e.getValidationErrorId()));
-							}
-						}
-
-						if (errors.size() > 0) {
-							String title = v.getResources().getText(
-									R.string.validation_error_intro)
-									+ "\n";
-							for (String error : errors) {
-								title += "- " + error + "\n";
-							}
-
-							callAlert(title, v.getContext());
-						} else {
-
-							// close overlay
-							((AppDetailsActivity) v.getContext())
-									.hideOverlay(v);
-
-							callAlert(
-									(String) v
-											.getResources()
-											.getText(
-													R.string.app_detail_rate_app_success),
-									v.getContext());
-						}
-					}
-				});
-
-			}
-
-		});
+		rateAppButton.setOnClickListener(new RateAppOverlayOnClickListener());
 
 		return rowView;
-	}
-
-	private ArrayList<RatingElement> getRatingElements(AppExtended app) {
-		Registry registry = Registry.getInstance();
-		ArrayList<RatingElement> ratingElements = new ArrayList<RatingElement>();
-
-		// add objects to registry and to array list (just for displaying
-		// purposes) - second argument determines if rating element is mandatory
-		registry.addRatingElement(new ExpertMode(app, false));
-		ratingElements.add(new ExpertMode(app, false));
-
-		registry.addRatingElement(new PermissionsRating(app, false));
-		ratingElements.add(new PermissionsRating(app, false));
-
-		registry.addRatingElement(new TotalPrivacyRating(app, true));
-		ratingElements.add(new TotalPrivacyRating(app, true));
-
-		return ratingElements;
 	}
 }

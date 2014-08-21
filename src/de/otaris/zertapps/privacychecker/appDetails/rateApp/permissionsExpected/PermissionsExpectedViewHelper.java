@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsRating;
+package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,13 +13,13 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
-public class PermissionsRatingViewHelper extends RatingElementViewHelper {
+public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 
 	@Override
 	public View getView(Context context, ViewGroup parent,
 			RatingElement ratingElement) {
 
-		if (!(ratingElement instanceof PermissionsRating))
+		if (!(ratingElement instanceof PermissionsExpected))
 			throw new IllegalArgumentException(
 					"Illegal Detail Object. Expected PermissionsRating.");
 
@@ -36,7 +36,7 @@ public class PermissionsRatingViewHelper extends RatingElementViewHelper {
 		ToggleButton showMoreButton = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_rate_app_permissions_more);
 
-		PermissionsRatingItemAdapter adapter = new PermissionsRatingItemAdapter(
+		PermissionsExpectedItemAdapter adapter = new PermissionsExpectedItemAdapter(
 				context, app.getPermissionList());
 
 		permissionsList.setAdapter(adapter);

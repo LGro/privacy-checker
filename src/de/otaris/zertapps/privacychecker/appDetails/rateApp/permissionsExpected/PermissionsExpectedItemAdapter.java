@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsRating;
+package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
-public class PermissionsRatingItemAdapter extends ArrayAdapter<Permission> {
+public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
 	private final Context context;
 	private final List<Permission> permissionsList;
 
-	public PermissionsRatingItemAdapter(Context context,
+	public PermissionsExpectedItemAdapter(Context context,
 			List<Permission> permissionsList) {
 		super(context, R.layout.app_detail_list_item, permissionsList);
 		this.context = context;
@@ -50,8 +50,8 @@ public class PermissionsRatingItemAdapter extends ArrayAdapter<Permission> {
 
 		// get permission rating object from registry
 		Registry reg = Registry.getInstance();
-		PermissionsRating permissionsRatingElement = (PermissionsRating) reg
-				.getRatingElement(PermissionsRating.class);
+		PermissionsExpected permissionsRatingElement = (PermissionsExpected) reg
+				.getRatingElement(PermissionsExpected.class);
 
 		// get stored expected value for current permission
 		expectedCheckBox.setChecked(permissionsRatingElement
@@ -66,11 +66,11 @@ public class PermissionsRatingItemAdapter extends ArrayAdapter<Permission> {
 							boolean isChecked) {
 						// get permission rating object from registry
 						Registry reg = Registry.getInstance();
-						PermissionsRating permissionsRatingElement = (PermissionsRating) reg
-								.getRatingElement(PermissionsRating.class);
+						PermissionsExpected permissionsRatingElement = (PermissionsExpected) reg
+								.getRatingElement(PermissionsExpected.class);
 						permissionsRatingElement.setPermissionExpected(
 								(Permission) buttonView.getTag(), isChecked);
-						reg.updateRatingElement(PermissionsRating.class,
+						reg.updateRatingElement(PermissionsExpected.class,
 								permissionsRatingElement);
 					}
 				});
