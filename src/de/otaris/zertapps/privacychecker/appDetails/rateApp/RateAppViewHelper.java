@@ -18,6 +18,7 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
@@ -167,6 +168,7 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 		// second argument determines if rating element is mandatory
 		registry.addRatingElement(new TotalPrivacyRating(app, true));
+		registry.addRatingElement(new ExpertMode(app, false));
 		// TODO: add further...
 
 		return registry.getRatingElements();
