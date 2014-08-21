@@ -7,7 +7,11 @@ public abstract class RatingElement {
 
 	protected AppExtended app;
 	protected boolean mandatory = false;
-	
+
+	public AppExtended getApp() {
+		return app;
+	}
+
 	public RatingElement(AppExtended app, boolean mandatory) {
 		this.app = app;
 		this.mandatory = mandatory;

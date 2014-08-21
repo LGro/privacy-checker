@@ -1,52 +1,40 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-	
-	<TextView
-        android:id="@+id/app_detail_rate_app_overlay_item_number"
+
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_number"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="38dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="TextView" />
-	
-    <TextView
-        android:id="@+id/app_detail_rate_app_overlay_item_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="25dp"   
-        android:layout_marginLeft="5dp"   
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@+id/app_detail_rate_app_overlay_item_radioGroup"
-        android:layout_toRightOf="@+id/app_detail_rate_app_overlay_item_number"
-        android:text="TextView" />
+        android:gravity="center_vertical|right"
+        android:text="Nr." />
 
-    <RadioGroup
-        android:id="@+id/app_detail_rate_app_overlay_item_radioGroup"
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_label"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/app_detail_rate_app_permissions_expected_checkbox"
+        android:layout_toRightOf="@+id/app_detail_rate_app_permissions_number"
+        android:gravity="center_vertical|left"
+        android:text="Permission X" />
+
+    <CheckBox
+        android:id="@+id/app_detail_rate_app_permissions_expected_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
-
-        <RadioButton
-            android:id="@+id/app_detail_rate_app_overlay_item_radio_expected"
-       		android:layout_width="wrap_content"
-       		android:layout_height="wrap_content"
-        	android:layout_marginRight="20dp" />
-
-        <RadioButton
-            android:id="@+id/app_detail_rate_app_overlay_item_radio_unexpected"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:layout_marginRight="10dp" />
-
-    </RadioGroup>
-
-    
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal" />
 
 </RelativeLayout>

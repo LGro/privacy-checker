@@ -2,13 +2,10 @@ package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +21,7 @@ import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsRating.PermissionsRating;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
@@ -149,9 +147,10 @@ public class RateAppViewHelper extends DetailViewHelper {
 							// close overlay
 							((AppDetailsActivity) v.getContext())
 									.hideOverlay(v);
- 
+
 							callAlert(
-									(String) v.getResources()
+									(String) v
+											.getResources()
 											.getText(
 													R.string.app_detail_rate_app_success),
 									v.getContext());
@@ -168,12 +167,19 @@ public class RateAppViewHelper extends DetailViewHelper {
 
 	private ArrayList<RatingElement> getRatingElements(AppExtended app) {
 		Registry registry = Registry.getInstance();
+		ArrayList<RatingElement> ratingElements = new ArrayList<RatingElement>();
 
-		// second argument determines if rating element is mandatory
+		// add objects to registry and to array list (just for displaying
+		// purposes) - second argument determines if rating element is mandatory
 		registry.addRatingElement(new ExpertMode(app, false));
-		registry.addRatingElement(new TotalPrivacyRating(app, true));
-		// TODO: add further...
+		ratingElements.add(new ExpertMode(app, false));
 
-		return registry.getRatingElements();
+		registry.addRatingElement(new PermissionsRating(app, false));
+		ratingElements.add(new PermissionsRating(app, false));
+
+		registry.addRatingElement(new TotalPrivacyRating(app, true));
+		ratingElements.add(new TotalPrivacyRating(app, true));
+
+		return ratingElements;
 	}
 }
