@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.appDetails.rateApp;
+package de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating;
 
 import android.view.View;
 import android.widget.TextView;
@@ -25,7 +25,7 @@ public class TotalRatingListener implements View.OnClickListener {
 			// programmatically get the id of the button for the current
 			// iteration
 			String packageName = v.getContext().getPackageName();
-			String ratingIdentifierName = "app_detail_rate_app_overlay_rating_"
+			String ratingIdentifierName = "app_detail_rate_app_total_rating_"
 					+ i;
 			int ratingIdentifierId = v.getResources().getIdentifier(
 					ratingIdentifierName, "id", packageName);
