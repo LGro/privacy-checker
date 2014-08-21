@@ -1,97 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="240sp"
-android:layout_height="wrap_content"
-android:background="#00FF00"
-tools:ignore="SelectableText" >
-
-<RelativeLayout
-    android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300sp"
     android:layout_height="wrap_content"
-    android:layout_margin="1sp"
-    tools:ignore="UselessParent" >
+    android:background="#FFFFFF"
+    tools:ignore="SelectableText" >
 
-    <TableLayout 
-        android:id="@+id/tablelayout_dialog_title"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:stretchColumns="1" >
+        android:layout_margin="1sp"
+        tools:ignore="UselessParent" >
 
-        <TableRow
-            android:id="@+id/tablerow_dialog_title"
+        <TableLayout
+            android:id="@+id/app_detail_alert_dialog_tablelayout_title"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"            
-            tools:ignore="UselessParent" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:stretchColumns="1" >
 
-
-            <TextView
-                android:id="@+id/textview_dialog_title"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent" 
-                android:background="#7CFC00"
-                android:padding="10sp"
-                android:gravity="center_vertical"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp" />
-
-        </TableRow>     
-    </TableLayout>
-
-    <View 
-        android:id="@+id/viewline_dialog"
-        android:layout_below="@+id/tablelayout_dialog_title"
-        android:layout_width = "wrap_content" 
-        android:layout_height="0.25dip"
-        android:background="#ffffff"          
-        android:layout_centerVertical ="true" />
-
-    <TextView
-        android:id="@+id/textview_dialog_text"
-        android:layout_below="@+id/viewline_dialog"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:padding="8sp"
-        android:background="#643c3a"
-        android:textColor="#000000"
-        android:textSize="12sp" />
-
-    <View 
-        android:id="@+id/viewline1_dialog"
-        android:layout_width = "wrap_content" 
-        android:layout_height="0.5dip"
-        android:background="#ffffff"          
-        android:layout_centerVertical ="true" 
-        android:layout_below="@+id/textview_dialog_text"/>
-
-    <TableLayout 
-        android:id="@+id/tablelayout_dialog_button"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:stretchColumns="*"
-        android:layout_below="@+id/viewline1_dialog"
-        android:background="#7fff00" >
-
-        <TableRow
-            android:id="@+id/tablerow_dialog_button"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"            
-            tools:ignore="UselessParent" >
-
-            <Button
-                android:id="@+id/button_dialog_ok"
+            <TableRow
+                android:id="@+id/app_detail_alert_dialog_tablerow_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8sp"
-                android:paddingTop="5sp"
-                android:paddingBottom="5sp"
-                android:text="OK" />
+                tools:ignore="UselessParent" >
 
-            
-        </TableRow>
-    </TableLayout>
+                <ImageView
+                    android:id="@+id/app_detail_alert_dialog_imageView1"
+              		android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:padding="8sp"
+                    android:src="@drawable/ic_launcher" />
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/app_detail_alert_dialog_textview_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:padding="8sp"
+                    android:text="Title"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+
+        <View
+            android:id="@+id/app_detail_alert_dialog_viewline1"
+            android:layout_width="wrap_content"
+            android:layout_height="0.25dip"
+            android:layout_below="@+id/app_detail_alert_dialog_tablelayout_title"
+            android:layout_centerVertical="true"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/app_detail_alert_dialog_textview_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_detail_alert_dialog_viewline1"
+            android:background="#FFFFFF"
+            android:padding="16sp"
+            android:text="Description"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/app_detail_alert_dialog_viewline2"
+            android:layout_width="wrap_content"
+            android:layout_height="0.25dip"
+            android:layout_below="@+id/app_detail_alert_dialog_textview_description"
+            android:layout_centerVertical="true"
+            android:background="#000000" />
+
+        <TableLayout
+            android:id="@+id/app_detail_alert_dialog_tablelayout_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_detail_alert_dialog_viewline2"
+            android:layout_gravity="center"
+            android:background="#FFFFFF"
+            android:stretchColumns="*" >
+
+            <TableRow
+                android:id="@+id/app_detail_alert_dialog_tablerow_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent" >
+
+                <Button
+                    android:id="@+id/app_detail_alert_dialog_button_ok"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+          			android:background="@drawable/button_background_selector"
+          			android:layout_marginTop="2dp"
+                    android:text="OK" />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
 </LinearLayout>

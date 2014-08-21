@@ -96,15 +96,15 @@ public class RateAppViewHelper extends DetailViewHelper {
 								new ColorDrawable(Color.WHITE));
 
 						TextView tvTitle = (TextView) dialog
-								.findViewById(R.id.textview_dialog_title);
-						tvTitle.setText("MyApp..");
+								.findViewById(R.id.app_detail_alert_dialog_textview_title);
+						tvTitle.setText("Privacy Checker Hinweis");
 
 						TextView tvText = (TextView) dialog
-								.findViewById(R.id.textview_dialog_text);
+								.findViewById(R.id.app_detail_alert_dialog_textview_description);
 						tvText.setText(message);
 
 						Button buttonOk = (Button) dialog
-								.findViewById(R.id.button_dialog_ok);
+								.findViewById(R.id.app_detail_alert_dialog_button_ok);
 						buttonOk
 								.setOnClickListener(new OnClickListener() {
 									public void onClick(View v) {
