@@ -34,7 +34,9 @@
 	<string name="validation_error_intro">Leider traten folgende Fehler auf:</string>
 	<string name="app_detail_rate_app_success">Die Bewertung wurde gespeichert.</string>
 	<string name="app_detail_rate_app_permissions_explaination">Im Folgenden kannst Du zu jeder geforderten Berechtigung angeben, ob Du sie für diese App erwartet hast.</string>
-    <string name="app_detail_rate_app_permissions_title">Berechtigungen Bewerten</string>
+    <string name="app_detail_rate_app_permissions_title">Berechtigungsbewertung</string>
+    <string name="app_detail_rate_app_title">Gesamtbewertung</string>
     <string name="app_detail_rate_app_permissions_expected">Erwartet</string>
+    <string name="app_detail_rate_app_expert_text">Ich bin Experte auf dem Gebiet Privatsphäre:</string>
     
 </resources>
