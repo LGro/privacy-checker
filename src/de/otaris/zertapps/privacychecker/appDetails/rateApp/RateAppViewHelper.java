@@ -2,7 +2,10 @@ package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
@@ -74,9 +78,83 @@ public class RateAppViewHelper extends DetailViewHelper {
 						.findViewById(R.id.app_detail_rate_app_overlay_list);
 				ratingElementListView.setAdapter(adapter);
 
-				for (int i = 0; i < ratingElementListView.getChildCount(); i++) {
-					// TODO: validate and save
-				}
+				Button sendRatingButton = (Button) overlay
+						.findViewById(R.id.app_detail_rate_app_overlay_send);
+				sendRatingButton.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+
+						ArrayList<String> errors = new ArrayList<String>();
+
+						Registry reg = Registry.getInstance();
+						ArrayList<RatingElement> ratingElements = reg
+								.getRatingElements();
+						// iterate over all rating elements
+						for (RatingElement element : ratingElements) {
+							// validate and save
+							try {
+								element.validate();
+								element.save(v.getContext());
+							} catch (RatingValidationException e) {
+								errors.add((String) v.getResources().getText(
+										e.getValidationErrorId()));
+							}
+						}
+
+						if (errors.size() > 0) {
+							// Create a message for a successful transmission
+							AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+									new ContextThemeWrapper(v.getContext(),
+											R.style.AlertDialogCustom));
+							String title = v.getResources().getText(
+									R.string.validation_error_intro)
+									+ "\n";
+							for (String error : errors) {
+								title += "- " + error + "\n";
+							}
+
+							alertDialog.setTitle(title);
+							alertDialog.setIcon(R.drawable.ic_launcher);
+							alertDialog.setPositiveButton("Ok",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// if this button is clicked, just
+											// close the dialog box and do
+											// nothing
+											dialog.cancel();
+										}
+									});
+							alertDialog.show();
+						} else {
+
+							// close overlay
+							((AppDetailsActivity) v.getContext())
+									.hideOverlay(v);
+
+							// Create a message for a successful transmission
+							AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+									new ContextThemeWrapper(v.getContext(),
+											R.style.AlertDialogCustom));
+							alertDialog.setTitle(v.getResources().getText(
+									R.string.app_detail_rate_app_success));
+							alertDialog.setIcon(R.drawable.ic_launcher);
+							alertDialog.setPositiveButton("Ok",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog, int id) {
+											// if this button is clicked, just
+											// close the dialog box and do
+											// nothing
+											dialog.cancel();
+										}
+									});
+							alertDialog.show();
+						}
+					}
+				});
+
 			}
 
 		});
@@ -87,7 +165,8 @@ public class RateAppViewHelper extends DetailViewHelper {
 	private ArrayList<RatingElement> getRatingElements(AppExtended app) {
 		Registry registry = Registry.getInstance();
 
-		registry.addRatingElement(new TotalPrivacyRating(app));
+		// second argument determines if rating element is mandatory
+		registry.addRatingElement(new TotalPrivacyRating(app, true));
 		// TODO: add further...
 
 		return registry.getRatingElements();

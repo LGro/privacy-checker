@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
@@ -36,7 +35,7 @@ public class TotalPrivacyRatingViewHelper extends RatingElementViewHelper {
 					ratingIdentifierName, "id", packageName);
 
 			rowView.findViewById(ratingIdentifierId).setOnClickListener(
-					new TotalRatingListener());
+					new TotalPrivacyRatingListener());
 		}
 
 		return rowView;

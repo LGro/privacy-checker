@@ -3,6 +3,9 @@ package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Registry that stores key value pairs for static access.
@@ -14,8 +17,7 @@ public class Registry {
 
 	private HashMap<String, String> values;
 
-	// use hashmap instead String className, RatingElement
-	private ArrayList<RatingElement> ratingElements;
+	private HashMap<Class<?>, RatingElement> ratingElements;
 
 	protected Registry() {
 	}
@@ -28,12 +30,24 @@ public class Registry {
 	 * @return matches java class name conventions
 	 */
 	private boolean validateSourceClass(String sourceClass) {
-		String regExp = "(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*\\.)+\\p{javaJavaIdentifi‌​erStart}\\p{javaJavaIdentifierPart}*";
-
-		return sourceClass.matches(regExp);
+		try {
+			Class.forName(sourceClass);
+			return true;
+		} catch (ClassNotFoundException ex) {
+			return false;
+		}
 	}
 
 	public ArrayList<RatingElement> getRatingElements() {
+		ArrayList<RatingElement> ratingElements = new ArrayList<RatingElement>();
+
+		Iterator<Entry<Class<?>, RatingElement>> it = this.ratingElements
+				.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<Class<?>, RatingElement> pair = it.next();
+			ratingElements.add(pair.getValue());
+		}
+
 		return ratingElements;
 	}
 
@@ -41,15 +55,11 @@ public class Registry {
 		return ratingElements.get(position);
 	}
 
-	public void updateRatingElement(RatingElement element, int position) {
-		ratingElements.set(position, element);
-	}
-
 	public void addRatingElement(RatingElement element) {
 		if (ratingElements == null)
-			ratingElements = new ArrayList<RatingElement>();
+			ratingElements = new HashMap<Class<?>, RatingElement>();
 
-		ratingElements.add(element);
+		ratingElements.put(element.getClass(), element);
 	}
 
 	/**
@@ -98,6 +108,15 @@ public class Registry {
 			instance = new Registry();
 
 		return instance;
+	}
+
+	public RatingElement getRatingElement(Class<?> classObj) {
+		return ratingElements.get(classObj);
+	}
+
+	public void updateRatingElement(Class<?> classObj,
+			RatingElement ratingElement) {
+		ratingElements.put(classObj, ratingElement);
 	}
 
 }

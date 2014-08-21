@@ -4,11 +4,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 
 /**
  * handles clicks on locks for total rating by updating the images
  */
-public class TotalRatingListener implements View.OnClickListener {
+public class TotalPrivacyRatingListener implements View.OnClickListener {
 
 	@Override
 	public void onClick(View v) {
@@ -43,10 +44,17 @@ public class TotalRatingListener implements View.OnClickListener {
 				button.setChecked(true);
 				// set tag button checked + modify text
 			} else if (i == tag) {
+				// save rating in ratingElement from registry
+				Registry reg = Registry.getInstance();
+				TotalPrivacyRating ratingElement = (TotalPrivacyRating) reg
+						.getRatingElement(TotalPrivacyRating.class);
+				ratingElement.setRating(i);
+				reg.updateRatingElement(TotalPrivacyRating.class, ratingElement);
+
 				button.setChecked(true);
 				valueText.setText(ratingStringID);
-				// all other buttons are unchecked
 			} else {
+				// all other buttons are unchecked
 				button.setChecked(false);
 			}
 		}
