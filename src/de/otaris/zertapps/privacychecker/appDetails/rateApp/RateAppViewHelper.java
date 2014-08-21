@@ -170,8 +170,8 @@ public class RateAppViewHelper extends DetailViewHelper {
 		Registry registry = Registry.getInstance();
 
 		// second argument determines if rating element is mandatory
-		registry.addRatingElement(new TotalPrivacyRating(app, true));
 		registry.addRatingElement(new ExpertMode(app, false));
+		registry.addRatingElement(new TotalPrivacyRating(app, true));
 		// TODO: add further...
 
 		return registry.getRatingElements();

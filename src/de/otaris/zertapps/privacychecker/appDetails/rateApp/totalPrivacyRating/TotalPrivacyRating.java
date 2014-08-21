@@ -5,9 +5,7 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationException;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
 public class TotalPrivacyRating extends RatingElement {
@@ -33,26 +31,18 @@ public class TotalPrivacyRating extends RatingElement {
 	@Override
 	public void save(Context context) {
 		RatingAppDataSource ratingAppData = new RatingAppDataSource(context);
-		RatingPermissionDataSource ratingPermissionData = new RatingPermissionDataSource(
-				context);
-		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
-				context);
-
 		ratingAppData.open();
-		ratingPermissionData.open();
-		appPermissionData.open();
 
 		Registry reg = Registry.getInstance();
-		int isExpert = 1;
-		// Integer.getInteger(reg.get("de.otaris.zertapps.privacychecker.ExpertRating",
-		// "isExpert"));
+		String isExpertString = reg
+				.get("de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode",
+						"isExpert");
+		int isExpert = (isExpertString.equals("1")) ? 1 : 0;
 
-		// create new RatingApp with default isExpert = false
+		// create new RatingApp
 		ratingAppData.createRatingApp(rating, app.getId(), (isExpert == 1));
 
 		ratingAppData.close();
-		ratingPermissionData.close();
-		appPermissionData.close();
 	}
 
 	public void setRating(int rating) {
