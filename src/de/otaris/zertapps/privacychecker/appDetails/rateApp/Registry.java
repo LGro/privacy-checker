@@ -14,9 +14,9 @@ public class Registry {
 
 	private static Registry instance = null;
 
-	private static HashMap<String, String> values;
+	private HashMap<String, String> values;
 
-	private static HashMap<Class<?>, RatingElement> ratingElements;
+	private HashMap<Class<?>, RatingElement> ratingElements;
 
 	protected Registry() {
 	}
