@@ -3,17 +3,22 @@ package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
@@ -82,6 +87,33 @@ public class RateAppViewHelper extends DetailViewHelper {
 				Button sendRatingButton = (Button) overlay
 						.findViewById(R.id.app_detail_rate_app_overlay_send);
 				sendRatingButton.setOnClickListener(new OnClickListener() {
+					protected void callAlert(String message,
+							final Context context) {
+						final Dialog dialog = new Dialog(context);
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.setContentView(R.layout.app_detail_alert_dialog);
+						dialog.getWindow().setBackgroundDrawable(
+								new ColorDrawable(Color.WHITE));
+
+						TextView tvTitle = (TextView) dialog
+								.findViewById(R.id.textview_dialog_title);
+						tvTitle.setText("MyApp..");
+
+						TextView tvText = (TextView) dialog
+								.findViewById(R.id.textview_dialog_text);
+						tvText.setText(message);
+
+						Button buttonOk = (Button) dialog
+								.findViewById(R.id.button_dialog_ok);
+						buttonOk
+								.setOnClickListener(new OnClickListener() {
+									public void onClick(View v) {
+										// Do your stuff...
+										dialog.dismiss();
+									}
+								});
+						dialog.show();
+					}
 
 					@Override
 					public void onClick(View v) {
@@ -104,10 +136,6 @@ public class RateAppViewHelper extends DetailViewHelper {
 						}
 
 						if (errors.size() > 0) {
-							// Create a message for a successful transmission
-							AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-									new ContextThemeWrapper(v.getContext(),
-											R.style.AlertDialogCustom));
 							String title = v.getResources().getText(
 									R.string.validation_error_intro)
 									+ "\n";
@@ -115,43 +143,18 @@ public class RateAppViewHelper extends DetailViewHelper {
 								title += "- " + error + "\n";
 							}
 
-							alertDialog.setTitle(title);
-							alertDialog.setIcon(R.drawable.ic_launcher);
-							alertDialog.setPositiveButton("Ok",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog, int id) {
-											// if this button is clicked, just
-											// close the dialog box and do
-											// nothing
-											dialog.cancel();
-										}
-									});
-							alertDialog.show();
+							callAlert(title, v.getContext());
 						} else {
 
 							// close overlay
 							((AppDetailsActivity) v.getContext())
 									.hideOverlay(v);
-
-							// Create a message for a successful transmission
-							AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-									new ContextThemeWrapper(v.getContext(),
-											R.style.AlertDialogCustom));
-							alertDialog.setTitle(v.getResources().getText(
-									R.string.app_detail_rate_app_success));
-							alertDialog.setIcon(R.drawable.ic_launcher);
-							alertDialog.setPositiveButton("Ok",
-									new DialogInterface.OnClickListener() {
-										public void onClick(
-												DialogInterface dialog, int id) {
-											// if this button is clicked, just
-											// close the dialog box and do
-											// nothing
-											dialog.cancel();
-										}
-									});
-							alertDialog.show();
+ 
+							callAlert(
+									(String) v.getResources()
+											.getText(
+													R.string.app_detail_rate_app_success),
+									v.getContext());
 						}
 					}
 				});
