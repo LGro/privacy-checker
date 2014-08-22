@@ -10,33 +10,34 @@ public class Comment {
 	public static final String ID = "comment_id";
 	public static final String CONTENT = "content";
 	public static final String VERSION = "version";
-	public static final String DATE = "date";
+	public static final String TIMESTAMP = "timestamp";
+	public static final String USER_TYPE = "user_type";
 	public static final String APP_ID = "app_id";
 
 	// Creation statement
 	private static final String Create_Comment_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CONTENT
-			+ " TEXT, " + VERSION + " TEXT, " + DATE + " INTEGER , " + APP_ID
-			+ " INTEGER );";
+			+ " TEXT, " + VERSION + " TEXT, " + TIMESTAMP + " LONG, "
+			+ USER_TYPE + " INTEGER, " + APP_ID + " INTEGER );";
 
 	// empty constructor
 	public Comment() {
 
 	}
 
-	// attriutes
+	// attributes
 	private int id;
 	private String content;
 	private String version;
-	private long date;
+	private long timestamp;
+	private boolean isExpert;
 	private int appId;
 
-	public Comment(int id, String content, String version, long date,
-			int appId) {
+	public Comment(int id, String content, String version, long date, int appId) {
 		this.id = id;
 		this.content = content;
 		this.version = version;
-		this.date = date;
+		this.timestamp = date;
 		this.appId = appId;
 	}
 
@@ -54,8 +55,8 @@ public class Comment {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE);
 		onCreate(db);
 	}
-	
-	//getters and setters
+
+	// getters and setters
 	public int getId() {
 		return id;
 	}
@@ -81,11 +82,11 @@ public class Comment {
 	}
 
 	public long getDate() {
-		return date;
+		return timestamp;
 	}
 
-	public void setDate(long date) {
-		this.date = date;
+	public void setTimestamp(long date) {
+		this.timestamp = date;
 	}
 
 	public int getAppId() {
@@ -94,5 +95,12 @@ public class Comment {
 
 	public void setAppId(int app_id) {
 		this.appId = appId;
+	}
+	public boolean isExpert() {
+		return isExpert;
+	}
+
+	public void setExpert(boolean isExpert) {
+		this.isExpert = isExpert;
 	}
 }
