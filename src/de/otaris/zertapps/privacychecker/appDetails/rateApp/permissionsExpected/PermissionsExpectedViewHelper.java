@@ -1,17 +1,22 @@
 package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.ToggleButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import de.otaris.zertapps.privacychecker.PrivacyCheckerAlert;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 
@@ -36,10 +41,27 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 		ToggleButton showMoreButton = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_rate_app_permissions_more);
 
+		// set adapter
 		PermissionsExpectedItemAdapter adapter = new PermissionsExpectedItemAdapter(
 				context, app.getPermissionList());
-
 		permissionsList.setAdapter(adapter);
+
+		// set onclick behavior for permissions list
+		permissionsList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Log.i("PermissionExpectedViewHelper", "clicked permission");
+				// get previously selected permission that need to be displayed
+				Permission permission = (Permission) parent
+						.getItemAtPosition(position);
+
+				// display permission as alert dialog
+				PrivacyCheckerAlert.callInfoDialog(permission.getLabel(),
+						permission.getDescription(), view.getContext());
+			}
+		});
 
 		showMoreButton
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {

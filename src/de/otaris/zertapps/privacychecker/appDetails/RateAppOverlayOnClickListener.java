@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import de.otaris.zertapps.privacychecker.PrivacyCheckerAlert;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementListAdapter;
@@ -17,6 +20,7 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMod
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected.PermissionsExpected;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * Handles the click on the app detail's "rate now" button.
@@ -38,10 +42,12 @@ public class RateAppOverlayOnClickListener implements OnClickListener {
 		// overlay.
 		ArrayList<RatingElement> ratingElements = getRatingElements((AppExtended) v
 				.getTag());
-		ArrayAdapter<RatingElement> adapter = new RatingElementListAdapter(
-				v.getContext(), ratingElements);
 		ListView ratingElementListView = (ListView) overlay
 				.findViewById(R.id.app_detail_rate_app_overlay_list);
+
+		// set list adapter
+		ArrayAdapter<RatingElement> adapter = new RatingElementListAdapter(
+				v.getContext(), ratingElements);
 		ratingElementListView.setAdapter(adapter);
 
 		Button sendRatingButton = (Button) overlay
