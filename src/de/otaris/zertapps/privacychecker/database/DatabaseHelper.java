@@ -30,6 +30,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
 import de.otaris.zertapps.privacychecker.database.model.RatingPermission;
 
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;

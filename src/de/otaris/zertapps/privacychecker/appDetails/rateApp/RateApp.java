@@ -7,7 +7,6 @@ public class RateApp extends Detail{
 
 	public RateApp(AppExtended app) {
 		super(app);
-		// TODO Auto-generated constructor stub
 	}
 
 }
