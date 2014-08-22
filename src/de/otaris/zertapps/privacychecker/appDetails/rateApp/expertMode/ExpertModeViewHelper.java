@@ -34,9 +34,17 @@ public class ExpertModeViewHelper extends RatingElementViewHelper {
 
 		initializeViews(rowView);
 
-		// set isExpert to 0 as default in registry
+		// set isExpert to 0 as default in registry if it hasn't already been
+		// set
 		Registry reg = Registry.getInstance();
-		reg.set(this.getClass().getPackage().getName(), "isExpert", "0");
+		String isExpert = reg.get(this.getClass().getPackage().getName(),
+				"isExpert");
+
+		if (isExpert == null) {
+			reg.set(this.getClass().getPackage().getName(), "isExpert", "0");
+		} else if (isExpert.equals("1")) {
+			expertCheckBox.setChecked(true);
+		}
 
 		// add onclick listener
 		expertCheckBox.setOnClickListener(new OnClickListener() {
