@@ -74,10 +74,10 @@ public class HomeActivity extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 
-		 // DatabaseHelper dbHelper = new DatabaseHelper(this);
-		 // dbHelper.fillDatabaseFromDevice();
-		 // dbHelper.recalculateAutomaticRatingForAllApps();
-		 // dbHelper.exportDatabase(this);
+		 DatabaseHelper dbHelper = new DatabaseHelper(this);
+		 dbHelper.fillDatabaseFromDevice();
+		 dbHelper.recalculateAutomaticRatingForAllApps();
+		 dbHelper.exportDatabase(this);
 
 		SharedPreferences wmbPreference = PreferenceManager
 				.getDefaultSharedPreferences(this);
