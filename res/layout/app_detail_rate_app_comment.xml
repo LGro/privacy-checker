@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_detail_rate_app_comment"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -18,15 +19,21 @@
 
     <EditText
         android:id="@+id/app_detail_rate_app_comment_textfield"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/app_detail_rate_app_comment_title"
         android:layout_alignRight="@+id/app_detail_rate_app_comment_title"
         android:layout_below="@+id/app_detail_rate_app_comment_title"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:gravity="top"
+        android:hint="@string/enter_comment"
+        android:imeOptions="actionSend"
+        android:inputType="textMultiLine"
+        android:freezesText="true"
+        android:lines="5"
         android:maxLength="255"
-        android:inputType="textMultiLine" >
+        android:singleLine="false" >
 
         <requestFocus />
     </EditText>
