@@ -15,7 +15,7 @@ import de.otaris.zertapps.privacychecker.database.model.Comment;
 public class CommentDataSource extends DataSource<Comment> {
 
 	private String[] allColumns = { Comment.ID, Comment.CONTENT,
-			Comment.VERSION, Comment.TIMESTAMP, Comment.USER_TYPE, Comment.APP_ID };
+			Comment.VERSION, Comment.DATE, Comment.APP_ID };
 
 	public CommentDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -32,9 +32,8 @@ public class CommentDataSource extends DataSource<Comment> {
 		comment.setId(cursor.getInt(0));
 		comment.setContent(cursor.getString(1));
 		comment.setVersion(cursor.getString(2));
-		comment.setTimestamp(cursor.getLong(3));
-		comment.setExpert((cursor.getInt(4) != 0));
-		comment.setAppId(cursor.getInt(5));
+		comment.setDate(cursor.getLong(3));
+		comment.setAppId(cursor.getInt(4));
 		
 		return comment;
 	}
@@ -43,18 +42,17 @@ public class CommentDataSource extends DataSource<Comment> {
 	 *  creates a comment 
 	 * @param content
 	 * @param version
-	 * @param timestamp
+	 * @param date
 	 * @param appId
 	 * @return the new Comment
 	 */
 	public Comment createComment(String content, String version,
-			long timestamp, boolean isExpert, int appId) {
+			long date, int appId) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Comment.CONTENT, content);
 		values.put(Comment.VERSION, version);
-		values.put(Comment.TIMESTAMP, timestamp);
-		values.put(Comment.USER_TYPE, isExpert);
+		values.put(Comment.DATE, date);
 		values.put(Comment.APP_ID, appId);
 		
 		// insert into DB

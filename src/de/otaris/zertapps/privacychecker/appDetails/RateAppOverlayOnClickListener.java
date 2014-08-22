@@ -13,7 +13,6 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementListAdapter;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.comment.Comment;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected.PermissionsExpected;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
@@ -71,9 +70,6 @@ public class RateAppOverlayOnClickListener implements OnClickListener {
 
 		registry.addRatingElement(new TotalPrivacyRating(app, true));
 		ratingElements.add(new TotalPrivacyRating(app, true));
-		
-		registry.addRatingElement(new Comment(app, false));
-		ratingElements.add(new Comment(app, false));
 
 		return ratingElements;
 	}
