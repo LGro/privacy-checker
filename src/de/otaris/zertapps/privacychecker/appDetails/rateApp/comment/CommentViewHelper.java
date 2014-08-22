@@ -13,6 +13,8 @@ import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected.PermissionsExpected;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
 
 public class CommentViewHelper extends RatingElementViewHelper {
@@ -45,6 +47,12 @@ public class CommentViewHelper extends RatingElementViewHelper {
 		//display 255 (maxValueofChar)
 		textView.setText(String.valueOf(maxValue));
 		
+		// get comment from registry
+		Registry reg = Registry.getInstance();
+		Comment commentElement = (Comment) reg
+				.getRatingElement(Comment.class);
+		editText.setText(commentElement.getComment());
+		
 		editText.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -54,7 +62,13 @@ public class CommentViewHelper extends RatingElementViewHelper {
 				// show rest of possible characters
 				textView.setText(String.valueOf(maxValue-s.length()));
 				
-
+				//save comment in registry
+				Registry reg = Registry.getInstance();
+				Comment commentElement = (Comment) reg
+						.getRatingElement(Comment.class);
+				commentElement.setComment(String.valueOf(s));
+				reg.updateRatingElement(Comment.class,
+						commentElement);
 			}
 
 			@Override

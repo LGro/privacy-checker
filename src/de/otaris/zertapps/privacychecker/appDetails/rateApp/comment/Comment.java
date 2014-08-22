@@ -50,4 +50,8 @@ public class Comment extends RatingElement {
 		this.comment = comment;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
 }
