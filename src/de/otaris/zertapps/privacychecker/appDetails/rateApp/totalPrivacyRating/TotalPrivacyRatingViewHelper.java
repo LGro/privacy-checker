@@ -8,6 +8,12 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
 
+/**
+ * handles display of total rating elements including 5 locks and display of
+ * rating-description if locks are set
+ *
+ */
+
 public class TotalPrivacyRatingViewHelper extends RatingElementViewHelper {
 
 	@Override
@@ -21,8 +27,6 @@ public class TotalPrivacyRatingViewHelper extends RatingElementViewHelper {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(
 				R.layout.app_detail_rate_app_total_rating, parent, false);
-
-		// initializeViews(rowView);
 
 		// loop over locks to set TotalRatingListener
 		for (int i = 1; i <= 5; i++) {

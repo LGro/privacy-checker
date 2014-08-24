@@ -5,6 +5,10 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationException;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
+/**
+ * enables a user to give an expert-Rating
+ *
+ */
 public class ExpertMode extends RatingElement {
 
 	public ExpertMode(AppExtended app, boolean mandatory) {

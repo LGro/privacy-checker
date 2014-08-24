@@ -10,6 +10,7 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
 public class TotalPrivacyRating extends RatingElement {
 
+	// default value -1 if no rating is set
 	protected int rating = -1;
 
 	public TotalPrivacyRating(AppExtended app, boolean mandatory) {

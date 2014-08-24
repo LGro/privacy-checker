@@ -23,6 +23,13 @@ public class PermissionsExpected extends RatingElement {
 	// stores permissions and an expected flag
 	HashMap<Permission, Boolean> permissionsRating;
 
+	/**
+	 * method to get information about weather a permission is set as expected
+	 * or not
+	 * 
+	 * @param permission
+	 * @return true/false
+	 */
 	public boolean expectedPermission(Permission permission) {
 		Boolean expected = permissionsRating.get(permission);
 		return (expected == null) ? false : expected;
@@ -44,7 +51,7 @@ public class PermissionsExpected extends RatingElement {
 		if (!mandatory)
 			return true;
 
-		// TODO: add behavior in case this is mandatory
+		// implement behavior if this rating element is mandatory
 
 		return false;
 	}

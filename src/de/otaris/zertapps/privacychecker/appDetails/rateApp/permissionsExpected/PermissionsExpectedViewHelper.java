@@ -18,6 +18,10 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHel
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
+/**
+ * handles display of all permission-rating elements including description for
+ * the user what to do list of permission + checkbox
+ */
 public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 
 	@Override
@@ -84,6 +88,7 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 							updatedLayout.height = pixels * listView.getCount();
 							listView.setLayoutParams(updatedLayout);
 						} else {
+							// default: show 4 permissions
 							updatedLayout.height = pixels * 4;
 							listView.setLayoutParams(updatedLayout);
 						}

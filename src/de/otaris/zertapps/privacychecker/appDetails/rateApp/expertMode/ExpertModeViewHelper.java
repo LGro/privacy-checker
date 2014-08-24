@@ -11,6 +11,11 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 
+/**
+ * handles display of all expert-mode elements including a short text (am I
+ * expert) and the checkbox it also handles the connection between Expert Mode
+ * and registry
+ */
 public class ExpertModeViewHelper extends RatingElementViewHelper {
 
 	protected CheckBox expertCheckBox;
