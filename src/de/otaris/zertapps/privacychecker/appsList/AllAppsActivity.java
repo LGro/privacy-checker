@@ -1,32 +1,24 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.UserStudyLogger;
-import de.otaris.zertapps.privacychecker.R.drawable;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.R.menu;
-import de.otaris.zertapps.privacychecker.R.string;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 
 /**
  * is called by HomeActivity, handles display of installed apps
  */
 public class AllAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
-	
+
 	// overwrite sorting direction for privacy rating
 	protected boolean privacyIsAscending = false;
 
@@ -53,12 +45,12 @@ public class AllAppsActivity extends SortableAppListActivity implements
 
 		// For each of the sections in the app, add a tab to the action bar.
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_category)
-				.setTabListener(this));
+				.setTabListener(this), 0, false);
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this).setIcon(R.drawable.descending));
+				.setTabListener(this).setIcon(R.drawable.descending), 1, true);
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
-				.setTabListener(this).setIcon(R.drawable.descending));
-		
+				.setTabListener(this).setIcon(R.drawable.descending), 2, false);
+
 		UserStudyLogger.getInstance().log("activity_all");
 
 	}
@@ -95,10 +87,12 @@ public class AllAppsActivity extends SortableAppListActivity implements
 					.replace(R.id.allAppsContainer, categoryList).commit();
 			break;
 		case 1:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING,
+					privacyIsAscending);
 			break;
 		case 2:
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
+					functionalIsAscending);
 			break;
 		default:
 			break;
@@ -121,12 +115,14 @@ public class AllAppsActivity extends SortableAppListActivity implements
 		case 1:
 			// change sorting direction
 			privacyIsAscending = !privacyIsAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING,
+					privacyIsAscending);
 			break;
 		case 2:
 			// change sorting direction
 			functionalIsAscending = !functionalIsAscending;
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
+					functionalIsAscending);
 			break;
 		default:
 			break;

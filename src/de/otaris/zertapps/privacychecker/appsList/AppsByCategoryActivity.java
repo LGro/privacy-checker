@@ -1,27 +1,19 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.drawable;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.R.menu;
-import de.otaris.zertapps.privacychecker.R.string;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
-import de.otaris.zertapps.privacychecker.database.model.Category;
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -33,7 +25,7 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
+
 	// overwrite default privacy sorting direction
 	protected boolean privacyIsAscending = false;
 
@@ -42,7 +34,6 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		return R.id.appsByCategoryContainer;
 	}
 
-	
 	@Override
 	protected AppsList configureAppsList(AppsList appsList) {
 		Intent intent = getIntent();
@@ -60,20 +51,21 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		
+
 		CategoryDataSource categoryData = new CategoryDataSource(this);
 		categoryData.open();
-		Category category = categoryData.getCategoryById(getIntent().getIntExtra("id", -1));
+		Category category = categoryData.getCategoryById(getIntent()
+				.getIntExtra("id", -1));
 		actionBar.setTitle(category.getLabel());
 		categoryData.close();
 
 		// For each of the sections in the app, add a tab to the action bar.
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this).setIcon(R.drawable.ascending));
+				.setTabListener(this).setIcon(R.drawable.ascending), 0, false);
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this).setIcon(R.drawable.descending));
+				.setTabListener(this).setIcon(R.drawable.descending), 1, true);
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
-				.setTabListener(this).setIcon(R.drawable.descending));
+				.setTabListener(this).setIcon(R.drawable.descending), 2, false);
 
 	}
 
@@ -106,10 +98,12 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		case 1:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING,
+					privacyIsAscending);
 			break;
 		case 2:
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
+					functionalIsAscending);
 			break;
 		default:
 			break;
@@ -134,12 +128,14 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		case 1:
 			// change sorting direction
 			privacyIsAscending = !privacyIsAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING,
+					privacyIsAscending);
 			break;
 		case 2:
 			// change sorting direction
 			functionalIsAscending = !functionalIsAscending;
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
+					functionalIsAscending);
 			break;
 		default:
 			break;
@@ -173,8 +169,8 @@ public class AppsByCategoryActivity extends SortableAppListActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_apps_by_category,
-					container, false);
+			View rootView = inflater.inflate(
+					R.layout.fragment_apps_by_category, container, false);
 			return rootView;
 		}
 	}
