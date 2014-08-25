@@ -11,6 +11,11 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 
+/**
+ * handles display of all expert-mode elements including a short text (am I
+ * expert) and the checkbox it also handles the connection between Expert Mode
+ * and registry
+ */
 public class ExpertModeViewHelper extends RatingElementViewHelper {
 
 	protected CheckBox expertCheckBox;
@@ -34,9 +39,17 @@ public class ExpertModeViewHelper extends RatingElementViewHelper {
 
 		initializeViews(rowView);
 
-		// set isExpert to 0 as default in registry
+		// set isExpert to 0 as default in registry if it hasn't already been
+		// set
 		Registry reg = Registry.getInstance();
-		reg.set(this.getClass().getPackage().getName(), "isExpert", "0");
+		String isExpert = reg.get(this.getClass().getPackage().getName(),
+				"isExpert");
+
+		if (isExpert == null) {
+			reg.set(this.getClass().getPackage().getName(), "isExpert", "0");
+		} else if (isExpert.equals("1")) {
+			expertCheckBox.setChecked(true);
+		}
 
 		// add onclick listener
 		expertCheckBox.setOnClickListener(new OnClickListener() {

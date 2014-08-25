@@ -124,6 +124,13 @@ public class Registry {
 		return ratingElements.get(classObj);
 	}
 
+	/**
+	 * Method to update a single Rating Element
+	 * 
+	 * @param classObj
+	 * @param ratingElement
+	 */
+
 	public void updateRatingElement(Class<?> classObj,
 			RatingElement ratingElement) {
 		ratingElements.put(classObj, ratingElement);

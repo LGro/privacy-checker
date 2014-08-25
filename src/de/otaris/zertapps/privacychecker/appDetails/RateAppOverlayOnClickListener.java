@@ -39,10 +39,12 @@ public class RateAppOverlayOnClickListener implements OnClickListener {
 		// overlay.
 		ArrayList<RatingElement> ratingElements = getRatingElements((AppExtended) v
 				.getTag());
-		ArrayAdapter<RatingElement> adapter = new RatingElementListAdapter(
-				v.getContext(), ratingElements);
 		ListView ratingElementListView = (ListView) overlay
 				.findViewById(R.id.app_detail_rate_app_overlay_list);
+
+		// set list adapter
+		ArrayAdapter<RatingElement> adapter = new RatingElementListAdapter(
+				v.getContext(), ratingElements);
 		ratingElementListView.setAdapter(adapter);
 
 		Button sendRatingButton = (Button) overlay

@@ -9,10 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import de.otaris.zertapps.privacychecker.R;
 
+/**
+ * Handles getting of Views for all Rating Elements
+ *
+ */
 public class RatingElementListAdapter extends ArrayAdapter<RatingElement> {
 	private final Context context;
 	private final List<RatingElement> values;
 
+	/**
+	 * Constructor to fill context and values
+	 * 
+	 * @param context
+	 * @param values
+	 */
 	public RatingElementListAdapter(Context context, List<RatingElement> values) {
 		super(context, R.layout.app_detail_rate_app_overlay, values);
 		this.context = context;

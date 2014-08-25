@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import de.otaris.zertapps.privacychecker.PrivacyCheckerAlert;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
@@ -42,6 +43,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 	protected TextView expertRatingTextView;
 	protected ImageView privacyRatingIconTextView;
 	protected ListView permissionListView;
+	protected TextView permissionsListTitle;
+	protected RelativeLayout showMoreGroup;
 
 	/**
 	 * initialize all relevant views
@@ -64,6 +67,10 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
+		permissionsListTitle = (TextView) contextView
+				.findViewById(R.id.app_details_privacy_rating_permissions_title);
+		showMoreGroup = (RelativeLayout) contextView
+				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -119,57 +126,46 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		List<Permission> permissionList = app.getPermissionList();
 
-		// add list item adapter for permissions
-		permissionListView.setAdapter(new PermissionsListItemAdapter(context,
-				permissionList));
-		permissionListView.setScrollContainer(false);
+		if (permissionList.size() <= 0) {
+			// set no permissions required title
+			permissionsListTitle
+					.setText(context
+							.getResources()
+							.getString(
+									R.string.app_details_privacy_rating_permissions_title_no_permissions));
+		} else {
+			// add list item adapter for permissions
+			permissionListView.setAdapter(new PermissionsListItemAdapter(
+					context, permissionList));
+			permissionListView.setScrollContainer(false);
 
-		// scale list depending on its size
-		ViewGroup.LayoutParams updatedLayout = permissionListView
-				.getLayoutParams();
-		int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
-		updatedLayout.height = pixels * permissionListView.getCount();
-		permissionListView.setLayoutParams(updatedLayout);
+			// scale list depending on its size
+			ViewGroup.LayoutParams updatedLayout = permissionListView
+					.getLayoutParams();
+			int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
+			updatedLayout.height = pixels * permissionListView.getCount();
+			permissionListView.setLayoutParams(updatedLayout);
 
-		// set click listener for list items
-		permissionListView.setOnItemClickListener(new OnItemClickListener() {
+			// set click listener for list items
+			permissionListView
+					.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+						@Override
+						public void onItemClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							// get previously selected permission that need to
+							// be displayed
+							Permission permission = (Permission) parent
+									.getItemAtPosition(position);
 
-				// get overlay from details fragment
-				RelativeLayout overlay = (RelativeLayout) parent.getRootView()
-						.findViewById(R.id.app_detail_overlay);
-
-				// show overlay
-				overlay.setVisibility(View.VISIBLE);
-
-				// inflate specific permissions overlay layout from xml
-				LayoutInflater inflater = LayoutInflater.from(parent
-						.getContext());
-				RelativeLayout layout = (RelativeLayout) inflater.inflate(
-						R.layout.app_detail_rating_permission_overlay, overlay,
-						false);
-
-				// get previously selected permission that need to be displayed
-				Permission permission = (Permission) parent
-						.getItemAtPosition(position);
-
-				// set permission label
-				TextView permissionLabelText = (TextView) layout
-						.findViewById(R.id.app_detail_rating_permission_name);
-				permissionLabelText.setText(permission.getLabel());
-
-				// set permission description
-				TextView permissionDescriptionText = (TextView) layout
-						.findViewById(R.id.app_detail_rating_permission_description);
-				permissionDescriptionText.setText(permission.getDescription());
-
-				// add view to overlay
-				overlay.addView(layout);
-			}
-		});
+							// display permission as alert dialog
+							PrivacyCheckerAlert.callInfoDialog(
+									permission.getLabel(),
+									permission.getDescription(),
+									view.getContext());
+						}
+					});
+		}
 
 		// get "show more" button
 		ToggleButton showMoreButton = (ToggleButton) rowView
@@ -182,24 +178,12 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					public void onCheckedChanged(CompoundButton toggleButton,
 							boolean isChecked) {
 
-						// get explanation text view
-						TextView explanation = (TextView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_privacy_rating_explanation);
-
-						// get permissions list
-						ListView permissions = (ListView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_rating_permissions_list);
-
 						if (isChecked) {
 							// show explanation and permissions list
-							permissions.setVisibility(View.VISIBLE);
-							explanation.setVisibility(View.VISIBLE);
+							showMoreGroup.setVisibility(View.VISIBLE);
 						} else {
 							// hide explanation and permissions list
-							permissions.setVisibility(View.GONE);
-							explanation.setVisibility(View.GONE);
+							showMoreGroup.setVisibility(View.GONE);
 						}
 
 					}
