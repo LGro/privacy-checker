@@ -1,25 +1,16 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.UserStudyLogger;
-import de.otaris.zertapps.privacychecker.R.drawable;
-import de.otaris.zertapps.privacychecker.R.id;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.R.menu;
-import de.otaris.zertapps.privacychecker.R.string;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -27,16 +18,11 @@ import android.view.ViewGroup;
 public class InstalledAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-	ViewPager mViewPager;
-
 	@Override
 	protected int getTargetContainer() {
 		return R.id.installedAppsContainer;
 	}
-	
+
 	@Override
 	protected AppsList configureAppsList(AppsList appsList) {
 		appsList.setInstalledOnly();
@@ -55,11 +41,11 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this).setIcon(R.drawable.ascending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
 				.setTabListener(this).setIcon(R.drawable.ascending));
-		
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
+				.setTabListener(this).setIcon(R.drawable.ascending));
+
 		UserStudyLogger.getInstance().log("activity_installed");
 
 	}
@@ -83,17 +69,18 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 
 		switch (tab.getPosition()) {
 		case 0:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
 		case 1:
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
+			updateListView(tab, AppsListOrder.PRIVACY_RATING,
+					privacyIsAscending);
 			break;
 		default:
 			break;
@@ -108,22 +95,23 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		
+
 		switch (tab.getPosition()) {
 		case 0:
-			// change sorting direction
-			privacyIsAscending = !privacyIsAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
-			break;
-		case 1:
 			// change sorting direction
 			alphabetIsAscending = !alphabetIsAscending;
 			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
 			break;
+		case 1:
+			// change sorting direction
+			privacyIsAscending = !privacyIsAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING,
+					privacyIsAscending);
+			break;
 		default:
 			break;
 		}
-		
+
 	}
 
 	/**

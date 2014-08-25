@@ -10,7 +10,7 @@
     <string name="installed_apps_button">Installierte Apps</string>
     <string name="title_activity_installed_apps">Installierte Apps</string>
     <string name="title_privacy">Privatsphäre</string>
-    <string name="title_alphabet">alphabetisch</string>
+    <string name="title_alphabet">Name</string>
     <string name="title_functional">Bewertung</string>
     <string name="title_category">Kategorien</string>
     <string name="title_activity_installed_apps_list">Installierte Apps</string>
