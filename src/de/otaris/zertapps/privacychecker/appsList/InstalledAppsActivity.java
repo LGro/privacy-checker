@@ -1,14 +1,15 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import de.otaris.zertapps.privacychecker.R;
 
 /**
@@ -19,7 +20,7 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 
 	@Override
 	protected int getTargetContainer() {
-		return R.id.installedAppsContainer;
+		return R.id.installedAppsPager;
 	}
 
 	@Override
@@ -27,6 +28,10 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		appsList.setInstalledOnly();
 		return appsList;
 	}
+
+	ViewPager viewPager;
+	TabPagerAdapter tabPagerAdapter;
+	ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +41,20 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		setContentView(R.layout.activity_installed_apps);
 
 		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
+		actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
+		viewPager = (ViewPager) findViewById(R.id.installedAppsPager);
+		viewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+						actionBar = getActionBar();
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
+		viewPager.setAdapter(tabPagerAdapter);
 
 		// For each of the sections in the app, add a tab to the action bar.
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
@@ -71,22 +88,7 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
-		switch (tab.getPosition()) {
-		case 0:
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
-			break;
-		case 1:
-			updateListView(tab, AppsListOrder.PRIVACY_RATING,
-					privacyIsAscending);
-			break;
-		case 2:
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
-					functionalIsAscending);
-			break;
-		default:
-			break;
-		}
+		viewPager.setCurrentItem(tab.getPosition());
 	}
 
 	@Override
@@ -99,61 +101,43 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
-		switch (tab.getPosition()) {
-		case 0:
-			// change sorting direction
-			alphabetIsAscending = !alphabetIsAscending;
-			updateListView(tab, AppsListOrder.ALPHABET, alphabetIsAscending);
-			break;
-		case 1:
-			// change sorting direction
-			privacyIsAscending = !privacyIsAscending;
-			updateListView(tab, AppsListOrder.PRIVACY_RATING,
-					privacyIsAscending);
-			break;
-		case 2:
-			// change sorting direction
-			functionalIsAscending = !functionalIsAscending;
-			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
-					functionalIsAscending);
-			break;
-		default:
-			break;
-		}
-
 	}
 
-	/**
-	 * Auto-generated code A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		private static final String ARG_SECTION_NUMBER = "section_number";
-
-		/**
-		 * Returns a new instance of this fragment for the given section number.
-		 */
-		public static PlaceholderFragment newInstance(int sectionNumber) {
-			PlaceholderFragment fragment = new PlaceholderFragment();
-			Bundle args = new Bundle();
-			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		public PlaceholderFragment() {
+	private class TabPagerAdapter extends FragmentStatePagerAdapter {
+		public TabPagerAdapter(FragmentManager fm) {
+			super(fm);
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_installed_apps,
-					container, false);
-			return rootView;
+		public Fragment getItem(int i) {
+			Log.i("InstalledAppsActivity","Tab selected: " + i);
+
+//			switch (i) {
+//			case 0:
+//				// change sorting direction
+//				alphabetIsAscending = !alphabetIsAscending;
+//				return updateListView(actionBar.getTabAt(i),
+//						AppsListOrder.ALPHABET, alphabetIsAscending);
+//			case 1:
+//				// change sorting direction
+//				privacyIsAscending = !privacyIsAscending;
+//				return updateListView(actionBar.getTabAt(i),
+//						AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+//			case 2:
+//				// change sorting direction
+//				functionalIsAscending = !functionalIsAscending;
+//				return updateListView(actionBar.getTabAt(i),
+//						AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+//			default:
+//				return null;
+//			}
+			return new Fragment();
+		}
+
+		@Override
+		public int getCount() {
+			// amount of tabs
+			return 3;
 		}
 	}
 
