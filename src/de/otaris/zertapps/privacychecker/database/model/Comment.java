@@ -81,7 +81,7 @@ public class Comment {
 		this.version = version;
 	}
 
-	public long getDate() {
+	public long getTimestamp() {
 		return timestamp;
 	}
 
@@ -93,7 +93,7 @@ public class Comment {
 		return appId;
 	}
 
-	public void setAppId(int app_id) {
+	public void setAppId(int appId) {
 		this.appId = appId;
 	}
 	public boolean isExpert() {

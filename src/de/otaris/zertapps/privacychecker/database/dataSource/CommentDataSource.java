@@ -1,15 +1,11 @@
 package de.otaris.zertapps.privacychecker.database.dataSource;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorIndexOutOfBoundsException;
-import android.util.Log;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
-import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
 
 /**
@@ -17,18 +13,17 @@ import de.otaris.zertapps.privacychecker.database.model.Comment;
  */
 public class CommentDataSource extends DataSource<Comment> {
 
-	private CommentDataSource commentData;
-	
 	private String[] allColumns = { Comment.ID, Comment.CONTENT,
-			Comment.VERSION, Comment.TIMESTAMP, Comment.USER_TYPE, Comment.APP_ID };
+			Comment.VERSION, Comment.TIMESTAMP, Comment.USER_TYPE,
+			Comment.APP_ID };
 
 	public CommentDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
-		commentData = new CommentDataSource(context);
 	}
 
 	/**
 	 * converts database result to comment object
+	 * 
 	 * @param cursor
 	 * @return cursor data as Comment object
 	 */
@@ -41,12 +36,13 @@ public class CommentDataSource extends DataSource<Comment> {
 		comment.setTimestamp(cursor.getLong(3));
 		comment.setExpert((cursor.getInt(4) != 0));
 		comment.setAppId(cursor.getInt(5));
-		
+
 		return comment;
 	}
 
 	/**
-	 *  creates a comment 
+	 * creates a comment
+	 * 
 	 * @param content
 	 * @param version
 	 * @param timestamp
@@ -62,7 +58,7 @@ public class CommentDataSource extends DataSource<Comment> {
 		values.put(Comment.TIMESTAMP, timestamp);
 		values.put(Comment.USER_TYPE, isExpert);
 		values.put(Comment.APP_ID, appId);
-		
+
 		// insert into DB
 		long insertId = database.insert(Comment.TABLE, null, values);
 
@@ -72,8 +68,9 @@ public class CommentDataSource extends DataSource<Comment> {
 
 	/**
 	 * calls the method with parameter of type long
+	 * 
 	 * @param commentId
-	 * @return 
+	 * @return
 	 */
 	public Comment getCommentById(int commentId) {
 		return getCommentById((long) commentId);
@@ -81,13 +78,14 @@ public class CommentDataSource extends DataSource<Comment> {
 
 	/**
 	 * returns comment by its id
+	 * 
 	 * @param commentId
 	 * @return comment
 	 */
 	protected Comment getCommentById(long commentId) {
 		// build database query
-		Cursor cursor = database.query(Comment.TABLE, allColumns,
-				Comment.ID + " = " + commentId, null, null, null, null);
+		Cursor cursor = database.query(Comment.TABLE, allColumns, Comment.ID
+				+ " = " + commentId, null, null, null, null);
 		cursor.moveToFirst();
 
 		// convert to Comment object
@@ -98,37 +96,22 @@ public class CommentDataSource extends DataSource<Comment> {
 		return newComment;
 	}
 
-
-	
 	/**
-	 * returns all comments from an app 
+	 * returns all comments from an app
+	 * 
 	 * @param appId
 	 * @return list of comments
 	 */
 	public ArrayList<Comment> getCommentsByAppId(int appId) {
-		ArrayList<Comment> comments = new ArrayList<Comment>();
 
 		// build query
 		String whereClause = Comment.APP_ID + " = " + appId;
+		String orderBy = Comment.TIMESTAMP + " DESC";
 
-		Cursor cursor = database.query(Comment.TABLE, allColumns,
-				whereClause, null, null, null, null);
-		// put values in list
+		Cursor cursor = database.query(Comment.TABLE, allColumns, whereClause,
+				null, null, null, orderBy);
 
-		List<Comment> appComments = cursorToModelList(cursor);
-
-		commentData.open();
-		for (Comment appComment : appComments) {
-			try {
-				comments.add(commentData.getCommentById(appComment.getId()));
-			} catch (CursorIndexOutOfBoundsException e) {
-				Log.e("PermissionDataSource CURSOR ERROR", e.getMessage());
-			}
-		}
-		commentData.close();
-		
-		return comments;
+		return (ArrayList<Comment>) cursorToModelList(cursor);
 	}
 
-	
 }

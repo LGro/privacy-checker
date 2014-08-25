@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -25,6 +26,7 @@ public class CommentViewHelper extends DetailViewHelper {
 
 	protected ListView commentListView;
 	protected ToggleButton showMoreButton;
+	protected int  numberOfCommentsToShow;
 
 	@Override
 	protected void initializeViews(View contextView) {
@@ -59,18 +61,13 @@ public class CommentViewHelper extends DetailViewHelper {
 		commentData.open();
 		comments = commentData.getCommentsByAppId(detail.getApp().getId());
 
-		CommentAdapter adapter = new CommentAdapter(context,
-				context.getPackageManager(), comments);
-
+		CommentAdapter adapter = new CommentAdapter(context, comments);
+		//set Number of Comments that are displayed
+		numberOfCommentsToShow= (comments.size()>3) ? 3 : comments.size();
 		commentListView.setAdapter(adapter);
 
-		// scale list depending on its size
-		ViewGroup.LayoutParams updatedLayout = commentListView
-				.getLayoutParams();
-		final float scale = context.getResources().getDisplayMetrics().density;
-		int pixels = (int) (49 * scale);
-		updatedLayout.height = pixels * 2;
-		commentListView.setLayoutParams(updatedLayout);
+		// show the first comments
+		setListViewHeigthBasedOnChildren(commentListView, numberOfCommentsToShow);
 
 		// set click listener
 		showMoreButton
@@ -83,32 +80,52 @@ public class CommentViewHelper extends DetailViewHelper {
 						ListView listView = (ListView) toggleButton
 								.getRootView().findViewById(
 										R.id.app_detail_comment_list);
-						ViewGroup.LayoutParams updatedLayout = listView
-								.getLayoutParams();
-						final float scale = toggleButton.getRootView()
-								.getContext().getResources()
-								.getDisplayMetrics().density;
-						int pixels = (int) (49 * scale);
+
+						CommentAdapter adapter = (CommentAdapter) listView
+								.getAdapter();
 
 						if (isChecked) {
-							// TODO: change 200 to maximum height per comment
-							updatedLayout.height = 200 * listView.getCount();
-							listView.setLayoutParams(updatedLayout);
 
-							// int maxListHeight = 0;
-							// for (int i = 0; i < listView.getCount(); i++) {
-							// maxListHeight += listView.getChildAt(i)
-							// .getHeight();
-							// }
-							// updatedLayout.height = maxListHeight;
-							// listView.setLayoutParams(updatedLayout);
+							// show total List of comments
+							setListViewHeigthBasedOnChildren(listView,
+									adapter.getCount());
+
 						} else {
-							updatedLayout.height = pixels * 2;
-							listView.setLayoutParams(updatedLayout);
+							// show the first comments
+							setListViewHeigthBasedOnChildren(listView, numberOfCommentsToShow);
 						}
 
 					}
 				});
 		return rowView;
+	}
+
+	/**
+	 * Method to scale a listView depending on the number of Elements you want
+	 * to display
+	 * 
+	 * @param listView
+	 * @param numberOfChildren
+	 */
+
+	private void setListViewHeigthBasedOnChildren(ListView listView,
+			int numberOfChildren) {
+
+		CommentAdapter adapter = (CommentAdapter) listView.getAdapter();
+		int totalHeight = 0;
+		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
+				MeasureSpec.AT_MOST);
+
+		for (int i = 0; i < numberOfChildren; i++) {
+			View listItem = adapter.getView(i, null, listView);
+			listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (adapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
+
 	}
 }

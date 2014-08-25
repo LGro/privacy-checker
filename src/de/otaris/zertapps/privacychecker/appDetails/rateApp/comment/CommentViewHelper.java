@@ -44,8 +44,6 @@ public class CommentViewHelper extends RatingElementViewHelper {
 				parent, false);
 
 		initializeViews(rowView);
-		//display 255 (maxValueofChar)
-		textView.setText(String.valueOf(maxValue));
 		
 		// get comment from registry
 		Registry reg = Registry.getInstance();
@@ -53,14 +51,20 @@ public class CommentViewHelper extends RatingElementViewHelper {
 				.getRatingElement(Comment.class);
 		editText.setText(commentElement.getComment());
 		
+		//set cursor to end of text
+		editText.setSelection(editText.getText().length());
+		
+		//display rest of possible characters
+		textView.setText(String.valueOf(maxValue - commentElement.getComment().length()));
+		
 		editText.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 				
-				// show rest of possible characters
-				textView.setText(String.valueOf(maxValue-s.length()));
+				// display rest of possible characters
+				textView.setText(String.valueOf(maxValue - s.length()));
 				
 				//save comment in registry
 				Registry reg = Registry.getInstance();
@@ -69,19 +73,22 @@ public class CommentViewHelper extends RatingElementViewHelper {
 				commentElement.setComment(String.valueOf(s));
 				reg.updateRatingElement(Comment.class,
 						commentElement);
+				
+				editText.setSelection(s.length());
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-
+					int after) { 
+				editText.setSelection(s.length());
+				
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				
 
+				editText.setSelection(s.length());
+					
 			}
 		});
 		;

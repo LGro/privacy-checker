@@ -20,6 +20,7 @@ public class Comment extends RatingElement {
 		if (!mandatory) {
 			return true;
 		}
+
 		// else exception
 		return false;
 	}
@@ -27,7 +28,6 @@ public class Comment extends RatingElement {
 	@Override
 	public void save(Context context) {
 
-		
 		CommentDataSource commentData = new CommentDataSource(context);
 		commentData.open();
 
@@ -37,11 +37,20 @@ public class Comment extends RatingElement {
 						"isExpert");
 		int isExpert = (isExpertString.equals("1")) ? 1 : 0;
 
-		//Get current timestamp
+		// Get current timestamp
 		long currentTimestamp = System.currentTimeMillis() / 1000;
-		// create new commentData
-		commentData.createComment(comment, app.getVersion(), currentTimestamp,
-				(isExpert == 1), app.getId());
+
+		// save comment without unnecessary spaces
+		comment = comment.trim();
+
+		// check if comment content is not empty
+		if (comment.length() > 0) {
+
+			// create new commentData
+			commentData.createComment(comment, app.getVersion(),
+					currentTimestamp, (isExpert == 1), app.getId());
+		}
+		// else do not create new commentData
 
 		commentData.close();
 	}
