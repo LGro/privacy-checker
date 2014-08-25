@@ -178,16 +178,6 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					public void onCheckedChanged(CompoundButton toggleButton,
 							boolean isChecked) {
 
-						// get explanation text view
-						TextView explanation = (TextView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_privacy_rating_explanation);
-
-						// get permissions list
-						ListView permissions = (ListView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_rating_permissions_list);
-
 						if (isChecked) {
 							// show explanation and permissions list
 							showMoreGroup.setVisibility(View.VISIBLE);
