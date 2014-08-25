@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.UserStudyLogger;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -44,10 +43,7 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
 				.setTabListener(this).setIcon(R.drawable.ascending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this).setIcon(R.drawable.ascending));
-
-		UserStudyLogger.getInstance().log("activity_installed");
-
+				.setTabListener(this));
 	}
 
 	@Override
@@ -90,6 +86,8 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+		// remove icon
+		tab.setIcon(null);
 	}
 
 	@Override
