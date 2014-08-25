@@ -11,7 +11,7 @@ import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 import de.otaris.zertapps.privacychecker.appDetails.RateAppOverlayOnClickListener;
 
 /**
- * Displays a button to rate the privacy friendlieness of a given app.
+ * Displays a button to rate the privacy friendliness of a given app.
  * 
  * Button click opens a new overlay by using the RateAppOverlayOnClickListener.
  */
