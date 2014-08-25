@@ -6,7 +6,10 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
+import android.util.Log;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
 
 /**
@@ -14,11 +17,14 @@ import de.otaris.zertapps.privacychecker.database.model.Comment;
  */
 public class CommentDataSource extends DataSource<Comment> {
 
+	private CommentDataSource commentData;
+	
 	private String[] allColumns = { Comment.ID, Comment.CONTENT,
 			Comment.VERSION, Comment.TIMESTAMP, Comment.USER_TYPE, Comment.APP_ID };
 
 	public CommentDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
+		commentData = new CommentDataSource(context);
 	}
 
 	/**
@@ -108,6 +114,18 @@ public class CommentDataSource extends DataSource<Comment> {
 		Cursor cursor = database.query(Comment.TABLE, allColumns,
 				whereClause, null, null, null, null);
 		// put values in list
+
+		List<Comment> appComments = cursorToModelList(cursor);
+
+		commentData.open();
+		for (Comment appComment : appComments) {
+			try {
+				comments.add(commentData.getCommentById(appComment.getId()));
+			} catch (CursorIndexOutOfBoundsException e) {
+				Log.e("PermissionDataSource CURSOR ERROR", e.getMessage());
+			}
+		}
+		commentData.close();
 		
 		return comments;
 	}
