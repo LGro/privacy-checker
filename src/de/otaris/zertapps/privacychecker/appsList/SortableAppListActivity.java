@@ -15,11 +15,6 @@ public abstract class SortableAppListActivity extends FragmentActivity {
 	protected boolean functionalIsAscending = false;
 
 	/**
-	 * returns activity specific target container for apps list
-	 */
-	protected abstract int getTargetContainer();
-
-	/**
 	 * activity specific modification of the apps list
 	 * 
 	 * @param appsList

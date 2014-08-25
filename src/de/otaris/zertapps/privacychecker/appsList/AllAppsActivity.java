@@ -36,11 +36,6 @@ public class AllAppsActivity extends SortableAppListActivity implements
 	ViewPager mViewPager;
 
 	@Override
-	protected int getTargetContainer() {
-		return R.id.allAppsContainer;
-	}
-
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 

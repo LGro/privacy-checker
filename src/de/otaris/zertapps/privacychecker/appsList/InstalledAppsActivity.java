@@ -18,20 +18,17 @@ import de.otaris.zertapps.privacychecker.R;
 public class InstalledAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
 
-	@Override
-	protected int getTargetContainer() {
-		return R.id.installedAppsPager;
-	}
+	final static int TAB_COUNT = 3;
+
+	ViewPager viewPager;
+	TabPagerAdapter tabPagerAdapter;
+	ActionBar actionBar;
 
 	@Override
 	protected AppsList configureAppsList(AppsList appsList) {
 		appsList.setInstalledOnly();
 		return appsList;
 	}
-
-	ViewPager viewPager;
-	TabPagerAdapter tabPagerAdapter;
-	ActionBar actionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +40,12 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 		// Set up the action bar.
 		actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
 		viewPager = (ViewPager) findViewById(R.id.installedAppsPager);
+
+		// always load all 3 fragments at once; suppress dynamic fragment
+		// loading (otherwise would mess up getItem below)
+		viewPager.setOffscreenPageLimit(TAB_COUNT);
+
 		viewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
@@ -54,6 +54,8 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
+
+		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(tabPagerAdapter);
 
 		// For each of the sections in the app, add a tab to the action bar.
@@ -110,34 +112,32 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 
 		@Override
 		public Fragment getItem(int i) {
-			Log.i("InstalledAppsActivity","Tab selected: " + i);
+			Log.i("InstalledAppsActivity", "Tab selected: " + i);
 
-//			switch (i) {
-//			case 0:
-//				// change sorting direction
-//				alphabetIsAscending = !alphabetIsAscending;
-//				return updateListView(actionBar.getTabAt(i),
-//						AppsListOrder.ALPHABET, alphabetIsAscending);
-//			case 1:
-//				// change sorting direction
-//				privacyIsAscending = !privacyIsAscending;
-//				return updateListView(actionBar.getTabAt(i),
-//						AppsListOrder.PRIVACY_RATING, privacyIsAscending);
-//			case 2:
-//				// change sorting direction
-//				functionalIsAscending = !functionalIsAscending;
-//				return updateListView(actionBar.getTabAt(i),
-//						AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
-//			default:
-//				return null;
-//			}
-			return new Fragment();
+			switch (i) {
+			case 0:
+				// change sorting direction
+				alphabetIsAscending = !alphabetIsAscending;
+				return updateListView(actionBar.getTabAt(i),
+						AppsListOrder.ALPHABET, alphabetIsAscending);
+			case 1:
+				// change sorting direction
+				privacyIsAscending = !privacyIsAscending;
+				return updateListView(actionBar.getTabAt(i),
+						AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			case 2:
+				// change sorting direction
+				functionalIsAscending = !functionalIsAscending;
+				return updateListView(actionBar.getTabAt(i),
+						AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			default:
+				return null;
+			}
 		}
 
 		@Override
 		public int getCount() {
-			// amount of tabs
-			return 3;
+			return TAB_COUNT;
 		}
 	}
 
