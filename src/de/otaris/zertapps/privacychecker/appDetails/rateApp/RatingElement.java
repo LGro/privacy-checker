@@ -29,7 +29,7 @@ public abstract class RatingElement {
 		return mandatory;
 	}
 
-	public abstract boolean validate() throws RatingValidationException;
+	public abstract void validate() throws RatingValidationException;
 
 	/**
 	 * save data that has been acquired

@@ -12,8 +12,8 @@ public class ExpertMode extends RatingElement {
 	}
 
 	@Override
-	public boolean validate() throws RatingValidationException {
-		return true;
+	public void validate() throws RatingValidationException {
+
 	}
 
 	@Override

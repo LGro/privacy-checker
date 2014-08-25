@@ -40,13 +40,8 @@ public class PermissionsExpected extends RatingElement {
 	}
 
 	@Override
-	public boolean validate() throws RatingValidationException {
-		if (!mandatory)
-			return true;
+	public void validate() throws RatingValidationException {
 
-		// TODO: add behavior in case this is mandatory
-
-		return false;
 	}
 
 	@Override

@@ -7,6 +7,9 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 import de.otaris.zertapps.privacychecker.database.dataSource.CommentDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
+/**
+ * Enables the user to comment on the privacy friendliness of a given app.
+ */
 public class Comment extends RatingElement {
 
 	protected String comment = "";
@@ -16,46 +19,40 @@ public class Comment extends RatingElement {
 	}
 
 	@Override
-	public boolean validate() throws RatingValidationException {
-		if (!mandatory) {
-			return true;
-		}
+	public void validate() throws RatingValidationException {
 
-		// else exception
-		return false;
 	}
 
 	@Override
 	public void save(Context context) {
 
-		CommentDataSource commentData = new CommentDataSource(context);
-		commentData.open();
-
-		Registry reg = Registry.getInstance();
-		String isExpertString = reg
-				.get("de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode",
-						"isExpert");
-		int isExpert = (isExpertString.equals("1")) ? 1 : 0;
-
-		// Get current timestamp
-		long currentTimestamp = System.currentTimeMillis() / 1000;
-
 		// save comment without unnecessary spaces
 		comment = comment.trim();
-		
-		//delete /n if there are more than two
-		comment = (comment.replaceAll("\n[\n]+","\n"));
 
-		// check if comment content is not empty
+		// replace two or more line breaks with a single one
+		comment = (comment.replaceAll("\n[\n]+", "\n"));
+
+		// create comment if it isn't empty
 		if (comment.length() > 0) {
+			// get expert flag from registry
+			Registry reg = Registry.getInstance();
+			String isExpertString = reg
+					.get("de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode",
+							"isExpert");
+			int isExpert = (isExpertString.equals("1")) ? 1 : 0;
 
-			// create new commentData
+			// get current unix timestamp
+			long currentTimestamp = System.currentTimeMillis() / 1000;
+
+			CommentDataSource commentData = new CommentDataSource(context);
+			commentData.open();
+
+			// create new comment
 			commentData.createComment(comment, app.getVersion(),
 					currentTimestamp, (isExpert == 1), app.getId());
-		}
-		// else do not create new commentData
 
-		commentData.close();
+			commentData.close();
+		}
 	}
 
 	public void setComment(String comment) {

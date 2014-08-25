@@ -1,10 +1,10 @@
 package de.otaris.zertapps.privacychecker.appDetails.comment;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +14,8 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
 
 /**
- * Adapter that handles the headlines of comments (date + time)
- *
+ * Adapter that handles the headlines of comments (date + version) and the
+ * comment text itself.
  */
 public class CommentAdapter extends ArrayAdapter<Comment> {
 
@@ -43,17 +43,20 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 		TextView dateView = (TextView) rowView
 				.findViewById(R.id.app_detail_comment_item_date);
 
-		// get Date
+		// get date
 		Date date = new Date((long) values.get(position).getTimestamp() * 1000L);
-		Log.i("commentAdapter", date + "");
-		String stringDate = date + "";
-		String[] parts = stringDate.split(" ");
-		stringDate = parts[2] + ". " + parts[1] + " " + parts[5];
+
+		// format date
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MMM yyyy",
+				parent.getContext().getResources().getConfiguration().locale);
+		String stringDate = dateFormat.format(date);
 
 		// set the appropriate information to the views
 		dateView.setText(stringDate);
-		versionView.setText("Version: " + values.get(position).getVersion());
-		contentView.setText(values.get(position).getContent() + "");
+		versionView.setText(parent.getContext().getResources()
+				.getString(R.string.version)
+				+ ": " + values.get(position).getVersion());
+		contentView.setText(values.get(position).getContent());
 
 		return rowView;
 	}
