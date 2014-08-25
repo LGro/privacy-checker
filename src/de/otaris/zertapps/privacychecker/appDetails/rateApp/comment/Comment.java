@@ -42,6 +42,9 @@ public class Comment extends RatingElement {
 
 		// save comment without unnecessary spaces
 		comment = comment.trim();
+		
+		//delete /n if there are more than two
+		comment = (comment.replaceAll("\n[\n]+","\n"));
 
 		// check if comment content is not empty
 		if (comment.length() > 0) {

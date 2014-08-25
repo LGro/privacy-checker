@@ -64,7 +64,13 @@ public class CommentViewHelper extends DetailViewHelper {
 		CommentAdapter adapter = new CommentAdapter(context, comments);
 		//set Number of Comments that are displayed
 		numberOfCommentsToShow= (comments.size()>3) ? 3 : comments.size();
+		//if there are not more than 3 comments, don not show show more button
+		if (comments.size() < 4){
+			showMoreButton.setVisibility(View.INVISIBLE);
+		}
 		commentListView.setAdapter(adapter);
+		
+		
 
 		// show the first comments
 		setListViewHeigthBasedOnChildren(commentListView, numberOfCommentsToShow);

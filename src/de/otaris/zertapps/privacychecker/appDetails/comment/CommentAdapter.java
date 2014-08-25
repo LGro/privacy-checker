@@ -48,14 +48,13 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 		Log.i("commentAdapter", date + "");
 		String stringDate = date + "";
 		String[] parts = stringDate.split(" ");
-		stringDate = parts[2] + "." + parts[1] + " " + parts[5];
+		stringDate = parts[2] + ". " + parts[1] + " " + parts[5];
 
-		// set the apropriate informationen to the views
+		// set the appropriate information to the views
 		dateView.setText(stringDate);
-		versionView.setText(values.get(position).getVersion() + "");
+		versionView.setText("Version: " + values.get(position).getVersion());
 		contentView.setText(values.get(position).getContent() + "");
 
-		// rowView.setTag(values.get(position).getId());
 		return rowView;
 	}
 }
