@@ -44,6 +44,8 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 				.setTabListener(this).setIcon(R.drawable.ascending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
 				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
+				.setTabListener(this));
 	}
 
 	@Override
@@ -78,6 +80,10 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 			updateListView(tab, AppsListOrder.PRIVACY_RATING,
 					privacyIsAscending);
 			break;
+		case 2:
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
+					functionalIsAscending);
+			break;
 		default:
 			break;
 		}
@@ -105,6 +111,12 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 			privacyIsAscending = !privacyIsAscending;
 			updateListView(tab, AppsListOrder.PRIVACY_RATING,
 					privacyIsAscending);
+			break;
+		case 2:
+			// change sorting direction
+			functionalIsAscending = !functionalIsAscending;
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
+					functionalIsAscending);
 			break;
 		default:
 			break;
