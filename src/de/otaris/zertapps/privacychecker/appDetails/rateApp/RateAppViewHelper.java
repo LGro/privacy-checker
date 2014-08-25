@@ -10,18 +10,10 @@ import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
 import de.otaris.zertapps.privacychecker.appDetails.RateAppOverlayOnClickListener;
 
-/*
- * Inflates the layout containing the elements to rate a app.
- * Button "Jetzt Bewerten"
- * (click) -> open overlay "Rate App":
- * 				- Rate permissions
- * 				- Total Rating > locks
- * 				- Button "Senden"
+/**
+ * Displays a button to rate the privacy friendlieness of a given app.
  * 
- * (click) -> close overlay "Rate App"
- * 		   -> open overlay "Rating saved"
- * 				- Permission rating saved in database
- * 				- Lock rating saved in  database
+ * Button click opens a new overlay by using the RateAppOverlayOnClickListener.
  */
 public class RateAppViewHelper extends DetailViewHelper {
 
