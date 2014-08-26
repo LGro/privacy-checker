@@ -29,14 +29,7 @@ public abstract class RatingElement {
 		return mandatory;
 	}
 
-	/**
-	 * validate by mandatory
-	 * 
-	 * @return true if input is validate false if it is not
-	 * @throws RatingValidationException
-	 */
-
-	public abstract boolean validate() throws RatingValidationException;
+	public abstract void validate() throws RatingValidationException;
 
 	/**
 	 * save data that has been acquired

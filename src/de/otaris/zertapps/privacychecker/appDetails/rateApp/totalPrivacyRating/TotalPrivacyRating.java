@@ -18,15 +18,10 @@ public class TotalPrivacyRating extends RatingElement {
 	}
 
 	@Override
-	public boolean validate() throws RatingValidationException {
-		if (!mandatory)
-			return true;
-
+	public void validate() throws RatingValidationException {
 		if (rating == -1)
 			throw new RatingValidationException(
 					R.string.validation_error_no_total_rating);
-
-		return true;
 	}
 
 	@Override

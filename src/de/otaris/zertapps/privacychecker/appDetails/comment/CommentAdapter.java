@@ -1,9 +1,10 @@
 package de.otaris.zertapps.privacychecker.appDetails.comment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +13,19 @@ import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
 
-import java.util.Date;
-
 /**
- * Adapter that handles the headlines of comments (date + time)
- *
+ * Adapter that handles the headlines of comments (date + version) and the
+ * comment text itself.
  */
 public class CommentAdapter extends ArrayAdapter<Comment> {
 
 	private final Context context;
 	private final List<Comment> values;
-	private final PackageManager pm;
 
-	public CommentAdapter(Context context, PackageManager pm,
-			List<Comment> values) {
+	public CommentAdapter(Context context, List<Comment> values) {
 		super(context, R.layout.app_detail_comment_item, values);
 		this.context = context;
 		this.values = values;
-		this.pm = pm;
 	}
 
 	@Override
@@ -47,19 +43,21 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
 		TextView dateView = (TextView) rowView
 				.findViewById(R.id.app_detail_comment_item_date);
 
-		// get Date
-		Date date = new Date((long) values.get(position).getDate());
-		String stringDate = date + "";
-		String[] parts = stringDate.split(" ");
-		stringDate = parts[2] + "." + parts[1] + " " + parts[5] + " "
-				+ parts[3];
+		// get date
+		Date date = new Date((long) values.get(position).getTimestamp() * 1000L);
 
-		// set the apropriate informationen to the views
+		// format date
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MMM yyyy",
+				parent.getContext().getResources().getConfiguration().locale);
+		String stringDate = dateFormat.format(date);
+
+		// set the appropriate information to the views
 		dateView.setText(stringDate);
-		versionView.setText(values.get(position).getVersion() + "");
-		contentView.setText(values.get(position).getContent() + "");
+		versionView.setText(parent.getContext().getResources()
+				.getString(R.string.version)
+				+ ": " + values.get(position).getVersion());
+		contentView.setText(values.get(position).getContent());
 
-		// rowView.setTag(values.get(position).getId());
 		return rowView;
 	}
 }

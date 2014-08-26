@@ -5,22 +5,19 @@ import java.util.ArrayList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import de.otaris.zertapps.privacychecker.PrivacyCheckerAlert;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementListAdapter;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.comment.Comment;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected.PermissionsExpected;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
-import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * Handles the click on the app detail's "rate now" button.
@@ -76,6 +73,9 @@ public class RateAppOverlayOnClickListener implements OnClickListener {
 
 		registry.addRatingElement(new TotalPrivacyRating(app, true));
 		ratingElements.add(new TotalPrivacyRating(app, true));
+		
+		registry.addRatingElement(new Comment(app, false));
+		ratingElements.add(new Comment(app, false));
 
 		return ratingElements;
 	}
