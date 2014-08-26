@@ -45,7 +45,7 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	protected AppExtended populateApp(AppExtended app) {
 		appPermissionData.open();
 		ArrayList<Permission> permissions = appPermissionData
-				.getPermissionsByAppId(app.getId());
+				.getTranslatedPermissionsByAppId(app.getId());
 		appPermissionData.close();
 
 		ratingAppData.open();

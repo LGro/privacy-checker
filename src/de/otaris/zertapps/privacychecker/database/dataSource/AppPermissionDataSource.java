@@ -68,7 +68,25 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		permissionData.close();
 
 		// TODO: fix sorting and re-enable
-		//permissions = sortPermissions(permissions);
+		// permissions = sortPermissions(permissions);
+		return permissions;
+	}
+
+	/**
+	 * Get all permissions from database thats label isn't neither empty nor
+	 * equal to its name.
+	 * 
+	 * @param appId
+	 * @return filtered list of permissions
+	 */
+	public ArrayList<Permission> getTranslatedPermissionsByAppId(int appId) {
+		ArrayList<Permission> permissions = getPermissionsByAppId(appId);
+		for (int i = 0; i < permissions.size(); i++) {
+			if (permissions.get(i).getLabel() == permissions.get(i).getName()
+					|| permissions.get(i).getLabel().equals(""))
+				permissions.remove(i);
+		}
+
 		return permissions;
 	}
 
@@ -157,11 +175,11 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 						+ AppPermission.PERMISSION_ID + "=" + permissionId,
 				null, null, null, null);
 		cursor.moveToFirst();
-		
-		//convert to AppPermission object
+
+		// convert to AppPermission object
 		AppPermission newAppPermission = cursorToModel(cursor);
 		cursor.close();
-		
+
 		return newAppPermission;
 	}
 }
