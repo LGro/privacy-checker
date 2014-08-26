@@ -134,13 +134,12 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 			permissionListView.setAdapter(new PermissionsListItemAdapter(
 					context, permissionList));
 			permissionListView.setScrollContainer(false);
-
+			
 			// scale list depending on its size
 			ViewGroup.LayoutParams updatedLayout = permissionListView
 					.getLayoutParams();
-			int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
+			int pixels = (int) (39 * context.getResources().getDisplayMetrics().density);
 			updatedLayout.height = pixels * permissionListView.getCount();
-			updatedLayout.height -= 1 * context.getResources().getDisplayMetrics().density;
 			permissionListView.setLayoutParams(updatedLayout);
 
 			// set click listener for list items
@@ -173,14 +172,32 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 					@Override
 					public void onCheckedChanged(CompoundButton toggleButton,
-							boolean isChecked) {
+							boolean isChecked) {						
+						// get explanation text view
+						TextView explanation = (TextView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_privacy_rating_explanation);
+						
+						//get the permission header text
+						TextView permissiontext = (TextView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_privacy_rating_permission_header);
+
+						// get permissions list
+						ListView permissions = (ListView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_rating_permissions_list);
 
 						if (isChecked) {
 							// show explanation and permissions list
-							showMoreGroup.setVisibility(View.VISIBLE);
+							explanation.setVisibility(View.VISIBLE);
+							permissiontext.setVisibility(View.VISIBLE);
+							permissions.setVisibility(View.VISIBLE);
 						} else {
 							// hide explanation and permissions list
-							showMoreGroup.setVisibility(View.GONE);
+							explanation.setVisibility(View.GONE);
+							permissiontext.setVisibility(View.GONE);
+							permissions.setVisibility(View.GONE);
 						}
 
 					}

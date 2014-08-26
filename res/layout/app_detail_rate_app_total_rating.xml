@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_detail_rate_app_total_rating"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -12,87 +13,93 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="22dp"
         android:layout_marginTop="16dp"
         android:text="@string/app_detail_rate_app_title"
-        android:textSize="20dp"        
+        android:textSize="20dp"
         android:textStyle="bold" />
-   
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_total_rating_1"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+
+    <TableLayout
+        android:id="@+id/app_detail_rate_app_total_tablelayout_rating"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/app_detail_rate_app_total_rate"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@layout/app_detail_rate_app_overlay_check"
-        android:tag="1"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:stretchColumns="5" >
 
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_total_rating_2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/app_detail_rate_app_total_rating_1"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/app_detail_rate_app_total_rating_1"
-        android:background="@layout/app_detail_rate_app_overlay_check"
-        android:tag="2"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null" />
+        <TableRow
+            android:id="@+id/app_detail_rate_app_total_tablerow_rating"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            tools:ignore="UselessParent" >
 
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_total_rating_3"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/app_detail_rate_app_total_rating_2"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/app_detail_rate_app_total_rating_2"
-        android:background="@layout/app_detail_rate_app_overlay_check"
-        android:tag="3"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null" />
+            <ToggleButton
+                android:id="@+id/app_detail_rate_app_total_rating_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="18dp"
+                android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="1"
+                android:text="@null"
+                android:textOff="@null"
+                android:textOn="@null" />
 
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_total_rating_4"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/app_detail_rate_app_total_rating_3"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/app_detail_rate_app_total_rating_3"
-        android:background="@layout/app_detail_rate_app_overlay_check"
-        android:tag="4"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null" />
+            <ToggleButton
+                android:id="@+id/app_detail_rate_app_total_rating_2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="18dp"
+                android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="2"
+                android:text="@null"
+                android:textOff="@null"
+                android:textOn="@null" />
 
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_total_rating_5"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignTop="@+id/app_detail_rate_app_total_rating_4"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/app_detail_rate_app_total_rating_4"
-        android:background="@layout/app_detail_rate_app_overlay_check"
-        android:tag="5"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null" />
+            <ToggleButton
+                android:id="@+id/app_detail_rate_app_total_rating_3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="18dp"
+                android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="3"
+                android:text="@null"
+                android:textOff="@null"
+                android:textOn="@null" />
+
+            <ToggleButton
+                android:id="@+id/app_detail_rate_app_total_rating_4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="18dp"
+                android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="4"
+                android:text="@null"
+                android:textOff="@null"
+                android:textOn="@null" />
+
+            <ToggleButton
+                android:id="@+id/app_detail_rate_app_total_rating_5"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="18dp"
+                android:background="@layout/app_detail_rate_app_overlay_check"
+                android:tag="5"
+                android:text="@null"
+                android:textOff="@null"
+                android:textOn="@null" />
+        </TableRow>
+    </TableLayout>
 
     <TextView
         android:id="@+id/app_detail_rate_app_value_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/app_detail_rate_app_total_rating_5"
+        android:layout_below="@+id/app_detail_rate_app_total_tablelayout_rating"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="3dp"
-        android:text="X Schloesser"
-        android:visibility="gone" />
+        android:text=" " />
 
 </RelativeLayout>

@@ -66,6 +66,8 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 						permission.getDescription(), view.getContext());
 			}
 		});
+		
+		if (app.getPermissionList().size() <= 4) showMoreButton.setVisibility(View.GONE);
 
 		showMoreButton
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -82,13 +84,15 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 						final float scale = showMoreButton.getRootView()
 								.getContext().getResources()
 								.getDisplayMetrics().density;
-						int pixels = (int) (49 * scale);
+						int pixels;
 
 						if (isChecked) {
+							pixels = (int) (49 * scale);
 							updatedLayout.height = pixels * listView.getCount();
 							listView.setLayoutParams(updatedLayout);
 						} else {
 							// default: show 4 permissions
+							pixels = (int) (46 * scale);
 							updatedLayout.height = pixels * 4;
 							listView.setLayoutParams(updatedLayout);
 						}
