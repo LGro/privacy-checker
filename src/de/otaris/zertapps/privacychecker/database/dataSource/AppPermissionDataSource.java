@@ -83,8 +83,10 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		ArrayList<Permission> permissions = getPermissionsByAppId(appId);
 		for (int i = 0; i < permissions.size(); i++) {
 			if (permissions.get(i).getLabel() == permissions.get(i).getName()
-					|| permissions.get(i).getLabel().equals(""))
+					|| permissions.get(i).getLabel().equals("")) {
 				permissions.remove(i);
+				i--;
+			}
 		}
 
 		return permissions;
