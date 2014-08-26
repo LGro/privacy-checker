@@ -67,10 +67,6 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
-		permissionsListTitle = (TextView) contextView
-				.findViewById(R.id.app_details_privacy_rating_permissions_title);
-		showMoreGroup = (RelativeLayout) contextView
-				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -144,6 +140,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					.getLayoutParams();
 			int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
 			updatedLayout.height = pixels * permissionListView.getCount();
+			updatedLayout.height -= 1 * context.getResources().getDisplayMetrics().density;
 			permissionListView.setLayoutParams(updatedLayout);
 
 			// set click listener for list items
