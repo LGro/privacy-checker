@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import de.otaris.zertapps.privacychecker.R;
@@ -15,14 +14,21 @@ import de.otaris.zertapps.privacychecker.R;
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class InstalledAppsActivity extends SortableAppListActivity implements
-		ActionBar.TabListener {
+public class InstalledAppsActivity extends SortableTabbedAppListActivity
+		implements ActionBar.TabListener {
 
 	final static int TAB_COUNT = 3;
 
 	ViewPager viewPager;
 	TabPagerAdapter tabPagerAdapter;
 	ActionBar actionBar;
+	ActionBar.Tab lastTabSelected = null;
+
+	@Override
+	protected boolean[] getTabOrderedAscending() {
+		// order ascending for alphabet, privacy rating, functional rating
+		return new boolean[] { true, true, false };
+	}
 
 	@Override
 	protected AppsList configureAppsList(AppsList appsList) {
@@ -52,6 +58,12 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 					public void onPageSelected(int position) {
 						actionBar = getActionBar();
 						actionBar.setSelectedNavigationItem(position);
+
+						int sortingIcon = (tabOrderedAscending[position]) ? R.drawable.ascending
+								: R.drawable.descending;
+
+						actionBar.getTabAt(position).setIcon(sortingIcon);
+
 					}
 				});
 
@@ -91,6 +103,7 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		viewPager.setCurrentItem(tab.getPosition());
+		lastTabSelected = tab;
 	}
 
 	@Override
@@ -103,33 +116,51 @@ public class InstalledAppsActivity extends SortableAppListActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+		// if tab has been really reselected
+		if (lastTabSelected.equals(tab)) {
+			// change sorting direction for current tab
+			tabOrderedAscending[tab.getPosition()] = !tabOrderedAscending[tab
+					.getPosition()];
+
+			// set icon matching the sorting direction
+			int sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.ascending
+					: R.drawable.descending;
+			tab.setIcon(sortingIcon);
+
+			// notify adapter about changed dataset
+			tabPagerAdapter.notifyDataSetChanged();
+		}
+		viewPager.setCurrentItem(tab.getPosition());
+
+		// remember this tab as the last one selected
+		lastTabSelected = tab;
 	}
 
+	/**
+	 * tab adapter that provides fragments for each tab
+	 */
 	private class TabPagerAdapter extends FragmentStatePagerAdapter {
 		public TabPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
 
 		@Override
-		public Fragment getItem(int i) {
-			Log.i("InstalledAppsActivity", "Tab selected: " + i);
+		public int getItemPosition(Object object) {
+			return POSITION_NONE;
+		}
 
+		@Override
+		public Fragment getItem(int i) {
 			switch (i) {
 			case 0:
-				// change sorting direction
-				alphabetIsAscending = !alphabetIsAscending;
 				return updateListView(actionBar.getTabAt(i),
-						AppsListOrder.ALPHABET, alphabetIsAscending);
+						AppsListOrder.ALPHABET, tabOrderedAscending[0]);
 			case 1:
-				// change sorting direction
-				privacyIsAscending = !privacyIsAscending;
 				return updateListView(actionBar.getTabAt(i),
-						AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+						AppsListOrder.PRIVACY_RATING, tabOrderedAscending[1]);
 			case 2:
-				// change sorting direction
-				functionalIsAscending = !functionalIsAscending;
 				return updateListView(actionBar.getTabAt(i),
-						AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+						AppsListOrder.FUNCTIONAL_RATING, tabOrderedAscending[2]);
 			default:
 				return null;
 			}

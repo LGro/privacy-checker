@@ -56,6 +56,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.otaris.zertapps.privacychecker.AllAppsActivity" />
         </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appsList.CategoryListActivity"
+            android:label="@string/title_activity_apps_by_category"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
+        </activity>
     </application>
 
     
