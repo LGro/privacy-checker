@@ -13,7 +13,7 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
-import de.otaris.zertapps.privacychecker.database.model.RatingPermission;
+import de.otaris.zertapps.privacychecker.database.model.AppPermissionRating;
 
 /**
  * handles requests concerning the app rating to the databse
@@ -22,6 +22,7 @@ public class RatingAppDataSource extends DataSource<RatingApp> {
 
 	private String[] allColumns = { RatingApp.ID, RatingApp.VALUE,
 			RatingApp.APP_ID, RatingApp.USER_TYPE };
+	
 	private AppPermissionDataSource appPermissionData;
 
 	public RatingAppDataSource(Context context) {
