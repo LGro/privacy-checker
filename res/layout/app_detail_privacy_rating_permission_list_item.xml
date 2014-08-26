@@ -22,8 +22,8 @@
         android:layout_below="@+id/app_detail_rate_app_permissions_viewline1"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:textSize="16sp"
         android:gravity="center_vertical|left"
-        android:text="Permission X" />
+        android:text="Permission X"
+        android:textSize="16sp" />
 
 </RelativeLayout>

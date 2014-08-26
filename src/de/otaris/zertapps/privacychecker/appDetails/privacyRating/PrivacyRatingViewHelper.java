@@ -32,7 +32,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
  * 
  * When the user selects a permission from this list, an overlay displaying the
  * permission's label and explanation is shown.
- *
+ * 
  */
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
@@ -134,7 +134,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 			permissionListView.setAdapter(new PermissionsListItemAdapter(
 					context, permissionList));
 			permissionListView.setScrollContainer(false);
-			
+
 			// scale list depending on its size
 			ViewGroup.LayoutParams updatedLayout = permissionListView
 					.getLayoutParams();
@@ -172,13 +172,13 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 					@Override
 					public void onCheckedChanged(CompoundButton toggleButton,
-							boolean isChecked) {						
+							boolean isChecked) {
 						// get explanation text view
 						TextView explanation = (TextView) ((View) toggleButton
 								.getParent())
 								.findViewById(R.id.app_detail_privacy_rating_explanation);
-						
-						//get the permission header text
+
+						// get the permission header text
 						TextView permissiontext = (TextView) ((View) toggleButton
 								.getParent())
 								.findViewById(R.id.app_detail_privacy_rating_permission_header);

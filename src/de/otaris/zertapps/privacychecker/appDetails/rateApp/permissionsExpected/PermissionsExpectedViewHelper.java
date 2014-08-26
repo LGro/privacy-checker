@@ -66,8 +66,9 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 						permission.getDescription(), view.getContext());
 			}
 		});
-		
-		if (app.getPermissionList().size() <= 4) showMoreButton.setVisibility(View.GONE);
+
+		if (app.getPermissionList().size() <= 4)
+			showMoreButton.setVisibility(View.GONE);
 
 		showMoreButton
 				.setOnCheckedChangeListener(new OnCheckedChangeListener() {

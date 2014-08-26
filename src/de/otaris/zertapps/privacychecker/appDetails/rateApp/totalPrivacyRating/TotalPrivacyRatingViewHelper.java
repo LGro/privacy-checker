@@ -11,7 +11,7 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHel
 /**
  * handles display of total rating elements including 5 locks and display of
  * rating-description if locks are set
- *
+ * 
  */
 
 public class TotalPrivacyRatingViewHelper extends RatingElementViewHelper {
