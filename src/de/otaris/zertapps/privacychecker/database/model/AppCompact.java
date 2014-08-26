@@ -30,6 +30,7 @@ public class AppCompact implements App, Parcelable {
 	public static final String DESCRIPTION = "description";
 	public static final String ICON = "icon";
 	public static final String AUTOMATIC_RATING = "automatic_rating";
+	public static final String AUTOMATIC_RATING_RELATIVE_TO_CATEGORY = "automatic_rating_relative_to_category";
 
 	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all
 	// references invalid
@@ -40,7 +41,8 @@ public class AppCompact implements App, Parcelable {
 			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
 			+ " FLOAT, " + INSTALLED + " INTEGER, " + FUNCTIONAL_RATING
 			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT, "
-			+ ICON + " BLOB, " + AUTOMATIC_RATING + " FLOAT);";
+			+ ICON + " BLOB, " + AUTOMATIC_RATING + " FLOAT, "
+			+ AUTOMATIC_RATING_RELATIVE_TO_CATEGORY + " FLOAT);";
 
 	// attributes
 	private int id;
@@ -55,6 +57,7 @@ public class AppCompact implements App, Parcelable {
 	private String description;
 	private byte[] icon;
 	private float automaticRating;
+	private float automaticRatingRelativeToCategory;
 
 	public AppCompact() {
 
@@ -109,98 +112,129 @@ public class AppCompact implements App, Parcelable {
 		onCreate(db);
 	}
 
-	// setter
+	@Override
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	@Override
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
+	@Override
 	public void setLabel(String label) {
 		this.label = label;
 	}
 
+	@Override
 	public void setVersion(String version) {
 		this.version = version;
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	@Override
 	public void setInstalled(boolean isInstalled) {
 		this.isInstalled = isInstalled;
 	}
 
+	@Override
 	public void setPrivacyRating(float privacyRating) {
 		this.privacyRating = privacyRating;
 	}
 
+	@Override
 	public void setFunctionalRating(float functionalRating) {
 		this.functionalRating = functionalRating;
 	}
 
+	@Override
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
 	}
 
+	@Override
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	@Override
 	public void setIcon(byte[] icon) {
 		this.icon = icon;
 	}
 
+	@Override
 	public void setAutomaticRating(float automaticRating) {
 		this.automaticRating = automaticRating;
 	}
 
-	// getter
+	@Override
 	public int getId() {
 		return id;
 	}
 
+	@Override
 	public float getAutomaticRating() {
 		return automaticRating;
 	}
 
+	@Override
 	public int getCategoryId() {
 		return categoryId;
 	}
 
+	@Override
 	public String getVersion() {
 		return version;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public boolean isInstalled() {
 		return isInstalled;
 	}
 
+	@Override
 	public Long getTimestamp() {
 		return timestamp;
 	}
 
+	@Override
 	public float getPrivacyRating() {
 		return privacyRating;
 	}
 
+	@Override
 	public float getFunctionalRating() {
 		return functionalRating;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
+	}
+
+	@Override
+	public float getAutomaticRatingRelativeToCategory() {
+		return automaticRatingRelativeToCategory;
+	}
+
+	@Override
+	public void setAutomaticRatingRelativeToCategory(float rating) {
+		this.automaticRatingRelativeToCategory = rating;
 	}
 
 	public byte[] getIcon() {
@@ -229,6 +263,7 @@ public class AppCompact implements App, Parcelable {
 		dest.writeInt(icon.length);
 		dest.writeByteArray(icon);
 		dest.writeFloat(automaticRating);
+		dest.writeFloat(automaticRatingRelativeToCategory);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -245,6 +280,7 @@ public class AppCompact implements App, Parcelable {
 		icon = new byte[in.readInt()];
 		in.readByteArray(icon);
 		automaticRating = in.readFloat();
+		automaticRatingRelativeToCategory = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

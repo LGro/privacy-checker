@@ -1,6 +1,5 @@
 package de.otaris.zertapps.privacychecker.database.interfaces;
 
-
 /**
  * represents all similarities between AppCompact and AppExtended
  *
@@ -9,50 +8,54 @@ public interface App {
 
 	public int getId();
 
-	public int getCategoryId();
-
-	public String getVersion();
-
-	public String getName();
-
-	public String getLabel();
-
-	public boolean isInstalled();
-
-	public Long getTimestamp();
-
-	public float getPrivacyRating();
-
-	public float getFunctionalRating();
-
-	public String getDescription();
-
-	public float getAutomaticRating();
-
-	public void setAutomaticRating(float automaticRating);
+	public void setId(int id);
 
 	public byte[] getIcon();
 
-	public void setId(int id);
+	public void setIcon(byte[] icon);
+
+	public int getCategoryId();
 
 	public void setCategoryId(int categoryId);
 
-	public void setLabel(String label);
+	public String getVersion();
 
 	public void setVersion(String version);
 
+	public String getName();
+
 	public void setName(String name);
+
+	public String getLabel();
+
+	public void setLabel(String label);
+
+	public boolean isInstalled();
 
 	public void setInstalled(boolean installed);
 
-	public void setPrivacyRating(float privacyRating);
-
-	public void setFunctionalRating(float functionalRating);
+	public Long getTimestamp();
 
 	public void setTimestamp(Long timestamp);
 
+	public float getPrivacyRating();
+
+	public void setPrivacyRating(float rating);
+
+	public float getFunctionalRating();
+
+	public void setFunctionalRating(float rating);
+
+	public String getDescription();
+
 	public void setDescription(String description);
 
-	public void setIcon(byte[] icon);
+	public float getAutomaticRating();
+
+	public void setAutomaticRating(float rating);
+
+	public float getAutomaticRatingRelativeToCategory();
+
+	public void setAutomaticRatingRelativeToCategory(float rating);
 
 }
