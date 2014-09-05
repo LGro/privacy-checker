@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import de.otaris.zertapps.privacychecker.R;
 
 /**
- * provides list rendering functionality for sortable tabbed app lists
+ * provides list rendering functionality for sortable lists
  */
 public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		implements ActionBar.TabListener {
@@ -72,8 +72,18 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	@Override
 	public void onTabUnselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		// remove icon
-		tab.setIcon(null);
+		// set default icons
+		switch (tab.getPosition()) {
+		case 0:
+			tab.setIcon(null);
+			break;
+		case 1:
+			tab.setIcon(R.drawable.privacyrating_default);
+			break;
+		case 2:
+			tab.setIcon(R.drawable.popularityrating_default);
+			break;
+		}
 	}
 
 	@Override
@@ -85,9 +95,22 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			tabOrderedAscending[tab.getPosition()] = !tabOrderedAscending[tab
 					.getPosition()];
 
-			// set icon matching the sorting direction
-			int sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.ascending
-					: R.drawable.descending;
+			// set icon matching the sorting direction and the selected tab
+			int sortingIcon = 0;
+			switch (tab.getPosition()) {
+			case 0:
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.ascending
+						: R.drawable.descending;
+				break;
+			case 1:
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.privacyrating_descending
+						: R.drawable.privacyrating_ascending;
+				break;
+			case 2:
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.popularityrating_descending
+						: R.drawable.popularityrating_ascending;
+				break;
+			}
 			tab.setIcon(sortingIcon);
 
 			// notify adapter about changed dataset

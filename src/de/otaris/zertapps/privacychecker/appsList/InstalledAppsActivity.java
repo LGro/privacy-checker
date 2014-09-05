@@ -1,7 +1,6 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
 import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,22 +11,17 @@ import android.view.MenuItem;
 import de.otaris.zertapps.privacychecker.R;
 
 /**
- * is called by HomeActivity, handles display of installed apps
+ * is called by HomeActivity, handles display of installed apps (a sortable list
+ * of apps)
  */
-public class InstalledAppsActivity extends SortableTabbedAppListActivity
-		implements ActionBar.TabListener {
+public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 
 	final static int TAB_COUNT = 3;
-
-	ViewPager viewPager;
-	TabPagerAdapter tabPagerAdapter;
-	ActionBar actionBar;
-	ActionBar.Tab lastTabSelected = null;
 
 	@Override
 	protected boolean[] getTabOrderedAscending() {
 		// order ascending for alphabet, privacy rating, functional rating
-		return new boolean[] { true, true, false };
+		return new boolean[] { true, false, false };
 	}
 
 	@Override
@@ -58,12 +52,23 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity
 					public void onPageSelected(int position) {
 						actionBar = getActionBar();
 						actionBar.setSelectedNavigationItem(position);
-
-						int sortingIcon = (tabOrderedAscending[position]) ? R.drawable.ascending
-								: R.drawable.descending;
-
+						int sortingIcon = 0;
+						// set icon for tab
+						switch (position) {
+						case 0:
+							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.ascending
+									: R.drawable.descending;
+							break;
+						case 1:
+							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.privacyrating_descending
+									: R.drawable.privacyrating_ascending;
+							break;
+						case 2:
+							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.popularityrating_descending
+									: R.drawable.popularityrating_ascending;
+							break;
+						}
 						actionBar.getTabAt(position).setIcon(sortingIcon);
-
 					}
 				});
 
@@ -73,9 +78,12 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity
 		// For each of the sections in the app, add a tab to the action bar.
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
 				.setTabListener(this).setIcon(R.drawable.ascending));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_privacy)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
+		actionBar
+				.addTab(actionBar.newTab()
+						.setIcon(R.drawable.privacyrating_default)
+						.setTabListener(this));
+		actionBar.addTab(actionBar.newTab()
+				.setIcon(R.drawable.popularityrating_default)
 				.setTabListener(this));
 	}
 
@@ -91,49 +99,12 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+		// as you specify a parent activity in AndroidManifest.xml.categoryListContainer
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		viewPager.setCurrentItem(tab.getPosition());
-		lastTabSelected = tab;
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// remove icon
-		tab.setIcon(null);
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// if tab has been really reselected
-		if (lastTabSelected.equals(tab)) {
-			// change sorting direction for current tab
-			tabOrderedAscending[tab.getPosition()] = !tabOrderedAscending[tab
-					.getPosition()];
-
-			// set icon matching the sorting direction
-			int sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.ascending
-					: R.drawable.descending;
-			tab.setIcon(sortingIcon);
-
-			// notify adapter about changed dataset
-			tabPagerAdapter.notifyDataSetChanged();
-		}
-		viewPager.setCurrentItem(tab.getPosition());
-
-		// remember this tab as the last one selected
-		lastTabSelected = tab;
 	}
 
 	/**
