@@ -134,11 +134,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		AppCompactDataSource appData = new AppCompactDataSource(context);
 
 		categoryData.open();
-		categoryData.createCategory("games", "Spiele", 10);
-		categoryData.createCategory("weather", "Wetter", 20);
-		categoryData.createCategory("categoryA", "Kategorie A", 30);
-		categoryData.createCategory("categoryB", "Kategorie B", 40);
-		categoryData.createCategory("categoryC", "Kategorie C", 50);
+		categoryData.createCategory("games", "Spiele", 10, 2.5f);
+		categoryData.createCategory("weather", "Wetter", 20, 3.4f);
+		categoryData.createCategory("categoryA", "Kategorie A", 30, 4f);
+		categoryData.createCategory("categoryB", "Kategorie B", 40, 3f);
+		categoryData.createCategory("categoryC", "Kategorie C", 50, 2f);
 		categoryData.close();
 
 		// insert all installed apps into database
@@ -147,33 +147,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				context.getPackageManager());
 	}
 
-	public void recalculateAutomaticRatingForAllApps() {
-		AppExtendedDataSource appData = new AppExtendedDataSource(context);
-		appData.open();
 
-		List<AppExtended> apps = appData.getAllApps(AppsListOrder.ALPHABET,
-				true);
-
-		for (AppExtended app : apps) {
-			float automaticPrivacyRating = 0;
-
-			for (Permission permission : app.getPermissionList())
-				automaticPrivacyRating += permission.getCriticality();
-
-			// normalize accumulated criticality to privacy rating within [0:5]
-			automaticPrivacyRating /= app.getPermissionList().size();
-			automaticPrivacyRating /= AppController.PERMISSION_MIN_CRITICALITY;
-			automaticPrivacyRating *= 5;
-
-			appData.updateAppById(app.getId(), app.getCategoryId(),
-					app.getName(), app.getLabel(), app.getVersion(),
-					app.getPrivacyRating(), app.isInstalled(),
-					app.getFunctionalRating(), app.getDescription(),
-					app.getIcon(), automaticPrivacyRating);
-		}
-
-		appData.close();
-
-	}
 
 }

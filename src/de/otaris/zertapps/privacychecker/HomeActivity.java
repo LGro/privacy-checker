@@ -76,7 +76,7 @@ public class HomeActivity extends Activity {
 
 		// DatabaseHelper dbHelper = new DatabaseHelper(this);
 		// dbHelper.fillDatabaseFromDevice();
-		// dbHelper.recalculateAutomaticRatingForAllApps();
+		// db.recalculateAutomaticRatingForAllApps(this);
 		// dbHelper.exportDatabase(this);
 
 		SharedPreferences wmbPreference = PreferenceManager

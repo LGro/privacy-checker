@@ -14,29 +14,32 @@ public class Category implements Parcelable {
 	public static final String NAME = "name";
 	public static final String LABEL = "label";
 	public static final String ORDER = "position";
+	public static final String AVERAGEAUTORATING = "average_auto_rating";
 
 	// Creation statement
 	private static final String Create_Category_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT UNIQUE ON CONFLICT REPLACE, " + LABEL + " TEXT, " + ORDER
-			+ " INTEGER);";
+			+ " INTEGER, " + AVERAGEAUTORATING + " FLOAT);";
 
 	// attributes
 	private int id;
 	private String name;
 	private String label;
 	private int order;
+	private float average_auto_rating;
 
 	// empty constructor
 	public Category() {
 
 	}
 
-	public Category(int id, String name, String label, int order) {
+	public Category(int id, String name, String label, int order, float avgAutoRating) {
 		this.id = id;
 		this.name = name;
 		this.label = label;
 		this.order = order;
+		this.average_auto_rating = avgAutoRating;
 	}
 
 	// create table if it isn't existing yet
@@ -85,6 +88,13 @@ public class Category implements Parcelable {
 	public void setOrder(int order) {
 		this.order = order;
 	}
+	public float getAverage_auto_rating() {
+		return average_auto_rating;
+	}
+
+	public void setAverage_auto_rating(float average_auto_rating) {
+		this.average_auto_rating = average_auto_rating;
+	}
 
 	@Override
 	public int describeContents() {
@@ -97,6 +107,7 @@ public class Category implements Parcelable {
 		dest.writeString(name);
 		dest.writeString(label);
 		dest.writeInt(order);
+		dest.writeFloat(average_auto_rating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -104,6 +115,7 @@ public class Category implements Parcelable {
 		name = in.readString();
 		label = in.readString();
 		order = in.readInt();
+		average_auto_rating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a
@@ -123,5 +135,7 @@ public class Category implements Parcelable {
 	private Category(Parcel in) {
 		readFromParcel(in);
 	}
+
+
 
 }

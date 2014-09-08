@@ -67,6 +67,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
+		permissionsListTitle = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_permission_header);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -122,10 +124,10 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		List<Permission> permissionList = app.getPermissionList();
 
-		if (permissionList.size() <= 0) {
+		if (permissionList.size() <= 0){
 			// set no permissions required title
 			permissionsListTitle
-					.setText(context
+					.setText(context 
 							.getResources()
 							.getString(
 									R.string.app_details_privacy_rating_permissions_title_no_permissions));

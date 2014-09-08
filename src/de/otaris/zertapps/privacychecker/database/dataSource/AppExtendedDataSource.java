@@ -22,12 +22,14 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	private AppCompactDataSource appData;
 	private AppPermissionDataSource appPermissionData;
 	private RatingAppDataSource ratingAppData;
+	private CategoryDataSource categoryData;
 
 	public AppExtendedDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
 		appData = new AppCompactDataSource(context);
 		appPermissionData = new AppPermissionDataSource(context);
 		ratingAppData = new RatingAppDataSource(context);
+		categoryData = new CategoryDataSource(context);
 	}
 
 	@Override
@@ -60,6 +62,11 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 		app.setExpertRating(ratingsExperts);
 		app.setNonExpertRating(ratingsNonExperts);
 		app.setRating();
+		
+		categoryData.open();
+		float avgCategoryRating = categoryData.getAverageRatingForCategory(app.getCategoryId());
+		
+		
 
 		return app;
 	}

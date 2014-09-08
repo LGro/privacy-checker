@@ -25,6 +25,7 @@ public class AppExtended implements App, Parcelable {
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
 	private float totalNonExpertRating;
+	private float weightedAutoRating;
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
@@ -252,6 +253,7 @@ public class AppExtended implements App, Parcelable {
 		dest.writeFloat(totalExpertRating);
 		dest.writeList(nonExpertRating);
 		dest.writeFloat(totalNonExpertRating);
+		dest.writeFloat(weightedAutoRating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -263,6 +265,7 @@ public class AppExtended implements App, Parcelable {
 		expertRating = (ArrayList<Integer>) in.readSerializable();
 		totalExpertRating = in.readFloat();
 		nonExpertRating = (ArrayList<Integer>) in.readSerializable();
+		weightedAutoRating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a
@@ -281,6 +284,23 @@ public class AppExtended implements App, Parcelable {
 	// with it's values
 	private AppExtended(Parcel in) {
 		readFromParcel(in);
+	}
+
+	public float getWeightedAutoRating() {
+		return weightedAutoRating;
+	}
+
+	public void setWeightedAutoRating(float avgCategoryRating) {
+		float difference = avgCategoryRating - this.rating;
+		
+		if(difference < 0 ){
+			this.weightedAutoRating = (float) (difference*0.4 + rating);
+		} else if (difference > 0){
+			this.weightedAutoRating = (float) (difference*0.8 - rating);
+		}
+		else if (difference == 0){
+			//rating = rating
+		}
 	}
 
 }

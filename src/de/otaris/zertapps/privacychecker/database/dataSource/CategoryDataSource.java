@@ -37,6 +37,7 @@ public class CategoryDataSource extends DataSource<Category> {
 		category.setName(cursor.getString(1));
 		category.setLabel(cursor.getString(2));
 		category.setOrder(cursor.getInt(3));
+		category.setAverage_auto_rating(cursor.getFloat(4));
 
 		return category;
 	}
@@ -64,12 +65,14 @@ public class CategoryDataSource extends DataSource<Category> {
 	 * 
 	 * @return category object of the newly created category
 	 */
-	public Category createCategory(String name, String label, int order) {
+	public Category createCategory(String name, String label, int order,
+			float avgAutoRating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Category.NAME, name);
 		values.put(Category.LABEL, label);
 		values.put(Category.ORDER, order);
+		values.put(Category.AVERAGEAUTORATING, avgAutoRating);
 
 		// insert into DB
 		long insertId = database.insert(Category.TABLE, null, values);
@@ -97,6 +100,17 @@ public class CategoryDataSource extends DataSource<Category> {
 
 		// return app object
 		return newCategory;
+	}
+
+	/**
+	 * gets the averageRating for a Category By Id
+	 * 
+	 * @param categoryId
+	 * @return float with average category Id
+	 */
+	public float getAverageRatingForCategory(int categoryId) {
+		Category cat = getCategoryById(categoryId);
+		return cat.getAverage_auto_rating();
 	}
 
 }

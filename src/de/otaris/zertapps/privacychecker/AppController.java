@@ -23,7 +23,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
  */
 public class AppController {
 
-	public static final int PERMISSION_MIN_CRITICALITY = 50;
+	
 
 	/**
 	 * retrieve installed apps from API
@@ -238,7 +238,8 @@ public class AppController {
 
 					// get automatic privacy rating depending on the requested
 					// permissions
-					float privacyRating = getAutomaticPrivacyRating(context,
+					Algorithm algorithm = new Algorithm();
+					float privacyRating = algorithm.getAutomaticPrivacyRating(context,
 							pm, permissions);
 
 					// create app
@@ -277,52 +278,5 @@ public class AppController {
 		permissionData.close();
 	}
 
-	/**
-	 * Calculate automatic privacy rating for a given application.
-	 * 
-	 * This method has to ensure that all new permissions are inserted into the
-	 * database! Because InsertIncoveredInstalledApps relies on this.
-	 * 
-	 * @param context
-	 * @param pm
-	 *            package manager
-	 * @param appInfo
-	 *            application thats privacy rating should be calculated
-	 * 
-	 * @return value between 0 and 5 that represents the privacy friendliness of
-	 *         the given app
-	 */
-	private float getAutomaticPrivacyRating(Context context, PackageManager pm,
-			String[] permissions) {
-
-		// return 5 (max privacy rating) if no permissions are required
-		if (permissions.length == 0)
-			return 5;
-
-		PermissionDataSource permissionData = new PermissionDataSource(context);
-
-		float automaticPrivacyRating = 0;
-
-		permissionData.open();
-		for (String permission : permissions) {
-			// get permission with criticality from database
-			Permission p = permissionData.getPermissionByName(permission);
-
-			// if requested permission doesn't exist -> create it
-			if (p == null)
-				p = permissionData.createPermission(permission, permission,
-						permission, PERMISSION_MIN_CRITICALITY);
-
-			// accumulate current permission's criticality
-			automaticPrivacyRating += p.getCriticality();
-		}
-		permissionData.close();
-
-		// normalize accumulated criticality to privacy rating within [0:5]
-		automaticPrivacyRating /= permissions.length;
-		automaticPrivacyRating /= PERMISSION_MIN_CRITICALITY;
-		automaticPrivacyRating *= 5;
-
-		return automaticPrivacyRating;
-	}
+	
 }
