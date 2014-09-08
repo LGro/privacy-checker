@@ -24,8 +24,8 @@ import android.widget.ListView;
 import com.google.inject.Inject;
 
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
-import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
+import de.otaris.zertapps.privacychecker.appsList.CategoryListActivity;
 import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
@@ -170,8 +170,7 @@ public class HomeActivity extends Activity {
 	 *            : View
 	 */
 	public void displayAllApps(View view) {
-		Log.i("HomeActivity", "called display all apps");
-		Intent intent = new Intent(this, AllAppsActivity.class);
+		Intent intent = new Intent(this, CategoryListActivity.class);
 		startActivity(intent);
 	}
 
