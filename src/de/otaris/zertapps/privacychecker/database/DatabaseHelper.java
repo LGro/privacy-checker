@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,13 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-import de.otaris.zertapps.privacychecker.AppController;
-import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -127,26 +120,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		myOutput.close();
 		myInput.close();
 	}
-
-	public void fillDatabaseFromDevice() {
-		// fill db-category-table with entries
-		CategoryDataSource categoryData = new CategoryDataSource(context);
-		AppCompactDataSource appData = new AppCompactDataSource(context);
-
-		categoryData.open();
-		categoryData.createCategory("games", "Spiele", 10, 2.5f);
-		categoryData.createCategory("weather", "Wetter", 20, 3.4f);
-		categoryData.createCategory("categoryA", "Kategorie A", 30, 4f);
-		categoryData.createCategory("categoryB", "Kategorie B", 40, 3f);
-		categoryData.createCategory("categoryC", "Kategorie C", 50, 2f);
-		categoryData.close();
-
-		// insert all installed apps into database
-		AppController appController = new AppController();
-		appController.putInstalledAppsInDatabase(context,
-				context.getPackageManager());
-	}
-
-
 
 }

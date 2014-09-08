@@ -16,7 +16,7 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
 public class CategoryDataSource extends DataSource<Category> {
 
 	private String[] allColumns = { Category.ID, Category.NAME, Category.LABEL,
-			Category.ORDER };
+			Category.ORDER, Category.AVERAGEAUTORATING };
 
 	public CategoryDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -31,13 +31,17 @@ public class CategoryDataSource extends DataSource<Category> {
 	 */
 
 	protected Category cursorToModel(Cursor cursor) {
+
+		if (cursor.getCount() == 0)
+			return null;
+
 		Category category = new Category();
 
 		category.setId(cursor.getInt(0));
 		category.setName(cursor.getString(1));
 		category.setLabel(cursor.getString(2));
 		category.setOrder(cursor.getInt(3));
-		category.setAverage_auto_rating(cursor.getFloat(4));
+		category.setAverageAutoRating(cursor.getFloat(4));
 
 		return category;
 	}
@@ -110,7 +114,7 @@ public class CategoryDataSource extends DataSource<Category> {
 	 */
 	public float getAverageRatingForCategory(int categoryId) {
 		Category cat = getCategoryById(categoryId);
-		return cat.getAverage_auto_rating();
+		return cat.getAverageAutoRating();
 	}
 
 }

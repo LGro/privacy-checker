@@ -27,7 +27,7 @@ public class Category implements Parcelable {
 	private String name;
 	private String label;
 	private int order;
-	private float average_auto_rating;
+	private float averageAutoRating;
 
 	// empty constructor
 	public Category() {
@@ -39,7 +39,7 @@ public class Category implements Parcelable {
 		this.name = name;
 		this.label = label;
 		this.order = order;
-		this.average_auto_rating = avgAutoRating;
+		this.averageAutoRating = avgAutoRating;
 	}
 
 	// create table if it isn't existing yet
@@ -88,12 +88,12 @@ public class Category implements Parcelable {
 	public void setOrder(int order) {
 		this.order = order;
 	}
-	public float getAverage_auto_rating() {
-		return average_auto_rating;
+	public float getAverageAutoRating() {
+		return averageAutoRating;
 	}
 
-	public void setAverage_auto_rating(float average_auto_rating) {
-		this.average_auto_rating = average_auto_rating;
+	public void setAverageAutoRating(float averageAutoRating) {
+		this.averageAutoRating = averageAutoRating;
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class Category implements Parcelable {
 		dest.writeString(name);
 		dest.writeString(label);
 		dest.writeInt(order);
-		dest.writeFloat(average_auto_rating);
+		dest.writeFloat(averageAutoRating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -115,7 +115,7 @@ public class Category implements Parcelable {
 		name = in.readString();
 		label = in.readString();
 		order = in.readInt();
-		average_auto_rating = in.readFloat();
+		averageAutoRating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

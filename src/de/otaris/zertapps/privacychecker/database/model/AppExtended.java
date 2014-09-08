@@ -25,13 +25,21 @@ public class AppExtended implements App, Parcelable {
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
 	private float totalNonExpertRating;
-	private float weightedAutoRating;
+	private Category category;
+
+	// getters and setters
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
 	}
-
-	// getters and setters
 
 	public ArrayList<Permission> getPermissionList() {
 		return permissionList;
@@ -240,6 +248,16 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
+	public void setCategoryWeightedAutoRating(float rating) {
+		appCompact.setCategoryWeightedAutoRating(rating);
+	}
+
+	@Override
+	public float getCategoryWeightedAutoRating() {
+		return appCompact.getCategoryWeightedAutoRating();
+	}
+
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -253,7 +271,6 @@ public class AppExtended implements App, Parcelable {
 		dest.writeFloat(totalExpertRating);
 		dest.writeList(nonExpertRating);
 		dest.writeFloat(totalNonExpertRating);
-		dest.writeFloat(weightedAutoRating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -265,7 +282,6 @@ public class AppExtended implements App, Parcelable {
 		expertRating = (ArrayList<Integer>) in.readSerializable();
 		totalExpertRating = in.readFloat();
 		nonExpertRating = (ArrayList<Integer>) in.readSerializable();
-		weightedAutoRating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a
@@ -284,23 +300,6 @@ public class AppExtended implements App, Parcelable {
 	// with it's values
 	private AppExtended(Parcel in) {
 		readFromParcel(in);
-	}
-
-	public float getWeightedAutoRating() {
-		return weightedAutoRating;
-	}
-
-	public void setWeightedAutoRating(float avgCategoryRating) {
-		float difference = avgCategoryRating - this.rating;
-		
-		if(difference < 0 ){
-			this.weightedAutoRating = (float) (difference*0.4 + rating);
-		} else if (difference > 0){
-			this.weightedAutoRating = (float) (difference*0.8 - rating);
-		}
-		else if (difference == 0){
-			//rating = rating
-		}
 	}
 
 }

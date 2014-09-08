@@ -9,6 +9,7 @@ import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
@@ -57,16 +58,17 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 				.getNonExpertValuesById(app.getId());
 		ratingAppData.close();
 
+		categoryData.open();
+		Category category = categoryData.getCategoryById(app.getCategoryId());
+		categoryData.close();
+
 		app.setPermissionList(permissions);
 		// order is important, setRating() depends on the other ratings
 		app.setExpertRating(ratingsExperts);
 		app.setNonExpertRating(ratingsNonExperts);
+		// TODO: refactor, bad logic here
 		app.setRating();
-		
-		categoryData.open();
-		float avgCategoryRating = categoryData.getAverageRatingForCategory(app.getCategoryId());
-		
-		
+		app.setCategory(category);
 
 		return app;
 	}
@@ -162,12 +164,12 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	public AppExtended updateAppById(int appId, int categoryId, String name,
 			String label, String version, float privacyRating,
 			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating) {
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
 
 		appData.open();
 		AppCompact app = appData.updateAppById(appId, categoryId, name, label,
 				version, privacyRating, installed, functionalRating,
-				description, icon, automaticRating);
+				description, icon, automaticRating, categoryWeightedAutoRating);
 		appData.close();
 
 		return extendAppCompact(app);
