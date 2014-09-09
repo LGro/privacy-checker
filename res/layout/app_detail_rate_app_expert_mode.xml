@@ -34,4 +34,13 @@
         android:textOn="@null"
         android:checked="false" />
 
+    <TextView
+        android:id="@+id/app_detail_rate_app_expert_mode_type_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_below="@+id/app_detail_rate_app_expert_mode_no"
+        android:layout_centerHorizontal="true"
+        android:text="@string/user_type_normal" />
+
 </RelativeLayout>
