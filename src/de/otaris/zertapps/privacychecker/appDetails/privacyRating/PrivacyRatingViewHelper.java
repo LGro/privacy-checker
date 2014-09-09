@@ -103,7 +103,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		// automatic rating
 		automaticRatingTextView.setText(roundToOneDecimalPlace(app
-				.getAutomaticRating()) + "");
+				.getCategoryWeightedAutoRating()) + "");
 
 		// non-expert rating
 		nonExpertRatingTextView.setText(roundToOneDecimalPlace(app
@@ -124,10 +124,10 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		List<Permission> permissionList = app.getPermissionList();
 
-		if (permissionList.size() <= 0){
+		if (permissionList.size() <= 0) {
 			// set no permissions required title
 			permissionsListTitle
-					.setText(context 
+					.setText(context
 							.getResources()
 							.getString(
 									R.string.app_details_privacy_rating_permissions_title_no_permissions));

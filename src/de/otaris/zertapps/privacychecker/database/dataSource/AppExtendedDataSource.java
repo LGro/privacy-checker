@@ -11,6 +11,8 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
 
 /**
  * Handles requests concerning the App with all related information (ratings,
@@ -66,8 +68,7 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 		// order is important, setRating() depends on the other ratings
 		app.setExpertRating(ratingsExperts);
 		app.setNonExpertRating(ratingsNonExperts);
-		// TODO: refactor, bad logic here
-		app.setRating();
+
 		app.setCategory(category);
 
 		return app;

@@ -53,9 +53,8 @@ public class AppDetailsActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.app_details, menu);
+	protected void onResume() {
+		super.onResume();
 
 		// Get the App from the intent passed from the previous activity
 		AppCompact app = getIntent().getParcelableExtra("AppCompact");
@@ -87,6 +86,13 @@ public class AppDetailsActivity extends Activity {
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
 				details);
 		detailListView.setAdapter(adapter);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.app_details, menu);
+
 		return true;
 	}
 
