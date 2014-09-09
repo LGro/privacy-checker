@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
@@ -21,7 +22,7 @@ public class PermissionsListItemAdapter extends ArrayAdapter<Permission> {
 	private final List<Permission> values;
 
 	public PermissionsListItemAdapter(Context context, List<Permission> values) {
-		super(context, android.R.layout.simple_list_item_1, values);
+		super(context, R.layout.app_detail_privacy_rating_permission_list_item, values);
 		this.context = context;
 		this.values = values;
 	}
@@ -30,16 +31,18 @@ public class PermissionsListItemAdapter extends ArrayAdapter<Permission> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		// use default list item containing only one TextView
-		View rowView = inflater.inflate(android.R.layout.simple_list_item_1,
+		View rowView = inflater.inflate(R.layout.app_detail_privacy_rating_permission_list_item,
 				parent, false);
 
-		// get TextView
-		TextView textView = (TextView) rowView.findViewById(android.R.id.text1);
-
+		// get the views
+		TextView permissionName = (TextView) rowView.findViewById(R.id.app_detail_privacy_rating_permission_list_item_name);
+		TextView permissionNonExpertPercent = (TextView) rowView.findViewById(R.id.app_detail_privacy_rating_permission_list_item_nonexpert_percent);
+		TextView permissionNonExpertCount = (TextView) rowView.findViewById(R.id.app_detail_privacy_rating_permission_list_item_nonexpert_count);
+		TextView permissionExpertPercent = (TextView) rowView.findViewById(R.id.app_detail_privacy_rating_permission_list_item_expert_percent);
+		TextView permissionExpertCount = (TextView) rowView.findViewById(R.id.app_detail_privacy_rating_permission_list_item_expert_count);
+		
 		// set permission label for list item
-		textView.setText(values.get(position).getLabel());
+		permissionName.setText(values.get(position).getLabel());
 
 		return rowView;
 	}

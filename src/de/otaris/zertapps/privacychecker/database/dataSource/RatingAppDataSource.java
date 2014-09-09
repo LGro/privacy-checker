@@ -13,7 +13,7 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
-import de.otaris.zertapps.privacychecker.database.model.RatingPermission;
+import de.otaris.zertapps.privacychecker.database.model.AppPermissionRating;
 
 /**
  * handles requests concerning the app rating to the databse
