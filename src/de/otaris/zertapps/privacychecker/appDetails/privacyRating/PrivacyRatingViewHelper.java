@@ -159,10 +159,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 									.getItemAtPosition(position);
 
 							// display permission as alert dialog
-							PrivacyCheckerAlert.callInfoDialog(
-									permission.getLabel(),
-									permission.getDescription(),
-									view.getContext());
+							PrivacyCheckerAlert.callPermissionDialog(
+									permission, view.getContext());
 						}
 					});
 		}

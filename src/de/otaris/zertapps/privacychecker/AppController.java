@@ -311,7 +311,7 @@ public class AppController {
 			// if requested permission doesn't exist -> create it
 			if (p == null)
 				p = permissionData.createPermission(permission, permission,
-						permission, PERMISSION_MIN_CRITICALITY);
+						permission, PERMISSION_MIN_CRITICALITY, 0, 0);
 
 			// accumulate current permission's criticality
 			automaticPrivacyRating += p.getCriticality();
