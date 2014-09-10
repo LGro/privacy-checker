@@ -7,21 +7,23 @@ import android.content.Context;
 import android.database.Cursor;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppPermissionRating;
+import de.otaris.zertapps.privacychecker.database.model.Comment;
 
 /**
  * handles requests concerning the AppPermission rating to the databse
  */
 public class RatingPermissionDataSource extends DataSource<AppPermissionRating> {
 
-	
-	private String[] allColumns = { AppPermissionRating.ID, AppPermissionRating.VALUE,
-			AppPermissionRating.APP_PERMISSION_ID, AppPermissionRating.USER_TYPE};
+	private String[] allColumns = { AppPermissionRating.ID,
+			AppPermissionRating.VALUE, AppPermissionRating.APP_PERMISSION_ID,
+			AppPermissionRating.USER_TYPE };
 
 	public RatingPermissionDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
 	}
 
-	public AppPermissionRating createRatingPermission(int value, int appPermissionId, boolean isExpert) {
+	public AppPermissionRating createRatingPermission(boolean value,
+			int appPermissionId, boolean isExpert) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(AppPermissionRating.VALUE, value);
@@ -29,13 +31,13 @@ public class RatingPermissionDataSource extends DataSource<AppPermissionRating> 
 		values.put(AppPermissionRating.USER_TYPE, isExpert);
 
 		// insert into DB
-		long insertId = database.insert(AppPermissionRating.TABLE, null, values);
+		long insertId = database
+				.insert(AppPermissionRating.TABLE, null, values);
 
 		// get recently inserted App by ID
 		return getRatingPermissionById(insertId);
 	}
 
-	
 	@Override
 	protected AppPermissionRating cursorToModel(Cursor cursor) {
 		if (cursor.getCount() == 0)
@@ -47,14 +49,20 @@ public class RatingPermissionDataSource extends DataSource<AppPermissionRating> 
 		ratingPermission.setValue((cursor.getInt(1) != 0));
 		ratingPermission.setAppPermissionId(cursor.getInt(2));
 		ratingPermission.setExpert((cursor.getInt(3) != 0));
-		
+
 		return ratingPermission;
 	}
-	
+
+	/**
+	 * retrieves an AppPermissionRating by its id
+	 * @param ratingId
+	 * @return AppPermissionRating
+	 */
 	public AppPermissionRating getRatingPermissionById(long ratingId) {
 		// build database query
 		Cursor cursor = database.query(AppPermissionRating.TABLE, allColumns,
-				AppPermissionRating.ID + " = " + ratingId, null, null, null, null);
+				AppPermissionRating.ID + " = " + ratingId, null, null, null,
+				null);
 		cursor.moveToFirst();
 
 		// convert to RatingPermission object
@@ -64,9 +72,26 @@ public class RatingPermissionDataSource extends DataSource<AppPermissionRating> 
 		// return RatingPermission object
 		return newRating;
 	}
-	
+
 	/**
-	 * retrieve all values from an app id from experts
+	 * retrieves all AppPermissionRatings from an AppPermission-id
+	 * @param appPermissionId
+	 * @return ArrayList of AppPermissionRating
+	 */
+	public ArrayList<AppPermissionRating> getRatingPermissionByAppPermissionId(
+			long appPermissionId) {
+		// build query
+		String whereClause = AppPermissionRating.APP_PERMISSION_ID + " = "
+				+ appPermissionId;
+
+		Cursor cursor = database.query(AppPermissionRating.TABLE, allColumns,
+				whereClause, null, null, null, null);
+
+		return (ArrayList<AppPermissionRating>) cursorToModelList(cursor);
+	}
+
+	/**
+	 * retrieves all values from an app id from experts
 	 * 
 	 * @param appId
 	 * @return a list of values
@@ -87,7 +112,7 @@ public class RatingPermissionDataSource extends DataSource<AppPermissionRating> 
 
 		return values;
 	}
-	
+
 	/**
 	 * retrieve all values from an app id from nonExperts
 	 * 
@@ -111,10 +136,5 @@ public class RatingPermissionDataSource extends DataSource<AppPermissionRating> 
 
 		return values;
 	}
-	
-	public int getValueById(int appPermissionId){
-		return 0;
-	}
 
-	
 }

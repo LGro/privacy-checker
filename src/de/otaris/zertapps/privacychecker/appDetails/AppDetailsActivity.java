@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.appDetails;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -21,8 +22,12 @@ import de.otaris.zertapps.privacychecker.appDetails.header.Header;
 import de.otaris.zertapps.privacychecker.appDetails.privacyRating.PrivacyRating;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RateApp;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.PermissionExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.AppPermission;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * display basic information and multiple details of a selected app
@@ -64,7 +69,7 @@ public class AppDetailsActivity extends Activity {
 		appDataSource.open();
 		AppExtended appExtended = appDataSource.extendAppCompact(app);
 		appDataSource.close();
-
+	
 		// get header to display the basic app details
 		View headerView = getHeader().getView(this, appExtended);
 		RelativeLayout relLayout = (RelativeLayout) findViewById(R.id.app_details_layout);

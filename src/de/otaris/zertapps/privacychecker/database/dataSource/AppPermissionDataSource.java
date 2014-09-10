@@ -49,12 +49,7 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 	public ArrayList<Permission> getPermissionsByAppId(int appId) {
 		ArrayList<Permission> permissions = new ArrayList<Permission>();
 
-		// build query
-		String whereClause = AppPermission.APP_ID + " = " + appId;
-		Cursor cursor = database.query(AppPermission.TABLE, allColumns,
-				whereClause, null, null, null, null);
-
-		List<AppPermission> appPermissions = cursorToModelList(cursor);
+		List<AppPermission> appPermissions = getAppPermissionsByAppId(appId);
 
 		permissionData.open();
 		for (AppPermission appPermission : appPermissions) {
@@ -70,6 +65,23 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		// TODO: fix sorting and re-enable
 		// permissions = sortPermissions(permissions);
 		return permissions;
+	}
+	
+
+	/**
+	 * 
+	 * @param appId
+	 * @return
+	 */
+	public List<AppPermission> getAppPermissionsByAppId(int appId){
+		List<AppPermission> appPermissions = new ArrayList<AppPermission>();
+		// build query
+				String whereClause = AppPermission.APP_ID + " = " + appId;
+				Cursor cursor = database.query(AppPermission.TABLE, allColumns,
+						whereClause, null, null, null, null);
+
+				appPermissions = cursorToModelList(cursor);
+				return appPermissions;
 	}
 
 	/**

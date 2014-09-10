@@ -62,7 +62,7 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 						.getItemAtPosition(position);
 
 				// display permission as alert dialog
-				PrivacyCheckerAlert.callPermissionDialog(permission, view.getContext());
+				PrivacyCheckerAlert.callPermissionDialogPermission(permission, view.getContext());
 			}
 		});
 

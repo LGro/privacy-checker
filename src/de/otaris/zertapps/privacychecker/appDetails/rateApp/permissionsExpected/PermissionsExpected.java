@@ -64,7 +64,7 @@ public class PermissionsExpected extends RatingElement {
 		if (isExpertString != null)
 			isExpert = isExpertString.equals("1");
 
-		// save each permission thats "expected" value has been modified at
+		// save each permission thats "unexpected" value has been modified at
 		// least once; permissions that have not been touched, aren't rated
 		Iterator<Entry<Permission, Boolean>> it = permissionsRating.entrySet()
 				.iterator();
@@ -77,7 +77,7 @@ public class PermissionsExpected extends RatingElement {
 							.getKey().getId());
 
 			// set rating 0 for expected and 1 for unexpected
-			int rating = (pair.getValue()) ? 0 : 1;
+			boolean rating = (pair.getValue()) ? false : true;
 
 			// create permission rating
 			ratingPermissionData.createRatingPermission(rating,
@@ -86,6 +86,6 @@ public class PermissionsExpected extends RatingElement {
 
 		// close datasources
 		appPermissionData.close();
-		appPermissionData.close();
+		ratingPermissionData.close();
 	}
 }
