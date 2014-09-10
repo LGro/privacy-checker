@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class ExtendedHeader extends Header {
 	// TODO: this is currently not used; create attribute for app in database
 	protected TextView playStoreRatingAmountTextView;
 	protected TextView privacyRatingAmountTextView;
+	protected TextView functionalRatingNotAvailable;
 
 	protected void initializeViews(View contextView) {
 		appNameView = (TextView) contextView
@@ -61,6 +63,9 @@ public class ExtendedHeader extends Header {
 				.findViewById(R.id.app_detail_header_ps_rating_amount);
 		privacyRatingAmountTextView = (TextView) contextView
 				.findViewById(R.id.app_detail_header_privacy_rating_amount);
+		functionalRatingNotAvailable = (TextView) contextView
+				.findViewById(R.id.functional_rating_not_available);
+
 	}
 
 	@Override
@@ -112,11 +117,18 @@ public class ExtendedHeader extends Header {
 		// Set the icons for locks and stars according to their amount
 		privacyRatingImageView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
-		playStoreRatingImageView.setImageResource(new RatingController()
-				.getIconRatingStars(app.getFunctionalRating()));
-		int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
-				+ app.getExpertRating().size();
-		privacyRatingAmountTextView.setText(totalNumberOfPrivacyRatings + "");
+		if (app.getFunctionalRating() == -1) {
+			functionalRatingNotAvailable.setVisibility(ViewGroup.VISIBLE);
+			playStoreRatingImageView.setVisibility(ViewGroup.GONE);
+			playStoreRatingAmountTextView.setVisibility(ViewGroup.GONE);
+		} else {
+			playStoreRatingImageView.setImageResource(new RatingController()
+					.getIconRatingStars(app.getFunctionalRating()));
+			int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
+					+ app.getExpertRating().size();
+			privacyRatingAmountTextView.setText(totalNumberOfPrivacyRatings
+					+ "");
+		}
 
 		// Set name and developer
 		appNameView.setText(app.getLabel());

@@ -3,101 +3,111 @@
     android:layout_height="fill_parent" >
 
     <ImageView
-            android:id="@+id/app_detail_header_icon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/app_detail_icon"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher" />
-        <!-- android:text="@string/app_detail_name" -->
+        android:id="@+id/app_detail_header_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_detail_icon"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher" />
+    <!-- android:text="@string/app_detail_name" -->
 
-        <TextView
-            android:id="@+id/app_detail_header_developer"
-            android:layout_width="192dp"
-            android:layout_height="20dp"
-            android:layout_marginBottom="3dp"
-            android:layout_below="@+id/app_detail_header_name"
-            android:layout_alignLeft="@+id/app_detail_header_name"
-            android:text="App Developer" />
+    <TextView
+        android:id="@+id/app_detail_header_developer"
+        android:layout_width="192dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/app_detail_header_name"
+        android:layout_below="@+id/app_detail_header_name"
+        android:layout_marginBottom="3dp"
+        android:text="App Developer" />
 
-        <!-- android:text="@string/app_detail_developer" -->
+    <!-- android:text="@string/app_detail_developer" -->
 
-        <ImageView
-            android:id="@+id/app_detail_header_rating_pic"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_marginBottom="3dp"
-            android:layout_below="@+id/app_detail_header_developer"
-            android:layout_alignLeft="@+id/app_detail_header_name"
-            android:src="@drawable/lock2"
-            android:text="App Rating" />
+    <ImageView
+        android:id="@+id/app_detail_header_rating_pic"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/app_detail_header_name"
+        android:layout_below="@+id/app_detail_header_developer"
+        android:layout_marginBottom="3dp"
+        android:src="@drawable/lock2"
+        android:text="App Rating" />
 
-        <TextView
-            android:id="@+id/app_detail_header_name"
-            android:layout_width="192dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/app_detail_header_icon"
-            android:layout_alignTop="@+id/app_detail_header_icon"
-            android:text="App Name"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/app_detail_header_name"
+        android:layout_width="192dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/app_detail_header_icon"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/app_detail_header_icon"
+        android:text="App Name"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/app_detail_header_button_install"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="108dp"
-            android:layout_height="36dp"
-            android:layout_alignBottom="@+id/app_detail_header_rating_pic"
-            android:layout_alignParentRight="true"
-            android:text="Installieren" />
+    <Button
+        android:id="@+id/app_detail_header_button_install"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="108dp"
+        android:layout_height="36dp"
+        android:layout_alignBottom="@+id/app_detail_header_rating_pic"
+        android:layout_alignParentRight="true"
+        android:text="Installieren" />
 
-        <TextView
-            android:id="@+id/app_detail_header_ps_rating_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/app_detail_header_ps_rating_image"
-            android:layout_toRightOf="@+id/app_detail_header_ps_rating_image"
-            android:text="(50k)" />
+    <TextView
+        android:id="@+id/app_detail_header_ps_rating_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/app_detail_header_ps_rating_image"
+        android:layout_toRightOf="@+id/app_detail_header_ps_rating_image"
+        android:text="(50k)" />
 
-        <TextView
-            android:id="@+id/app_detail_header_privacy_rating_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/app_detail_header_rating_pic"
-            android:layout_toRightOf="@+id/app_detail_header_rating_pic"
-            android:text="(7.453)" />
+    <TextView
+        android:id="@+id/app_detail_header_privacy_rating_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/app_detail_header_rating_pic"
+        android:layout_toRightOf="@+id/app_detail_header_rating_pic"
+        android:text="(7.453)" />
 
-        <ImageView
-            android:id="@+id/app_detail_header_ps_rating_image"
-            android:layout_width="80dp"
-            android:layout_height="20dp"
-            android:layout_below="@+id/app_detail_header_rating_pic"
-            android:layout_alignLeft="@+id/app_detail_header_name"
-            android:src="@drawable/lock5"
-            android:text="App Rating" />
+    <ImageView
+        android:id="@+id/app_detail_header_ps_rating_image"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/app_detail_header_name"
+        android:layout_below="@+id/app_detail_header_rating_pic"
+        android:src="@drawable/lock5"
+        android:text="App Rating" />
 
-        <Button
-            android:id="@+id/app_detail_header_button_ps"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="108dp"
-            android:layout_height="36dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/app_detail_header_button_install"
-            android:text="im Play Store" />
+    <Button
+        android:id="@+id/app_detail_header_button_ps"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="108dp"
+        android:layout_height="36dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_header_button_install"
+        android:text="im Play Store" />
 
-        <ImageView
-            android:id="@+id/app_detail_header_bottom_h_line"
-            android:layout_width="wrap_content"
-            android:layout_height="4dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/app_detail_header_button_ps"
-            android:src="@drawable/line_h" />
+    <ImageView
+        android:id="@+id/app_detail_header_bottom_h_line"
+        android:layout_width="wrap_content"
+        android:layout_height="4dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_header_button_ps"
+        android:src="@drawable/line_h" />
+
+    <TextView
+        android:id="@+id/functional_rating_not_available"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/app_detail_header_name"
+        android:layout_below="@+id/app_detail_header_rating_pic"
+        android:text="@string/not_available"
+        android:textSize="11sp"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -9,23 +9,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
-
-import com.gc.android.market.api.MarketSession;
-import com.gc.android.market.api.MarketSession.Callback;
-import com.gc.android.market.api.model.Market.AppsRequest;
-import com.gc.android.market.api.model.Market.AppsResponse;
-import com.gc.android.market.api.model.Market.ResponseContext;
-
 import de.otaris.zertapps.privacychecker.automaticRatingAlgorithm.AutomaticRatingAlgorithm;
 import de.otaris.zertapps.privacychecker.automaticRatingAlgorithm.AutomaticRatingAlgorithmFactory;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
-import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
 import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
@@ -158,14 +149,12 @@ public class AppController {
 
 					insertUncoveredPermissions(context, permissions);
 
-					Category category = getCategory(context,
-							apps[i].packageName);
-
-					// create app
-					app = appData.createApp(category.getId(),
-							apps[i].packageName, apps[i].loadLabel(pm)
-									.toString(), pInfo.versionCode + "", 0,
-							true, 0/* functionalRating */, "",
+					// create app with default categoryId 1, -1 to mark
+					// functional rating as not available and an empty
+					// description
+					app = appData.createApp(1, apps[i].packageName, apps[i]
+							.loadLabel(pm).toString(), pInfo.versionCode + "",
+							0, true, -1, "",
 							IconController.drawableToByteArray(pm
 									.getApplicationIcon(apps[i].packageName)),
 							0);
@@ -261,49 +250,6 @@ public class AppController {
 		}
 
 		return weightedAutoRating;
-	}
-
-	/**
-	 * Gets the Category for a given app by requesting the Android Market API.
-	 * If the Category does not exists in the Database yet, it will be created.
-	 * 
-	 * @param context
-	 * @param packageName
-	 * @return the category
-	 */
-	private Category getCategory(Context context, String packageName) {
-
-		MarketSession session = new MarketSession();
-
-		session.login("privacycheckerapp@gmail.com", "privacychecker123");
-		// search for app by package name
-		String query = "pname:" + packageName;
-
-		AppsRequest appsRequest = AppsRequest.newBuilder().setQuery(query)
-				.setStartIndex(0).setEntriesCount(10).setWithExtendedInfo(true)
-				.build();
-
-		session.append(appsRequest, new Callback<AppsResponse>() {
-			@Override
-			public void onResult(ResponseContext context, AppsResponse response) {
-
-				categoryName = response.getApp(0).getExtendedInfo()
-						.getCategory();
-			}
-		});
-		// session.flush();
-		CategoryDataSource categoryData = new CategoryDataSource(context);
-		categoryData.open();
-		Category category = categoryData.getCategoryByName(categoryName);
-
-		// create new Category
-		if (category == null) {
-			category = categoryData.createCategory(categoryName, categoryName,
-					600, 0.0f);
-		}
-		categoryData.close();
-
-		return category;
 	}
 
 }

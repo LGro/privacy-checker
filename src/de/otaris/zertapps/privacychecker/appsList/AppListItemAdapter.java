@@ -48,6 +48,8 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 				.findViewById(R.id.app_list_item_privacy_rating);
 		ImageView psImage = (ImageView) rowView
 				.findViewById(R.id.app_list_item_ps_rating);
+		TextView notAvailableView = (TextView) rowView
+				.findViewById(R.id.functional_rating_not_available);
 
 		// set app icon
 		if (values.get(position).isInstalled()) {
@@ -71,8 +73,13 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 		ratingImage.setImageResource(ratingController
 				.getIconRatingLocks(privacyRating));
 		float funcRating = values.get(position).getFunctionalRating();
-		psImage.setImageResource(ratingController
-				.getIconRatingStars(funcRating));
+		if (funcRating == -1) {
+			notAvailableView.setVisibility(ViewGroup.VISIBLE);
+			psImage.setVisibility(ViewGroup.GONE);
+		} else {
+			psImage.setImageResource(ratingController
+					.getIconRatingStars(funcRating));
+		}
 
 		return rowView;
 	}
