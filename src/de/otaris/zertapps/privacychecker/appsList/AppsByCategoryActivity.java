@@ -85,6 +85,8 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.popularityrating_descending
 									: R.drawable.popularityrating_ascending;
 							break;
+						case 3:
+							
 						}
 						actionBar.getTabAt(position).setIcon(sortingIcon);
 					}
