@@ -203,7 +203,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 */
 	public List<AppCompact> getLastUpdatedApps(int n) {
 		// build query
-		String orderBy = AppCompact.TIMESTAMP + " ASC" + " LIMIT " + n;
+		String orderBy = AppCompact.TIMESTAMP + " DESC" + " LIMIT " + n;
 		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null,
 				null, null, null, orderBy);
 
