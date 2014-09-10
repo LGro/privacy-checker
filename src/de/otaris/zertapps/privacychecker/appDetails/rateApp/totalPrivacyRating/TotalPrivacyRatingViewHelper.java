@@ -4,9 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElementViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 
 /**
  * handles display of total rating elements including 5 locks and display of
@@ -38,8 +41,29 @@ public class TotalPrivacyRatingViewHelper extends RatingElementViewHelper {
 			int ratingIdentifierId = context.getResources().getIdentifier(
 					ratingIdentifierName, "id", packageName);
 
-			rowView.findViewById(ratingIdentifierId).setOnClickListener(
-					new TotalPrivacyRatingListener());
+			ToggleButton lock = (ToggleButton) rowView
+					.findViewById(ratingIdentifierId);
+			lock.setOnClickListener(new TotalPrivacyRatingListener());
+
+			// get value for locks from Registry
+			Registry reg = Registry.getInstance();
+			TotalPrivacyRating totalRating = (TotalPrivacyRating) reg
+					.getRatingElement(TotalPrivacyRating.class);
+
+			// set locks green if they have already been chosen
+			if (i <= totalRating.getRating()) {
+				lock.setChecked(true);
+				// set text for current rating
+				if (i == totalRating.getRating()) {
+					String ratingStringName = "app_detail_rate_app_value_" + i;
+					int ratingStringID = context.getResources().getIdentifier(
+							ratingStringName, "string", packageName);
+					TextView valueText = (TextView) rowView.getRootView()
+							.findViewById(R.id.app_detail_rate_app_value_text);
+					valueText.setText(ratingStringID);
+				}
+			}
+
 		}
 
 		return rowView;
