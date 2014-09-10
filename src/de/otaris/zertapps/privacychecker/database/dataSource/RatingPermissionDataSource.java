@@ -26,7 +26,7 @@ public class RatingPermissionDataSource extends DataSource<AppPermissionRating> 
 			int appPermissionId, boolean isExpert) {
 		// set values for columns
 		ContentValues values = new ContentValues();
-		values.put(AppPermissionRating.VALUE, value);
+		values.put(AppPermissionRating.VALUE, (value ? 1 : 0));
 		values.put(AppPermissionRating.APP_PERMISSION_ID, appPermissionId);
 		values.put(AppPermissionRating.USER_TYPE, isExpert);
 

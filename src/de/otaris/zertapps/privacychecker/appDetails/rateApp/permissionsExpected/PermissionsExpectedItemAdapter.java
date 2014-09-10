@@ -1,14 +1,16 @@
 package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected;
 
 import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
@@ -17,7 +19,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
 /**
  * handles In/Export between informations about Permissions (expected/not
  * expected) and the registry
- *
+ * 
  */
 
 public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
@@ -43,8 +45,12 @@ public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
 				.findViewById(R.id.app_detail_rate_app_permissions_number);
 		TextView permissionLabelTextView = (TextView) rowView
 				.findViewById(R.id.app_detail_rate_app_permissions_label);
-		CheckBox expectedCheckBox = (CheckBox) rowView
-				.findViewById(R.id.app_detail_rate_app_permissions_expected_checkbox);
+		RadioGroup radioButtonGroup = (RadioGroup) rowView
+				.findViewById(R.id.app_detail_rate_app_overlay_item_radioGroup);
+		RadioButton radioButtonExpected = (RadioButton) rowView
+				.findViewById(R.id.app_detail_rate_app_overlay_item_radio_expected);
+		RadioButton radioButtonUnexpected = (RadioButton) rowView
+				.findViewById(R.id.app_detail_rate_app_overlay_item_radio_unexpected);
 
 		// Set the appropriate information to the objects
 		permissionsNumberTextView.setText((position + 1) + ".");
@@ -57,27 +63,34 @@ public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
 				.getRatingElement(PermissionsExpected.class);
 
 		// get stored expected value for current permission
-		expectedCheckBox.setChecked(permissionsRatingElement
+		radioButtonExpected.setChecked(permissionsRatingElement
+				.expectedPermission(permissionsList.get(position)));
+		radioButtonUnexpected.setChecked(permissionsRatingElement
 				.expectedPermission(permissionsList.get(position)));
 
-		expectedCheckBox.setTag(permissionsList.get(position));
-		expectedCheckBox
-				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		radioButtonExpected.setTag(permissionsList.get(position));
+		radioButtonUnexpected.setTag(permissionsList.get(position));
 
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
-						// get permission rating object from registry
-						Registry reg = Registry.getInstance();
-						PermissionsExpected permissionsRatingElement = (PermissionsExpected) reg
-								.getRatingElement(PermissionsExpected.class);
-						permissionsRatingElement.setPermissionExpected(
-								(Permission) buttonView.getTag(), isChecked);
-						reg.updateRatingElement(PermissionsExpected.class,
-								permissionsRatingElement);
-					}
-				});
+		// radioButtonExpected
+		// .setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		//
+		// @Override
+		// public void onCheckedChanged(CompoundButton buttonView,
+		// boolean isChecked) {
+		// // get permission rating object from registry
+		// Registry reg = Registry.getInstance();
+		// PermissionsExpected permissionsRatingElement = (PermissionsExpected)
+		// reg
+		// .getRatingElement(PermissionsExpected.class);
+		// permissionsRatingElement.setPermissionExpected(
+		// (Permission) buttonView.getTag(), isChecked);
+		// reg.updateRatingElement(PermissionsExpected.class,
+		// permissionsRatingElement);
+		// }
+		// });
 
+		int radioButtonId = radioButtonGroup.getCheckedRadioButtonId();
+		
 		return rowView;
 	}
 }
