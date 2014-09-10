@@ -36,6 +36,8 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 				.setTabListener(this).setIcon(R.drawable.descending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
 				.setTabListener(this).setIcon(R.drawable.descending));
+		//TODO: add correct icon
+		actionBar.addTab(actionBar.newTab().setText("Filter"));
 
 		UserStudyLogger.getInstance().log("activity_all");
 
@@ -71,14 +73,6 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.allAppsContainer, categoryList).commit();
 			break;
-		// case 1:
-		// updateListView(tab, AppsListOrder.PRIVACY_RATING,
-		// privacyIsAscending);
-		// break;
-		// case 2:
-		// updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
-		// functionalIsAscending);
-		// break;
 		default:
 			break;
 		}
@@ -93,25 +87,6 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 
-		// switch (tab.getPosition()) {
-		// case 0:
-		// // do nothing ...
-		// break;
-		// case 1:
-		// // change sorting direction
-		// privacyIsAscending = !privacyIsAscending;
-		// updateListView(tab, AppsListOrder.PRIVACY_RATING,
-		// privacyIsAscending);
-		// break;
-		// case 2:
-		// // change sorting direction
-		// functionalIsAscending = !functionalIsAscending;
-		// updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
-		// functionalIsAscending);
-		// break;
-		// default:
-		// break;
-		// }
 	}
 
 	/**

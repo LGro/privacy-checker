@@ -16,7 +16,7 @@ import de.otaris.zertapps.privacychecker.R;
  */
 public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 
-	final static int TAB_COUNT = 3;
+	final static int TAB_COUNT = 4;
 
 	@Override
 	protected boolean[] getTabOrderedAscending() {

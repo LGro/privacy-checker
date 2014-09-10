@@ -20,7 +20,7 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
  */
 public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 
-	final static int TAB_COUNT = 3;
+	final static int TAB_COUNT = 4;
 
 	@Override
 	protected boolean[] getTabOrderedAscending() {
@@ -100,6 +100,7 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 				.setIcon(R.drawable.privacyrating_default));
 		actionBar.addTab(actionBar.newTab().setTabListener(this)
 				.setIcon(R.drawable.popularityrating_default));
+		actionBar.addTab(actionBar.newTab().setText("Filter"));
 	}
 
 	@Override
