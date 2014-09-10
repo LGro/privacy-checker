@@ -45,4 +45,8 @@ public class TotalPrivacyRating extends RatingElement {
 		this.rating = rating;
 	}
 
+	public int getRating() {
+		return this.rating;
+	}
+
 }
