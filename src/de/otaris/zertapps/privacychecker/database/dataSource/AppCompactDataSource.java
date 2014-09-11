@@ -20,7 +20,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 			AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
 			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP,
 			AppCompact.DESCRIPTION, AppCompact.ICON,
-			AppCompact.AUTOMATIC_RATING };
+			AppCompact.AUTOMATIC_RATING,
+			AppCompact.CATEGORY_WEIGHTED_AUTOMATIC_RATING };
 
 	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -202,7 +203,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 */
 	public List<AppCompact> getLastUpdatedApps(int n) {
 		// build query
-		String orderBy = AppCompact.TIMESTAMP + " ASC" + " LIMIT " + n;
+		String orderBy = AppCompact.TIMESTAMP + " DESC" + " LIMIT " + n;
 		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null,
 				null, null, null, orderBy);
 
@@ -236,7 +237,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	public AppCompact updateAppById(int appId, int categoryId, String name,
 			String label, String version, float privacyRating,
 			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating) {
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
 
 		String filter = AppCompact.ID + " = " + appId;
 
@@ -256,6 +257,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		values.put(AppCompact.DESCRIPTION, description);
 		values.put(AppCompact.ICON, icon);
 		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
+		values.put(AppCompact.CATEGORY_WEIGHTED_AUTOMATIC_RATING,
+				categoryWeightedAutoRating);
 
 		database.update(AppCompact.TABLE, values, filter, null);
 

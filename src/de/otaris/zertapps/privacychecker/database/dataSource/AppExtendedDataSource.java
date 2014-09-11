@@ -9,7 +9,10 @@ import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
 
 /**
  * Handles requests concerning the App with all related information (ratings,
@@ -22,12 +25,14 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	private AppCompactDataSource appData;
 	private AppPermissionDataSource appPermissionData;
 	private RatingAppDataSource ratingAppData;
+	private CategoryDataSource categoryData;
 
 	public AppExtendedDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
 		appData = new AppCompactDataSource(context);
 		appPermissionData = new AppPermissionDataSource(context);
 		ratingAppData = new RatingAppDataSource(context);
+		categoryData = new CategoryDataSource(context);
 	}
 
 	@Override
@@ -55,11 +60,16 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 				.getNonExpertValuesById(app.getId());
 		ratingAppData.close();
 
+		categoryData.open();
+		Category category = categoryData.getCategoryById(app.getCategoryId());
+		categoryData.close();
+
 		app.setPermissionList(permissions);
 		// order is important, setRating() depends on the other ratings
 		app.setExpertRating(ratingsExperts);
 		app.setNonExpertRating(ratingsNonExperts);
-		app.setRating();
+
+		app.setCategory(category);
 
 		return app;
 	}
@@ -155,12 +165,12 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	public AppExtended updateAppById(int appId, int categoryId, String name,
 			String label, String version, float privacyRating,
 			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating) {
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
 
 		appData.open();
 		AppCompact app = appData.updateAppById(appId, categoryId, name, label,
 				version, privacyRating, installed, functionalRating,
-				description, icon, automaticRating);
+				description, icon, automaticRating, categoryWeightedAutoRating);
 		appData.close();
 
 		return extendAppCompact(app);

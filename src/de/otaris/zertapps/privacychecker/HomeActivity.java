@@ -76,7 +76,7 @@ public class HomeActivity extends Activity {
 
 		// DatabaseHelper dbHelper = new DatabaseHelper(this);
 		// dbHelper.fillDatabaseFromDevice();
-		// dbHelper.recalculateAutomaticRatingForAllApps();
+		// db.recalculateAutomaticRatingForAllApps(this);
 		// dbHelper.exportDatabase(this);
 
 		SharedPreferences wmbPreference = PreferenceManager
@@ -128,7 +128,7 @@ public class HomeActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		prepareLatestAppsList();
 		populateLatestAppListView();
 	}
 

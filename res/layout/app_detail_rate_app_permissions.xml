@@ -22,7 +22,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/app_detail_rate_app_permissions_title"
-
         android:layout_toLeftOf="@+id/app_detail_rate_app_permissions_more"
         android:text="@string/app_detail_rate_app_permissions_explaination" />
 
@@ -34,15 +33,16 @@
         android:layout_below="@+id/app_detail_rate_app_permissions_explaination"
         android:layout_marginRight="15dp"
         android:layout_marginTop="6dp"
-        android:text="@string/app_detail_rate_app_permissions_expected" />
+        android:text="@string/app_detail_rate_app_permissions_unexpected" />
 
     <ListView
         android:id="@+id/app_detail_rate_app_permissions_list"
         android:layout_width="match_parent"
-        android:layout_height="196dp"
+        android:layout_height="192dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/app_detail_rate_app_permissions_expected"
-        android:layout_marginTop="5dp" >
+        android:layout_marginTop="5dp"
+        android:divider="@null" >
     </ListView>
 
     <ToggleButton
