@@ -8,6 +8,12 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
  */
 public interface AutomaticRatingAlgorithm {
 
+	/**
+	 * Calculate automatic rating for given app.
+	 * 
+	 * @param app
+	 * @return
+	 */
 	public float calculate(AppExtended app);
 
 }

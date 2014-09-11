@@ -26,7 +26,9 @@ import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivac
  */
 public class AppController {
 
-	public static final int PERMISSION_MIN_CRITICALITY = 50;
+	// the criticalities (starting from 1 as the most critical) up to this value
+	// are considered critical
+	public static final int CRITICALITY_LIMIT = 50;
 
 	/**
 	 * retrieve installed apps from API
@@ -105,7 +107,7 @@ public class AppController {
 			// if requested permission doesn't exist -> create it
 			if (p == null) {
 				p = permissionData.createPermission(permission, permission,
-						permission, PERMISSION_MIN_CRITICALITY);
+						permission, CRITICALITY_LIMIT);
 			}
 		}
 		permissionData.close();

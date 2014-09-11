@@ -26,7 +26,7 @@ public class FirstAlgo implements AutomaticRatingAlgorithm {
 
 		for (Permission p : app.getPermissionList()) {
 			// accumulate current permission's criticality
-			if (p.getCriticality() >= AppController.PERMISSION_MIN_CRITICALITY) {
+			if (p.getCriticality() >= AppController.CRITICALITY_LIMIT) {
 				numberOfNonCriticalPermissions++;
 			} else {
 				numberOfCriticalPermissions++;
@@ -45,7 +45,7 @@ public class FirstAlgo implements AutomaticRatingAlgorithm {
 
 		// normalize accumulated criticality to privacy rating within [0:5]
 		automaticPrivacyRating /= numberOfCriticalPermissions;
-		automaticPrivacyRating /= AppController.PERMISSION_MIN_CRITICALITY;
+		automaticPrivacyRating /= AppController.CRITICALITY_LIMIT;
 		automaticPrivacyRating *= 4;
 		// add the weighted amount of non critical permissions
 		automaticPrivacyRating += (float) (1 / (Math
