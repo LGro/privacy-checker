@@ -8,14 +8,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.otaris.zertapps.privacychecker.HomeActivity$PlaceholderFragment" >
 
+    <ListView
+        android:id="@+id/latest_apps_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/last_updated_apps_textview"
+        android:listSelector="@drawable/button_background_selector"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" >
+    </ListView>
+
     <Button
         android:id="@+id/all_apps_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="67dp"
         android:onClick="displayAllApps"
         android:text="@string/title_all_apps" />
 
@@ -23,11 +34,22 @@
         android:id="@+id/installed_apps_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/all_apps_button"
-        android:layout_alignBottom="@+id/all_apps_button"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="51dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:onClick="displayInstalledApps"
-        android:text="@string/title_installed_apps" />
+        android:text="@string/installed_apps_button" />
+
+    <TextView
+        android:id="@+id/last_updated_apps_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/all_apps_button"
+        android:paddingBottom="4dp"
+        android:paddingLeft="4dp"
+        android:paddingTop="18dp"
+        android:text="@string/last_updated_apps"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

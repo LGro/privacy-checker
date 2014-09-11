@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,13 +17,55 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="de.otaris.zertapps.privacychecker.HomeActivity"
-            android:label="@string/title_activity_home" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity"
+            android:label="@string/title_activity_installed_apps"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
+        </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appsList.AllAppsActivity"
+            android:label="@string/title_activity_all_apps"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
+        </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity"
+            android:label="@string/title_activity_app_details"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.appsList.AllAppsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.AllAppsActivity" />
+        </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appsList.AppsByCategoryActivity"
+            android:label="@string/title_activity_apps_by_category"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.appsList.AllAppsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.AllAppsActivity" />
+        </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appsList.CategoryListActivity"
+            android:label="@string/title_activity_apps_by_category"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
+        </activity>
     </application>
+
+    
 
 </manifest>
