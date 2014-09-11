@@ -20,22 +20,22 @@ public class Permission implements Parcelable {
 	public static final String LABEL = "label";
 	public static final String DESCRIPTION = "description";
 	public static final String CRITICALITY = "criticality";
-	public static final String COUNTER_YES = "counter_yes";
-	public static final String COUNTER_NO = "counter_no";
+	public static final String UNTERSTOOD_COUNTER = "understood_counter";
+	public static final String NOT_UNDERSTOOD_COUNTER = "not_understood_counter";
 
 	// Creation statement
 	private static final String Create_Permission_Table = "CREATE TABLE "
 			+ TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT, "
-			+ CRITICALITY + " INTEGER, " + COUNTER_YES + " INTEGER, " + COUNTER_NO + "INTEGER);";
+			+ CRITICALITY + " INTEGER, " + UNTERSTOOD_COUNTER + " INTEGER, " + NOT_UNDERSTOOD_COUNTER + "INTEGER);";
 
 	private int id;
 	private String name;
 	private String label;
 	private String description;
 	private int criticality;
-	private int counterYes;
-	private int counterNo;
+	private int understoodCounter;
+	private int notUnderstoodCounter;
 
 	// empty constructor
 	public Permission() {
@@ -49,8 +49,8 @@ public class Permission implements Parcelable {
 		this.label = label;
 		this.description = description;
 		this.criticality = criticality;
-		this.counterYes = counterYes;
-		this.counterNo = counterNo;
+		this.understoodCounter = counterYes;
+		this.notUnderstoodCounter = counterNo;
 	}
 
 	// create table if it isn't existing yet
@@ -73,20 +73,20 @@ public class Permission implements Parcelable {
 		return id;
 	}
 
-	public int getCounterYes() {
-		return counterYes;
+	public int getUnderstoodCounter() {
+		return understoodCounter;
 	}
 
-	public void setCounterYes(int counterYes) {
-		this.counterYes = counterYes;
+	public void setUnderstoodCounter(int counterYes) {
+		this.understoodCounter = counterYes;
 	}
 
-	public int getCounterNo() {
-		return counterNo;
+	public int getNotUnderstoodCounter() {
+		return notUnderstoodCounter;
 	}
 
-	public void setCounterNo(int counterNo) {
-		this.counterNo = counterNo;
+	public void setNotUnderstoodCounter(int counterNo) {
+		this.notUnderstoodCounter = counterNo;
 	}
 
 	public void setId(int id) {
@@ -137,8 +137,8 @@ public class Permission implements Parcelable {
 		dest.writeString(label);
 		dest.writeString(description);
 		dest.writeInt(criticality);
-		dest.writeInt(counterYes);
-		dest.writeInt(counterNo);
+		dest.writeInt(understoodCounter);
+		dest.writeInt(notUnderstoodCounter);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -147,8 +147,8 @@ public class Permission implements Parcelable {
 		label = in.readString();
 		description = in.readString();
 		criticality = in.readInt();
-		counterYes = in.readInt();
-		counterNo = in.readInt();
+		understoodCounter = in.readInt();
+		notUnderstoodCounter = in.readInt();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

@@ -13,7 +13,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
 public class PermissionDataSource extends DataSource<Permission> {
 
 	private String[] allColumns = { Permission.ID, Permission.NAME,
-			Permission.LABEL, Permission.DESCRIPTION, Permission.CRITICALITY, Permission.COUNTER_YES, Permission.COUNTER_NO };
+			Permission.LABEL, Permission.DESCRIPTION, Permission.CRITICALITY, Permission.UNTERSTOOD_COUNTER, Permission.NOT_UNDERSTOOD_COUNTER };
 
 	public PermissionDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -37,8 +37,8 @@ public class PermissionDataSource extends DataSource<Permission> {
 		permission.setLabel(cursor.getString(2));
 		permission.setDescription(cursor.getString(3));
 		permission.setCriticality(cursor.getInt(4));
-		permission.setCounterYes(cursor.getInt(5));
-		permission.setCounterNo(cursor.getInt(6));
+		permission.setUnderstoodCounter(cursor.getInt(5));
+		permission.setNotUnderstoodCounter(cursor.getInt(6));
 
 		return permission;
 	}
@@ -61,8 +61,8 @@ public class PermissionDataSource extends DataSource<Permission> {
 		values.put(Permission.LABEL, label);
 		values.put(Permission.DESCRIPTION, description);
 		values.put(Permission.CRITICALITY, criticality);
-		values.put(Permission.COUNTER_YES, 0);
-		values.put(Permission.COUNTER_NO, 0);
+		values.put(Permission.UNTERSTOOD_COUNTER, 0);
+		values.put(Permission.NOT_UNDERSTOOD_COUNTER, 0);
 
 		// insert into DB
 		long insertId = database.insert(Permission.TABLE, null, values);
@@ -86,8 +86,8 @@ public class PermissionDataSource extends DataSource<Permission> {
 		values.put(Permission.LABEL, name);
 		values.put(Permission.DESCRIPTION, name);
 		values.put(Permission.CRITICALITY, 50);
-		values.put(Permission.COUNTER_YES, 0);
-		values.put(Permission.COUNTER_NO, 0);
+		values.put(Permission.UNTERSTOOD_COUNTER, 0);
+		values.put(Permission.NOT_UNDERSTOOD_COUNTER, 0);
 
 		// insert into DB
 		long insertId = database.insert(Permission.TABLE, null, values);
@@ -134,8 +134,8 @@ public class PermissionDataSource extends DataSource<Permission> {
 	 * @param permission
 	 */
 	public void increaseCounterYes(Permission permission){
-		int c = permission.getCounterYes();
-		permission.setCounterYes((c + 1));
+		int c = permission.getUnderstoodCounter();
+		permission.setUnderstoodCounter((c + 1));
 	}
 	
 	/**
@@ -143,7 +143,7 @@ public class PermissionDataSource extends DataSource<Permission> {
 	 * @param permission
 	 */
 	public void increaseCounterNo(Permission permission){
-		int c = permission.getCounterNo();
-		permission.setCounterNo((c + 1));
+		int c = permission.getNotUnderstoodCounter();
+		permission.setNotUnderstoodCounter((c + 1));
 	}
 }
