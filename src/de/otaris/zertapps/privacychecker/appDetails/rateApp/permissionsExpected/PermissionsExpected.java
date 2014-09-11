@@ -23,13 +23,24 @@ public class PermissionsExpected extends RatingElement {
 	// stores permissions and an expected flag
 	HashMap<Permission, Boolean> permissionsRating;
 
-	public boolean expectedPermission(Permission permission) {
-		Boolean expected = permissionsRating.get(permission);
-		return (expected == null) ? false : expected;
+	/**
+	 * retrieves true, if a permission was expected, false if it was unexpected
+	 * and null if there was no RadioButton chosen
+	 * 
+	 * @param permission
+	 *            the permission
+	 * @return true, false or null
+	 */
+	public Boolean expectedPermission(Permission permission) {
+		return permissionsRating.get(permission);
 	}
 
-	public void setPermissionExpected(Permission permission, boolean expected) {
+	public void setPermissionExpected(Permission permission, Boolean expected) {
 		permissionsRating.put(permission, expected);
+	}
+
+	public void removePermission(Permission permission) {
+		permissionsRating.remove(permission);
 	}
 
 	public PermissionsExpected(AppExtended app, boolean mandatory) {

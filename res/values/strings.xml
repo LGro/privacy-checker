@@ -40,10 +40,12 @@
     <string name="app_detail_rate_app_permissions_title">Berechtigungsbewertung</string>
     <string name="app_detail_rate_app_title">Gesamtbewertung</string>
     <string name="app_detail_rate_app_permissions_expected">Erwartet</string>
+    <string name="app_detail_rate_app_permissions_unexpected">Unerwartet</string>
     <string name="app_detail_rate_app_expert_text">Ich bin Experte auf dem Gebiet Privatsphäre:</string>
     <string name="validation_error_title">Hinweis</string>
     <string name="rating_save_success_title">Erfolg</string>
     <string name="app_detail_rate_app_comment_title">Erfahrungsbericht abgeben</string>
     <string name="enter_comment">Gebe Deinen Kommentar an</string>
+    
 
 </resources>
