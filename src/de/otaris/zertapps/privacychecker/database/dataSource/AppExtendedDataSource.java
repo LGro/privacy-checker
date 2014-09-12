@@ -162,18 +162,13 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	}
 
 	@Override
-	public AppExtended updateAppById(int appId, int categoryId, String name,
-			String label, String version, float privacyRating,
-			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
+	public AppExtended update(AppExtended app) {
 
 		appData.open();
-		AppCompact app = appData.updateAppById(appId, categoryId, name, label,
-				version, privacyRating, installed, functionalRating,
-				description, icon, automaticRating, categoryWeightedAutoRating);
+		AppCompact appCompact = appData.update(app.getAppCompact());
 		appData.close();
 
-		return extendAppCompact(app);
+		return extendAppCompact(appCompact);
 	}
 
 }

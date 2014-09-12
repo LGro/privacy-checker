@@ -75,13 +75,10 @@ public class RateAppOnClickListener implements OnClickListener {
 			TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
 			TotalPrivacyRatingAlgorithm algo = totalRatingFactory
 					.makeAlgorithm();
+
 			// update app
-			appData.updateAppById(app.getId(), app.getCategoryId(),
-					app.getName(), app.getLabel(), app.getVersion(),
-					algo.calculate(app), app.isInstalled(),
-					app.getFunctionalRating(), app.getDescription(),
-					app.getIcon(), app.getAutomaticRating(),
-					app.getCategoryWeightedAutoRating());
+			app.setPrivacyRating(algo.calculate(app));
+			appData.update(app);
 			appData.close();
 
 			// close overlay

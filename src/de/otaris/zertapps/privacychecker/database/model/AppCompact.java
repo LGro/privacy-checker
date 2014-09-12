@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.database.model;
 
+import java.util.HashMap;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -59,14 +61,17 @@ public class AppCompact implements App, Parcelable {
 	private float automaticRating;
 	private float categoryWeightedAutoRating;
 
-	public AppCompact() {
+	// contains a pair of column name and setter method name
+	protected HashMap<String, String> modifiedAttributes = new HashMap<String, String>();
 
+	public AppCompact(int id) {
+		this.id = id;
 	}
 
 	public AppCompact(int id, int categoryId, String name, String label,
-			String version, float rating, boolean installed, Long timestamp,
-			String description, byte[] icon, float automaticRating,
-			float categoryWeightedAutoRating) {
+			String version, float rating, boolean installed,
+			float functionalRating, Long timestamp, String description,
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -75,6 +80,7 @@ public class AppCompact implements App, Parcelable {
 		this.version = version;
 		this.privacyRating = rating;
 		this.isInstalled = installed;
+		this.functionalRating = functionalRating;
 		this.timestamp = timestamp;
 		this.description = description;
 		this.icon = icon;
@@ -114,100 +120,141 @@ public class AppCompact implements App, Parcelable {
 		onCreate(db);
 	}
 
-	// setter
-	public void setId(int id) {
-		this.id = id;
+	public HashMap<String, String> getModifiedAttributes() {
+		return modifiedAttributes;
 	}
 
+	protected void markAttributeModified(String attribute) {
+		StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+		// TODO:
+		StackTraceElement e = stacktrace[3];
+		String methodName = e.getMethodName();
+		modifiedAttributes.put(attribute, methodName);
+	}
+
+	// setter
+	@Override
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
+		markAttributeModified(CATEGORY_ID);
 	}
 
+	@Override
 	public void setLabel(String label) {
 		this.label = label;
+		markAttributeModified(LABEL);
 	}
 
+	@Override
 	public void setVersion(String version) {
 		this.version = version;
+		markAttributeModified(VERSION);
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
+		markAttributeModified(NAME);
 	}
 
+	@Override
 	public void setInstalled(boolean isInstalled) {
 		this.isInstalled = isInstalled;
+		markAttributeModified(INSTALLED);
 	}
 
+	@Override
 	public void setPrivacyRating(float privacyRating) {
 		this.privacyRating = privacyRating;
+		markAttributeModified(PRIVACY_RATING);
 	}
 
+	@Override
 	public void setFunctionalRating(float functionalRating) {
 		this.functionalRating = functionalRating;
+		markAttributeModified(FUNCTIONAL_RATING);
 	}
 
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
-	}
-
+	@Override
 	public void setDescription(String description) {
 		this.description = description;
+		markAttributeModified(DESCRIPTION);
 	}
 
+	@Override
 	public void setIcon(byte[] icon) {
 		this.icon = icon;
+		markAttributeModified(ICON);
 	}
 
+	@Override
 	public void setAutomaticRating(float automaticRating) {
 		this.automaticRating = automaticRating;
+		markAttributeModified(AUTOMATIC_RATING);
 	}
 
 	// getter
+	@Override
 	public int getId() {
 		return id;
 	}
 
+	@Override
 	public float getAutomaticRating() {
 		return automaticRating;
 	}
 
+	@Override
 	public int getCategoryId() {
 		return categoryId;
 	}
 
+	@Override
 	public String getVersion() {
 		return version;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public boolean isInstalled() {
 		return isInstalled;
 	}
 
+	// alias for automated getter name derivation (needs to match setter name)
+	public boolean getInstalled() {
+		return isInstalled;
+	}
+
+	@Override
 	public Long getTimestamp() {
 		return timestamp;
 	}
 
+	@Override
 	public float getPrivacyRating() {
 		return privacyRating;
 	}
 
+	@Override
 	public float getFunctionalRating() {
 		return functionalRating;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
+	@Override
 	public byte[] getIcon() {
 		return icon;
 	}
@@ -218,6 +265,7 @@ public class AppCompact implements App, Parcelable {
 
 	public void setCategoryWeightedAutoRating(float categoryWeightedAutoRating) {
 		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
+		markAttributeModified(CATEGORY_WEIGHTED_AUTOMATIC_RATING);
 	}
 
 	// parcelable requirements...
