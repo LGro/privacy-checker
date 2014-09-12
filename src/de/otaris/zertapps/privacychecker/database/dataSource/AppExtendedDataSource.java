@@ -155,14 +155,12 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	public AppExtended updateAppById(int appId, int categoryId, String name,
 			String label, String version, float privacyRating,
 			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating,
-			float automaticRatingRelativeToCategory) {
+			byte[] icon, float automaticRating) {
 
 		appData.open();
 		AppCompact app = appData.updateAppById(appId, categoryId, name, label,
 				version, privacyRating, installed, functionalRating,
-				description, icon, automaticRating,
-				automaticRatingRelativeToCategory);
+				description, icon, automaticRating);
 		appData.close();
 
 		return extendAppCompact(app);

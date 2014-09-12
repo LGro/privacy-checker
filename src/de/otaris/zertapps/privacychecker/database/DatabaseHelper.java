@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,10 +16,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
+import de.otaris.zertapps.privacychecker.AppController;
+import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Category;
-import de.otaris.zertapps.privacychecker.database.model.Comment;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
 import de.otaris.zertapps.privacychecker.database.model.RatingPermission;
@@ -41,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Category.onCreate(db);
 		Permission.onCreate(db);
 		AppPermission.onCreate(db);
-		Comment.onCreate(db);
+		// Comment.onCreate(db);
 		RatingApp.onCreate(db);
 		RatingPermission.onCreate(db);
 	}
@@ -52,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Category.onUpgrade(db, oldVersion, newVersion);
 		Permission.onUpgrade(db, oldVersion, newVersion);
 		AppPermission.onUpgrade(db, oldVersion, newVersion);
-		Comment.onUpgrade(db, oldVersion, newVersion);
+		// Comment.onUpgrade(db, oldVersion, newVersion);
 		RatingApp.onUpgrade(db, oldVersion, newVersion);
 		RatingPermission.onUpgrade(db, oldVersion, newVersion);
 
@@ -120,6 +126,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		myOutput.flush();
 		myOutput.close();
 		myInput.close();
+	}
+
+	public void fillDatabaseFromDevice() {
+		// fill db-category-table with entries
+		CategoryDataSource categoryData = new CategoryDataSource(context);
+		AppCompactDataSource appData = new AppCompactDataSource(context);
+
+		categoryData.open();
+		categoryData.createCategory("games", "Spiele", 10);
+		categoryData.createCategory("weather", "Wetter", 20);
+		categoryData.createCategory("categoryA", "Kategorie A", 30);
+		categoryData.createCategory("categoryB", "Kategorie B", 40);
+		categoryData.createCategory("categoryC", "Kategorie C", 50);
+		categoryData.close();
+
+		// insert all installed apps into database
+		AppController appController = new AppController();
+		appController.putInstalledAppsInDatabase(context,
+				context.getPackageManager());
+	}
+
+	public void recalculateAutomaticRatingForAllApps() {
+		AppExtendedDataSource appData = new AppExtendedDataSource(context);
+		appData.open();
+
+		List<AppExtended> apps = appData.getAllApps(AppsListOrder.ALPHABET,
+				true);
+
+		for (AppExtended app : apps) {
+			float automaticPrivacyRating = 0;
+
+			for (Permission permission : app.getPermissionList())
+				automaticPrivacyRating += permission.getCriticality();
+
+			// normalize accumulated criticality to privacy rating within [0:5]
+			automaticPrivacyRating /= app.getPermissionList().size();
+			automaticPrivacyRating /= AppController.PERMISSION_MIN_CRITICALITY;
+			automaticPrivacyRating *= 5;
+
+			appData.updateAppById(app.getId(), app.getCategoryId(),
+					app.getName(), app.getLabel(), app.getVersion(),
+					app.getPrivacyRating(), app.isInstalled(),
+					app.getFunctionalRating(), app.getDescription(),
+					app.getIcon(), automaticPrivacyRating);
+		}
+
+		appData.close();
+
 	}
 
 }

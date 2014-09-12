@@ -20,8 +20,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 			AppCompact.PRIVACY_RATING, AppCompact.INSTALLED,
 			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP,
 			AppCompact.DESCRIPTION, AppCompact.ICON,
-			AppCompact.AUTOMATIC_RATING,
-			AppCompact.AUTOMATIC_RATING_RELATIVE_TO_CATEGORY };
+			AppCompact.AUTOMATIC_RATING };
 
 	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -52,7 +51,6 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		app.setDescription(cursor.getString(9));
 		app.setIcon(cursor.getBlob(10));
 		app.setAutomaticRating(cursor.getFloat(11));
-		app.setAutomaticRatingRelativeToCategory(cursor.getFloat(12));
 
 		return app;
 	}
@@ -70,7 +68,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	public AppCompact createApp(int categoryId, String name, String label,
 			String version, float privacyRating, boolean installed,
 			float functionalRating, String description, byte[] icon,
-			float automaticRating, float automaticRatingRelativeToCategory) {
+			float automaticRating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(AppCompact.CATEGORY_ID, categoryId);
@@ -87,8 +85,6 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		values.put(AppCompact.DESCRIPTION, description);
 		values.put(AppCompact.ICON, icon);
 		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
-		values.put(AppCompact.AUTOMATIC_RATING_RELATIVE_TO_CATEGORY,
-				automaticRatingRelativeToCategory);
 
 		// insert into DB
 		long insertId = database.insert(AppCompact.TABLE, null, values);
@@ -240,8 +236,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	public AppCompact updateAppById(int appId, int categoryId, String name,
 			String label, String version, float privacyRating,
 			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating,
-			float automaticRatingRelativeToCategory) {
+			byte[] icon, float automaticRating) {
 
 		String filter = AppCompact.ID + " = " + appId;
 
@@ -261,8 +256,6 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		values.put(AppCompact.DESCRIPTION, description);
 		values.put(AppCompact.ICON, icon);
 		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
-		values.put(AppCompact.AUTOMATIC_RATING_RELATIVE_TO_CATEGORY,
-				automaticRatingRelativeToCategory);
 
 		database.update(AppCompact.TABLE, values, filter, null);
 

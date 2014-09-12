@@ -21,6 +21,5 @@ public interface AppDataSource<T extends App> {
 	public T updateAppById(int appId, int categoryId, String name,
 			String label, String version, float privacyRating,
 			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating,
-			float automaticRatingRelativeToCategory);
+			byte[] icon, float automaticRating);
 }

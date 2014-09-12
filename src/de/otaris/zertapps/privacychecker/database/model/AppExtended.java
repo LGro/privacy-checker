@@ -239,16 +239,6 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
-	public float getAutomaticRatingRelativeToCategory() {
-		return appCompact.getAutomaticRatingRelativeToCategory();
-	}
-
-	@Override
-	public void setAutomaticRatingRelativeToCategory(float rating) {
-		appCompact.setAutomaticRatingRelativeToCategory(rating);
-	}
-
-	@Override
 	public int describeContents() {
 		return 0;
 	}

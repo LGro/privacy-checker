@@ -16,7 +16,7 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
 public class CategoryDataSource extends DataSource<Category> {
 
 	private String[] allColumns = { Category.ID, Category.NAME, Category.LABEL,
-			Category.ORDER, Category.PRIVACY_RATING_MEAN };
+			Category.ORDER };
 
 	public CategoryDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -37,7 +37,6 @@ public class CategoryDataSource extends DataSource<Category> {
 		category.setName(cursor.getString(1));
 		category.setLabel(cursor.getString(2));
 		category.setOrder(cursor.getInt(3));
-		category.setPrivacyRatingMean(cursor.getFloat(4));
 
 		return category;
 	}
@@ -65,14 +64,12 @@ public class CategoryDataSource extends DataSource<Category> {
 	 * 
 	 * @return category object of the newly created category
 	 */
-	public Category createCategory(String name, String label, int order,
-			float privacyRatingMean) {
+	public Category createCategory(String name, String label, int order) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Category.NAME, name);
 		values.put(Category.LABEL, label);
 		values.put(Category.ORDER, order);
-		values.put(Category.PRIVACY_RATING_MEAN, privacyRatingMean);
 
 		// insert into DB
 		long insertId = database.insert(Category.TABLE, null, values);

@@ -13,6 +13,7 @@ import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSourc
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -50,6 +51,104 @@ public class AppController {
 	}
 
 	/**
+	 * put the locally installed app in the database
+	 * 
+	 * @param appData
+	 *            : AppDataSource
+	 * @param pm
+	 *            : Packagemanager
+	 * @throws NameNotFoundException
+	 *             , is thrown if app.packageName does not exist (there are
+	 *             installed apps without package name)
+	 */
+	@Deprecated
+	public void putInstalledAppsInDatabase(Context context, PackageManager pm) {
+
+		AppCompactDataSource appData = new AppCompactDataSource(context);
+		CategoryDataSource categoryData = new CategoryDataSource(context);
+		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
+				context);
+		PermissionDataSource permissionData = new PermissionDataSource(context);
+		RatingAppDataSource ratingData = new RatingAppDataSource(context);
+
+		appData.open();
+		permissionData.open();
+		appPermissionData.open();
+		categoryData.open();
+		ratingData.open();
+
+		ApplicationInfo[] apps = getInstalledApps(pm);
+		for (int i = 0; i < apps.length; i++) {
+			ApplicationInfo app = apps[i];
+
+			// PackageInfo is for getting the versionCode and versionName
+			PackageInfo pinfo;
+			try {
+				pinfo = pm.getPackageInfo(app.packageName, 0);
+
+				// TODO: ADD Ratings here
+
+				// statically assigned ratings for demo purposes
+				float pRating = (app.packageName.charAt(0) == 'c') ? 2 : 4;
+				float fRating = (app.packageName.charAt(0) == 'c') ? 3 : 5;
+
+				// get all categories
+				List<Category> categories = categoryData.getAllCategories();
+
+				// set categoryId for apps programmatically
+				int categoryId;
+				if (i < 5) {
+					categoryId = categories.get(0).getId();
+				} else if (i < 10) {
+					categoryId = categories.get(1).getId();
+				} else if (i < 15) {
+					categoryId = categories.get(2).getId();
+				} else {
+					categoryId = categories.get(3).getId();
+				}
+
+				AppCompact newApp = appData
+						.createApp(
+								categoryId,
+								app.packageName,
+								pinfo.applicationInfo.loadLabel(pm).toString(),
+								pinfo.versionCode + "",
+								pRating,
+								true,
+								fRating,
+								"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+								IconController.drawableToByteArray(pm
+										.getApplicationIcon(app.packageName)),
+								pRating);
+				String[] permissions = getPermissions(pm, app);
+				for (String permission : permissions) {
+
+					// get existing permission
+					Permission existingPermission = permissionData
+							.getPermissionByName(permission);
+
+					// if permission does not exist yet create it
+					if (existingPermission == null) {
+						existingPermission = permissionData
+								.createPermissionByName(permission);
+					}
+					appPermissionData.createAppPermission(newApp.getId(),
+							existingPermission.getId());
+				}
+			} catch (NameNotFoundException e) {
+				Log.e("AppController",
+						"NameNotFoundException: " + e.getMessage());
+			}
+		}
+
+		appData.close();
+		permissionData.close();
+		appPermissionData.close();
+		categoryData.close();
+
+	}
+
+	/**
 	 * get permissions for a given aplication info
 	 * 
 	 * @param pm
@@ -73,6 +172,33 @@ public class AppController {
 
 		return (requestedPermissions == null) ? new String[0]
 				: requestedPermissions;
+	}
+
+	/**
+	 * scans database and sets installed = 1 for all installed apps
+	 * 
+	 * @param appData
+	 *            a data source that already has been opened (!)
+	 */
+	@Deprecated
+	public void updateInstalledApps(AppCompactDataSource appData,
+			PackageManager pm) {
+		List<AppCompact> apps = appData.getAllApps();
+
+		for (AppCompact app : apps) {
+			try {
+				pm.getApplicationInfo(app.getName(),
+						PackageManager.GET_META_DATA);
+
+				appData.updateAppById(app.getId(), app.getCategoryId(),
+						app.getName(), app.getLabel(), app.getVersion(),
+						app.getPrivacyRating(), true,
+						app.getFunctionalRating(), app.getDescription(),
+						app.getIcon(), app.getAutomaticRating());
+			} catch (NameNotFoundException e) {
+				// do nothing
+			}
+		}
 	}
 
 	/**
@@ -112,28 +238,16 @@ public class AppController {
 
 					// get automatic privacy rating depending on the requested
 					// permissions
-					float automaticRating = getAutomaticPrivacyRating(context,
+					float privacyRating = getAutomaticPrivacyRating(context,
 							pm, permissions);
 
-					// TODO: get app from playstore
-					Category category = getCategory(context, "categoryName");
-
 					// create app
-					app = appData.createApp(
-							category.getId(),
-							apps[i].packageName,
-							apps[i].loadLabel(pm).toString(),
-							pInfo.versionCode + "",
-							automaticRating,
-							true,
-							0/* TODO: functionalRating get from playstore */,
-							"",
+					app = appData.createApp(0, apps[i].packageName, apps[i]
+							.loadLabel(pm).toString(), pInfo.versionCode + "",
+							privacyRating, true, 0/* functionalRating */, "",
 							IconController.drawableToByteArray(pm
 									.getApplicationIcon(apps[i].packageName)),
-							automaticRating,
-							getAutomaticPrivacyRatingRelativeToCategory(
-									automaticRating,
-									category.getPrivacyRatingMean()));
+							privacyRating);
 
 					// link all required permissions to the newly created app
 					for (String permission : permissions)
@@ -153,8 +267,7 @@ public class AppController {
 						app.getName(), app.getLabel(), app.getVersion(),
 						app.getPrivacyRating(), true,
 						app.getFunctionalRating(), app.getDescription(),
-						app.getIcon(), app.getAutomaticRating(),
-						app.getAutomaticRatingRelativeToCategory());
+						app.getIcon(), app.getAutomaticRating());
 			}
 		}
 
@@ -162,42 +275,6 @@ public class AppController {
 		appData.close();
 		appPermissionData.close();
 		permissionData.close();
-	}
-
-	private float getAutomaticPrivacyRatingRelativeToCategory(
-			float automaticRating, float privacyRatingMean) {
-
-		float d = privacyRatingMean - automaticRating;
-
-		if (d > 0) {
-			automaticRating -= 0.8 * d;
-		} else if (d < 0) {
-			automaticRating += 0.4 * Math.abs(d);
-		} else {
-			automaticRating += 0.5;
-		}
-
-		// prevent from becoming negative or greater than 5
-		if (automaticRating < 0)
-			automaticRating = 0;
-		else if (automaticRating > 5)
-			automaticRating = 5;
-
-		return automaticRating;
-	}
-
-	private Category getCategory(Context context, String categoryName) {
-		// TODO: check if category already exists, create if otherwise
-
-		CategoryDataSource categoryData = new CategoryDataSource(context);
-		categoryData.open();
-
-		Category category = categoryData.getCategoryById(1);
-
-		categoryData.close();
-
-		return category;
-
 	}
 
 	/**
@@ -224,38 +301,28 @@ public class AppController {
 
 		PermissionDataSource permissionData = new PermissionDataSource(context);
 
-		float criticalPermissionsRating = 0;
-		int uncriticalPermissionsCount = 0;
+		float automaticPrivacyRating = 0;
 
 		permissionData.open();
 		for (String permission : permissions) {
 			// get permission with criticality from database
 			Permission p = permissionData.getPermissionByName(permission);
 
-			if (p == null || p.getCriticality() > 48) {
-				// if requested permission doesn't exist -> create it
-				if (p == null)
-					p = permissionData.createPermission(permission, permission,
-							permission, PERMISSION_MIN_CRITICALITY);
+			// if requested permission doesn't exist -> create it
+			if (p == null)
+				p = permissionData.createPermission(permission, permission,
+						permission, PERMISSION_MIN_CRITICALITY);
 
-				uncriticalPermissionsCount++;
-			} else {
-				// accumulate current permission's criticality
-				criticalPermissionsRating += p.getCriticality();
-			}
+			// accumulate current permission's criticality
+			automaticPrivacyRating += p.getCriticality();
 		}
 		permissionData.close();
 
-		// normalize accumulated criticality to privacy rating within [0:4]
-		criticalPermissionsRating /= permissions.length
-				- uncriticalPermissionsCount;
-		criticalPermissionsRating /= 48;
-		criticalPermissionsRating *= 4;
+		// normalize accumulated criticality to privacy rating within [0:5]
+		automaticPrivacyRating /= permissions.length;
+		automaticPrivacyRating /= PERMISSION_MIN_CRITICALITY;
+		automaticPrivacyRating *= 5;
 
-		// add up to 1 for less uncritical permissions
-		criticalPermissionsRating += 2 - (1 / (Math
-				.exp(0.15 * uncriticalPermissionsCount)));
-
-		return criticalPermissionsRating;
+		return automaticPrivacyRating;
 	}
 }
