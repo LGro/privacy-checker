@@ -66,6 +66,6 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/app_detail_rate_app_permissions_expected"
         android:layout_marginRight="15dp"
-        android:text="Ja | Nein" />
+        android:text="@string/yes_no" />
 
 </RelativeLayout>

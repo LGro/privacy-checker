@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/button_background_selector"
-                    android:text="Verstehe ich" />
+                    android:text="@string/understandable" />
 
                 <Button
                     android:id="@+id/app_detail_permission_alert_dialog_button_no"
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:background="@drawable/button_background_selector"
-                    android:text="Verstehe ich nicht" />
+                    android:text="@string/not_understandable" />
 
             </TableRow>
         </TableLayout>
