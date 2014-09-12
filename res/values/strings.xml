@@ -33,6 +33,8 @@
     <string name="app_details_no_description_available">Es tut uns leid, leider liegt zu dieser App noch keine Beschreibung vor.</string>
     <string name="app_details_privacy_rating_permissions_title">Geforderte Berechtigungen:</string>
     <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen</string>
+    <string name="app_detail_privacy_rating_category_better">Privatsphärefreundlicher als durchschnittlich Apps aus der Kategorie: </string>
+    <string name="app_detail_privacy_rating_category_worse">Weniger privatsphärefreundlich als durchschnittlich Apps aus der Kategorie: </string>
     <string name="validation_error_no_total_rating">Bitte geben Sie eine Gesamtbewertung an.</string>
     <string name="validation_error_intro">Leider traten folgende Fehler auf:</string>
     <string name="app_detail_rate_app_success">Die Bewertung wurde gespeichert.</string>
@@ -44,8 +46,8 @@
     <string name="validation_error_title">Hinweis</string>
     <string name="rating_save_success_title">Erfolg</string>
     <string name="app_detail_rate_app_comment_title">Erfahrungsbericht abgeben</string>
-    <string name="enter_comment">Gebe Deinen Kommentar an</string> 
-    <string name="user_type_normal">Normaler Nutzer</string> 
-    <string name="user_type_expert">IT Experte</string> 
+    <string name="enter_comment">Gebe Deinen Kommentar an</string>
+    <string name="user_type_normal">Normaler Nutzer</string>
+    <string name="user_type_expert">IT Experte</string>
 
 </resources>

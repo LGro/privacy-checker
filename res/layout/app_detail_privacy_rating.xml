@@ -127,6 +127,16 @@
         android:text="TextView" />
 
     <TextView
+        android:id="@+id/app_detail_privacy_rating_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_image"
+        android:layout_below="@+id/app_detail_privacy_rating_count"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="2dp"
+        android:text="Category Comparison" />
+
+    <TextView
         android:id="@+id/app_detail_privacy_rating_explanation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

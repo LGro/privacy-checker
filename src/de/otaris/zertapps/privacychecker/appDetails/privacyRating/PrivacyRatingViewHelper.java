@@ -45,6 +45,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 	protected ListView permissionListView;
 	protected TextView permissionsListTitle;
 	protected RelativeLayout showMoreGroup;
+	protected TextView categoryComparison;
 
 	/**
 	 * initialize all relevant views
@@ -69,6 +70,9 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_rating_permissions_list);
 		permissionsListTitle = (TextView) contextView
 				.findViewById(R.id.app_detail_privacy_rating_permission_header);
+		categoryComparison = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_category);
+
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -121,6 +125,22 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		// privacy rating locks-icon
 		privacyRatingIconTextView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
+
+		if (app.getCategory() != null) {
+			if (app.getCategory().getAverageAutoRating() > app
+					.getAutomaticRating()) {
+				categoryComparison.setText(context.getResources().getString(
+						R.string.app_detail_privacy_rating_category_worse)
+						+ " " + app.getCategory().getName());
+
+			} else {
+				categoryComparison.setText(context.getResources().getString(
+						R.string.app_detail_privacy_rating_category_better)
+						+ " " + app.getCategory().getName());
+			}
+		} else {
+			categoryComparison.setVisibility(ViewGroup.GONE);
+		}
 
 		List<Permission> permissionList = app.getPermissionList();
 
