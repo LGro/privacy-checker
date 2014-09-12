@@ -31,7 +31,7 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
  */
 public class AppDetailsActivity extends Activity {
 
-	AppExtended appExtended;
+	private AppExtended appExtended;
 
 	/**
 	 * to change the displayed header, return another object that implements
