@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:descendantFocusability="blocksDescendants" >
+
+    <View
+        android:id="@+id/app_detail_rate_app_permissions_viewline1"
+        android:layout_width="wrap_content"
+        android:layout_height="0.25dip"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentTop="true"
+        android:background="#777777" />
+    
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_number"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_viewline1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical|right"
+        android:text="Nr." />
+
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_label"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_below="@+id/app_detail_rate_app_permissions_viewline1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/app_detail_rate_app_permissions_expected_checkbox"
+        android:layout_toRightOf="@+id/app_detail_rate_app_permissions_number"
+        android:gravity="center_vertical|left"
+        android:text="Permission X" />
+
+    <CheckBox
+        android:id="@+id/app_detail_rate_app_permissions_expected_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_viewline1"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal" />
+    
+
+
+</RelativeLayout>

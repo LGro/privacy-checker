@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_title"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/app_detail_rate_app_permissions_title"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_explaination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_title"
+        android:layout_toLeftOf="@+id/app_detail_rate_app_permissions_more"
+        android:text="@string/app_detail_rate_app_permissions_explaination" />
+
+    <TextView
+        android:id="@+id/app_detail_rate_app_permissions_expected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_explaination"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/app_detail_rate_app_permissions_unexpected" />
+
+    <ListView
+        android:id="@+id/app_detail_rate_app_permissions_list"
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_expected"
+        android:layout_marginTop="5dp"
+        android:divider="@null" >
+    </ListView>
+
+    <ToggleButton
+        android:id="@+id/app_detail_rate_app_permissions_more"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_list"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="4dp"
+        android:background="@layout/app_detail_show_more_less"
+        android:text="@null"
+        android:textOff="@null"
+        android:textOn="@null" />
+
+</RelativeLayout>

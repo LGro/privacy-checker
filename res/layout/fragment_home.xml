@@ -16,6 +16,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/last_updated_apps_textview"
+        android:listSelector="@drawable/button_background_selector"
         android:paddingLeft="4dp"
         android:paddingRight="4dp" >
     </ListView>

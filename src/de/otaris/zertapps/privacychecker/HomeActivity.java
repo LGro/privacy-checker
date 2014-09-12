@@ -1,32 +1,51 @@
 package de.otaris.zertapps.privacychecker;
 
+import java.io.IOException;
 import java.util.List;
 
-import com.google.inject.Inject;
-
-import de.otaris.zertapps.privacychecker.database.App;
-import de.otaris.zertapps.privacychecker.database.AppDataSource;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
+import com.google.inject.Inject;
+
+import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
+import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
+import de.otaris.zertapps.privacychecker.appsList.CategoryListActivity;
+import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
+import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * Is called when app is started, handles navigation to installedAppsActivity
  * and AllAppsActivity
+ * 
+ * Splash Screen Code taken from:
+ * http://www.41post.com/4588/programming/android-coding-a-loading-screen-part-1
  */
 public class HomeActivity extends Activity {
 
-	private List<App> latestAppsList;
+	private List<AppCompact> latestAppsList;
 	@Inject
 	private AppController appController = null;
+
+	// A ProgressDialog object
+	private ProgressDialog progressDialog;
 
 	// lazy initialization getter for AppController
 	public AppController getAppController() {
@@ -41,14 +60,9 @@ public class HomeActivity extends Activity {
 	}
 
 	/**
-	 * Auto generated code
-	 * 
-	 * + Insert all installed apps to database on start. This is done to make
-	 * sure there are apps in the database.
-	 * 
-	 * + Connect to local database and retrieve last updated apps. Store them in
-	 * a list. Do this at this stage to avoid retrieving those apps everytime
-	 * you return to the homescreen.
+	 * Connect to local database and retrieve last updated apps. Store them in a
+	 * list. Do this at this stage to avoid retrieving those apps everytime you
+	 * return to the homescreen.
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +74,29 @@ public class HomeActivity extends Activity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 
-		// insert all installed apps into database
-		AppController appController = getAppController();
-		appController.putInstalledAppsInDatabase(new AppDataSource(this),
-				getPackageManager());
-		// connect to database
-		AppDataSource appData = new AppDataSource(this);
-		appData.open();
-		latestAppsList = appData.getLastUpdatedApps(4);
-		appData.close();
+		// DatabaseHelper dbHelper = new DatabaseHelper(this);
+		// dbHelper.fillDatabaseFromDevice();
+		// db.recalculateAutomaticRatingForAllApps(this);
+		// dbHelper.exportDatabase(this);
+
+		SharedPreferences wmbPreference = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+		if (isFirstRun) {
+			// Code to run once
+			SharedPreferences.Editor editor = wmbPreference.edit();
+			editor.putBoolean("FIRSTRUN", false);
+			editor.commit();
+
+			// Initialize a LoadViewTask object and call the execute() method
+			new InitializeDatabaseTask().execute();
+		}
+
+		// retreive apps for recent apps list
+		prepareLatestAppsList();
+
+		UserStudyLogger.LOGGING_ENABLED = false;
+		UserStudyLogger.getInstance().log("activity_home");
 	}
 
 	@Override
@@ -100,7 +128,7 @@ public class HomeActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-
+		prepareLatestAppsList();
 		populateLatestAppListView();
 	}
 
@@ -142,9 +170,19 @@ public class HomeActivity extends Activity {
 	 *            : View
 	 */
 	public void displayAllApps(View view) {
-		Log.i("HomeActivity", "called display all apps");
-		Intent intent = new Intent(this, AllAppsActivity.class);
+		Intent intent = new Intent(this, CategoryListActivity.class);
 		startActivity(intent);
+	}
+
+	/**
+	 * retrieve the data for the list of most recently updated apps
+	 */
+	private void prepareLatestAppsList() {
+		AppCompactDataSource appData = new AppCompactDataSource(this);
+		appData.open();
+
+		latestAppsList = appData.getLastUpdatedApps(4);
+		appData.close();
 	}
 
 	/**
@@ -155,7 +193,72 @@ public class HomeActivity extends Activity {
 		AppListItemAdapter adapter = new AppListItemAdapter(this,
 				getPackageManager(), latestAppsList);
 		ListView laList = (ListView) findViewById(R.id.latest_apps_listview);
+		laList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(view.getContext(),
+						AppDetailsActivity.class);
+				AppCompact app = (AppCompact) parent
+						.getItemAtPosition(position);
+				intent.putExtra("AppCompact", app);
+				startActivity(intent);
+			}
+
+		});
 		laList.setAdapter(adapter);
 	}
 
+	/**
+	 * Asynchronously handles database import and the insertion of uncovered
+	 * apps into the database while displaying a loading splash screen.
+	 */
+	private class InitializeDatabaseTask extends AsyncTask<Void, Integer, Void> {
+		// Before running code in the separate thread
+		@Override
+		protected void onPreExecute() {
+			// TODO: replace with @String ressources?!
+			progressDialog = ProgressDialog.show(HomeActivity.this,
+					"Lade Apps",
+					"Installierte Apps werden erstmalig erfasst...", false,
+					false);
+		}
+
+		// The code to be executed in a background thread.
+		@Override
+		protected Void doInBackground(Void... params) {
+
+			// Get the current thread's token
+			synchronized (this) {
+				try {
+					// import database from asset
+					DatabaseHelper dbHelper = new DatabaseHelper(
+							HomeActivity.this);
+					dbHelper.importDatabase();
+				} catch (IOException e) {
+					e.printStackTrace();
+					Log.e("HomeActivity", "DB import failed: " + e.getMessage());
+				}
+
+				// scan device for installed apps and insert the missing ones
+				// into the database
+				getAppController().insertUncoveredInstalledApps(
+						HomeActivity.this, getPackageManager());
+			}
+
+			return null;
+		}
+
+		// after executing the code in the thread
+		@Override
+		protected void onPostExecute(Void result) {
+			// close the progress dialog
+			progressDialog.dismiss();
+
+			// initialize the app list
+			prepareLatestAppsList();
+			populateLatestAppListView();
+		}
+	}
 }
