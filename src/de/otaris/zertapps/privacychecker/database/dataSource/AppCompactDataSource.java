@@ -229,6 +229,11 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		return cursorToModelList(cursor);
 	}
 
+	/**
+	 * Updates all attributes of a given app that are contained in
+	 * app.modifiedAttributes.
+	 */
+	@Override
 	public AppCompact update(AppCompact app) {
 
 		String filter = AppCompact.ID + " = " + app.getId();

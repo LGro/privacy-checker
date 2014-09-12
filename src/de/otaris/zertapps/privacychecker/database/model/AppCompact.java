@@ -120,16 +120,19 @@ public class AppCompact implements App, Parcelable {
 		onCreate(db);
 	}
 
-	public HashMap<String, String> getModifiedAttributes() {
-		return modifiedAttributes;
-	}
-
-	protected void markAttributeModified(String attribute) {
+	/**
+	 * Store columnName and the getter method from that markAttributeModified
+	 * has been called in the HashMap modifiedAttributes to mark what attribute
+	 * values have changed.
+	 * 
+	 * @param columnName
+	 *            matching column name to the attribute that has been changed
+	 */
+	protected void markAttributeModified(String columnName) {
 		StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-		// TODO:
 		StackTraceElement e = stacktrace[3];
 		String methodName = e.getMethodName();
-		modifiedAttributes.put(attribute, methodName);
+		modifiedAttributes.put(columnName, methodName);
 	}
 
 	// setter
@@ -194,6 +197,10 @@ public class AppCompact implements App, Parcelable {
 	}
 
 	// getter
+	public HashMap<String, String> getModifiedAttributes() {
+		return modifiedAttributes;
+	}
+
 	@Override
 	public int getId() {
 		return id;
