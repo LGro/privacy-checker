@@ -25,7 +25,7 @@ public class CategoryWeightedAlgo implements AutomaticRatingAlgorithm {
 			weightedAutoRating = (float) (autoRating - difference * 0.8);
 			if (weightedAutoRating < 0)
 				weightedAutoRating = 0;
-		}
+		} else return autoRating;
 
 		return weightedAutoRating;
 	}
