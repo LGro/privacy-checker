@@ -75,7 +75,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		// set default icons
 		switch (tab.getPosition()) {
 		case 0:
-			tab.setIcon(null);
+			tab.setIcon(R.drawable.name_default);
 			break;
 		case 1:
 			tab.setIcon(R.drawable.privacyrating_default);
@@ -99,8 +99,8 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			int sortingIcon = 0;
 			switch (tab.getPosition()) {
 			case 0:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.ascending
-						: R.drawable.descending;
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.name_ascending
+						: R.drawable.name_descending;
 				break;
 			case 1:
 				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.privacyrating_descending

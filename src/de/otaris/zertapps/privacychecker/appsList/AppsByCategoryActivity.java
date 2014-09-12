@@ -49,13 +49,13 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 		actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		viewPager = (ViewPager) findViewById(R.id.appsByCategoryPager);
-		
-		//set action bar name
+
+		// set action bar name
 		CategoryDataSource categoryData = new CategoryDataSource(this);
 		categoryData.open();
-		Intent myIntent = getIntent(); 
+		Intent myIntent = getIntent();
 		int categoryId = myIntent.getIntExtra("id", 3);
-		String name = categoryData.getCategoryById(categoryId).getLabel();		
+		String name = categoryData.getCategoryById(categoryId).getLabel();
 		categoryData.close();
 
 		actionBar.setTitle(name);
@@ -74,8 +74,8 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 						// set icon for tab
 						switch (position) {
 						case 0:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.ascending
-									: R.drawable.descending;
+							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
+									: R.drawable.name_descending;
 							break;
 						case 1:
 							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.privacyrating_descending
@@ -94,8 +94,8 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 		viewPager.setAdapter(tabPagerAdapter);
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this).setIcon(R.drawable.ascending));
+		actionBar.addTab(actionBar.newTab().setTabListener(this)
+				.setIcon(R.drawable.name_ascending));
 		actionBar.addTab(actionBar.newTab().setTabListener(this)
 				.setIcon(R.drawable.privacyrating_default));
 		actionBar.addTab(actionBar.newTab().setTabListener(this)

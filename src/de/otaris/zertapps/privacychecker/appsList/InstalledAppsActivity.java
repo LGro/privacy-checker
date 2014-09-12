@@ -56,8 +56,8 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 						// set icon for tab
 						switch (position) {
 						case 0:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.ascending
-									: R.drawable.descending;
+							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
+									: R.drawable.name_descending;
 							break;
 						case 1:
 							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.privacyrating_descending
@@ -76,15 +76,12 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 		viewPager.setAdapter(tabPagerAdapter);
 
 		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_alphabet)
-				.setTabListener(this).setIcon(R.drawable.ascending));
-		actionBar
-				.addTab(actionBar.newTab()
-						.setIcon(R.drawable.privacyrating_default)
-						.setTabListener(this));
-		actionBar.addTab(actionBar.newTab()
-				.setIcon(R.drawable.popularityrating_default)
-				.setTabListener(this));
+		actionBar.addTab(actionBar.newTab().setTabListener(this)
+				.setIcon(R.drawable.name_ascending));
+		actionBar.addTab(actionBar.newTab().setTabListener(this)
+				.setIcon(R.drawable.privacyrating_default));
+		actionBar.addTab(actionBar.newTab().setTabListener(this)
+				.setIcon(R.drawable.popularityrating_default));
 	}
 
 	@Override
@@ -99,7 +96,8 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.categoryListContainer
+		// as you specify a parent activity in
+		// AndroidManifest.xml.categoryListContainer
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;
