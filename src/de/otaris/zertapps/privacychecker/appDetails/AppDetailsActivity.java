@@ -31,6 +31,8 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
  */
 public class AppDetailsActivity extends Activity {
 
+	AppExtended appExtended;
+
 	/**
 	 * to change the displayed header, return another object that implements
 	 * Header
@@ -50,19 +52,19 @@ public class AppDetailsActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
 
 		// Get the App from the intent passed from the previous activity
 		AppCompact app = getIntent().getParcelableExtra("AppCompact");
 		// add missing information to the compact app
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		AppExtended appExtended = appDataSource.extendAppCompact(app);
+		appExtended = appDataSource.extendAppCompact(app);
 		appDataSource.close();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
 
 		// get header to display the basic app details
 		View headerView = getHeader().getView(this, appExtended);

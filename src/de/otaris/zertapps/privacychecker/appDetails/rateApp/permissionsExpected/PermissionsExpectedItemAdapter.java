@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected;
 
 import java.util.List;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

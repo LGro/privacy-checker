@@ -14,6 +14,7 @@
     <string name="title_alphabet">Name</string>
     <string name="title_functional">Bewertung</string>
     <string name="title_category">Kategorien</string>
+    <string name="title_activity_rate_app">Bewerten</string>
     <string name="title_activity_installed_apps_list">Installierte Apps</string>
     <string name="title_activity_home">Privacy-Checker</string>
     <string name="last_updated_apps">Zuletzt aktualisierte Privatsphärebewertung:</string>
@@ -44,8 +45,8 @@
     <string name="validation_error_title">Hinweis</string>
     <string name="rating_save_success_title">Erfolg</string>
     <string name="app_detail_rate_app_comment_title">Erfahrungsbericht abgeben</string>
-    <string name="enter_comment">Gebe Deinen Kommentar an</string> 
-    <string name="user_type_normal">Normaler Nutzer</string> 
-    <string name="user_type_expert">IT Experte</string> 
+    <string name="enter_comment">Gebe Deinen Kommentar an</string>
+    <string name="user_type_normal">Normaler Nutzer</string>
+    <string name="user_type_expert">IT Experte</string>
 
 </resources>

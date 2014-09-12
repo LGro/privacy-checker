@@ -1,5 +1,6 @@
 package de.otaris.zertapps.privacychecker;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -18,9 +19,12 @@ public class PrivacyCheckerAlert {
 	 * @param title
 	 * @param message
 	 * @param context
+	 * @param finishActivity
+	 *            flag that indicates wheather to close the activity after
+	 *            confirming the alert dialog
 	 */
 	public static void callInfoDialog(String title, String message,
-			final Context context) {
+			final Context context, final boolean finishActivity) {
 		final Dialog dialog = new Dialog(context);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.app_detail_alert_dialog);
@@ -40,8 +44,11 @@ public class PrivacyCheckerAlert {
 		okButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				dialog.dismiss();
+				if (context instanceof Activity && finishActivity)
+					((Activity) context).finish();
 			}
 		});
 		dialog.show();
 	}
+
 }

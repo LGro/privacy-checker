@@ -160,7 +160,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 							PrivacyCheckerAlert.callInfoDialog(
 									permission.getLabel(),
 									permission.getDescription(),
-									view.getContext());
+									view.getContext(), false);
 						}
 					});
 		}
