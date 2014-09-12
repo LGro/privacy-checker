@@ -32,7 +32,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
  * 
  * When the user selects a permission from this list, an overlay displaying the
  * permission's label and explanation is shown.
- *
+ * 
  */
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
@@ -68,9 +68,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
 		permissionsListTitle = (TextView) contextView
-				.findViewById(R.id.app_details_privacy_rating_permissions_title);
-		showMoreGroup = (RelativeLayout) contextView
-				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
+				.findViewById(R.id.app_detail_privacy_rating_permission_header);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -105,7 +103,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		// automatic rating
 		automaticRatingTextView.setText(roundToOneDecimalPlace(app
-				.getAutomaticRating()) + "");
+				.getCategoryWeightedAutoRating()) + "");
 
 		// non-expert rating
 		nonExpertRatingTextView.setText(roundToOneDecimalPlace(app
@@ -142,7 +140,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 			// scale list depending on its size
 			ViewGroup.LayoutParams updatedLayout = permissionListView
 					.getLayoutParams();
-			int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
+			int pixels = (int) (39 * context.getResources().getDisplayMetrics().density);
 			updatedLayout.height = pixels * permissionListView.getCount();
 			permissionListView.setLayoutParams(updatedLayout);
 
@@ -177,13 +175,31 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					@Override
 					public void onCheckedChanged(CompoundButton toggleButton,
 							boolean isChecked) {
+						// get explanation text view
+						TextView explanation = (TextView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_privacy_rating_explanation);
+
+						// get the permission header text
+						TextView permissiontext = (TextView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_privacy_rating_permission_header);
+
+						// get permissions list
+						ListView permissions = (ListView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_rating_permissions_list);
 
 						if (isChecked) {
 							// show explanation and permissions list
-							showMoreGroup.setVisibility(View.VISIBLE);
+							explanation.setVisibility(View.VISIBLE);
+							permissiontext.setVisibility(View.VISIBLE);
+							permissions.setVisibility(View.VISIBLE);
 						} else {
 							// hide explanation and permissions list
-							showMoreGroup.setVisibility(View.GONE);
+							explanation.setVisibility(View.GONE);
+							permissiontext.setVisibility(View.GONE);
+							permissions.setVisibility(View.GONE);
 						}
 
 					}

@@ -2,10 +2,6 @@ package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.List;
 
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.layout;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
-import de.otaris.zertapps.privacychecker.database.model.Category;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,17 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.Category;
 
 public class CategoryList extends ListFragment {
 
 	private Activity rootActivity;
 
-	
-
-	public CategoryList() {
-	}
-
-	public void setRootActivity(Activity rootActivity) {
+	public CategoryList(Activity rootActivity) {
 		this.rootActivity = rootActivity;
 	}
 
@@ -39,8 +33,9 @@ public class CategoryList extends ListFragment {
 		categoryData.close();
 
 		// initialize category list item adapter
-		CategoryListItemAdapter adapter = new CategoryListItemAdapter(rootActivity, categories);
-		
+		CategoryListItemAdapter adapter = new CategoryListItemAdapter(
+				rootActivity, categories);
+
 		setListAdapter(adapter);
 	}
 
@@ -53,10 +48,10 @@ public class CategoryList extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
 		Intent intent = new Intent(rootActivity, AppsByCategoryActivity.class);
-		
+
 		// put id from rowView tag as extra to the AppsByCategoryActivity
-		intent.putExtra("id", (Integer)v.getTag());
-		
+		intent.putExtra("id", (Integer) v.getTag());
+
 		startActivity(intent);
 	}
 }

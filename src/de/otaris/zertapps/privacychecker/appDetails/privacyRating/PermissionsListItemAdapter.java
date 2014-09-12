@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
@@ -21,7 +22,8 @@ public class PermissionsListItemAdapter extends ArrayAdapter<Permission> {
 	private final List<Permission> values;
 
 	public PermissionsListItemAdapter(Context context, List<Permission> values) {
-		super(context, android.R.layout.simple_list_item_1, values);
+		super(context, R.layout.app_detail_privacy_rating_permission_list_item,
+				values);
 		this.context = context;
 		this.values = values;
 	}
@@ -32,11 +34,13 @@ public class PermissionsListItemAdapter extends ArrayAdapter<Permission> {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// use default list item containing only one TextView
-		View rowView = inflater.inflate(android.R.layout.simple_list_item_1,
+		View rowView = inflater.inflate(
+				R.layout.app_detail_privacy_rating_permission_list_item,
 				parent, false);
 
 		// get TextView
-		TextView textView = (TextView) rowView.findViewById(android.R.id.text1);
+		TextView textView = (TextView) rowView
+				.findViewById(R.id.app_detail_rate_app_permissions_label);
 
 		// set permission label for list item
 		textView.setText(values.get(position).getLabel());
