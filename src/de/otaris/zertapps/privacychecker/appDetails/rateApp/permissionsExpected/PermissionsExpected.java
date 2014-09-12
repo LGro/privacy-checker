@@ -9,7 +9,7 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationException;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionRatingDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -46,24 +46,23 @@ public class PermissionsExpected extends RatingElement {
 
 	@Override
 	public void save(Context context) {
-		
-		// get expert flat from registry
-				Registry reg = Registry.getInstance();
-				String isExpertString = reg
-						.get("de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode",
-								"isExpert");
-
-				boolean isExpert = false;
-				if (isExpertString != null)
-					isExpert = isExpertString.equals("1");
-				
 		// initialize datasources
-		AppPermissionRatingDataSource appPermissionRating = new AppPermissionRatingDataSource(
+		RatingPermissionDataSource ratingPermissionData = new RatingPermissionDataSource(
 				context);
 		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
 				context);
-		appPermissionRating.open();
-		appPermissionData.open();		
+		ratingPermissionData.open();
+		appPermissionData.open();
+
+		// get expert flat from registry
+		Registry reg = Registry.getInstance();
+		String isExpertString = reg
+				.get("de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode",
+						"isExpert");
+
+		boolean isExpert = false;
+		if (isExpertString != null)
+			isExpert = isExpertString.equals("1");
 
 		// save each permission thats "expected" value has been modified at
 		// least once; permissions that have not been touched, aren't rated
@@ -81,11 +80,9 @@ public class PermissionsExpected extends RatingElement {
 			int rating = (pair.getValue()) ? 0 : 1;
 
 			// create permission rating
-			appPermissionRating.createRatingPermission(rating,
+			ratingPermissionData.createRatingPermission(rating,
 					appPermission.getId(), isExpert);
 		}
-		
-		//TODO: Update total expert rating
 
 		// close datasources
 		appPermissionData.close();

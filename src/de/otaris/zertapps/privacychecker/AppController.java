@@ -247,8 +247,8 @@ public class AppController {
 		permissionData.close();
 
 		// normalize accumulated criticality to privacy rating within [0:4]
-		criticalPermissionsRating /= (permissions.length
-				- uncriticalPermissionsCount);
+		criticalPermissionsRating /= permissions.length
+				- uncriticalPermissionsCount;
 		criticalPermissionsRating /= 48;
 		criticalPermissionsRating *= 4;
 

@@ -21,7 +21,7 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Comment;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.RatingApp;
-import de.otaris.zertapps.privacychecker.database.model.AppPermissionRating;
+import de.otaris.zertapps.privacychecker.database.model.RatingPermission;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -43,7 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		AppPermission.onCreate(db);
 		Comment.onCreate(db);
 		RatingApp.onCreate(db);
-		AppPermissionRating.onCreate(db);
+		RatingPermission.onCreate(db);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		AppPermission.onUpgrade(db, oldVersion, newVersion);
 		Comment.onUpgrade(db, oldVersion, newVersion);
 		RatingApp.onUpgrade(db, oldVersion, newVersion);
-		AppPermissionRating.onUpgrade(db, oldVersion, newVersion);
+		RatingPermission.onUpgrade(db, oldVersion, newVersion);
 
 		onCreate(db);
 	}
