@@ -32,13 +32,9 @@
     <string name="app_details_privacy_rating_explanation">Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen.</string>
     <string name="app_details_no_description_available">Es tut uns leid, leider liegt zu dieser App noch keine Beschreibung vor.</string>
     <string name="app_details_privacy_rating_permissions_title">Geforderte Berechtigungen:</string>
-<<<<<<< HEAD
-    <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen.</string>
-=======
     <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen</string>
     <string name="app_detail_privacy_rating_category_better">Privatsphärefreundlicher als durchschnittlich Apps aus der Kategorie: </string>
     <string name="app_detail_privacy_rating_category_worse">Weniger privatsphärefreundlich als durchschnittlich Apps aus der Kategorie: </string>
->>>>>>> refs/heads/feature/PrivacyRating
     <string name="validation_error_no_total_rating">Bitte geben Sie eine Gesamtbewertung an.</string>
     <string name="validation_error_intro">Leider traten folgende Fehler auf:</string>
     <string name="app_detail_rate_app_success">Die Bewertung wurde gespeichert.</string>
@@ -52,15 +48,11 @@
     <string name="rating_save_success_title">Erfolg</string>
     <string name="app_detail_rate_app_comment_title">Erfahrungsbericht abgeben</string>
     <string name="enter_comment">Gebe Deinen Kommentar an</string>
-<<<<<<< HEAD
     <string name="yes_no">Ja  | Nein</string>
     <string name="understandable">Verstehe ich</string>
     <string name="not_understandable">Verstehe ich nicht</string>
     <string name="app_detail_permissions_explanation">Berechtigung wurde als unerwartet markiert von: </string>
-    
-=======
     <string name="user_type_normal">Normaler Nutzer</string>
     <string name="user_type_expert">IT Experte</string>
->>>>>>> refs/heads/feature/PrivacyRating
 
 </resources>
