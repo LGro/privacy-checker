@@ -88,7 +88,7 @@ public class PermissionsExpected extends RatingElement {
 							.getKey().getId());
 
 			// set rating 0 for expected and 1 for unexpected
-			boolean rating = (pair.getValue()) ? false : true;
+			Boolean rating = (pair.getValue()) ? false : true;
 
 			// create permission rating
 			ratingPermissionData.createRatingPermission(rating,

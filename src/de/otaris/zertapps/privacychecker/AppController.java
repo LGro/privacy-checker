@@ -107,7 +107,7 @@ public class AppController {
 			// if requested permission doesn't exist -> create it
 			if (p == null) {
 				p = permissionData.createPermission(permission, permission,
-						permission, CRITICALITY_LIMIT);
+						permission, CRITICALITY_LIMIT,0,0);
 			}
 		}
 		permissionData.close();
