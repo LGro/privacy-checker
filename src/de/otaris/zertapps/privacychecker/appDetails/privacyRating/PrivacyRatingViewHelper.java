@@ -72,6 +72,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
+		permissionsListTitle = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -125,28 +127,23 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		privacyRatingIconTextView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
 
-		// retrieve list of AppPermission
+		// retrieve list of AppPermission 
 		List<Permission> permissionList = app.getPermissionList();
-		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
-				context);
-		PermissionExtendedDataSource permissionExtendedData = new PermissionExtendedDataSource(
-				context);
+		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(context);
+		PermissionExtendedDataSource permissionExtendedData = new PermissionExtendedDataSource(context);
 		appPermissionData.open();
 		permissionExtendedData.open();
-
+		
 		// populate AppPermission into PermissionExtended
 		ArrayList<PermissionExtended> permissionExtendedList = new ArrayList<PermissionExtended>();
 		for (Permission permission : permissionList) {
-			AppPermission appPermission = appPermissionData
-					.getAppPermissionByAppAndPermissionId(app.getId(),
-							permission.getId());
-			PermissionExtended permExt = permissionExtendedData
-					.extendPermission(appPermission);
+			AppPermission appPermission = appPermissionData.getAppPermissionByAppAndPermissionId(app.getId(), permission.getId());
+			PermissionExtended permExt = permissionExtendedData.extendPermission(appPermission);
 			permissionExtendedList.add(permExt);
 		}
 		appPermissionData.close();
 		permissionExtendedData.close();
-
+				
 		if (permissionList.size() <= 0) {
 			// set no permissions required title
 			permissionsListTitle
@@ -180,9 +177,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 									.getItemAtPosition(position);
 
 							// display permission as alert dialog
-							PrivacyCheckerAlert
-									.callPermissionDialogPermissionExtended(
-											permission, view.getContext());
+							PrivacyCheckerAlert.callPermissionDialogPermissionExtended(
+									permission, view.getContext());
 						}
 					});
 		}
@@ -203,9 +199,9 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 								.findViewById(R.id.app_detail_privacy_rating_explanation);
 
 						// get the permission header text
-//						TextView permissiontext = (TextView) ((View) toggleButton
-//								.getParent())
-//								.findViewById(R.id.app_detail_privacy_rating_permission_header);
+						TextView permissiontext = (TextView) ((View) toggleButton
+								.getParent())
+								.findViewById(R.id.app_detail_privacy_rating_permission_header);
 
 						// get permissions list
 						ListView permissions = (ListView) ((View) toggleButton

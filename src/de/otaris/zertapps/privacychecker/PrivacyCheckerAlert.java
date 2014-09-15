@@ -1,6 +1,8 @@
 package de.otaris.zertapps.privacychecker;
 
-import android.app.Activity;
+import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
+import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -10,9 +12,6 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
-import de.otaris.zertapps.privacychecker.database.model.Permission;
-import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
 
 public class PrivacyCheckerAlert {
 
@@ -27,7 +26,7 @@ public class PrivacyCheckerAlert {
 	 *            confirming the alert dialog
 	 */
 	public static void callInfoDialog(String title, String message,
-			final Context context, final boolean finishActivity) {
+			final Context context) {
 		final Dialog dialog = new Dialog(context);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.app_detail_alert_dialog);
