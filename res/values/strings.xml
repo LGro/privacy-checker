@@ -49,6 +49,7 @@
     <string name = "yes_no">Ja  | Nein</string>
     <string name= "understandable">Verstehe ich</string>
     <string name = "not_understandable">Verstehe ich nicht</string>
+    <string name = "app_detail_permissions_explanation">Berechtigung wurde als unerwartet markiert von: </string>
     
 
 </resources>

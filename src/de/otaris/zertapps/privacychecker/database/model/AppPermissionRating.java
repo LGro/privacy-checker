@@ -25,7 +25,7 @@ public class AppPermissionRating {
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + VALUE
 				+ " DOUBLE, " + APP_PERMISSION_ID + " INTEGER, " + USER_TYPE + " INTEGER, " + ORIGIN + " TEXT);";
 
-		
+	
 		private int id;
 		private boolean value;
 		private int appPermissionId;

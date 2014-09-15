@@ -17,7 +17,8 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="2dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
         android:layout_toLeftOf="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_percent"
         android:src="@drawable/iconnonexpert" />
 
@@ -25,8 +26,8 @@
         android:id="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_marginRight="2dp"
+        android:layout_marginTop="2dp"
         android:layout_toLeftOf="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_count"
         android:text="ne_percent" />
 
@@ -35,34 +36,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="2dp"
         android:text="ne_count" />
 
     <ImageView
         android:id="@+id/app_detail_privacy_rating_permission_list_item_expert_image"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_image"
+        android:layout_below="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_image"
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
-        android:layout_toLeftOf="@+id/app_detail_privacy_rating_permission_list_item_expert_percent"
-        android:layout_alignTop="@+id/app_detail_privacy_rating_permission_list_item_expert_count"
         android:src="@drawable/iconexpert" />
 
     <TextView
         android:id="@+id/app_detail_privacy_rating_permission_list_item_expert_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="2dp"
-        android:layout_toLeftOf="@+id/app_detail_privacy_rating_permission_list_item_expert_count"
-        android:layout_alignTop="@+id/app_detail_privacy_rating_permission_list_item_expert_count"
+        android:layout_alignRight="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_percent"
+        android:layout_below="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_percent"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="7dp"
         android:text="e_percent" />
 
     <TextView
         android:id="@+id/app_detail_privacy_rating_permission_list_item_expert_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_image"
+        android:layout_alignRight="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_count"
+        android:layout_below="@+id/app_detail_privacy_rating_permission_list_item_nonexpert_count"
+        android:layout_marginTop="7dp"
         android:text="e_count" />
 
 </RelativeLayout>

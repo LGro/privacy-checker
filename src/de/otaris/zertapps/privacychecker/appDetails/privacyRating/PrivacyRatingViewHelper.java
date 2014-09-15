@@ -46,6 +46,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 	protected TextView automaticRatingTextView;
 	protected TextView nonExpertRatingTextView;
 	protected TextView expertRatingTextView;
+	protected TextView percentageExplanation;
 	protected ImageView privacyRatingIconTextView;
 	protected ListView permissionListView;
 	protected TextView permissionsListTitle;
@@ -76,6 +77,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_details_privacy_rating_permissions_title);
 		showMoreGroup = (RelativeLayout) contextView
 				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
+		percentageExplanation = (TextView) contextView.findViewById(R.id.app_detail_permissions_explanation);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -157,7 +159,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 			// add list item adapter for permissions
 			permissionListView.setAdapter(new PermissionsListItemAdapter(
 					context, permissionExtendedList));
-			permissionListView.setScrollContainer(false);
+			//permissionListView.setScrollContainer(false);
 
 			// scale list depending on its size
 			ViewGroup.LayoutParams updatedLayout = permissionListView
