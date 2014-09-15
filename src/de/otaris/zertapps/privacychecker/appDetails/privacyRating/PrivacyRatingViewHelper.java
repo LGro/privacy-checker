@@ -51,6 +51,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 	protected ListView permissionListView;
 	protected TextView permissionsListTitle;
 	protected RelativeLayout showMoreGroup;
+	protected TextView categoryComparison;
 
 	/**
 	 * initialize all relevant views
@@ -74,10 +75,10 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
 		permissionsListTitle = (TextView) contextView
-				.findViewById(R.id.app_details_privacy_rating_permissions_title);
-		showMoreGroup = (RelativeLayout) contextView
-				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
-		percentageExplanation = (TextView) contextView.findViewById(R.id.app_detail_permissions_explanation);
+				.findViewById(R.id.app_detail_privacy_rating_permission_header);
+		categoryComparison = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_category);
+
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -112,7 +113,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		// automatic rating
 		automaticRatingTextView.setText(roundToOneDecimalPlace(app
-				.getAutomaticRating()) + "");
+				.getCategoryWeightedAutoRating()) + "");
 
 		// non-expert rating
 		nonExpertRatingTextView.setText(roundToOneDecimalPlace(app
@@ -131,23 +132,24 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		privacyRatingIconTextView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
 
-		// retrieve list of AppPermission 
-		List<Permission> permissionList = app.getPermissionList();
-		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(context);
-		PermissionExtendedDataSource permissionExtendedData = new PermissionExtendedDataSource(context);
-		appPermissionData.open();
-		permissionExtendedData.open();
-		
-		// populate AppPermission into PermissionExtended
-		ArrayList<PermissionExtended> permissionExtendedList = new ArrayList<PermissionExtended>();
-		for (Permission permission : permissionList) {
-			AppPermission appPermission = appPermissionData.getAppPermissionByAppAndPermissionId(app.getId(), permission.getId());
-			PermissionExtended permExt = permissionExtendedData.extendPermission(appPermission);
-			permissionExtendedList.add(permExt);
+		if (app.getCategory() != null) {
+			if (app.getCategory().getAverageAutoRating() > app
+					.getAutomaticRating()) {
+				categoryComparison.setText(context.getResources().getString(
+						R.string.app_detail_privacy_rating_category_worse)
+						+ " " + app.getCategory().getName());
+
+			} else {
+				categoryComparison.setText(context.getResources().getString(
+						R.string.app_detail_privacy_rating_category_better)
+						+ " " + app.getCategory().getName());
+			}
+		} else {
+			categoryComparison.setVisibility(ViewGroup.GONE);
 		}
-		appPermissionData.close();
-		permissionExtendedData.close();
-				
+
+		List<Permission> permissionList = app.getPermissionList();
+
 		if (permissionList.size() <= 0) {
 			// set no permissions required title
 			permissionsListTitle
@@ -158,13 +160,13 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		} else {
 			// add list item adapter for permissions
 			permissionListView.setAdapter(new PermissionsListItemAdapter(
-					context, permissionExtendedList));
-			//permissionListView.setScrollContainer(false);
+					context, permissionList));
+			permissionListView.setScrollContainer(false);
 
 			// scale list depending on its size
 			ViewGroup.LayoutParams updatedLayout = permissionListView
 					.getLayoutParams();
-			int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
+			int pixels = (int) (39 * context.getResources().getDisplayMetrics().density);
 			updatedLayout.height = pixels * permissionListView.getCount();
 			permissionListView.setLayoutParams(updatedLayout);
 
@@ -177,7 +179,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 								View view, int position, long id) {
 							// get previously selected permission that need to
 							// be displayed
-							PermissionExtended permission = (PermissionExtended) parent
+							Permission permission = (Permission) parent
 									.getItemAtPosition(position);
 
 							// display permission as alert dialog

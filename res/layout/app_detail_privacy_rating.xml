@@ -126,8 +126,23 @@
         android:layout_toRightOf="@+id/app_detail_privacy_rating_expert"
         android:text="TextView" />
 
+<<<<<<< HEAD
     <RelativeLayout
         android:id="@+id/app_detail_privacy_rating_show_more_group"
+=======
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_image"
+        android:layout_below="@+id/app_detail_privacy_rating_count"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="2dp"
+        android:text="Category Comparison" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_explanation"
+>>>>>>> refs/heads/feature/PrivacyRating
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/app_detail_rating_title"
