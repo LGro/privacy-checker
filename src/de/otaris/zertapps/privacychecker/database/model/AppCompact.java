@@ -30,6 +30,7 @@ public class AppCompact implements App, Parcelable {
 	public static final String DESCRIPTION = "description";
 	public static final String ICON = "icon";
 	public static final String AUTOMATIC_RATING = "automatic_rating";
+	public static final String CATEGORY_WEIGHTED_AUTOMATIC_RATING = "category_weighted_automatic_rating";
 
 	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all
 	// references invalid
@@ -40,7 +41,8 @@ public class AppCompact implements App, Parcelable {
 			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
 			+ " FLOAT, " + INSTALLED + " INTEGER, " + FUNCTIONAL_RATING
 			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT, "
-			+ ICON + " BLOB, " + AUTOMATIC_RATING + " FLOAT);";
+			+ ICON + " BLOB, " + AUTOMATIC_RATING + " FLOAT, "
+			+ CATEGORY_WEIGHTED_AUTOMATIC_RATING + " FLOAT);";
 
 	// attributes
 	private int id;
@@ -55,6 +57,7 @@ public class AppCompact implements App, Parcelable {
 	private String description;
 	private byte[] icon;
 	private float automaticRating;
+	private float categoryWeightedAutoRating;
 
 	public AppCompact() {
 
@@ -62,7 +65,8 @@ public class AppCompact implements App, Parcelable {
 
 	public AppCompact(int id, int categoryId, String name, String label,
 			String version, float rating, boolean installed, Long timestamp,
-			String description, byte[] icon, float automaticRating) {
+			String description, byte[] icon, float automaticRating,
+			float categoryWeightedAutoRating) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -75,6 +79,7 @@ public class AppCompact implements App, Parcelable {
 		this.description = description;
 		this.icon = icon;
 		this.automaticRating = automaticRating;
+		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
 	}
 
 	/**
@@ -207,6 +212,14 @@ public class AppCompact implements App, Parcelable {
 		return icon;
 	}
 
+	public float getCategoryWeightedAutoRating() {
+		return categoryWeightedAutoRating;
+	}
+
+	public void setCategoryWeightedAutoRating(float categoryWeightedAutoRating) {
+		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
+	}
+
 	// parcelable requirements...
 
 	@Override
@@ -229,6 +242,7 @@ public class AppCompact implements App, Parcelable {
 		dest.writeInt(icon.length);
 		dest.writeByteArray(icon);
 		dest.writeFloat(automaticRating);
+		dest.writeFloat(categoryWeightedAutoRating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -245,6 +259,7 @@ public class AppCompact implements App, Parcelable {
 		icon = new byte[in.readInt()];
 		in.readByteArray(icon);
 		automaticRating = in.readFloat();
+		categoryWeightedAutoRating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

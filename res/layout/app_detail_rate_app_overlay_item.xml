@@ -3,12 +3,22 @@
     android:layout_height="fill_parent"
     android:descendantFocusability="blocksDescendants" >
 
+    <View
+        android:id="@+id/app_detail_rate_app_permissions_viewline1"
+        android:layout_width="wrap_content"
+        android:layout_height="0.25dip"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentTop="true"
+        android:background="#777777" />
+    
     <TextView
         android:id="@+id/app_detail_rate_app_permissions_number"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_viewline1"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:gravity="center_vertical|right"
@@ -18,7 +28,7 @@
         android:id="@+id/app_detail_rate_app_permissions_label"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/app_detail_rate_app_permissions_viewline1"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="25dp"

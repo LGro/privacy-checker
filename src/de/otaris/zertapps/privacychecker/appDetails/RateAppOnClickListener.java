@@ -9,6 +9,10 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationException;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
 
 /**
  * Processes all the validation and saving of each rating element. This is where
@@ -51,7 +55,8 @@ public class RateAppOnClickListener implements OnClickListener {
 				message += "- " + error + "\n";
 
 			// display custom alert window
-			PrivacyCheckerAlert.callInfoDialog(title, message, v.getContext());
+			PrivacyCheckerAlert.callInfoDialog(title, message, v.getContext(),
+					false);
 		} else {
 			String title = v.getResources()
 					.getText(R.string.rating_save_success_title).toString();
@@ -61,15 +66,31 @@ public class RateAppOnClickListener implements OnClickListener {
 			for (RatingElement element : ratingElements)
 				element.save(v.getContext());
 
-			// close overlay
-			((AppDetailsActivity) v.getContext()).hideOverlay(v);
+			// get current app from DB with newly saved ratings
+			int appId = ratingElements.get(0).getApp().getId();
+			AppExtendedDataSource appData = new AppExtendedDataSource(
+					v.getContext());
+			appData.open();
+			AppExtended app = appData.getAppById(appId);
+			// re-calculate weighted total privacy rating
+			TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
+			TotalPrivacyRatingAlgorithm algo = totalRatingFactory
+					.makeAlgorithm();
+			// update app
+			appData.updateAppById(app.getId(), app.getCategoryId(),
+					app.getName(), app.getLabel(), app.getVersion(),
+					algo.calculate(app), app.isInstalled(),
+					app.getFunctionalRating(), app.getDescription(),
+					app.getIcon(), app.getAutomaticRating(),
+					app.getCategoryWeightedAutoRating());
+			appData.close();
 
 			// display custom success alert windows
 			PrivacyCheckerAlert.callInfoDialog(
 					title,
 					v.getResources()
 							.getText(R.string.app_detail_rate_app_success)
-							.toString(), v.getContext());
+							.toString(), v.getContext(), true);
 		}
 	}
 }

@@ -24,7 +24,7 @@ public class RatingElementListAdapter extends ArrayAdapter<RatingElement> {
 	 * @param values
 	 */
 	public RatingElementListAdapter(Context context, List<RatingElement> values) {
-		super(context, R.layout.app_detail_rate_app_overlay, values);
+		super(context, R.layout.fragment_rate_app, values);
 		this.context = context;
 		this.values = values;
 	}

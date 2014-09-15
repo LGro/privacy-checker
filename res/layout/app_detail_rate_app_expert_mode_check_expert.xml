@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- When selected, use expert-on -->
+    <item android:drawable="@drawable/iconexpert"
+          android:state_checked="true" 
+          />
+    
+    <!-- When not selected, use expert-off -->
+     <item android:drawable="@drawable/iconexpert_grey"
+        android:state_checked="false"/>
+
+ </selector>

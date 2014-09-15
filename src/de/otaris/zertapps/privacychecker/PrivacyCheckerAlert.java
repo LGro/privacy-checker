@@ -21,6 +21,9 @@ public class PrivacyCheckerAlert {
 	 * @param title
 	 * @param message
 	 * @param context
+	 * @param finishActivity
+	 *            flag that indicates wheather to close the activity after
+	 *            confirming the alert dialog
 	 */
 	public static void callInfoDialog(String title, String message,
 			final Context context) {
@@ -43,6 +46,8 @@ public class PrivacyCheckerAlert {
 		okButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				dialog.dismiss();
+				if (context instanceof Activity && finishActivity)
+					((Activity) context).finish();
 			}
 		});
 		dialog.show();

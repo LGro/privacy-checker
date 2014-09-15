@@ -9,21 +9,26 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
+import de.otaris.zertapps.privacychecker.automaticRatingAlgorithm.AutomaticRatingAlgorithm;
+import de.otaris.zertapps.privacychecker.automaticRatingAlgorithm.AutomaticRatingAlgorithmFactory;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
-import de.otaris.zertapps.privacychecker.database.dataSource.RatingAppDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
-import de.otaris.zertapps.privacychecker.database.model.Category;
+import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
 
 /**
  * A class to handle Database communication
  */
 public class AppController {
 
-	public static final int PERMISSION_MIN_CRITICALITY = 50;
+	// the criticalities (starting from 1 as the most critical) up to this value
+	// are considered critical
+	public static final int CRITICALITY_LIMIT = 50;
 
 	/**
 	 * retrieve installed apps from API
@@ -48,104 +53,6 @@ public class AppController {
 				results.add(app);
 		}
 		return results.toArray(new ApplicationInfo[0]);
-	}
-
-	/**
-	 * put the locally installed app in the database
-	 * 
-	 * @param appData
-	 *            : AppDataSource
-	 * @param pm
-	 *            : Packagemanager
-	 * @throws NameNotFoundException
-	 *             , is thrown if app.packageName does not exist (there are
-	 *             installed apps without package name)
-	 */
-	@Deprecated
-	public void putInstalledAppsInDatabase(Context context, PackageManager pm) {
-
-		AppCompactDataSource appData = new AppCompactDataSource(context);
-		CategoryDataSource categoryData = new CategoryDataSource(context);
-		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
-				context);
-		PermissionDataSource permissionData = new PermissionDataSource(context);
-		RatingAppDataSource ratingData = new RatingAppDataSource(context);
-
-		appData.open();
-		permissionData.open();
-		appPermissionData.open();
-		categoryData.open();
-		ratingData.open();
-
-		ApplicationInfo[] apps = getInstalledApps(pm);
-		for (int i = 0; i < apps.length; i++) {
-			ApplicationInfo app = apps[i];
-
-			// PackageInfo is for getting the versionCode and versionName
-			PackageInfo pinfo;
-			try {
-				pinfo = pm.getPackageInfo(app.packageName, 0);
-
-				// TODO: ADD Ratings here
-
-				// statically assigned ratings for demo purposes
-				float pRating = (app.packageName.charAt(0) == 'c') ? 2 : 4;
-				float fRating = (app.packageName.charAt(0) == 'c') ? 3 : 5;
-
-				// get all categories
-				List<Category> categories = categoryData.getAllCategories();
-
-				// set categoryId for apps programmatically
-				int categoryId;
-				if (i < 5) {
-					categoryId = categories.get(0).getId();
-				} else if (i < 10) {
-					categoryId = categories.get(1).getId();
-				} else if (i < 15) {
-					categoryId = categories.get(2).getId();
-				} else {
-					categoryId = categories.get(3).getId();
-				}
-
-				AppCompact newApp = appData
-						.createApp(
-								categoryId,
-								app.packageName,
-								pinfo.applicationInfo.loadLabel(pm).toString(),
-								pinfo.versionCode + "",
-								pRating,
-								true,
-								fRating,
-								"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
-								IconController.drawableToByteArray(pm
-										.getApplicationIcon(app.packageName)),
-								pRating);
-				String[] permissions = getPermissions(pm, app);
-				for (String permission : permissions) {
-
-					// get existing permission
-					Permission existingPermission = permissionData
-							.getPermissionByName(permission);
-
-					// if permission does not exist yet create it
-					if (existingPermission == null) {
-						existingPermission = permissionData
-								.createPermissionByName(permission);
-					}
-					appPermissionData.createAppPermission(newApp.getId(),
-							existingPermission.getId());
-				}
-			} catch (NameNotFoundException e) {
-				Log.e("AppController",
-						"NameNotFoundException: " + e.getMessage());
-			}
-		}
-
-		appData.close();
-		permissionData.close();
-		appPermissionData.close();
-		categoryData.close();
-
 	}
 
 	/**
@@ -175,30 +82,35 @@ public class AppController {
 	}
 
 	/**
-	 * scans database and sets installed = 1 for all installed apps
+	 * Calculate automatic privacy rating for a given application.
 	 * 
-	 * @param appData
-	 *            a data source that already has been opened (!)
+	 * This method has to ensure that all new permissions are inserted into the
+	 * database! Because InsertIncoveredInstalledApps relies on this.
+	 * 
+	 * @param context
+	 * @param pm
+	 *            package manager
+	 * @param appInfo
+	 *            application thats privacy rating should be calculated
+	 * 
+	 * @return value between 0 and 5 that represents the privacy friendliness of
+	 *         the given app
 	 */
-	@Deprecated
-	public void updateInstalledApps(AppCompactDataSource appData,
-			PackageManager pm) {
-		List<AppCompact> apps = appData.getAllApps();
+	public void insertUncoveredPermissions(Context context, String[] permissions) {
+		PermissionDataSource permissionData = new PermissionDataSource(context);
 
-		for (AppCompact app : apps) {
-			try {
-				pm.getApplicationInfo(app.getName(),
-						PackageManager.GET_META_DATA);
+		permissionData.open();
+		for (String permission : permissions) {
+			// get permission with criticality from database
+			Permission p = permissionData.getPermissionByName(permission);
 
-				appData.updateAppById(app.getId(), app.getCategoryId(),
-						app.getName(), app.getLabel(), app.getVersion(),
-						app.getPrivacyRating(), true,
-						app.getFunctionalRating(), app.getDescription(),
-						app.getIcon(), app.getAutomaticRating());
-			} catch (NameNotFoundException e) {
-				// do nothing
+			// if requested permission doesn't exist -> create it
+			if (p == null) {
+				p = permissionData.createPermission(permission, permission,
+						permission, CRITICALITY_LIMIT);
 			}
 		}
+		permissionData.close();
 	}
 
 	/**
@@ -236,18 +148,15 @@ public class AppController {
 					// get requested permissions
 					String[] permissions = getPermissions(pm, apps[i]);
 
-					// get automatic privacy rating depending on the requested
-					// permissions
-					float privacyRating = getAutomaticPrivacyRating(context,
-							pm, permissions);
+					insertUncoveredPermissions(context, permissions);
 
 					// create app
 					app = appData.createApp(0, apps[i].packageName, apps[i]
 							.loadLabel(pm).toString(), pInfo.versionCode + "",
-							privacyRating, true, 0/* functionalRating */, "",
+							0, true, 0/* functionalRating */, "",
 							IconController.drawableToByteArray(pm
 									.getApplicationIcon(apps[i].packageName)),
-							privacyRating);
+							0);
 
 					// link all required permissions to the newly created app
 					for (String permission : permissions)
@@ -255,7 +164,41 @@ public class AppController {
 								permissionData.getPermissionByName(permission)
 										.getId());
 
+					AppExtendedDataSource appExtendedData = new AppExtendedDataSource(
+							context);
+					AppExtended appExtended = appExtendedData
+							.extendAppCompact(app);
+
+					// calculate automatic rating
+					AutomaticRatingAlgorithmFactory autoRatingFactory = new AutomaticRatingAlgorithmFactory();
+					AutomaticRatingAlgorithm autoRatingAlgo = autoRatingFactory
+							.makeAlgorithm();
+					float autoRating = autoRatingAlgo.calculate(appExtended);
+
+					appExtended.setAutomaticRating(autoRating);
+
+					float weightedAutoRating = calculateWeightedAutoRating(appExtended);
+
+					// calculate total privacy rating
+					TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
+					TotalPrivacyRatingAlgorithm totalPrivacyRatingAlgo = totalRatingFactory
+							.makeAlgorithm();
+					float totalPrivacyRating = totalPrivacyRatingAlgo
+							.calculate(appExtended);
+
+					// update app to set auto and total privacy rating
+					appData.updateAppById(app.getId(), app.getCategoryId(),
+							app.getName(), app.getLabel(), app.getVersion(),
+							totalPrivacyRating, app.isInstalled(),
+							app.getFunctionalRating(), app.getDescription(),
+							app.getIcon(), autoRating, weightedAutoRating);
+
 				} catch (NameNotFoundException e) {
+					// close datasources
+					appData.close();
+					appPermissionData.close();
+					permissionData.close();
+
 					e.printStackTrace();
 					Log.e("AppController",
 							"Error: Cannot find package info for "
@@ -267,7 +210,8 @@ public class AppController {
 						app.getName(), app.getLabel(), app.getVersion(),
 						app.getPrivacyRating(), true,
 						app.getFunctionalRating(), app.getDescription(),
-						app.getIcon(), app.getAutomaticRating());
+						app.getIcon(), app.getAutomaticRating(),
+						app.getCategoryWeightedAutoRating());
 			}
 		}
 
@@ -278,51 +222,33 @@ public class AppController {
 	}
 
 	/**
-	 * Calculate automatic privacy rating for a given application.
+	 * weight automatic rating according to the category's average auto rating
 	 * 
-	 * This method has to ensure that all new permissions are inserted into the
-	 * database! Because InsertIncoveredInstalledApps relies on this.
+	 * TODO: move, because it doesn't make sense here!
 	 * 
-	 * @param context
-	 * @param pm
-	 *            package manager
-	 * @param appInfo
-	 *            application thats privacy rating should be calculated
-	 * 
-	 * @return value between 0 and 5 that represents the privacy friendliness of
-	 *         the given app
+	 * @param app
+	 * @return
 	 */
-	private float getAutomaticPrivacyRating(Context context, PackageManager pm,
-			String[] permissions) {
+	private float calculateWeightedAutoRating(AppExtended app) {
+		if (app.getCategory() == null)
+			return app.getAutomaticRating();
 
-		// return 5 (max privacy rating) if no permissions are required
-		if (permissions.length == 0)
-			return 5;
+		float avgCategoryRating = app.getCategory().getAverageAutoRating();
+		float autoRating = app.getAutomaticRating();
+		float difference = avgCategoryRating - autoRating;
+		float weightedAutoRating = 0;
 
-		PermissionDataSource permissionData = new PermissionDataSource(context);
-
-		float automaticPrivacyRating = 0;
-
-		permissionData.open();
-		for (String permission : permissions) {
-			// get permission with criticality from database
-			Permission p = permissionData.getPermissionByName(permission);
-
-			// if requested permission doesn't exist -> create it
-			if (p == null)
-				p = permissionData.createPermission(permission, permission,
-						permission, PERMISSION_MIN_CRITICALITY, 0, 0);
-
-			// accumulate current permission's criticality
-			automaticPrivacyRating += p.getCriticality();
+		if (autoRating > avgCategoryRating) {
+			weightedAutoRating = (float) (autoRating + difference * 0.4);
+			if (weightedAutoRating > 5)
+				weightedAutoRating = 5;
+		} else if (autoRating < avgCategoryRating) {
+			weightedAutoRating = (float) (autoRating - difference * 0.8);
+			if (weightedAutoRating < 0)
+				weightedAutoRating = 0;
 		}
-		permissionData.close();
 
-		// normalize accumulated criticality to privacy rating within [0:5]
-		automaticPrivacyRating /= permissions.length;
-		automaticPrivacyRating /= PERMISSION_MIN_CRITICALITY;
-		automaticPrivacyRating *= 5;
-
-		return automaticPrivacyRating;
+		return weightedAutoRating;
 	}
+
 }
