@@ -33,12 +33,12 @@
         android:layout_below="@+id/app_detail_rate_app_permissions_explaination"
         android:layout_marginRight="15dp"
         android:layout_marginTop="6dp"
-        android:text="@string/app_detail_rate_app_permissions_unexpected" />
+        android:text="@string/app_detail_rate_app_permissions_expected" />
 
     <ListView
         android:id="@+id/app_detail_rate_app_permissions_list"
         android:layout_width="match_parent"
-        android:layout_height="192dp"
+        android:layout_height="196dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/app_detail_rate_app_permissions_expected_yes_no"
         android:layout_marginTop="5dp" >

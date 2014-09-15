@@ -19,25 +19,18 @@ public class AppExtended implements App, Parcelable {
 	// Array with permissionID and RatingPermission
 	// TODO: better use PermissionRating object containing Permission Object?!
 	private int[][] permissionRating;
+	// weighted rating in total
+	private float rating;
 	private ArrayList<Integer> expertRating;
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
 	private float totalNonExpertRating;
-	private Category category;
-
-	// getters and setters
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
 	}
+
+	// getters and setters
 
 	public ArrayList<Permission> getPermissionList() {
 		return permissionList;
@@ -47,7 +40,7 @@ public class AppExtended implements App, Parcelable {
 		return totalExpertRating;
 	}
 
-	private void calculateTotalExpertRating(ArrayList<Integer> expertRating) {
+	public void setTotalExpertRating(ArrayList<Integer> expertRating) {
 
 		float totalExpertRating = 0;
 		int i = expertRating.size();
@@ -69,9 +62,7 @@ public class AppExtended implements App, Parcelable {
 		return totalNonExpertRating;
 	}
 
-	private void calculateTotalNonExpertRating(
-			ArrayList<Integer> nonExpertRating) {
-
+	public void setTotalNonExpertRating(ArrayList<Integer> nonExpertRating) {
 		float totalNonExpertRating = 0;
 		int i = nonExpertRating.size();
 		if (i == 0)
@@ -96,13 +87,21 @@ public class AppExtended implements App, Parcelable {
 		this.permissionRating = permissionRating;
 	}
 
+	public float getRating() {
+		return rating;
+	}
+
+	public void setRating() {
+		this.rating = (appCompact.getAutomaticRating() + totalExpertRating + totalNonExpertRating) / 3;
+	}
+
 	public ArrayList<Integer> getExpertRating() {
 		return expertRating;
 	}
 
 	public void setExpertRating(ArrayList<Integer> expertRating) {
 		this.expertRating = expertRating;
-		calculateTotalExpertRating(expertRating);
+		setTotalExpertRating(expertRating);
 	}
 
 	public ArrayList<Integer> getNonExpertRating() {
@@ -111,7 +110,7 @@ public class AppExtended implements App, Parcelable {
 
 	public void setNonExpertRating(ArrayList<Integer> nonExpertRating) {
 		this.nonExpertRating = nonExpertRating;
-		calculateTotalNonExpertRating(nonExpertRating);
+		setTotalNonExpertRating(nonExpertRating);
 
 	}
 
@@ -237,16 +236,6 @@ public class AppExtended implements App, Parcelable {
 	@Override
 	public void setAutomaticRating(float automaticRating) {
 		appCompact.setAutomaticRating(automaticRating);
-	}
-
-	@Override
-	public void setCategoryWeightedAutoRating(float rating) {
-		appCompact.setCategoryWeightedAutoRating(rating);
-	}
-
-	@Override
-	public float getCategoryWeightedAutoRating() {
-		return appCompact.getCategoryWeightedAutoRating();
 	}
 
 	@Override

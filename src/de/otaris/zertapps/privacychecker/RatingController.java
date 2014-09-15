@@ -28,7 +28,7 @@ public class RatingController {
 			return R.drawable.locks_05;
 		} else {
 			throw new IllegalArgumentException(
-					"Privacy rating not is not between 0 and 5." + rating);
+					"Privacy rating not is not between 0 and 5.");
 		}
 	}
 
@@ -58,7 +58,7 @@ public class RatingController {
 			return R.drawable.stars_05;
 		} else {
 			throw new IllegalArgumentException(
-					"Play-Store rating not is not between 0 and 5." + rating);
+					"Play-Store rating not is not between 0 and 5.");
 		}
 	}
 }

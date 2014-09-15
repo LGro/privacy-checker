@@ -73,6 +73,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
 		permissionsListTitle = (TextView) contextView
+				.findViewById(R.id.app_details_privacy_rating_permissions_title);
+		showMoreGroup = (RelativeLayout) contextView
 				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
 	}
 
@@ -108,7 +110,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		// automatic rating
 		automaticRatingTextView.setText(roundToOneDecimalPlace(app
-				.getCategoryWeightedAutoRating()) + "");
+				.getAutomaticRating()) + "");
 
 		// non-expert rating
 		nonExpertRatingTextView.setText(roundToOneDecimalPlace(app
@@ -193,31 +195,13 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					@Override
 					public void onCheckedChanged(CompoundButton toggleButton,
 							boolean isChecked) {
-						// get explanation text view
-						TextView explanation = (TextView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_privacy_rating_explanation);
-
-						// get the permission header text
-						TextView permissiontext = (TextView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_privacy_rating_permission_header);
-
-						// get permissions list
-						ListView permissions = (ListView) ((View) toggleButton
-								.getParent())
-								.findViewById(R.id.app_detail_rating_permissions_list);
 
 						if (isChecked) {
 							// show explanation and permissions list
-							explanation.setVisibility(View.VISIBLE);
 							showMoreGroup.setVisibility(View.VISIBLE);
-							permissions.setVisibility(View.VISIBLE);
 						} else {
 							// hide explanation and permissions list
-							explanation.setVisibility(View.GONE);
 							showMoreGroup.setVisibility(View.GONE);
-							permissions.setVisibility(View.GONE);
 						}
 
 					}

@@ -1,22 +1,44 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
+import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.UserStudyLogger;
+import de.otaris.zertapps.privacychecker.R.drawable;
+import de.otaris.zertapps.privacychecker.R.id;
+import de.otaris.zertapps.privacychecker.R.layout;
+import de.otaris.zertapps.privacychecker.R.menu;
+import de.otaris.zertapps.privacychecker.R.string;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.UserStudyLogger;
+import android.widget.ListView;
 
 /**
  * is called by HomeActivity, handles display of installed apps
  */
-public class AllAppsActivity extends SortableTabbedAppListActivity implements
+public class AllAppsActivity extends SortableAppListActivity implements
 		ActionBar.TabListener {
+	
+	// overwrite sorting direction for privacy rating
+	protected boolean privacyIsAscending = false;
+
+	/**
+	 * The {@link ViewPager} that will host the section contents.
+	 */
+	ViewPager mViewPager;
+
+	@Override
+	protected int getTargetContainer() {
+		return R.id.allAppsContainer;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +58,7 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 				.setTabListener(this).setIcon(R.drawable.descending));
 		actionBar.addTab(actionBar.newTab().setText(R.string.title_functional)
 				.setTabListener(this).setIcon(R.drawable.descending));
-
+		
 		UserStudyLogger.getInstance().log("activity_all");
 
 	}
@@ -67,18 +89,17 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 
 		switch (tab.getPosition()) {
 		case 0:
-			CategoryList categoryList = new CategoryList(this);
+			CategoryList categoryList = new CategoryList();
+			categoryList.setRootActivity(this);
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.allAppsContainer, categoryList).commit();
 			break;
-		// case 1:
-		// updateListView(tab, AppsListOrder.PRIVACY_RATING,
-		// privacyIsAscending);
-		// break;
-		// case 2:
-		// updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
-		// functionalIsAscending);
-		// break;
+		case 1:
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			break;
+		case 2:
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			break;
 		default:
 			break;
 		}
@@ -93,25 +114,23 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 
-		// switch (tab.getPosition()) {
-		// case 0:
-		// // do nothing ...
-		// break;
-		// case 1:
-		// // change sorting direction
-		// privacyIsAscending = !privacyIsAscending;
-		// updateListView(tab, AppsListOrder.PRIVACY_RATING,
-		// privacyIsAscending);
-		// break;
-		// case 2:
-		// // change sorting direction
-		// functionalIsAscending = !functionalIsAscending;
-		// updateListView(tab, AppsListOrder.FUNCTIONAL_RATING,
-		// functionalIsAscending);
-		// break;
-		// default:
-		// break;
-		// }
+		switch (tab.getPosition()) {
+		case 0:
+			// do nothing ...
+			break;
+		case 1:
+			// change sorting direction
+			privacyIsAscending = !privacyIsAscending;
+			updateListView(tab, AppsListOrder.PRIVACY_RATING, privacyIsAscending);
+			break;
+		case 2:
+			// change sorting direction
+			functionalIsAscending = !functionalIsAscending;
+			updateListView(tab, AppsListOrder.FUNCTIONAL_RATING, functionalIsAscending);
+			break;
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -145,11 +164,6 @@ public class AllAppsActivity extends SortableTabbedAppListActivity implements
 					container, false);
 			return rootView;
 		}
-	}
-
-	@Override
-	protected boolean[] getTabOrderedAscending() {
-		return new boolean[] { true, false, false };
 	}
 
 }

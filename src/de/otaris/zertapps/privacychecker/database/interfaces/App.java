@@ -1,5 +1,6 @@
 package de.otaris.zertapps.privacychecker.database.interfaces;
 
+
 /**
  * represents all similarities between AppCompact and AppExtended
  *
@@ -54,7 +55,4 @@ public interface App {
 
 	public void setIcon(byte[] icon);
 
-	public void setCategoryWeightedAutoRating(float rating);
-
-	public float getCategoryWeightedAutoRating();
 }

@@ -19,6 +19,7 @@ public class TotalPrivacyRatingListener implements View.OnClickListener {
 		// get the text element from the view
 		TextView valueText = (TextView) v.getRootView().findViewById(
 				R.id.app_detail_rate_app_value_text);
+		valueText.setVisibility(View.VISIBLE);
 
 		// sets the chosen locks green/white depending on the tag
 		for (int i = 1; i <= 5; i++) {

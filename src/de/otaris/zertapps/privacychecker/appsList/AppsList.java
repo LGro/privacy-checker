@@ -53,11 +53,6 @@ public class AppsList extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
 
 		// get all installed apps from database
 		AppCompactDataSource appData = new AppCompactDataSource(rootActivity);

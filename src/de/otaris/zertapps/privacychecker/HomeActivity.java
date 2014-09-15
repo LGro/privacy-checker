@@ -24,8 +24,8 @@ import android.widget.ListView;
 import com.google.inject.Inject;
 
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
+import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
-import de.otaris.zertapps.privacychecker.appsList.CategoryListActivity;
 import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
@@ -76,7 +76,7 @@ public class HomeActivity extends Activity {
 
 		// DatabaseHelper dbHelper = new DatabaseHelper(this);
 		// dbHelper.fillDatabaseFromDevice();
-		// db.recalculateAutomaticRatingForAllApps(this);
+		// dbHelper.recalculateAutomaticRatingForAllApps();
 		// dbHelper.exportDatabase(this);
 
 		SharedPreferences wmbPreference = PreferenceManager
@@ -128,7 +128,7 @@ public class HomeActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		prepareLatestAppsList();
+
 		populateLatestAppListView();
 	}
 
@@ -170,7 +170,8 @@ public class HomeActivity extends Activity {
 	 *            : View
 	 */
 	public void displayAllApps(View view) {
-		Intent intent = new Intent(this, CategoryListActivity.class);
+		Log.i("HomeActivity", "called display all apps");
+		Intent intent = new Intent(this, AllAppsActivity.class);
 		startActivity(intent);
 	}
 
