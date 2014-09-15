@@ -59,7 +59,7 @@ public class HomeActivity extends Activity {
 
 		// DatabaseHelper dbHelper = new DatabaseHelper(this);
 		// dbHelper.fillDatabaseFromDevice();
-		// db.recalculateAutomaticRatingForAllApps(this);
+		// dbHelper.recalculateAutomaticRatingForAllApps();
 		// dbHelper.exportDatabase(this);
 
 		SharedPreferences wmbPreference = PreferenceManager
@@ -75,7 +75,7 @@ public class HomeActivity extends Activity {
 			new InitializeDatabaseTask().execute();
 		}
 
-		// retreive apps for recent apps list
+		// retrieve apps for recent apps list
 		prepareLatestAppsList();
 
 		UserStudyLogger.LOGGING_ENABLED = false;
@@ -117,13 +117,13 @@ public class HomeActivity extends Activity {
 		 * 
 		 * Because onCreate and onResume are called parallel this prevents the
 		 * call of prepareLatestAppsList and therefore a database access before
-		 * the database has been copied to the device.
+		 * the database has been copied to the device. //
 		 */
-		SharedPreferences wmbPreference = PreferenceManager
-				.getDefaultSharedPreferences(this);
-		boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
-		if (!isFirstRun)
-			prepareLatestAppsList();
+		// SharedPreferences wmbPreference = PreferenceManager
+		// .getDefaultSharedPreferences(this);
+		// boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+		// if (!isFirstRun)
+		// prepareLatestAppsList();
 
 		populateLatestAppListView();
 	}
@@ -166,6 +166,7 @@ public class HomeActivity extends Activity {
 	 *            : View
 	 */
 	public void displayAllApps(View view) {
+		Log.i("HomeActivity", "called display all apps");
 		Intent intent = new Intent(this, CategoryListActivity.class);
 		startActivity(intent);
 	}

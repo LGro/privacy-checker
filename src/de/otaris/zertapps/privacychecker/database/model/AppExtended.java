@@ -235,12 +235,10 @@ public class AppExtended implements App, Parcelable {
 		appCompact.setAutomaticRating(automaticRating);
 	}
 
-	@Override
 	public void setCategoryWeightedAutoRating(float rating) {
 		appCompact.setCategoryWeightedAutoRating(rating);
 	}
 
-	@Override
 	public float getCategoryWeightedAutoRating() {
 		return appCompact.getCategoryWeightedAutoRating();
 	}

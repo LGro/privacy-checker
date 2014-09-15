@@ -17,6 +17,7 @@ import de.otaris.zertapps.privacychecker.appDetails.rateApp.comment.Comment;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected.PermissionsExpected;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.totalPrivacyRating.TotalPrivacyRating;
+import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 
 /**

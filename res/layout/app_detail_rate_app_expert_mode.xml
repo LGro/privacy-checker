@@ -4,43 +4,26 @@
     android:layout_height="fill_parent"
     android:background="@color/white" >
 
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_expert_mode_no"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="64dp"
-        android:layout_marginTop="8dp"        
-        android:layout_marginBottom="8dp"
-        android:background="@layout/app_detail_rate_app_expert_mode_check_nonexpert"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null"
-        android:checked="true" />
-
-    <ToggleButton
-        android:id="@+id/app_detail_rate_app_expert_mode_yes"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="64dp"
-        android:layout_marginTop="8dp"        
-        android:layout_marginBottom="8dp"
-        android:background="@layout/app_detail_rate_app_expert_mode_check_expert"
-        android:text="@null"
-        android:textOff="@null"
-        android:textOn="@null"
-        android:checked="false" />
-
     <TextView
-        android:id="@+id/app_detail_rate_app_expert_mode_type_text"
+        android:id="@+id/app_detail_rate_app_expert_mode_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_below="@+id/app_detail_rate_app_expert_mode_no"
-        android:layout_centerHorizontal="true"
-        android:text="@string/user_type_normal" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/app_detail_rate_app_expert_text"
+        android:textSize="14sp"/>
+
+    <CheckBox
+        android:id="@+id/app_detail_rate_app_expert_mode_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="2dp"/>
+         
 
 </RelativeLayout>

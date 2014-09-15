@@ -51,7 +51,4 @@ public interface App {
 
 	public void setIcon(byte[] icon);
 
-	public void setCategoryWeightedAutoRating(float rating);
-
-	public float getCategoryWeightedAutoRating();
 }
