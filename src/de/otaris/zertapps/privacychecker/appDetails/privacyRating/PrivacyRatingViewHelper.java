@@ -37,7 +37,7 @@ import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
  * 
  * When the user selects a permission from this list, an overlay displaying the
  * permission's label and explanation is shown.
- *
+ * 
  */
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
@@ -74,10 +74,14 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
-		permissionsListTitle = (TextView) contextView
-				.findViewById(R.id.app_detail_privacy_rating_permission_header);
+		showMoreGroup = (RelativeLayout) contextView
+				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
+		// permissionsListTitle = (TextView) contextView
+		// .findViewById(R.id.app_detail_privacy_rating_permission_header);
 		categoryComparison = (TextView) contextView
 				.findViewById(R.id.app_detail_privacy_rating_category);
+		percentageExplanation = (TextView) contextView
+				.findViewById(R.id.app_detail_permissions_explanation);
 
 	}
 
@@ -149,6 +153,26 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		}
 
 		List<Permission> permissionList = app.getPermissionList();
+		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
+				context);
+		PermissionExtendedDataSource permissionExtendedData = new PermissionExtendedDataSource(
+				context);
+		appPermissionData.open();
+		permissionExtendedData.open();
+
+		// populate AppPermission into PermissionExtended
+		ArrayList<PermissionExtended> permissionExtendedList = new ArrayList<PermissionExtended>();
+
+		for (Permission permission : permissionList) {
+			AppPermission appPermission = appPermissionData
+					.getAppPermissionByAppAndPermissionId(app.getId(),
+							permission.getId());
+			PermissionExtended permExt = permissionExtendedData
+					.extendPermission(appPermission);
+			permissionExtendedList.add(permExt);
+		}
+		appPermissionData.close();
+		permissionExtendedData.close();
 
 		if (permissionList.size() <= 0) {
 			// set no permissions required title
@@ -160,7 +184,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		} else {
 			// add list item adapter for permissions
 			permissionListView.setAdapter(new PermissionsListItemAdapter(
-					context, permissionList));
+					context, permissionExtendedList));
 			permissionListView.setScrollContainer(false);
 
 			// scale list depending on its size
@@ -179,12 +203,13 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 								View view, int position, long id) {
 							// get previously selected permission that need to
 							// be displayed
-							Permission permission = (Permission) parent
+							PermissionExtended permission = (PermissionExtended) parent
 									.getItemAtPosition(position);
 
 							// display permission as alert dialog
-							PrivacyCheckerAlert.callPermissionDialogPermissionExtended(
-									permission, view.getContext());
+							PrivacyCheckerAlert
+									.callPermissionDialogPermissionExtended(
+											permission, view.getContext());
 						}
 					});
 		}

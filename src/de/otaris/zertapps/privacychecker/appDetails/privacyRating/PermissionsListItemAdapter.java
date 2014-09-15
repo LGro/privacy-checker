@@ -66,7 +66,8 @@ public class PermissionsListItemAdapter extends
 		}
 		permissionNonExpertPercent.setText(nonExpertPercent + "%");
 		permissionNonExpertCount.setText(perm
-				.getNonExpertPermissionUnexpected() + perm.getNonExpertPermissionExpected() + "");
+				.getNonExpertPermissionUnexpected()
+				+ perm.getNonExpertPermissionExpected() + "");
 
 		// ...for experts
 		int expertPercent = 0;
@@ -78,8 +79,8 @@ public class PermissionsListItemAdapter extends
 					.getExpertPermissionUnexpected())) * 100f);
 		}
 		permissionExpertPercent.setText(expertPercent + "%");
-		permissionExpertCount
-				.setText(perm.getExpertPermissionUnexpected() + perm.getExpertPermissionExpected() + "");
+		permissionExpertCount.setText(perm.getExpertPermissionUnexpected()
+				+ perm.getExpertPermissionExpected() + "");
 
 		return rowView;
 	}
