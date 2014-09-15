@@ -119,11 +119,11 @@ public class HomeActivity extends Activity {
 		 * call of prepareLatestAppsList and therefore a database access before
 		 * the database has been copied to the device. //
 		 */
-		// SharedPreferences wmbPreference = PreferenceManager
-		// .getDefaultSharedPreferences(this);
-		// boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
-		// if (!isFirstRun)
-		// prepareLatestAppsList();
+		 SharedPreferences wmbPreference = PreferenceManager
+		 .getDefaultSharedPreferences(this);
+		 boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+		 if (!isFirstRun)
+		 prepareLatestAppsList();
 
 		populateLatestAppListView();
 	}
