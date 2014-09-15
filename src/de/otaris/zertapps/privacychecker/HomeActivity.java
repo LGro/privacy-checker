@@ -20,12 +20,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
-import com.google.inject.Inject;
-
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AllAppsActivity;
 import de.otaris.zertapps.privacychecker.appsList.AppListItemAdapter;
+import de.otaris.zertapps.privacychecker.appsList.CategoryListActivity;
 import de.otaris.zertapps.privacychecker.appsList.InstalledAppsActivity;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
@@ -41,23 +39,9 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 public class HomeActivity extends Activity {
 
 	private List<AppCompact> latestAppsList;
-	@Inject
-	private AppController appController = null;
 
 	// A ProgressDialog object
 	private ProgressDialog progressDialog;
-
-	// lazy initialization getter for AppController
-	public AppController getAppController() {
-		if (appController == null)
-			appController = new AppController();
-
-		return appController;
-	}
-
-	public void setAppController(AppController appController) {
-		this.appController = appController;
-	}
 
 	/**
 	 * Connect to local database and retrieve last updated apps. Store them in a
@@ -129,6 +113,19 @@ public class HomeActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 
+		/*
+		 * ATTENTION: Temporary solution only!
+		 * 
+		 * Because onCreate and onResume are called parallel this prevents the
+		 * call of prepareLatestAppsList and therefore a database access before
+		 * the database has been copied to the device.
+		 */
+		SharedPreferences wmbPreference = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+		if (!isFirstRun)
+			prepareLatestAppsList();
+
 		populateLatestAppListView();
 	}
 
@@ -171,7 +168,7 @@ public class HomeActivity extends Activity {
 	 */
 	public void displayAllApps(View view) {
 		Log.i("HomeActivity", "called display all apps");
-		Intent intent = new Intent(this, AllAppsActivity.class);
+		Intent intent = new Intent(this, CategoryListActivity.class);
 		startActivity(intent);
 	}
 
@@ -244,8 +241,9 @@ public class HomeActivity extends Activity {
 
 				// scan device for installed apps and insert the missing ones
 				// into the database
-				getAppController().insertUncoveredInstalledApps(
-						HomeActivity.this, getPackageManager());
+				AppController appController = new AppController();
+				appController.insertUncoveredInstalledApps(HomeActivity.this,
+						getPackageManager());
 			}
 
 			return null;

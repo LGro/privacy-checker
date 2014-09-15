@@ -114,6 +114,10 @@ public class AppExtended implements App, Parcelable {
 
 	}
 
+	public AppCompact getAppCompact() {
+		return appCompact;
+	}
+
 	@Override
 	public int getId() {
 		return appCompact.getId();
@@ -174,11 +178,6 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
-	public void setId(int id) {
-		appCompact.setId(id);
-	}
-
-	@Override
 	public void setCategoryId(int categoryId) {
 		appCompact.setCategoryId(categoryId);
 	}
@@ -211,11 +210,6 @@ public class AppExtended implements App, Parcelable {
 	@Override
 	public void setFunctionalRating(float functionalRating) {
 		appCompact.setFunctionalRating(functionalRating);
-	}
-
-	@Override
-	public void setTimestamp(Long timestamp) {
-		appCompact.setTimestamp(timestamp);
 	}
 
 	@Override
