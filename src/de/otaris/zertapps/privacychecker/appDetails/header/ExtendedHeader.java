@@ -82,8 +82,12 @@ public class ExtendedHeader extends Header {
 		// ... and fill them with the right information about the app.
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
-			installUninstallButton.setText("Deinstallieren");
+			//TODO: if the app is not installed, the button is not visible. 
+			// Remove once the deinstall feature is implemented.
+			//installUninstallButton.setText("Deinstallieren");
+			installUninstallButton.setVisibility(View.GONE);
 			try {
+				// if installed, get the image from the device
 				appIconImageView.setImageDrawable(activity.getPackageManager()
 						.getApplicationIcon(app.getName()));
 
@@ -93,6 +97,7 @@ public class ExtendedHeader extends Header {
 			}
 		} else {
 			installUninstallButton.setText("Installieren");
+			// if not installe,d get the image from the database
 			appIconImageView.setImageBitmap(IconController
 					.byteArrayToBitmap(app.getIcon()));
 		}

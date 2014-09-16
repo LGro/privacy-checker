@@ -54,15 +54,15 @@ public class PermissionDataSource extends DataSource<Permission> {
 	 * @return app object of the newly created app
 	 */
 	public Permission createPermission(String name, String label,
-			String description, int criticality, int counterYes, int CounterNo) {
+			String description, int criticality, int counterYes, int counterNo) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Permission.NAME, name);
 		values.put(Permission.LABEL, label);
 		values.put(Permission.DESCRIPTION, description);
 		values.put(Permission.CRITICALITY, criticality);
-		values.put(Permission.UNTERSTOOD_COUNTER, 0);
-		values.put(Permission.NOT_UNDERSTOOD_COUNTER, 0);
+		values.put(Permission.UNTERSTOOD_COUNTER, counterYes);
+		values.put(Permission.NOT_UNDERSTOOD_COUNTER, counterNo);
 
 		// insert into DB
 		long insertId = database.insert(Permission.TABLE, null, values);
