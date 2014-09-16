@@ -10,7 +10,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 import de.otaris.zertapps.privacychecker.PrivacyCheckerAlert;
 import de.otaris.zertapps.privacychecker.R;
@@ -46,70 +45,55 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 		ToggleButton showMoreButton = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_rate_app_permissions_more);
 
-		TextView textUnexpected = (TextView) rowView
-				.findViewById(R.id.app_detail_rate_app_permissions_expected);
+		// set adapter
+		PermissionsExpectedItemAdapter adapter = new PermissionsExpectedItemAdapter(
+				context, app.getPermissionList());
+		permissionsList.setAdapter(adapter);
 
-		if (app.getPermissionList().size() <= 4)
-			showMoreButton.setVisibility(View.GONE);
-		if (app.getPermissionList().size() == 0) {
-			textUnexpected.setVisibility(View.GONE);
-		} else {
-			// set adapter
-			PermissionsExpectedItemAdapter adapter = new PermissionsExpectedItemAdapter(
-					context, app.getPermissionList());
-			permissionsList.setAdapter(adapter);
+		// set onclick behavior for permissions list
+		permissionsList.setOnItemClickListener(new OnItemClickListener() {
 
-			// set onclick behavior for permissions list
-			permissionsList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Log.i("PermissionExpectedViewHelper", "clicked permission");
+				// get previously selected permission that need to be displayed
+				Permission permission = (Permission) parent
+						.getItemAtPosition(position);
 
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-					Log.i("PermissionExpectedViewHelper", "clicked permission");
-					// get previously selected permission that need to be
-					// displayed
-					Permission permission = (Permission) parent
-							.getItemAtPosition(position);
+				// display permission as alert dialog
+				PrivacyCheckerAlert.callPermissionDialogPermission(permission,
+						view.getContext());
+			}
+		});
 
-					// display permission as alert dialog
-					PrivacyCheckerAlert.callInfoDialog(permission.getLabel(),
-							permission.getDescription(), view.getContext(),
-							false);
-				}
-			});
+		showMoreButton
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-			showMoreButton
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton showMoreButton,
+							boolean isChecked) {
+						ListView listView = (ListView) showMoreButton
+								.getRootView()
+								.findViewById(
+										R.id.app_detail_rate_app_permissions_list);
+						ViewGroup.LayoutParams updatedLayout = listView
+								.getLayoutParams();
+						final float scale = showMoreButton.getRootView()
+								.getContext().getResources()
+								.getDisplayMetrics().density;
+						int pixels = (int) (49 * scale);
 
-						@Override
-						public void onCheckedChanged(
-								CompoundButton showMoreButton, boolean isChecked) {
-							ListView listView = (ListView) showMoreButton
-									.getRootView()
-									.findViewById(
-											R.id.app_detail_rate_app_permissions_list);
-							ViewGroup.LayoutParams updatedLayout = listView
-									.getLayoutParams();
-							final float scale = showMoreButton.getRootView()
-									.getContext().getResources()
-									.getDisplayMetrics().density;
-							int pixels;
-
-							if (isChecked) {
-								pixels = (int) (49 * scale);
-								updatedLayout.height = pixels
-										* listView.getCount();
-								listView.setLayoutParams(updatedLayout);
-							} else {
-								// default: show 4 permissions
-								pixels = (int) (46 * scale);
-								updatedLayout.height = pixels * 4;
-								listView.setLayoutParams(updatedLayout);
-							}
-
+						if (isChecked) {
+							updatedLayout.height = pixels * listView.getCount();
+							listView.setLayoutParams(updatedLayout);
+						} else {
+							// default: show 4 permissions
+							updatedLayout.height = pixels * 4;
+							listView.setLayoutParams(updatedLayout);
 						}
-					});
-		}
+					}
+				});
 
 		return rowView;
 	}

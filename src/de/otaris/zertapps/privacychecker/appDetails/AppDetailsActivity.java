@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.appDetails;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -21,8 +22,12 @@ import de.otaris.zertapps.privacychecker.appDetails.header.Header;
 import de.otaris.zertapps.privacychecker.appDetails.privacyRating.PrivacyRating;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RateApp;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.PermissionExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.AppPermission;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * display basic information and multiple details of a selected app
@@ -30,8 +35,6 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
  * expects an AppCompact object as intent
  */
 public class AppDetailsActivity extends Activity {
-
-	private AppExtended appExtended;
 
 	/**
 	 * to change the displayed header, return another object that implements
@@ -52,20 +55,21 @@ public class AppDetailsActivity extends Activity {
 			getFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.app_details, menu);
 
 		// Get the App from the intent passed from the previous activity
 		AppCompact app = getIntent().getParcelableExtra("AppCompact");
 		// add missing information to the compact app
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		appExtended = appDataSource.extendAppCompact(app);
+		AppExtended appExtended = appDataSource.extendAppCompact(app);
 		appDataSource.close();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
+	
 		// get header to display the basic app details
 		View headerView = getHeader().getView(this, appExtended);
 		RelativeLayout relLayout = (RelativeLayout) findViewById(R.id.app_details_layout);
@@ -88,13 +92,6 @@ public class AppDetailsActivity extends Activity {
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
 				details);
 		detailListView.setAdapter(adapter);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.app_details, menu);
-
 		return true;
 	}
 

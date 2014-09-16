@@ -55,8 +55,7 @@ public class RateAppOnClickListener implements OnClickListener {
 				message += "- " + error + "\n";
 
 			// display custom alert window
-			PrivacyCheckerAlert.callInfoDialog(title, message, v.getContext(),
-					false);
+			PrivacyCheckerAlert.callInfoDialog(title, message, v.getContext());
 		} else {
 			String title = v.getResources()
 					.getText(R.string.rating_save_success_title).toString();
@@ -76,21 +75,21 @@ public class RateAppOnClickListener implements OnClickListener {
 			TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
 			TotalPrivacyRatingAlgorithm algo = totalRatingFactory
 					.makeAlgorithm();
+
 			// update app
-			appData.updateAppById(app.getId(), app.getCategoryId(),
-					app.getName(), app.getLabel(), app.getVersion(),
-					algo.calculate(app), app.isInstalled(),
-					app.getFunctionalRating(), app.getDescription(),
-					app.getIcon(), app.getAutomaticRating(),
-					app.getCategoryWeightedAutoRating());
+			app.setPrivacyRating(algo.calculate(app));
+			appData.update(app);
 			appData.close();
+
+			// close overlay
+			((AppDetailsActivity) v.getContext()).hideOverlay(v);
 
 			// display custom success alert windows
 			PrivacyCheckerAlert.callInfoDialog(
 					title,
 					v.getResources()
 							.getText(R.string.app_detail_rate_app_success)
-							.toString(), v.getContext(), true);
+							.toString(), v.getContext());
 		}
 	}
 }

@@ -9,7 +9,7 @@ import android.util.Log;
  * Attention: When adding a new column, mind adding it in the matching
  * DataSource's cursorTo... method.
  */
-public class RatingPermission {
+public class AppPermissionRating {
 	// Database tableCOMM
 		public static final String TABLE = "tbl_rating_permission";
 		// Columns
@@ -25,19 +25,19 @@ public class RatingPermission {
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT, " + VALUE
 				+ " DOUBLE, " + APP_PERMISSION_ID + " INTEGER, " + USER_TYPE + " INTEGER, " + ORIGIN + " TEXT);";
 
-		
+	
 		private int id;
-		private int value;
+		private boolean value;
 		private int appPermissionId;
 		private boolean isExpert;
 		private String origin;
 		
 		// empty constructor
-		public RatingPermission() {
+		public AppPermissionRating() {
 
 		}
 		
-		public RatingPermission(int id, int value, int appPermissionId, boolean isExpert, String origin){
+		public AppPermissionRating(int id, boolean value, int appPermissionId, boolean isExpert, String origin){
 			this.id = id;
 			this.value = value; 
 			this.appPermissionId = appPermissionId;
@@ -70,11 +70,11 @@ public class RatingPermission {
 			this.id = id;
 		}
 
-		public int getValue() {
+		public boolean getValue() {
 			return value;
 		}
 
-		public void setValue(int value) {
+		public void setValue(boolean value) {
 			this.value = value;
 		}
 
