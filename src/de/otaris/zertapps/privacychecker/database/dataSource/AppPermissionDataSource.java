@@ -31,6 +31,10 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 
 	@Override
 	protected AppPermission cursorToModel(Cursor cursor) {
+
+		if (cursor.getCount() == 0)
+			return null;
+
 		AppPermission appPermission = new AppPermission();
 
 		appPermission.setId(cursor.getInt(0));
@@ -66,22 +70,21 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		// permissions = sortPermissions(permissions);
 		return permissions;
 	}
-	
 
 	/**
 	 * 
 	 * @param appId
 	 * @return
 	 */
-	public List<AppPermission> getAppPermissionsByAppId(int appId){
+	public List<AppPermission> getAppPermissionsByAppId(int appId) {
 		List<AppPermission> appPermissions = new ArrayList<AppPermission>();
 		// build query
-				String whereClause = AppPermission.APP_ID + " = " + appId;
-				Cursor cursor = database.query(AppPermission.TABLE, allColumns,
-						whereClause, null, null, null, null);
+		String whereClause = AppPermission.APP_ID + " = " + appId;
+		Cursor cursor = database.query(AppPermission.TABLE, allColumns,
+				whereClause, null, null, null, null);
 
-				appPermissions = cursorToModelList(cursor);
-				return appPermissions;
+		appPermissions = cursorToModelList(cursor);
+		return appPermissions;
 	}
 
 	/**

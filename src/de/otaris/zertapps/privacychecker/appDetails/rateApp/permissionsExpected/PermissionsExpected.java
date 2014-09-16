@@ -91,8 +91,10 @@ public class PermissionsExpected extends RatingElement {
 			boolean rating = (pair.getValue()) ? false : true;
 
 			// create permission rating
-			ratingPermissionData.createRatingPermission(rating,
-					appPermission.getId(), isExpert);
+			if (appPermission != null) {
+				ratingPermissionData.createRatingPermission(rating,
+						appPermission.getId(), isExpert);
+			}
 		}
 
 		// close datasources
