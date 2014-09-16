@@ -76,8 +76,8 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_rating_permissions_list);
 		showMoreGroup = (RelativeLayout) contextView
 				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
-		// permissionsListTitle = (TextView) contextView
-		// .findViewById(R.id.app_detail_privacy_rating_permission_header);
+		permissionsListTitle = (TextView) contextView
+				.findViewById(R.id.app_details_privacy_rating_permissions_title);
 		categoryComparison = (TextView) contextView
 				.findViewById(R.id.app_detail_privacy_rating_category);
 		percentageExplanation = (TextView) contextView
