@@ -20,22 +20,18 @@ public class Permission implements Parcelable {
 	public static final String LABEL = "label";
 	public static final String DESCRIPTION = "description";
 	public static final String CRITICALITY = "criticality";
-	public static final String UNTERSTOOD_COUNTER = "understood_counter";
-	public static final String NOT_UNDERSTOOD_COUNTER = "not_understood_counter";
 
 	// Creation statement
 	private static final String Create_Permission_Table = "CREATE TABLE "
 			+ TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT, "
-			+ CRITICALITY + " INTEGER, " + UNTERSTOOD_COUNTER + " INTEGER, " + NOT_UNDERSTOOD_COUNTER + "INTEGER);";
+			+ CRITICALITY + " INTEGER);";
 
 	private int id;
 	private String name;
 	private String label;
 	private String description;
 	private int criticality;
-	private int understoodCounter;
-	private int notUnderstoodCounter;
 
 	// empty constructor
 	public Permission() {
@@ -43,14 +39,12 @@ public class Permission implements Parcelable {
 	}
 
 	public Permission(int id, String name, String label, String description,
-			int criticality, int counterYes, int counterNo) {
+			int criticality) {
 		this.id = id;
 		this.name = name;
 		this.label = label;
 		this.description = description;
 		this.criticality = criticality;
-		this.understoodCounter = counterYes;
-		this.notUnderstoodCounter = counterNo;
 	}
 
 	// create table if it isn't existing yet
@@ -71,22 +65,6 @@ public class Permission implements Parcelable {
 	// getter and setter
 	public int getId() {
 		return id;
-	}
-
-	public int getUnderstoodCounter() {
-		return understoodCounter;
-	}
-
-	public void setUnderstoodCounter(int counterYes) {
-		this.understoodCounter = counterYes;
-	}
-
-	public int getNotUnderstoodCounter() {
-		return notUnderstoodCounter;
-	}
-
-	public void setNotUnderstoodCounter(int counterNo) {
-		this.notUnderstoodCounter = counterNo;
 	}
 
 	public void setId(int id) {
@@ -137,8 +115,6 @@ public class Permission implements Parcelable {
 		dest.writeString(label);
 		dest.writeString(description);
 		dest.writeInt(criticality);
-		dest.writeInt(understoodCounter);
-		dest.writeInt(notUnderstoodCounter);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -147,8 +123,6 @@ public class Permission implements Parcelable {
 		label = in.readString();
 		description = in.readString();
 		criticality = in.readInt();
-		understoodCounter = in.readInt();
-		notUnderstoodCounter = in.readInt();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

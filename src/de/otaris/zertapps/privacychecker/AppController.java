@@ -107,7 +107,7 @@ public class AppController {
 			// if requested permission doesn't exist -> create it
 			if (p == null) {
 				p = permissionData.createPermission(permission, permission,
-						permission, CRITICALITY_LIMIT, 0, 0);
+						permission, CRITICALITY_LIMIT);
 			}
 		}
 		permissionData.close();
@@ -169,19 +169,29 @@ public class AppController {
 					AppExtended appExtended = appExtendedData
 							.extendAppCompact(app);
 
-					// calculate and set automatic rating
-					appExtended = setAutomaticRating(appExtended);
+					// calculate automatic rating
+					AutomaticRatingAlgorithmFactory autoRatingFactory = new AutomaticRatingAlgorithmFactory();
+					AutomaticRatingAlgorithm autoRatingAlgo = autoRatingFactory
+							.makeAlgorithm();
+					float autoRating = autoRatingAlgo.calculate(appExtended);
 
-					// calculate and set weighted automatic rating
-					appExtended = setCategoryWeightedAutoRating(appExtended);
+					appExtended.setAutomaticRating(autoRating);
 
-					// calculate and set total privacy rating
-					appExtended = setTotalPrivacyRating(appExtended);
+					float weightedAutoRating = calculateWeightedAutoRating(appExtended);
+
+					// calculate total privacy rating
+					TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
+					TotalPrivacyRatingAlgorithm totalPrivacyRatingAlgo = totalRatingFactory
+							.makeAlgorithm();
+					float totalPrivacyRating = totalPrivacyRatingAlgo
+							.calculate(appExtended);
 
 					// update app to set auto and total privacy rating
-					appExtendedData.open();
-					appExtendedData.update(appExtended);
-					appExtendedData.close();
+					appData.updateAppById(app.getId(), app.getCategoryId(),
+							app.getName(), app.getLabel(), app.getVersion(),
+							totalPrivacyRating, app.isInstalled(),
+							app.getFunctionalRating(), app.getDescription(),
+							app.getIcon(), autoRating, weightedAutoRating);
 
 				} catch (NameNotFoundException e) {
 					// close datasources
@@ -196,8 +206,12 @@ public class AppController {
 				}
 			} else {
 				// ... otherwise, if the app is installed: set installed = 1
-				app.setInstalled(true);
-				appData.update(app);
+				appData.updateAppById(app.getId(), app.getCategoryId(),
+						app.getName(), app.getLabel(), app.getVersion(),
+						app.getPrivacyRating(), true,
+						app.getFunctionalRating(), app.getDescription(),
+						app.getIcon(), app.getAutomaticRating(),
+						app.getCategoryWeightedAutoRating());
 			}
 		}
 
@@ -208,55 +222,33 @@ public class AppController {
 	}
 
 	/**
-	 * Calculates the automatic rating by using a AutomaticRatingAlgorithm.
+	 * weight automatic rating according to the category's average auto rating
 	 * 
-	 * @param appExtended
-	 * @return updated app object containing the auto rating
-	 */
-	private AppExtended setAutomaticRating(AppExtended appExtended) {
-		AutomaticRatingAlgorithmFactory autoRatingFactory = new AutomaticRatingAlgorithmFactory();
-		AutomaticRatingAlgorithm autoRatingAlgo = autoRatingFactory
-				.makeAlgorithm();
-		float autoRating = autoRatingAlgo.calculate(appExtended);
-		appExtended.setAutomaticRating(autoRating);
-
-		return appExtended;
-	}
-
-	/**
-	 * Calculates the weighted automatic rating by using a
-	 * AutomaticRatingAlgorithm.
+	 * TODO: move, because it doesn't make sense here!
 	 * 
-	 * @param appExtended
-	 * @return updated app object containing the weighted auto rating
+	 * @param app
+	 * @return
 	 */
-	private AppExtended setCategoryWeightedAutoRating(AppExtended appExtended) {
-		AutomaticRatingAlgorithmFactory autoRatingFactory = new AutomaticRatingAlgorithmFactory();
-		AutomaticRatingAlgorithm weightedAutoRatingAlgo = autoRatingFactory
-				.makeWeightedAlgorithm();
-		float weightedAutoRating = weightedAutoRatingAlgo
-				.calculate(appExtended);
-		appExtended.setCategoryWeightedAutoRating(weightedAutoRating);
+	private float calculateWeightedAutoRating(AppExtended app) {
+		if (app.getCategory() == null)
+			return app.getAutomaticRating();
 
-		return appExtended;
-	}
+		float avgCategoryRating = app.getCategory().getAverageAutoRating();
+		float autoRating = app.getAutomaticRating();
+		float difference = avgCategoryRating - autoRating;
+		float weightedAutoRating = 0;
 
-	/**
-	 * Calculates the total privacy rating by using a
-	 * TotalPrivacyRatingAlgorithm.
-	 * 
-	 * @param appExtended
-	 * @return updated app object containing the total privacy rating
-	 */
-	private AppExtended setTotalPrivacyRating(AppExtended appExtended) {
-		TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
-		TotalPrivacyRatingAlgorithm totalPrivacyRatingAlgo = totalRatingFactory
-				.makeAlgorithm();
-		float totalPrivacyRating = totalPrivacyRatingAlgo
-				.calculate(appExtended);
-		appExtended.setPrivacyRating(totalPrivacyRating);
+		if (autoRating > avgCategoryRating) {
+			weightedAutoRating = (float) (autoRating + difference * 0.4);
+			if (weightedAutoRating > 5)
+				weightedAutoRating = 5;
+		} else if (autoRating < avgCategoryRating) {
+			weightedAutoRating = (float) (autoRating - difference * 0.8);
+			if (weightedAutoRating < 0)
+				weightedAutoRating = 0;
+		}
 
-		return appExtended;
+		return weightedAutoRating;
 	}
 
 }

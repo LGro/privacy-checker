@@ -28,21 +28,12 @@ public abstract class DataSource<T> {
 	protected abstract T cursorToModel(Cursor cursor);
 
 	/**
-	 * open DB connection with read and write access
+	 * open DB connection
 	 * 
 	 * @throws SQLException
 	 */
 	public void open() throws SQLException {
 		database = dbHelper.getWritableDatabase();
-	}
-
-	/**
-	 * open DB connection read only
-	 * 
-	 * @throws SQLException
-	 */
-	public void openReadOnly() throws SQLException {
-		database = dbHelper.getReadableDatabase();
 	}
 
 	/**

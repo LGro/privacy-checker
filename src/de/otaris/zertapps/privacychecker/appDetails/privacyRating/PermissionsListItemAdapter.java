@@ -9,21 +9,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 /**
  * simple array adapter for displaying the labels of permissions
  * 
  * uses android.R.layout.simple_list_item_1 as item layout
  */
-public class PermissionsListItemAdapter extends
-		ArrayAdapter<PermissionExtended> {
+public class PermissionsListItemAdapter extends ArrayAdapter<Permission> {
 
 	private final Context context;
-	private final List<PermissionExtended> values;
+	private final List<Permission> values;
 
-	public PermissionsListItemAdapter(Context context,
-			List<PermissionExtended> values) {
+	public PermissionsListItemAdapter(Context context, List<Permission> values) {
 		super(context, R.layout.app_detail_privacy_rating_permission_list_item,
 				values);
 		this.context = context;
@@ -34,53 +32,18 @@ public class PermissionsListItemAdapter extends
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		// use default list item containing only one TextView
 		View rowView = inflater.inflate(
 				R.layout.app_detail_privacy_rating_permission_list_item,
 				parent, false);
 
-		// get the views
-		TextView permissionName = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_permission_list_item_name);
-		TextView permissionNonExpertPercent = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_permission_list_item_nonexpert_percent);
-		TextView permissionNonExpertCount = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_permission_list_item_nonexpert_count);
-		TextView permissionExpertPercent = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_permission_list_item_expert_percent);
-		TextView permissionExpertCount = (TextView) rowView
-				.findViewById(R.id.app_detail_privacy_rating_permission_list_item_expert_count);
+		// get TextView
+		TextView textView = (TextView) rowView
+				.findViewById(R.id.app_detail_rate_app_permissions_label);
 
 		// set permission label for list item
-		PermissionExtended perm = values.get(position);
-		permissionName.setText(perm.getPermission().getLabel());
-
-		// calculate and set the percentages and the counts
-		// ...for non-experts
-		int nonExpertPercent = 0;
-		if ((perm.getNonExpertPermissionExpected() != 0)
-				|| (perm.getNonExpertPermissionUnexpected() != 0)) {
-			nonExpertPercent = (int) (((float) perm
-					.getNonExpertPermissionUnexpected() / (float) (perm
-					.getNonExpertPermissionExpected() + perm
-					.getNonExpertPermissionUnexpected())) * 100f);
-		}
-		permissionNonExpertPercent.setText(nonExpertPercent + "%");
-		permissionNonExpertCount.setText(perm
-				.getNonExpertPermissionUnexpected()
-				+ perm.getNonExpertPermissionExpected() + "");
-
-		// ...for experts
-		int expertPercent = 0;
-		if ((perm.getExpertPermissionExpected() != 0)
-				|| (perm.getExpertPermissionUnexpected() != 0)) {
-			expertPercent = (int) (((float) perm
-					.getExpertPermissionUnexpected() / (float) (perm
-					.getExpertPermissionExpected() + perm
-					.getExpertPermissionUnexpected())) * 100f);
-		}
-		permissionExpertPercent.setText(expertPercent + "%");
-		permissionExpertCount.setText(perm.getExpertPermissionUnexpected()
-				+ perm.getExpertPermissionExpected() + "");
+		textView.setText(values.get(position).getLabel());
 
 		return rowView;
 	}

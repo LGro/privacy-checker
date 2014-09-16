@@ -3,35 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-<TextView
-    android:id="@+id/app_detail_comment_item_version"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginRight="22dp"
-    android:layout_above="@+id/app_detail_comment_item_content"
-    android:layout_alignParentRight="true"
-    android:text="Version" />
+    <View
+        android:id="@+id/app_detail_comment_item_viewline1"
+        android:layout_width="wrap_content"
+        android:layout_height="0.25dip"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentTop="true"
+        android:background="#777777" />
+    
+    <TextView
+        android:id="@+id/app_detail_comment_item_version"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_detail_comment_item_viewline1"
+        android:layout_marginRight="22dp"
+        android:text="Version" />
 
-<TextView
-    android:id="@+id/app_detail_comment_item_date"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_marginLeft="22dp"
-    android:layout_alignParentTop="true"
-    android:text="01.01.2016" />
+    <TextView
+        android:id="@+id/app_detail_comment_item_date"
+        android:layout_below="@+id/app_detail_comment_item_viewline1"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:text="01.01.2016" />
 
-<TextView
-    android:id="@+id/app_detail_comment_item_content"
-    android:layout_width="260dp"
-    android:layout_height="wrap_content"
-    android:layout_alignParentLeft="true"
-    android:layout_marginRight="22dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginLeft="22dp"
-    android:layout_marginBottom="22dp"
-    android:layout_below="@+id/app_detail_comment_item_date"
-    android:text="Kommentar Kommentar Kommentar Kommentaaaaaaaaaaaahar" />
+    <TextView
+        android:id="@+id/app_detail_comment_item_content"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/app_detail_comment_item_date"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="4dp"
+        android:text="Kommentar Kommentar Kommentar Kommentaaaaaaaaaaaahar" />
 
+    
 
 </RelativeLayout>

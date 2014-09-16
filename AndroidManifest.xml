@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
-    
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -43,6 +43,7 @@
         <activity
             android:name="de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity"
             android:label="@string/title_activity_app_details"
+            android:launchMode="singleTop"
             android:parentActivityName="de.otaris.zertapps.privacychecker.appsList.AllAppsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -64,8 +65,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
         </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.appDetails.rateApp.RateAppActivity"
+            android:label="@string/title_activity_rate_app"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity" />
+        </activity>
     </application>
-
-    
 
 </manifest>

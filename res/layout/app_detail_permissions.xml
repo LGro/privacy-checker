@@ -33,9 +33,7 @@
         android:layout_alignLeft="@+id/app_detail_permissions_title"
         android:layout_below="@+id/app_detail_permissions_title"
         android:layout_marginRight="22dp"
-        android:scrollbars="none"
-        android:divider="@null"
-        android:dividerHeight="0dp" >
+		android:divider="@null">
     </ListView>
 
 </RelativeLayout>

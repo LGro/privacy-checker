@@ -39,8 +39,6 @@ public class AppExtended implements App, Parcelable {
 		this.appCompact = appCompact;
 	}
 
-	// getters and setters
-
 	public ArrayList<Permission> getPermissionList() {
 		return permissionList;
 	}
@@ -117,10 +115,6 @@ public class AppExtended implements App, Parcelable {
 
 	}
 
-	public AppCompact getAppCompact() {
-		return appCompact;
-	}
-
 	@Override
 	public int getId() {
 		return appCompact.getId();
@@ -181,6 +175,11 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
+	public void setId(int id) {
+		appCompact.setId(id);
+	}
+
+	@Override
 	public void setCategoryId(int categoryId) {
 		appCompact.setCategoryId(categoryId);
 	}
@@ -216,6 +215,11 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
+	public void setTimestamp(Long timestamp) {
+		appCompact.setTimestamp(timestamp);
+	}
+
+	@Override
 	public void setDescription(String description) {
 		appCompact.setDescription(description);
 	}
@@ -235,10 +239,12 @@ public class AppExtended implements App, Parcelable {
 		appCompact.setAutomaticRating(automaticRating);
 	}
 
+	@Override
 	public void setCategoryWeightedAutoRating(float rating) {
 		appCompact.setCategoryWeightedAutoRating(rating);
 	}
 
+	@Override
 	public float getCategoryWeightedAutoRating() {
 		return appCompact.getCategoryWeightedAutoRating();
 	}

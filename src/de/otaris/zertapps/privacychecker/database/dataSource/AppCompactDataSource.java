@@ -1,15 +1,10 @@
 package de.otaris.zertapps.privacychecker.database.dataSource;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
@@ -42,11 +37,21 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		if (cursor.getCount() == 0)
 			return null;
 
-		AppCompact app = new AppCompact(cursor.getInt(0), cursor.getInt(1),
-				cursor.getString(2), cursor.getString(3), cursor.getString(4),
-				cursor.getFloat(5), cursor.getInt(6) != 0, cursor.getFloat(7),
-				cursor.getLong(8), cursor.getString(9), cursor.getBlob(10),
-				cursor.getFloat(11), cursor.getFloat(12));
+		AppCompact app = new AppCompact();
+
+		app.setId(cursor.getInt(0));
+		app.setCategoryId(cursor.getInt(1));
+		app.setName(cursor.getString(2));
+		app.setLabel(cursor.getString(3));
+		app.setVersion(cursor.getString(4));
+		app.setPrivacyRating(cursor.getFloat(5));
+		// convert integer from SQLite to boolean in model representation
+		app.setInstalled(cursor.getInt(6) != 0);
+		app.setFunctionalRating(cursor.getFloat(7));
+		app.setTimestamp(cursor.getLong(8));
+		app.setDescription(cursor.getString(9));
+		app.setIcon(cursor.getBlob(10));
+		app.setAutomaticRating(cursor.getFloat(11));
 
 		return app;
 	}
@@ -198,7 +203,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 */
 	public List<AppCompact> getLastUpdatedApps(int n) {
 		// build query
-		String orderBy = AppCompact.TIMESTAMP + " ASC" + " LIMIT " + n;
+		String orderBy = AppCompact.TIMESTAMP + " DESC" + " LIMIT " + n;
 		Cursor cursor = database.query(AppCompact.TABLE, allColumns, null,
 				null, null, null, orderBy);
 
@@ -229,43 +234,35 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		return cursorToModelList(cursor);
 	}
 
-	/**
-	 * Updates all attributes of a given app that are contained in
-	 * app.modifiedAttributes.
-	 */
-	@Override
-	public AppCompact update(AppCompact app) {
+	public AppCompact updateAppById(int appId, int categoryId, String name,
+			String label, String version, float privacyRating,
+			boolean installed, float functionalRating, String description,
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
 
-		String filter = AppCompact.ID + " = " + app.getId();
+		String filter = AppCompact.ID + " = " + appId;
 
 		// set values for columns
 		ContentValues values = new ContentValues();
-
+		values.put(AppCompact.CATEGORY_ID, categoryId);
+		values.put(AppCompact.NAME, name);
+		values.put(AppCompact.LABEL, label);
+		values.put(AppCompact.VERSION, version);
+		values.put(AppCompact.PRIVACY_RATING, privacyRating);
+		values.put(AppCompact.INSTALLED, installed);
+		values.put(AppCompact.FUNCTIONAL_RATING, functionalRating);
+		// Gets current time in milliseconds since jan1,1970. The divide by 1000
+		// turns it into unix seconds instead of milliseconds.
 		long currentTimestamp = System.currentTimeMillis() / 1000;
 		values.put(AppCompact.TIMESTAMP, currentTimestamp);
-
-		HashMap<String, String> attributes = app.getModifiedAttributes();
-		Iterator<Entry<String, String>> it = attributes.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, String> pair = it.next();
-
-			String methodName = pair.getValue();
-			methodName = "g" + methodName.substring(1);
-
-			try {
-				values.put(pair.getKey(), AppCompact.class
-						.getMethod(methodName).invoke(app).toString());
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException e) {
-				Log.e("AppCompactDataSource", "Getter '" + methodName
-						+ "' could not be called.");
-				e.printStackTrace();
-			}
-		}
+		values.put(AppCompact.DESCRIPTION, description);
+		values.put(AppCompact.ICON, icon);
+		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
+		values.put(AppCompact.CATEGORY_WEIGHTED_AUTOMATIC_RATING,
+				categoryWeightedAutoRating);
 
 		database.update(AppCompact.TABLE, values, filter, null);
 
-		return getAppById(app.getId());
+		return getAppById(appId);
 	}
 
 	public AppCompact getAppByName(String name) {
