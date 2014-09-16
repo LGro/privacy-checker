@@ -18,8 +18,5 @@ public interface AppDataSource<T extends App> {
 
 	public List<T> getLastUpdatedApps(int n);
 
-	public T updateAppById(int appId, int categoryId, String name,
-			String label, String version, float privacyRating,
-			boolean installed, float functionalRating, String description,
-			byte[] icon, float automaticRating, float categoryWeightedAutoRating);
+	public T update(T app);
 }

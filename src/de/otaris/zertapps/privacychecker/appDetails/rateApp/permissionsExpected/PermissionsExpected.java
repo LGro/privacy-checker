@@ -23,13 +23,24 @@ public class PermissionsExpected extends RatingElement {
 	// stores permissions and an expected flag
 	HashMap<Permission, Boolean> permissionsRating;
 
-	public boolean expectedPermission(Permission permission) {
-		Boolean expected = permissionsRating.get(permission);
-		return (expected == null) ? false : expected;
+	/**
+	 * retrieves true, if a permission was expected, false if it was unexpected
+	 * and null if there was no RadioButton chosen
+	 * 
+	 * @param permission
+	 *            the permission
+	 * @return true, false or null
+	 */
+	public Boolean expectedPermission(Permission permission) {
+		return permissionsRating.get(permission);
 	}
 
-	public void setPermissionExpected(Permission permission, boolean expected) {
+	public void setPermissionExpected(Permission permission, Boolean expected) {
 		permissionsRating.put(permission, expected);
+	}
+
+	public void removePermission(Permission permission) {
+		permissionsRating.remove(permission);
 	}
 
 	public PermissionsExpected(AppExtended app, boolean mandatory) {
@@ -64,7 +75,7 @@ public class PermissionsExpected extends RatingElement {
 		if (isExpertString != null)
 			isExpert = isExpertString.equals("1");
 
-		// save each permission thats "expected" value has been modified at
+		// save each permission thats "unexpected" value has been modified at
 		// least once; permissions that have not been touched, aren't rated
 		Iterator<Entry<Permission, Boolean>> it = permissionsRating.entrySet()
 				.iterator();
@@ -77,7 +88,7 @@ public class PermissionsExpected extends RatingElement {
 							.getKey().getId());
 
 			// set rating 0 for expected and 1 for unexpected
-			int rating = (pair.getValue()) ? 0 : 1;
+			boolean rating = (pair.getValue()) ? false : true;
 
 			// create permission rating
 			ratingPermissionData.createRatingPermission(rating,
@@ -86,6 +97,6 @@ public class PermissionsExpected extends RatingElement {
 
 		// close datasources
 		appPermissionData.close();
-		appPermissionData.close();
+		ratingPermissionData.close();
 	}
 }

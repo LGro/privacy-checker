@@ -49,12 +49,7 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 	public ArrayList<Permission> getPermissionsByAppId(int appId) {
 		ArrayList<Permission> permissions = new ArrayList<Permission>();
 
-		// build query
-		String whereClause = AppPermission.APP_ID + " = " + appId;
-		Cursor cursor = database.query(AppPermission.TABLE, allColumns,
-				whereClause, null, null, null, null);
-
-		List<AppPermission> appPermissions = cursorToModelList(cursor);
+		List<AppPermission> appPermissions = getAppPermissionsByAppId(appId);
 
 		permissionData.open();
 		for (AppPermission appPermission : appPermissions) {
@@ -68,7 +63,44 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		permissionData.close();
 
 		// TODO: fix sorting and re-enable
-		//permissions = sortPermissions(permissions);
+		// permissions = sortPermissions(permissions);
+		return permissions;
+	}
+	
+
+	/**
+	 * 
+	 * @param appId
+	 * @return
+	 */
+	public List<AppPermission> getAppPermissionsByAppId(int appId){
+		List<AppPermission> appPermissions = new ArrayList<AppPermission>();
+		// build query
+				String whereClause = AppPermission.APP_ID + " = " + appId;
+				Cursor cursor = database.query(AppPermission.TABLE, allColumns,
+						whereClause, null, null, null, null);
+
+				appPermissions = cursorToModelList(cursor);
+				return appPermissions;
+	}
+
+	/**
+	 * Get all permissions from database thats label isn't neither empty nor
+	 * equal to its name.
+	 * 
+	 * @param appId
+	 * @return filtered list of permissions
+	 */
+	public ArrayList<Permission> getTranslatedPermissionsByAppId(int appId) {
+		ArrayList<Permission> permissions = getPermissionsByAppId(appId);
+		for (int i = 0; i < permissions.size(); i++) {
+			if (permissions.get(i).getLabel() == permissions.get(i).getName()
+					|| permissions.get(i).getLabel().equals("")) {
+				permissions.remove(i);
+				i--;
+			}
+		}
+
 		return permissions;
 	}
 
@@ -157,11 +189,11 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 						+ AppPermission.PERMISSION_ID + "=" + permissionId,
 				null, null, null, null);
 		cursor.moveToFirst();
-		
-		//convert to AppPermission object
+
+		// convert to AppPermission object
 		AppPermission newAppPermission = cursorToModel(cursor);
 		cursor.close();
-		
+
 		return newAppPermission;
 	}
 }

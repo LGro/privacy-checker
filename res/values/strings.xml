@@ -11,10 +11,9 @@
     <string name="installed_apps_button">Installierte Apps</string>
     <string name="title_activity_installed_apps">Installierte Apps</string>
     <string name="title_privacy">Privatsphäre</string>
-    <string name="title_alphabet">Name</string>
+    <string name="title_alphabet">alphabetisch</string>
     <string name="title_functional">Bewertung</string>
     <string name="title_category">Kategorien</string>
-    <string name="title_activity_rate_app">Bewerten</string>
     <string name="title_activity_installed_apps_list">Installierte Apps</string>
     <string name="title_activity_home">Privacy-Checker</string>
     <string name="last_updated_apps">Zuletzt aktualisierte Privatsphärebewertung:</string>
@@ -34,18 +33,25 @@
     <string name="app_details_no_description_available">Es tut uns leid, leider liegt zu dieser App noch keine Beschreibung vor.</string>
     <string name="app_details_privacy_rating_permissions_title">Geforderte Berechtigungen:</string>
     <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen</string>
+    <string name="app_detail_privacy_rating_category_better">Privatsphärefreundlicher als durchschnittlich Apps aus der Kategorie: </string>
+    <string name="app_detail_privacy_rating_category_worse">Weniger privatsphärefreundlich als durchschnittlich Apps aus der Kategorie: </string>
     <string name="validation_error_no_total_rating">Bitte geben Sie eine Gesamtbewertung an.</string>
     <string name="validation_error_intro">Leider traten folgende Fehler auf:</string>
     <string name="app_detail_rate_app_success">Die Bewertung wurde gespeichert.</string>
     <string name="app_detail_rate_app_permissions_explaination">Im Folgenden kannst Du zu jeder geforderten Berechtigung angeben, ob Du sie für diese App erwartet hast.</string>
     <string name="app_detail_rate_app_permissions_title">Berechtigungsbewertung</string>
     <string name="app_detail_rate_app_title">Gesamtbewertung</string>
+    <string name="app_detail_rate_app_permissions_expected">Berechtigung erwartet ?</string>
     <string name="app_detail_rate_app_permissions_unexpected">Unerwartet</string>
     <string name="app_detail_rate_app_expert_text">Ich bin Experte auf dem Gebiet Privatsphäre:</string>
     <string name="validation_error_title">Hinweis</string>
     <string name="rating_save_success_title">Erfolg</string>
     <string name="app_detail_rate_app_comment_title">Erfahrungsbericht abgeben</string>
     <string name="enter_comment">Gebe Deinen Kommentar an</string>
+    <string name="yes_no">Ja  | Nein</string>
+    <string name="understandable">Verstehe ich</string>
+    <string name="not_understandable">Verstehe ich nicht</string>
+    <string name="app_detail_permissions_explanation">Berechtigung wurde als unerwartet markiert von: </string>
     <string name="user_type_normal">Normaler Nutzer</string>
     <string name="user_type_expert">IT Experte</string>
 

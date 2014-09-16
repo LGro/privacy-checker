@@ -9,4 +9,8 @@ public class AutomaticRatingAlgorithmFactory {
 		return new FirstAlgo();
 	}
 
+	public AutomaticRatingAlgorithm makeWeightedAlgorithm() {
+		return new CategoryWeightedAlgo();
+	}
+
 }
