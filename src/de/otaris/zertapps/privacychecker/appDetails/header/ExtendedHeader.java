@@ -79,12 +79,15 @@ public class ExtendedHeader extends Header {
 
 		initializeViews(rowView);
 
+		// has to be selected to scroll if the text is too long
+		appNameView.setSelected(true);
+
 		// ... and fill them with the right information about the app.
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
-			//TODO: if the app is not installed, the button is not visible. 
+			// TODO: if the app is not installed, the button is not visible.
 			// Remove once the deinstall feature is implemented.
-			//installUninstallButton.setText("Deinstallieren");
+			// installUninstallButton.setText("Deinstallieren");
 			installUninstallButton.setVisibility(View.GONE);
 			try {
 				// if installed, get the image from the device

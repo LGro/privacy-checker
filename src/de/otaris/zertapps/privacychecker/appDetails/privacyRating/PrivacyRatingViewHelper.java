@@ -82,7 +82,6 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_category);
 		percentageExplanation = (TextView) contextView
 				.findViewById(R.id.app_detail_permissions_explanation);
-
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -181,6 +180,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 							.getResources()
 							.getString(
 									R.string.app_details_privacy_rating_permissions_title_no_permissions));
+			percentageExplanation.setVisibility(ViewGroup.GONE);
 		} else {
 			// add list item adapter for permissions
 			permissionListView.setAdapter(new PermissionsListItemAdapter(

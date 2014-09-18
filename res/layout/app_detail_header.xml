@@ -39,11 +39,17 @@
 
         <TextView
             android:id="@+id/app_detail_header_name"
-            android:layout_width="192dp"
-            android:layout_height="20dp"
+            android:layout_width="164dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/app_detail_header_icon"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/app_detail_header_icon"
-            android:layout_alignTop="@+id/app_detail_header_icon"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
             android:text="App Name"
             android:textStyle="bold" />
 
