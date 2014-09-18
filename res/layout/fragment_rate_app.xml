@@ -33,6 +33,7 @@
         android:id="@+id/app_detail_rate_app_overlay_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:dividerHeight="2dp"
         android:layout_above="@+id/app_detail_rate_app_overlay_send"
         android:layout_alignLeft="@+id/app_detail_rating_permission_name"
         android:layout_alignParentRight="true"

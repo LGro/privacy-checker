@@ -128,7 +128,7 @@ public class HomeActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		prepareLatestAppsList();
+		//prepareLatestAppsList();
 		populateLatestAppListView();
 	}
 
