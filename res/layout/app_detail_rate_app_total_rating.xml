@@ -12,11 +12,10 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="22dp"
         android:layout_marginTop="16dp"
         android:text="@string/app_detail_rate_app_title"
         android:textSize="20dp"        
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
    
     <ToggleButton
         android:id="@+id/app_detail_rate_app_total_rating_1"
