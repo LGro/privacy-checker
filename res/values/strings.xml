@@ -55,5 +55,6 @@
     <string name="user_type_normal">Normaler Nutzer</string>
     <string name="user_type_expert">IT Experte</string>
     <string name="title_activity_rate_app">RateAppActivity</string>
-
+	<string name="not_available">Nicht verfügbar</string>
+    
 </resources>

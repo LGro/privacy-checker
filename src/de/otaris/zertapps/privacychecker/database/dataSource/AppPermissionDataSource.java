@@ -96,15 +96,22 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 	 */
 	public ArrayList<Permission> getTranslatedPermissionsByAppId(int appId) {
 		ArrayList<Permission> permissions = getPermissionsByAppId(appId);
-		for (int i = 0; i < permissions.size(); i++) {
-			if (permissions.get(i).getLabel() == permissions.get(i).getName()
-					|| permissions.get(i).getLabel().equals("")) {
-				permissions.remove(i);
-				i--;
+		ArrayList<Permission> translatedPermissions = new ArrayList<Permission>();
+		for (Permission permission : permissions) {
+			// only if the label does not contain a dot, it can be a translated
+			// label
+			if (!(permission.getLabel().contains("."))) {
+				for (char letter : permission.getLabel().toCharArray()) {
+					// if it contains at least one lower case character, add the
+					// permission
+					if (Character.isLowerCase(letter)) {
+						translatedPermissions.add(permission);
+						break;
+					}
+				}
 			}
 		}
-
-		return permissions;
+		return translatedPermissions;
 	}
 
 	/**
