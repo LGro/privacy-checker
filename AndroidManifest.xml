@@ -74,6 +74,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity" />
         </activity>
+        <activity
+            android:name="de.otaris.zertapps.privacychecker.ImprintActivity"
+            android:label="@string/title_imprint_acitivty"
+            android:parentActivityName="de.otaris.zertapps.privacychecker.HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.otaris.zertapps.privacychecker.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

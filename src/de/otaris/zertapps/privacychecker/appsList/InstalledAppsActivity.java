@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,8 +9,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.R.drawable;
 
 /**
  * is called by HomeActivity, handles display of installed apps (a sortable list
@@ -92,17 +93,16 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.installed_apps, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.categoryListContainer
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_imprint) {
+			Intent intent = new Intent(this, ImprintActivity.class);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
