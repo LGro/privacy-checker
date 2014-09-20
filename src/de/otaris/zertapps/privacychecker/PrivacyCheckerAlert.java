@@ -26,33 +26,7 @@ public class PrivacyCheckerAlert {
 	 *            flag that indicates wheather to close the activity after
 	 *            confirming the alert dialog
 	 */
-	public static void callInfoDialog(String title, String message,
-			final Context context, final boolean finishActivity) {
-		final Dialog dialog = new Dialog(context);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.app_detail_alert_dialog);
-		dialog.getWindow()
-				.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-
-		TextView titleTextView = (TextView) dialog
-				.findViewById(R.id.app_detail_alert_dialog_textview_title);
-		titleTextView.setText(title);
-
-		TextView messageTextview = (TextView) dialog
-				.findViewById(R.id.app_detail_alert_dialog_textview_description);
-		messageTextview.setText(message);
-
-		Button okButton = (Button) dialog
-				.findViewById(R.id.app_detail_alert_dialog_button_ok);
-		okButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				dialog.dismiss();
-				if (context instanceof Activity && finishActivity)
-					((Activity) context).finish();
-			}
-		});
-		dialog.show();
-	}
+	
 
 	public static void callPermissionDialogPermissionExtended(
 			PermissionExtended permission, final Context context) {

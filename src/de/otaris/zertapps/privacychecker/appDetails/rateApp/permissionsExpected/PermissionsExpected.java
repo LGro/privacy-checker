@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import android.content.Context;
+import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationException;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationErrorException;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationWarningException;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.RatingPermissionDataSource;
@@ -51,8 +53,13 @@ public class PermissionsExpected extends RatingElement {
 	}
 
 	@Override
-	public void validate() throws RatingValidationException {
+	public void validate() throws RatingValidationErrorException,
+			RatingValidationWarningException {
 
+		// if no permissions marked (un-)expected, throw warning
+		if (permissionsRating.size() < 1)
+			throw new RatingValidationWarningException(
+					R.string.validation_warning_no_permissions);
 	}
 
 	@Override

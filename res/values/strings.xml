@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
     <string name="version">Version</string>
     <string name="app_name">Privacy-Checker</string>
     <string name="title_home">Home</string>
@@ -37,6 +39,8 @@
     <string name="app_detail_privacy_rating_category_worse">Weniger privatsphärefreundlich als durchschnittlich Apps aus der Kategorie: </string>
     <string name="validation_error_no_total_rating">Bitte geben Sie eine Gesamtbewertung an.</string>
     <string name="validation_error_intro">Leider traten folgende Fehler auf:</string>
+    <string name="validation_warning_intro">Achtung, folgende Aspekte bedürfen deiner Aufmerksamkeit:</string>
+    <string name="validation_warning_continue">Trotzdem fortfahren?</string>
     <string name="app_detail_rate_app_success">Die Bewertung wurde gespeichert.</string>
     <string name="app_detail_rate_app_permissions_explanation">Im Folgenden kannst Du zu jeder geforderten Berechtigung angeben, ob Du sie für diese App erwartet hast.</string>
     <string name="app_detail_rate_app_permissions_title">Berechtigungsbewertung</string>
@@ -55,8 +59,10 @@
     <string name="user_type_normal">Normaler Nutzer</string>
     <string name="user_type_expert">IT Experte</string>
     <string name="title_activity_rate_app">RateAppActivity</string>
-	<string name="not_available">Nicht verfügbar</string>
-	<string name="filter_overlay_title">Filter Optionen</string>
-	<string name="permissions">Berechtigungen</string>
-	<string name="functional_rating">Play Store Bewertung</string>
+    <string name="not_available">Nicht verfügbar</string>
+    <string name="filter_overlay_title">Filter Optionen</string>
+    <string name="permissions">Berechtigungen</string>
+    <string name="functional_rating">Play Store Bewertung</string>
+    <string name="validation_warning_no_permissions">Du hast keine Berechtigungen als (un-)erwartet markiert.</string>
+
 </resources>
