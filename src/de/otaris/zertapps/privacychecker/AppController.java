@@ -149,10 +149,11 @@ public class AppController {
 					String[] permissions = getPermissions(pm, apps[i]);
 
 					insertUncoveredPermissions(context, permissions);
-					// create app with default categoryID 1 or -1 to mark
+
+					// create app with default categoryId 1, -1 to mark
 					// functional rating as not available and an empty
 					// description
-					app = appData.createApp(0, apps[i].packageName, apps[i]
+					app = appData.createApp(1, apps[i].packageName, apps[i]
 							.loadLabel(pm).toString(), pInfo.versionCode + "",
 							0, true, -1, "",
 							IconController.drawableToByteArray(pm

@@ -117,4 +117,18 @@ public class CategoryDataSource extends DataSource<Category> {
 		return cat.getAverageAutoRating();
 	}
 
+	public Category getCategoryByName(String categoryName) {
+		// build database query
+				Cursor cursor = database.query(Category.TABLE, allColumns, Category.NAME
+						+ " = '" + categoryName + "'", null, null, null, null);
+				cursor.moveToFirst();
+
+				// convert to App object
+				Category newCategory = cursorToModel(cursor);
+				cursor.close();
+
+				// return app object
+				return newCategory;
+	}
+
 }
