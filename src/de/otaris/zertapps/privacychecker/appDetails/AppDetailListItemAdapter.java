@@ -11,7 +11,7 @@ import de.otaris.zertapps.privacychecker.R;
 
 /**
  * List adapter to handle multiple details of one app.
- *
+ * 
  */
 public class AppDetailListItemAdapter extends ArrayAdapter<Detail> {
 	private final Context context;

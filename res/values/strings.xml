@@ -22,7 +22,7 @@
     <string name="app_detail_rating_pic">Bewertung</string>
     <string name="app_detail_button_install">Installieren</string>
     <string name="title_activity_app_details">Details</string>
-    <string name="app_detail_privacy_rating_title">Privatsphäre Bewertung</string>
+    <string name="app_detail_privacy_rating_title">Privatsphärebewertung</string>
     <string name="app_detail_rate_app_heading">Privatsphäre Bewerten</string>
     <string name="app_detail_rate_app_value_1">Richtig schlecht</string>
     <string name="app_detail_rate_app_value_2">Nicht so gut</string>
@@ -56,5 +56,8 @@
     <string name="user_type_expert">IT Experte</string>
     <string name="title_activity_rate_app">RateAppActivity</string>
 	<string name="not_available">Nicht verfügbar</string>
+	<string name="filter_overlay_title">Filter Optionen</string>
+	<string name="permissions">Berechtigungen</string>
+	<string name="functional_rating">Play Store Bewertung</string>
     
 </resources>

@@ -10,7 +10,7 @@ import de.otaris.zertapps.privacychecker.database.interfaces.App;
  * represents the extended App entity in the database an extended App has all
  * the information that belong to an App that is: Permissions, Comments,
  * Ratings, Details
- *
+ * 
  */
 public class AppExtended implements App, Parcelable {
 
@@ -252,22 +252,23 @@ public class AppExtended implements App, Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(appCompact, 0);
 		dest.writeList(permissionList);
-		dest.writeArray(permissionRating);
+		// dest.writeArray(permissionRating);
 		dest.writeList(expertRating);
 		dest.writeFloat(totalExpertRating);
 		dest.writeList(nonExpertRating);
 		dest.writeFloat(totalNonExpertRating);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void readFromParcel(Parcel in) {
 		appCompact = in.readParcelable(AppCompact.class.getClassLoader());
 		permissionList = new ArrayList<Permission>();
-		in.readTypedList(permissionList, Permission.CREATOR);
+		permissionList = in.readArrayList(Permission.class.getClassLoader());
 		// TODO: fix for two dimensional array
 		// permissionRating = in.readArray(Integer.class.getClassLoader());
-		expertRating = (ArrayList<Integer>) in.readSerializable();
+		expertRating = in.readArrayList(Integer.class.getClassLoader());
 		totalExpertRating = in.readFloat();
-		nonExpertRating = (ArrayList<Integer>) in.readSerializable();
+		nonExpertRating = in.readArrayList(Integer.class.getClassLoader());
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a
