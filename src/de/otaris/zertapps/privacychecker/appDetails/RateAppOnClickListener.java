@@ -92,22 +92,6 @@ public class RateAppOnClickListener implements OnClickListener {
 		} else {
 			// only if there have been no errors...
 
-			// get current app from DB with newly saved ratings
-			int appId = ratingElements.get(0).getApp().getId();
-			AppExtendedDataSource appData = new AppExtendedDataSource(
-					v.getContext());
-			appData.open();
-			AppExtended app = appData.getAppById(appId);
-			// re-calculate weighted total privacy rating
-			TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
-			TotalPrivacyRatingAlgorithm algo = totalRatingFactory
-					.makeAlgorithm();
-
-			// update app
-			app.setPrivacyRating(algo.calculate(app));
-			appData.update(app);
-			appData.close();
-
 			// display custom success alert windows
 			callInfoDialog(
 					v.getResources()
@@ -157,6 +141,22 @@ public class RateAppOnClickListener implements OnClickListener {
 
 					for (RatingElement element : ratingElements)
 						element.save(v.getContext());
+
+					// get current app from DB with newly saved ratings
+					int appId = ratingElements.get(0).getApp().getId();
+					AppExtendedDataSource appData = new AppExtendedDataSource(v
+							.getContext());
+					appData.open();
+					AppExtended app = appData.getAppById(appId);
+					// re-calculate weighted total privacy rating
+					TotalPrivacyRatingAlgorithmFactory totalRatingFactory = new TotalPrivacyRatingAlgorithmFactory();
+					TotalPrivacyRatingAlgorithm algo = totalRatingFactory
+							.makeAlgorithm();
+
+					// update app
+					app.setPrivacyRating(algo.calculate(app));
+					appData.update(app);
+					appData.close();
 
 					((Activity) context).finish();
 				}

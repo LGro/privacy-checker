@@ -63,7 +63,7 @@ public class AppDetailsActivity extends Activity {
 		// add missing information to the compact app
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		AppExtended appExtended = appDataSource.extendAppCompact(app);
+		AppExtended appExtended = appDataSource.getAppById(app.getId());
 		appDataSource.close();
 
 		// get header to display the basic app details

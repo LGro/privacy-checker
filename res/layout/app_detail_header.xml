@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF" >
 
     <ImageView
         android:id="@+id/app_detail_header_icon"
@@ -25,7 +26,6 @@
         android:layout_marginBottom="3dp"
         android:text="App Developer" />
 
-   
     <ImageView
         android:id="@+id/app_detail_header_rating_pic"
         android:layout_width="80dp"
@@ -92,8 +92,8 @@
         android:layout_height="20dp"
         android:layout_alignLeft="@+id/app_detail_header_name"
         android:layout_below="@+id/app_detail_header_rating_pic"
-        android:text="@string/not_available"
         android:layout_marginLeft="5dp"
+        android:text="@string/not_available"
         android:textSize="12sp"
         android:visibility="gone" />
 
