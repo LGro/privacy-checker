@@ -119,6 +119,7 @@ public class HomeActivity extends Activity {
 		 * call of prepareLatestAppsList and therefore a database access before
 		 * the database has been copied to the device. //
 		 */
+		// TODO: enable again in a proper way that doesn't cause crashs
 //		 SharedPreferences wmbPreference = PreferenceManager
 //		 .getDefaultSharedPreferences(this);
 //		 boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
