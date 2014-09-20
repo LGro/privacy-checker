@@ -119,11 +119,11 @@ public class HomeActivity extends Activity {
 		 * the database has been copied to the device. //
 		 */
 		// TODO: enable again in a proper way that doesn't cause crashs
-//		 SharedPreferences wmbPreference = PreferenceManager
-//		 .getDefaultSharedPreferences(this);
-//		 boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
-//		 if (!isFirstRun)
-//		 prepareLatestAppsList();
+		// SharedPreferences wmbPreference = PreferenceManager
+		// .getDefaultSharedPreferences(this);
+		// boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+		// if (!isFirstRun)
+		// prepareLatestAppsList();
 
 		populateLatestAppListView();
 	}
@@ -215,11 +215,9 @@ public class HomeActivity extends Activity {
 		// Before running code in the separate thread
 		@Override
 		protected void onPreExecute() {
-			// TODO: replace with @String ressources?!
 			progressDialog = ProgressDialog.show(HomeActivity.this,
-					"Lade Apps",
-					"Installierte Apps werden erstmalig erfasst...", false,
-					false);
+					getText(R.string.splash_alert_title),
+					getText(R.string.splash_alert_text), false, false);
 		}
 
 		// The code to be executed in a background thread.

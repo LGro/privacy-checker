@@ -9,7 +9,8 @@ import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.AppPermissionRating;
 import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
 
-public class PermissionExtendedDataSource extends DataSource<PermissionExtended> {
+public class PermissionExtendedDataSource extends
+		DataSource<PermissionExtended> {
 
 	private PermissionDataSource permissionData;
 	private AppPermissionDataSource appPermissionData;
@@ -26,7 +27,6 @@ public class PermissionExtendedDataSource extends DataSource<PermissionExtended>
 
 	@Override
 	protected PermissionExtended cursorToModel(Cursor cursor) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -44,13 +44,12 @@ public class PermissionExtendedDataSource extends DataSource<PermissionExtended>
 		int expertPermissionExpected = 0;
 		int nonExpertPermissionExpected = 0;
 
-
 		// Retrieve list of app permission ratings
 		ratingPermissionData.open();
 		ArrayList<AppPermissionRating> appPermissionRatingList = ratingPermissionData
 				.getRatingPermissionByAppPermissionId(permission
 						.getAppPermission().getId());
-		
+
 		// increase the values depending on their user-type and answer
 		for (AppPermissionRating appPermissionRating : appPermissionRatingList) {
 			if (appPermissionRating.getValue() == true) {
@@ -68,15 +67,16 @@ public class PermissionExtendedDataSource extends DataSource<PermissionExtended>
 			}
 		}
 		ratingPermissionData.close();
-		
+
 		permission.setExpertPermissionExpected(expertPermissionExpected);
 		permission.setExpertPermissionUnexpected(expertPermissionUnexpected);
 		permission.setNonExpertPermissionExpected(nonExpertPermissionExpected);
-		permission.setNonExpertPermissionUnexpected(nonExpertPermissionUnexpected);
-		
+		permission
+				.setNonExpertPermissionUnexpected(nonExpertPermissionUnexpected);
+
 		return permission;
 	}
-	
+
 	/**
 	 * transforms an Permission to an PermissionExtended and adds all relevant
 	 * relational data
@@ -86,16 +86,17 @@ public class PermissionExtendedDataSource extends DataSource<PermissionExtended>
 	 * @return extended permission
 	 */
 	public PermissionExtended extendPermission(AppPermission appPermission) {
-		PermissionExtended permissionExtended = new PermissionExtended(appPermission);
+		PermissionExtended permissionExtended = new PermissionExtended(
+				appPermission);
 
-		
 		permissionExtended.setPermissionId(appPermission.getPermissionId());
 		permissionExtended.setAppId(appPermission.getAppId());
 		permissionData.open();
-		permissionExtended.setPermission(permissionData.getPermissionById(appPermission.getPermissionId()));
+		permissionExtended.setPermission(permissionData
+				.getPermissionById(appPermission.getPermissionId()));
 		permissionData.close();
 		permissionExtended = populatePermission(permissionExtended);
-		
+
 		return permissionExtended;
 	}
 }

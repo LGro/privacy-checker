@@ -34,16 +34,14 @@ public class AppCompact implements App, Parcelable {
 	public static final String AUTOMATIC_RATING = "automatic_rating";
 	public static final String CATEGORY_WEIGHTED_AUTOMATIC_RATING = "category_weighted_automatic_rating";
 
-	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all
-	// references invalid
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
-			+ " INTEGER, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, "
-			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
-			+ " FLOAT, " + INSTALLED + " INTEGER, " + FUNCTIONAL_RATING
-			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT, "
-			+ ICON + " BLOB, " + AUTOMATIC_RATING + " FLOAT, "
+			+ " INTEGER, " + NAME + " TEXT UNIQUE, " + LABEL + " TEXT, "
+			+ VERSION + " TEXT, " + PRIVACY_RATING + " FLOAT, " + INSTALLED
+			+ " INTEGER, " + FUNCTIONAL_RATING + " FLOAT, " + TIMESTAMP
+			+ " LONG, " + DESCRIPTION + " TEXT, " + ICON + " BLOB, "
+			+ AUTOMATIC_RATING + " FLOAT, "
 			+ CATEGORY_WEIGHTED_AUTOMATIC_RATING + " FLOAT);";
 
 	// attributes

@@ -66,8 +66,7 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		}
 		permissionData.close();
 
-		// TODO: fix sorting and re-enable
-		// permissions = sortPermissions(permissions);
+		sortPermissions(permissions, 0, permissions.size() - 1);
 		return permissions;
 	}
 
@@ -121,32 +120,38 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 	 *            the list to sort
 	 * @return a sorted list of Permission
 	 */
-	private ArrayList<Permission> sortPermissions(
-			ArrayList<Permission> permissions) {
-
-		if (permissions.size() <= 1)
-			return permissions;
-
-		int firstCriticality = permissions.get(0).getCriticality();
-
-		ArrayList<Permission> moreCritical = new ArrayList<Permission>(
-				permissions.size());
-		ArrayList<Permission> lessCritical = new ArrayList<Permission>(
-				permissions.size());
-
-		for (int i = 1; i < permissions.size(); i++) {
-			if (permissions.get(i).getCriticality() > firstCriticality)
-				moreCritical.add(permissions.get(i));
-			else
-				lessCritical.add(permissions.get(i));
+	private static void sortPermissions(ArrayList<Permission> permissions,
+			int left, int right) {
+		if (left < right) {
+			int i = partition(permissions, left, right);
+			sortPermissions(permissions, left, i - 1);
+			sortPermissions(permissions, i + 1, right);
 		}
+	}
 
-		moreCritical = sortPermissions(moreCritical);
-		lessCritical = sortPermissions(lessCritical);
+	private static int partition(ArrayList<Permission> permissions, int left,
+			int right) {
+		int pivot, i, j;
+		Permission help;
+		pivot = permissions.get(right).getCriticality();
+		i = left;
+		j = right - 1;
+		while (i <= j) {
+			if (permissions.get(i).getCriticality() > pivot) {
+				// tausche x.get(i) und x.get(j)
+				help = permissions.get(i);
+				permissions.set(i, permissions.get(j));
+				permissions.set(j, help);
+				j--;
+			} else
+				i++;
+		}
+		// tausche x.get(i) und x.get(rechts)
+		help = permissions.get(i);
+		permissions.set(i, permissions.get(right));
+		permissions.set(right, help);
 
-		moreCritical.addAll(lessCritical);
-
-		return moreCritical;
+		return i;
 	}
 
 	/**

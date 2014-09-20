@@ -16,9 +16,6 @@ public class AppExtended implements App, Parcelable {
 
 	private AppCompact appCompact;
 	private ArrayList<Permission> permissionList;
-	// Array with permissionID and RatingPermission
-	// TODO: better use PermissionRating object containing Permission Object?!
-	private int[][] permissionRating;
 	private ArrayList<Integer> expertRating;
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
@@ -88,14 +85,6 @@ public class AppExtended implements App, Parcelable {
 
 			this.totalNonExpertRating = totalNonExpertRating;
 		}
-	}
-
-	public int[][] getPermissionRating() {
-		return permissionRating;
-	}
-
-	public void setPermissionRating(int[][] permissionRating) {
-		this.permissionRating = permissionRating;
 	}
 
 	public ArrayList<Integer> getExpertRating() {
@@ -252,7 +241,6 @@ public class AppExtended implements App, Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(appCompact, 0);
 		dest.writeList(permissionList);
-		// dest.writeArray(permissionRating);
 		dest.writeList(expertRating);
 		dest.writeFloat(totalExpertRating);
 		dest.writeList(nonExpertRating);
@@ -264,8 +252,6 @@ public class AppExtended implements App, Parcelable {
 		appCompact = in.readParcelable(AppCompact.class.getClassLoader());
 		permissionList = new ArrayList<Permission>();
 		permissionList = in.readArrayList(Permission.class.getClassLoader());
-		// TODO: fix for two dimensional array
-		// permissionRating = in.readArray(Integer.class.getClassLoader());
 		expertRating = in.readArrayList(Integer.class.getClassLoader());
 		totalExpertRating = in.readFloat();
 		nonExpertRating = in.readArrayList(Integer.class.getClassLoader());

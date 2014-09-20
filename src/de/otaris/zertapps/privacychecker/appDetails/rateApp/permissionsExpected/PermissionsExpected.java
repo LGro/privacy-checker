@@ -57,7 +57,7 @@ public class PermissionsExpected extends RatingElement {
 			RatingValidationWarningException {
 
 		// if no permissions marked (un-)expected, throw warning
-		if (permissionsRating.size() < 1)
+		if (permissionsRating.size() < 1 && app.getPermissionList().size() > 0)
 			throw new RatingValidationWarningException(
 					R.string.validation_warning_no_permissions);
 	}

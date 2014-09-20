@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -76,9 +76,12 @@ public class ExtendedHeader extends Header {
 
 		View rowView = inflater.inflate(R.layout.app_detail_header, null);
 
-		// set some id
-		// TODO: Is there a way of doing this so there is nExtendedHeadero
-		// conflict possible?
+		/*
+		 * a random id has to be set to align the details list below the header
+		 * view
+		 * 
+		 * TODO: Is there even a possibility of an id conflict?
+		 */
 		rowView.setId(170892);
 
 		initializeViews(rowView);
@@ -89,9 +92,9 @@ public class ExtendedHeader extends Header {
 		// ... and fill them with the right information about the app.
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
-			// TODO: if the app is not installed, the button is not visible.
-			// Remove once the deinstall feature is implemented.
-			// installUninstallButton.setText("Deinstallieren");
+			installUninstallButton.setText("Deinstallieren");
+
+			// TODO: Remove once the deinstall feature is implemented.
 			installUninstallButton.setVisibility(View.GONE);
 			try {
 				// if installed, get the image from the device
@@ -131,11 +134,11 @@ public class ExtendedHeader extends Header {
 		} else {
 			playStoreRatingImageView.setImageResource(new RatingController()
 					.getIconRatingStars(app.getFunctionalRating()));
-			int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
-					+ app.getExpertRating().size();
-			privacyRatingAmountTextView.setText(totalNumberOfPrivacyRatings
-					+ "");
 		}
+		int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
+				+ app.getExpertRating().size();
+		privacyRatingAmountTextView.setText("(" + totalNumberOfPrivacyRatings
+				+ ")");
 
 		// Set name and developer
 		appNameView.setText(app.getLabel());
