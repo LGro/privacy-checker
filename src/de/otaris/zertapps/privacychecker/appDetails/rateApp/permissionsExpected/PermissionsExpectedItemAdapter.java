@@ -25,11 +25,11 @@ public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
 	private final Context context;
 	private final List<Permission> permissionsList;
 
-	TextView permissionsNumberTextView;
-	TextView permissionLabelTextView;
-	RadioGroup radioButtonGroup;
-	RadioButton radioButtonExpected;
-	RadioButton radioButtonUnexpected;
+	protected TextView permissionsNumberTextView;
+	protected TextView permissionLabelTextView;
+	protected RadioGroup radioButtonGroup;
+	protected RadioButton radioButtonExpected;
+	protected RadioButton radioButtonUnexpected;
 
 	public PermissionsExpectedItemAdapter(Context context,
 			List<Permission> permissionsList) {
@@ -93,7 +93,10 @@ public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
 
 		return rowView;
 	}
-
+/**
+ * Handles the re- and deselection of a RadioButton
+ * 
+ */
 	private class ExpectedRadioListener implements OnClickListener {
 
 		@Override
