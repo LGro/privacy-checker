@@ -38,6 +38,12 @@ public class PermissionsExpectedItemAdapter extends ArrayAdapter<Permission> {
 		this.permissionsList = permissionsList;
 	}
 
+	/**
+	 * initialize all relevant views
+	 * 
+	 * @param contextView
+	 *            view that wraps the relevant subviews
+	 */
 	private void initializeViews(View contextView) {
 		permissionsNumberTextView = (TextView) contextView
 				.findViewById(R.id.app_detail_rate_app_permissions_number);
