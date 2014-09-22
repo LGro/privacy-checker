@@ -73,6 +73,46 @@ public class RateAppActivity extends Activity {
 	}
 
 	/**
+	 * Adds a rating element to a given ArrayList.
+	 * 
+	 * Prevents already existing RatingElements in the Registry that might
+	 * contain information from being overwritten.
+	 * 
+	 * @param ratingElements
+	 *            list that the rating element should be added to
+	 * @param ratingElement
+	 *            the rating element to add
+	 * @return list with added rating element
+	 */
+	private ArrayList<RatingElement> addRatingElement(
+			ArrayList<RatingElement> ratingElements, RatingElement ratingElement) {
+
+		// get rating element from registry
+		Registry registry = Registry.getInstance();
+		RatingElement existingElement = registry.getRatingElement(ratingElement
+				.getClass());
+
+		if (existingElement == null) {
+			// if there is no existing element: add new one
+			registry.addRatingElement(ratingElement);
+			ratingElements.add(ratingElement);
+		} else {
+			// if there is an existing element...
+			if (existingElement.getApp().equals(ratingElement.getApp()) == false) {
+				// ... and it doesn't belong to the same app as the current one:
+				// create new
+				registry.addRatingElement(ratingElement);
+				ratingElements.add(ratingElement);
+			} else {
+				// keep existing element in registry and add to ratingElements
+				ratingElements.add(existingElement);
+			}
+		}
+
+		return ratingElements;
+	}
+
+	/**
 	 * defines what rating elements are part of the total rating and therefore
 	 * are displayed within the rate app overlay
 	 * 
@@ -80,22 +120,18 @@ public class RateAppActivity extends Activity {
 	 * @return list of rating elements
 	 */
 	private ArrayList<RatingElement> getRatingElements(AppExtended app) {
-		Registry registry = Registry.getInstance();
 		ArrayList<RatingElement> ratingElements = new ArrayList<RatingElement>();
 
 		// add objects to registry and to array list (just for displaying
 		// purposes) - second argument determines if rating element is mandatory
-		registry.addRatingElement(new ExpertMode(app, false));
-		ratingElements.add(new ExpertMode(app, false));
-
-		registry.addRatingElement(new PermissionsExpected(app, false));
-		ratingElements.add(new PermissionsExpected(app, false));
-
-		registry.addRatingElement(new TotalPrivacyRating(app, true));
-		ratingElements.add(new TotalPrivacyRating(app, true));
-
-		registry.addRatingElement(new Comment(app, false));
-		ratingElements.add(new Comment(app, false));
+		ratingElements = addRatingElement(ratingElements, new ExpertMode(app,
+				false));
+		ratingElements = addRatingElement(ratingElements,
+				new PermissionsExpected(app, false));
+		ratingElements = addRatingElement(ratingElements,
+				new TotalPrivacyRating(app, true));
+		ratingElements = addRatingElement(ratingElements, new Comment(app,
+				false));
 
 		return ratingElements;
 	}

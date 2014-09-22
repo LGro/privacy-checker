@@ -121,6 +121,9 @@ public class Registry {
 	}
 
 	public RatingElement getRatingElement(Class<?> classObj) {
+		if (ratingElements == null)
+			ratingElements = new HashMap<Class<?>, RatingElement>();
+
 		return ratingElements.get(classObj);
 	}
 
