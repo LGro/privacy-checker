@@ -1,5 +1,6 @@
 package de.otaris.zertapps.privacychecker.appDetails.privacyRating;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -20,8 +21,12 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.PermissionExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
+import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
+import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
 
 /**
  * Displays the total privacy rating and its three components (automatic,
@@ -32,7 +37,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
  * 
  * When the user selects a permission from this list, an overlay displaying the
  * permission's label and explanation is shown.
- *
+ * 
  */
 public class PrivacyRatingViewHelper extends DetailViewHelper {
 
@@ -41,10 +46,12 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 	protected TextView automaticRatingTextView;
 	protected TextView nonExpertRatingTextView;
 	protected TextView expertRatingTextView;
+	protected TextView percentageExplanation;
 	protected ImageView privacyRatingIconTextView;
 	protected ListView permissionListView;
 	protected TextView permissionsListTitle;
 	protected RelativeLayout showMoreGroup;
+	protected TextView categoryComparison;
 
 	/**
 	 * initialize all relevant views
@@ -67,10 +74,14 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 				.findViewById(R.id.app_detail_privacy_rating_image);
 		permissionListView = (ListView) contextView
 				.findViewById(R.id.app_detail_rating_permissions_list);
-		permissionsListTitle = (TextView) contextView
-				.findViewById(R.id.app_details_privacy_rating_permissions_title);
 		showMoreGroup = (RelativeLayout) contextView
 				.findViewById(R.id.app_detail_privacy_rating_show_more_group);
+		permissionsListTitle = (TextView) contextView
+				.findViewById(R.id.app_details_privacy_rating_permissions_title);
+		categoryComparison = (TextView) contextView
+				.findViewById(R.id.app_detail_privacy_rating_category);
+		percentageExplanation = (TextView) contextView
+				.findViewById(R.id.app_detail_permissions_explanation);
 	}
 
 	private double roundToOneDecimalPlace(float f) {
@@ -105,7 +116,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		// automatic rating
 		automaticRatingTextView.setText(roundToOneDecimalPlace(app
-				.getAutomaticRating()) + "");
+				.getCategoryWeightedAutoRating()) + "");
 
 		// non-expert rating
 		nonExpertRatingTextView.setText(roundToOneDecimalPlace(app
@@ -124,7 +135,43 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		privacyRatingIconTextView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
 
+		if (app.getCategory() != null) {
+			if (app.getCategory().getAverageAutoRating() > app
+					.getAutomaticRating()) {
+				categoryComparison.setText(context.getResources().getString(
+						R.string.app_detail_privacy_rating_category_worse)
+						+ " " + app.getCategory().getName());
+
+			} else {
+				categoryComparison.setText(context.getResources().getString(
+						R.string.app_detail_privacy_rating_category_better)
+						+ " " + app.getCategory().getName());
+			}
+		} else {
+			categoryComparison.setVisibility(ViewGroup.GONE);
+		}
+
 		List<Permission> permissionList = app.getPermissionList();
+		AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
+				context);
+		PermissionExtendedDataSource permissionExtendedData = new PermissionExtendedDataSource(
+				context);
+		appPermissionData.open();
+		permissionExtendedData.open();
+
+		// populate AppPermission into PermissionExtended
+		ArrayList<PermissionExtended> permissionExtendedList = new ArrayList<PermissionExtended>();
+
+		for (Permission permission : permissionList) {
+			AppPermission appPermission = appPermissionData
+					.getAppPermissionByAppAndPermissionId(app.getId(),
+							permission.getId());
+			PermissionExtended permExt = permissionExtendedData
+					.extendPermission(appPermission);
+			permissionExtendedList.add(permExt);
+		}
+		appPermissionData.close();
+		permissionExtendedData.close();
 
 		if (permissionList.size() <= 0) {
 			// set no permissions required title
@@ -133,18 +180,12 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 							.getResources()
 							.getString(
 									R.string.app_details_privacy_rating_permissions_title_no_permissions));
+			percentageExplanation.setVisibility(ViewGroup.GONE);
 		} else {
 			// add list item adapter for permissions
 			permissionListView.setAdapter(new PermissionsListItemAdapter(
-					context, permissionList));
+					context, permissionExtendedList));
 			permissionListView.setScrollContainer(false);
-
-			// scale list depending on its size
-			ViewGroup.LayoutParams updatedLayout = permissionListView
-					.getLayoutParams();
-			int pixels = (int) (49 * context.getResources().getDisplayMetrics().density);
-			updatedLayout.height = pixels * permissionListView.getCount();
-			permissionListView.setLayoutParams(updatedLayout);
 
 			// set click listener for list items
 			permissionListView
@@ -155,14 +196,13 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 								View view, int position, long id) {
 							// get previously selected permission that need to
 							// be displayed
-							Permission permission = (Permission) parent
+							PermissionExtended permission = (PermissionExtended) parent
 									.getItemAtPosition(position);
 
 							// display permission as alert dialog
-							PrivacyCheckerAlert.callInfoDialog(
-									permission.getLabel(),
-									permission.getDescription(),
-									view.getContext());
+							PrivacyCheckerAlert
+									.callPermissionDialogPermissionExtended(
+											permission, view.getContext());
 						}
 					});
 		}
@@ -189,6 +229,42 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					}
 				});
 
+		// scale list depending on its size
+		setListViewHeigthBasedOnChildren(permissionListView,
+				permissionList.size());
+
 		return rowView;
+	}
+
+	/**
+	 * Scale a listView depending on the number of elements you want to display.
+	 * 
+	 * @param listView
+	 * @param numberOfElements
+	 *            the number of list elements to be displayed at maximum
+	 */
+	private void setListViewHeigthBasedOnChildren(ListView listView,
+			int numberOfElements) {
+
+		// get adapter from list view
+		PermissionsListItemAdapter adapter = (PermissionsListItemAdapter) listView
+				.getAdapter();
+		int totalHeight = 0;
+
+		// accumulate total height by measuring each list element
+		for (int i = 0; i < numberOfElements; i++) {
+			View listItem = adapter.getView(i, null, listView);
+			listItem.measure(0, 0);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		// update list layout to maximum height
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (adapter.getCount() - 1));
+		listView.setLayoutParams(params);
+
+		// notify list view about layout changes
+		listView.requestLayout();
 	}
 }

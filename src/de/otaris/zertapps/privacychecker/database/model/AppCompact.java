@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.database.model;
 
+import java.util.HashMap;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -30,17 +32,17 @@ public class AppCompact implements App, Parcelable {
 	public static final String DESCRIPTION = "description";
 	public static final String ICON = "icon";
 	public static final String AUTOMATIC_RATING = "automatic_rating";
+	public static final String CATEGORY_WEIGHTED_AUTOMATIC_RATING = "category_weighted_automatic_rating";
 
-	// TODO: fix: ON CONFLICT REPLACE updates the primary key (ID) and makes all
-	// references invalid
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
-			+ " INTEGER, " + NAME + " TEXT UNIQUE ON CONFLICT REPLACE, "
-			+ LABEL + " TEXT, " + VERSION + " TEXT, " + PRIVACY_RATING
-			+ " FLOAT, " + INSTALLED + " INTEGER, " + FUNCTIONAL_RATING
-			+ " FLOAT, " + TIMESTAMP + " LONG, " + DESCRIPTION + " TEXT, "
-			+ ICON + " BLOB, " + AUTOMATIC_RATING + " FLOAT);";
+			+ " INTEGER, " + NAME + " TEXT UNIQUE, " + LABEL + " TEXT, "
+			+ VERSION + " TEXT, " + PRIVACY_RATING + " FLOAT, " + INSTALLED
+			+ " INTEGER, " + FUNCTIONAL_RATING + " FLOAT, " + TIMESTAMP
+			+ " LONG, " + DESCRIPTION + " TEXT, " + ICON + " BLOB, "
+			+ AUTOMATIC_RATING + " FLOAT, "
+			+ CATEGORY_WEIGHTED_AUTOMATIC_RATING + " FLOAT);";
 
 	// attributes
 	private int id;
@@ -55,14 +57,19 @@ public class AppCompact implements App, Parcelable {
 	private String description;
 	private byte[] icon;
 	private float automaticRating;
+	private float categoryWeightedAutoRating;
 
-	public AppCompact() {
+	// contains a pair of column name and setter method name
+	protected HashMap<String, String> modifiedAttributes = new HashMap<String, String>();
 
+	public AppCompact(int id) {
+		this.id = id;
 	}
 
 	public AppCompact(int id, int categoryId, String name, String label,
-			String version, float rating, boolean installed, Long timestamp,
-			String description, byte[] icon, float automaticRating) {
+			String version, float rating, boolean installed,
+			float functionalRating, Long timestamp, String description,
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -71,10 +78,12 @@ public class AppCompact implements App, Parcelable {
 		this.version = version;
 		this.privacyRating = rating;
 		this.isInstalled = installed;
+		this.functionalRating = functionalRating;
 		this.timestamp = timestamp;
 		this.description = description;
 		this.icon = icon;
 		this.automaticRating = automaticRating;
+		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
 	}
 
 	/**
@@ -109,102 +118,159 @@ public class AppCompact implements App, Parcelable {
 		onCreate(db);
 	}
 
-	// setter
-	public void setId(int id) {
-		this.id = id;
+	/**
+	 * Store columnName and the getter method from that markAttributeModified
+	 * has been called in the HashMap modifiedAttributes to mark what attribute
+	 * values have changed.
+	 * 
+	 * @param columnName
+	 *            matching column name to the attribute that has been changed
+	 */
+	protected void markAttributeModified(String columnName) {
+		StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+		StackTraceElement e = stacktrace[3];
+		String methodName = e.getMethodName();
+		modifiedAttributes.put(columnName, methodName);
 	}
 
+	// setter
+	@Override
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
+		markAttributeModified(CATEGORY_ID);
 	}
 
+	@Override
 	public void setLabel(String label) {
 		this.label = label;
+		markAttributeModified(LABEL);
 	}
 
+	@Override
 	public void setVersion(String version) {
 		this.version = version;
+		markAttributeModified(VERSION);
 	}
 
+	@Override
 	public void setName(String name) {
 		this.name = name;
+		markAttributeModified(NAME);
 	}
 
+	@Override
 	public void setInstalled(boolean isInstalled) {
 		this.isInstalled = isInstalled;
+		markAttributeModified(INSTALLED);
 	}
 
+	@Override
 	public void setPrivacyRating(float privacyRating) {
 		this.privacyRating = privacyRating;
+		markAttributeModified(PRIVACY_RATING);
 	}
 
+	@Override
 	public void setFunctionalRating(float functionalRating) {
 		this.functionalRating = functionalRating;
+		markAttributeModified(FUNCTIONAL_RATING);
 	}
 
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
-	}
-
+	@Override
 	public void setDescription(String description) {
 		this.description = description;
+		markAttributeModified(DESCRIPTION);
 	}
 
+	@Override
 	public void setIcon(byte[] icon) {
 		this.icon = icon;
+		markAttributeModified(ICON);
 	}
 
+	@Override
 	public void setAutomaticRating(float automaticRating) {
 		this.automaticRating = automaticRating;
+		markAttributeModified(AUTOMATIC_RATING);
 	}
 
 	// getter
+	public HashMap<String, String> getModifiedAttributes() {
+		return modifiedAttributes;
+	}
+
+	@Override
 	public int getId() {
 		return id;
 	}
 
+	@Override
 	public float getAutomaticRating() {
 		return automaticRating;
 	}
 
+	@Override
 	public int getCategoryId() {
 		return categoryId;
 	}
 
+	@Override
 	public String getVersion() {
 		return version;
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public boolean isInstalled() {
 		return isInstalled;
 	}
 
+	// alias for automated getter name derivation (needs to match setter name)
+	public boolean getInstalled() {
+		return isInstalled;
+	}
+
+	@Override
 	public Long getTimestamp() {
 		return timestamp;
 	}
 
+	@Override
 	public float getPrivacyRating() {
 		return privacyRating;
 	}
 
+	@Override
 	public float getFunctionalRating() {
 		return functionalRating;
 	}
 
+	@Override
 	public String getDescription() {
 		return description;
 	}
 
+	@Override
 	public byte[] getIcon() {
 		return icon;
+	}
+
+	public float getCategoryWeightedAutoRating() {
+		return categoryWeightedAutoRating;
+	}
+
+	public void setCategoryWeightedAutoRating(float categoryWeightedAutoRating) {
+		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
+		markAttributeModified(CATEGORY_WEIGHTED_AUTOMATIC_RATING);
 	}
 
 	// parcelable requirements...
@@ -229,6 +295,7 @@ public class AppCompact implements App, Parcelable {
 		dest.writeInt(icon.length);
 		dest.writeByteArray(icon);
 		dest.writeFloat(automaticRating);
+		dest.writeFloat(categoryWeightedAutoRating);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -245,6 +312,7 @@ public class AppCompact implements App, Parcelable {
 		icon = new byte[in.readInt()];
 		in.readByteArray(icon);
 		automaticRating = in.readFloat();
+		categoryWeightedAutoRating = in.readFloat();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

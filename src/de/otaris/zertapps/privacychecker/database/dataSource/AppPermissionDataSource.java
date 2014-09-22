@@ -31,6 +31,10 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 
 	@Override
 	protected AppPermission cursorToModel(Cursor cursor) {
+
+		if (cursor.getCount() == 0)
+			return null;
+
 		AppPermission appPermission = new AppPermission();
 
 		appPermission.setId(cursor.getInt(0));
@@ -49,12 +53,7 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 	public ArrayList<Permission> getPermissionsByAppId(int appId) {
 		ArrayList<Permission> permissions = new ArrayList<Permission>();
 
-		// build query
-		String whereClause = AppPermission.APP_ID + " = " + appId;
-		Cursor cursor = database.query(AppPermission.TABLE, allColumns,
-				whereClause, null, null, null, null);
-
-		List<AppPermission> appPermissions = cursorToModelList(cursor);
+		List<AppPermission> appPermissions = getAppPermissionsByAppId(appId);
 
 		permissionData.open();
 		for (AppPermission appPermission : appPermissions) {
@@ -67,9 +66,51 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		}
 		permissionData.close();
 
-		// TODO: fix sorting and re-enable
-		//permissions = sortPermissions(permissions);
+		sortPermissions(permissions, 0, permissions.size() - 1);
 		return permissions;
+	}
+
+	/**
+	 * 
+	 * @param appId
+	 * @return
+	 */
+	public List<AppPermission> getAppPermissionsByAppId(int appId) {
+		List<AppPermission> appPermissions = new ArrayList<AppPermission>();
+		// build query
+		String whereClause = AppPermission.APP_ID + " = " + appId;
+		Cursor cursor = database.query(AppPermission.TABLE, allColumns,
+				whereClause, null, null, null, null);
+
+		appPermissions = cursorToModelList(cursor);
+		return appPermissions;
+	}
+
+	/**
+	 * Get all permissions from database thats label isn't neither empty nor
+	 * equal to its name.
+	 * 
+	 * @param appId
+	 * @return filtered list of permissions
+	 */
+	public ArrayList<Permission> getTranslatedPermissionsByAppId(int appId) {
+		ArrayList<Permission> permissions = getPermissionsByAppId(appId);
+		ArrayList<Permission> translatedPermissions = new ArrayList<Permission>();
+		for (Permission permission : permissions) {
+			// only if the label does not contain a dot, it can be a translated
+			// label
+			if (!(permission.getLabel().contains("."))) {
+				for (char letter : permission.getLabel().toCharArray()) {
+					// if it contains at least one lower case character, add the
+					// permission
+					if (Character.isLowerCase(letter)) {
+						translatedPermissions.add(permission);
+						break;
+					}
+				}
+			}
+		}
+		return translatedPermissions;
 	}
 
 	/**
@@ -79,32 +120,38 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 	 *            the list to sort
 	 * @return a sorted list of Permission
 	 */
-	private ArrayList<Permission> sortPermissions(
-			ArrayList<Permission> permissions) {
-
-		if (permissions.size() <= 1)
-			return permissions;
-
-		int firstCriticality = permissions.get(0).getCriticality();
-
-		ArrayList<Permission> moreCritical = new ArrayList<Permission>(
-				permissions.size());
-		ArrayList<Permission> lessCritical = new ArrayList<Permission>(
-				permissions.size());
-
-		for (int i = 1; i < permissions.size(); i++) {
-			if (permissions.get(i).getCriticality() > firstCriticality)
-				moreCritical.add(permissions.get(i));
-			else
-				lessCritical.add(permissions.get(i));
+	private static void sortPermissions(ArrayList<Permission> permissions,
+			int left, int right) {
+		if (left < right) {
+			int i = partition(permissions, left, right);
+			sortPermissions(permissions, left, i - 1);
+			sortPermissions(permissions, i + 1, right);
 		}
+	}
 
-		moreCritical = sortPermissions(moreCritical);
-		lessCritical = sortPermissions(lessCritical);
+	private static int partition(ArrayList<Permission> permissions, int left,
+			int right) {
+		int pivot, i, j;
+		Permission help;
+		pivot = permissions.get(right).getCriticality();
+		i = left;
+		j = right - 1;
+		while (i <= j) {
+			if (permissions.get(i).getCriticality() > pivot) {
+				// tausche x.get(i) und x.get(j)
+				help = permissions.get(i);
+				permissions.set(i, permissions.get(j));
+				permissions.set(j, help);
+				j--;
+			} else
+				i++;
+		}
+		// tausche x.get(i) und x.get(rechts)
+		help = permissions.get(i);
+		permissions.set(i, permissions.get(right));
+		permissions.set(right, help);
 
-		moreCritical.addAll(lessCritical);
-
-		return moreCritical;
+		return i;
 	}
 
 	/**
@@ -157,11 +204,11 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 						+ AppPermission.PERMISSION_ID + "=" + permissionId,
 				null, null, null, null);
 		cursor.moveToFirst();
-		
-		//convert to AppPermission object
+
+		// convert to AppPermission object
 		AppPermission newAppPermission = cursorToModel(cursor);
 		cursor.close();
-		
+
 		return newAppPermission;
 	}
 }

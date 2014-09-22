@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.comment.Comment;
 import de.otaris.zertapps.privacychecker.appDetails.description.Description;
@@ -53,16 +55,15 @@ public class AppDetailsActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.app_details, menu);
+	protected void onResume() {
+		super.onResume();
 
 		// Get the App from the intent passed from the previous activity
 		AppCompact app = getIntent().getParcelableExtra("AppCompact");
 		// add missing information to the compact app
 		AppExtendedDataSource appDataSource = new AppExtendedDataSource(this);
 		appDataSource.open();
-		AppExtended appExtended = appDataSource.extendAppCompact(app);
+		AppExtended appExtended = appDataSource.getAppById(app.getId());
 		appDataSource.close();
 
 		// get header to display the basic app details
@@ -87,6 +88,13 @@ public class AppDetailsActivity extends Activity {
 		ArrayAdapter<Detail> adapter = new AppDetailListItemAdapter(this,
 				details);
 		detailListView.setAdapter(adapter);
+	};
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+
 		return true;
 	}
 
@@ -116,14 +124,17 @@ public class AppDetailsActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		switch (item.getItemId()) {
+		case R.id.action_imprint:
+			Intent intent = new Intent(this, ImprintActivity.class);
+			startActivity(intent);
 			return true;
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import android.os.Environment;
+import android.util.Log;
 
 public class UserStudyLogger {
 
@@ -31,8 +32,9 @@ public class UserStudyLogger {
 	}
 
 	public void log(String message) {
-		if (!LOGGING_ENABLED) return;
-		
+		if (!LOGGING_ENABLED)
+			return;
+
 		File logfile = new File(Environment.getExternalStorageDirectory(),
 				FILE_NAME);
 
@@ -40,7 +42,7 @@ public class UserStudyLogger {
 			try {
 				logfile.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				Log.e("StudyLogger", "Error while opening file.");
 				e.printStackTrace();
 			}
 		}

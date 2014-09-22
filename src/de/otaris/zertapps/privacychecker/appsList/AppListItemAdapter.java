@@ -25,6 +25,12 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 	private final List<AppCompact> values;
 	private final PackageManager pm;
 
+	protected TextView textView;
+	protected ImageView imageView;
+	protected ImageView ratingImage;
+	protected ImageView psImage;
+	protected TextView notAvailableView;
+
 	public AppListItemAdapter(Context context, PackageManager pm,
 			List<AppCompact> values) {
 		super(context, R.layout.app_list_item, values);
@@ -33,21 +39,25 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 		this.pm = pm;
 	}
 
+	private void initializeViews(View contextView) {
+
+		textView = (TextView) contextView.findViewById(R.id.app_list_item_name);
+		imageView = (ImageView) contextView.findViewById(R.id.app_list_item_icon);
+		ratingImage = (ImageView) contextView
+				.findViewById(R.id.app_list_item_privacy_rating);
+		psImage = (ImageView) contextView
+				.findViewById(R.id.app_list_item_ps_rating);
+		notAvailableView = (TextView) contextView
+				.findViewById(R.id.functional_rating_not_available);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.app_list_item, parent, false);
-
-		// get views from layout
-		TextView textView = (TextView) rowView
-				.findViewById(R.id.app_list_item_name);
-		ImageView imageView = (ImageView) rowView
-				.findViewById(R.id.app_list_item_icon);
-		ImageView ratingImage = (ImageView) rowView
-				.findViewById(R.id.app_list_item_privacy_rating);
-		ImageView psImage = (ImageView) rowView
-				.findViewById(R.id.app_list_item_ps_rating);
+		
+		initializeViews(rowView);
 
 		// set app icon
 		if (values.get(position).isInstalled()) {
@@ -71,9 +81,13 @@ public class AppListItemAdapter extends ArrayAdapter<AppCompact> {
 		ratingImage.setImageResource(ratingController
 				.getIconRatingLocks(privacyRating));
 		float funcRating = values.get(position).getFunctionalRating();
-		psImage.setImageResource(ratingController
-				.getIconRatingStars(funcRating));
-
+		if (funcRating == -1) {
+			notAvailableView.setVisibility(ViewGroup.VISIBLE);
+			psImage.setVisibility(ViewGroup.GONE);
+		} else {
+			psImage.setImageResource(ratingController
+					.getIconRatingStars(funcRating));
+		}
 		return rowView;
 	}
 }

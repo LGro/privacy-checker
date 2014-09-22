@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ public class ExtendedHeader extends Header {
 	// TODO: this is currently not used; create attribute for app in database
 	protected TextView playStoreRatingAmountTextView;
 	protected TextView privacyRatingAmountTextView;
+	protected TextView functionalRatingNotAvailable;
 
 	protected void initializeViews(View contextView) {
 		appNameView = (TextView) contextView
@@ -61,6 +63,8 @@ public class ExtendedHeader extends Header {
 				.findViewById(R.id.app_detail_header_ps_rating_amount);
 		privacyRatingAmountTextView = (TextView) contextView
 				.findViewById(R.id.app_detail_header_privacy_rating_amount);
+		functionalRatingNotAvailable = (TextView) contextView
+				.findViewById(R.id.functional_rating_not_available);
 	}
 
 	@Override
@@ -72,18 +76,28 @@ public class ExtendedHeader extends Header {
 
 		View rowView = inflater.inflate(R.layout.app_detail_header, null);
 
-		// set some id
-		// TODO: Is there a way of doing this so there is nExtendedHeadero
-		// conflict possible?
+		/*
+		 * a random id has to be set to align the details list below the header
+		 * view
+		 * 
+		 * TODO: Is there even a possibility of an id conflict?
+		 */
 		rowView.setId(170892);
 
 		initializeViews(rowView);
+
+		// has to be selected to scroll if the text is too long
+		appNameView.setSelected(true);
 
 		// ... and fill them with the right information about the app.
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
 			installUninstallButton.setText("Deinstallieren");
+
+			// TODO: Remove once the deinstall feature is implemented.
+			installUninstallButton.setVisibility(View.GONE);
 			try {
+				// if installed, get the image from the device
 				appIconImageView.setImageDrawable(activity.getPackageManager()
 						.getApplicationIcon(app.getName()));
 
@@ -93,6 +107,7 @@ public class ExtendedHeader extends Header {
 			}
 		} else {
 			installUninstallButton.setText("Installieren");
+			// if not installe,d get the image from the database
 			appIconImageView.setImageBitmap(IconController
 					.byteArrayToBitmap(app.getIcon()));
 		}
@@ -112,11 +127,18 @@ public class ExtendedHeader extends Header {
 		// Set the icons for locks and stars according to their amount
 		privacyRatingImageView.setImageResource(new RatingController()
 				.getIconRatingLocks(app.getPrivacyRating()));
-		playStoreRatingImageView.setImageResource(new RatingController()
-				.getIconRatingStars(app.getFunctionalRating()));
+		if (app.getFunctionalRating() == -1) {
+			functionalRatingNotAvailable.setVisibility(ViewGroup.VISIBLE);
+			playStoreRatingImageView.setVisibility(ViewGroup.GONE);
+			playStoreRatingAmountTextView.setVisibility(ViewGroup.GONE);
+		} else {
+			playStoreRatingImageView.setImageResource(new RatingController()
+					.getIconRatingStars(app.getFunctionalRating()));
+		}
 		int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
 				+ app.getExpertRating().size();
-		privacyRatingAmountTextView.setText(totalNumberOfPrivacyRatings + "");
+		privacyRatingAmountTextView.setText("(" + totalNumberOfPrivacyRatings
+				+ ")");
 
 		// Set name and developer
 		appNameView.setText(app.getLabel());

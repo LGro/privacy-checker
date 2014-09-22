@@ -16,7 +16,7 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
 public class CategoryDataSource extends DataSource<Category> {
 
 	private String[] allColumns = { Category.ID, Category.NAME, Category.LABEL,
-			Category.ORDER };
+			Category.ORDER, Category.AVERAGEAUTORATING };
 
 	public CategoryDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -31,12 +31,17 @@ public class CategoryDataSource extends DataSource<Category> {
 	 */
 
 	protected Category cursorToModel(Cursor cursor) {
+
+		if (cursor.getCount() == 0)
+			return null;
+
 		Category category = new Category();
 
 		category.setId(cursor.getInt(0));
 		category.setName(cursor.getString(1));
 		category.setLabel(cursor.getString(2));
 		category.setOrder(cursor.getInt(3));
+		category.setAverageAutoRating(cursor.getFloat(4));
 
 		return category;
 	}
@@ -64,12 +69,14 @@ public class CategoryDataSource extends DataSource<Category> {
 	 * 
 	 * @return category object of the newly created category
 	 */
-	public Category createCategory(String name, String label, int order) {
+	public Category createCategory(String name, String label, int order,
+			float avgAutoRating) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(Category.NAME, name);
 		values.put(Category.LABEL, label);
 		values.put(Category.ORDER, order);
+		values.put(Category.AVERAGEAUTORATING, avgAutoRating);
 
 		// insert into DB
 		long insertId = database.insert(Category.TABLE, null, values);
@@ -97,6 +104,31 @@ public class CategoryDataSource extends DataSource<Category> {
 
 		// return app object
 		return newCategory;
+	}
+
+	/**
+	 * gets the averageRating for a Category By Id
+	 * 
+	 * @param categoryId
+	 * @return float with average category Id
+	 */
+	public float getAverageRatingForCategory(int categoryId) {
+		Category cat = getCategoryById(categoryId);
+		return cat.getAverageAutoRating();
+	}
+
+	public Category getCategoryByName(String categoryName) {
+		// build database query
+				Cursor cursor = database.query(Category.TABLE, allColumns, Category.NAME
+						+ " = '" + categoryName + "'", null, null, null, null);
+				cursor.moveToFirst();
+
+				// convert to App object
+				Category newCategory = cursorToModel(cursor);
+				cursor.close();
+
+				// return app object
+				return newCategory;
 	}
 
 }

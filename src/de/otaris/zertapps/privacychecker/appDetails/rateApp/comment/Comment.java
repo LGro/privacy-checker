@@ -2,7 +2,7 @@ package de.otaris.zertapps.privacychecker.appDetails.rateApp.comment;
 
 import android.content.Context;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationException;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationErrorException;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 import de.otaris.zertapps.privacychecker.database.dataSource.CommentDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
@@ -19,7 +19,7 @@ public class Comment extends RatingElement {
 	}
 
 	@Override
-	public void validate() throws RatingValidationException {
+	public void validate() throws RatingValidationErrorException {
 
 	}
 

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300sp"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    tools:ignore="SelectableText" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1sp"
+        tools:ignore="UselessParent" >
+
+        <TableLayout
+            android:id="@+id/app_detail_permission_alert_dialog_tablelayout_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:stretchColumns="1" >
+
+            <TableRow
+                android:id="@+id/app_detail_permission_alert_dialog_tablerow_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent" >
+
+                <ImageView
+                    android:id="@+id/app_detail_permission_alert_dialog_imageView1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:padding="8sp"
+                    android:src="@drawable/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/app_detail_permission_alert_dialog_textview_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:background="#FFFFFF"
+                    android:gravity="center_vertical"
+                    android:padding="8sp"
+                    android:text="Title"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+
+        <View
+            android:id="@+id/app_detail_permission_alert_dialog_viewline1"
+            android:layout_width="wrap_content"
+            android:layout_height="0.25dip"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_tablelayout_title"
+            android:layout_centerVertical="true"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/app_detail_permission_alert_dialog_textview_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_viewline1"
+            android:background="#FFFFFF"
+            android:padding="16sp"
+            android:text="Description"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/app_detail_permission_alert_dialog_viewline2"
+            android:layout_width="wrap_content"
+            android:layout_height="0.25dip"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_textview_description"
+            android:layout_centerVertical="true"
+            android:background="#000000" />
+
+        <TableLayout
+            android:id="@+id/app_detail_permission_alert_dialog_tablelayout_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_viewline2"
+            android:layout_gravity="center"
+            android:background="#FFFFFF"
+            android:stretchColumns="*" >
+
+            <TableRow
+                android:id="@+id/app_detail_permission_alert_dialog_tablerow_button_yesno"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="UselessParent" >
+
+                <Button
+                    android:id="@+id/app_detail_permission_alert_dialog_button_yes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/button_background_selector"
+                    android:text="@string/understandable" />
+
+                <Button
+                    android:id="@+id/app_detail_permission_alert_dialog_button_no"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/button_background_selector"
+                    android:text="@string/not_understandable" />
+
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/app_detail_permission_alert_dialog_button_cancel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/button_background_selector"
+        android:text="Abbrechen" />
+
+</LinearLayout>

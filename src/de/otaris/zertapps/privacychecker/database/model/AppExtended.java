@@ -10,21 +10,27 @@ import de.otaris.zertapps.privacychecker.database.interfaces.App;
  * represents the extended App entity in the database an extended App has all
  * the information that belong to an App that is: Permissions, Comments,
  * Ratings, Details
- *
+ * 
  */
 public class AppExtended implements App, Parcelable {
 
 	private AppCompact appCompact;
 	private ArrayList<Permission> permissionList;
-	// Array with permissionID and RatingPermission
-	// TODO: better use PermissionRating object containing Permission Object?!
-	private int[][] permissionRating;
-	// weighted rating in total
-	private float rating;
 	private ArrayList<Integer> expertRating;
 	private float totalExpertRating;
 	private ArrayList<Integer> nonExpertRating;
 	private float totalNonExpertRating;
+	private Category category;
+
+	// getters and setters
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public AppExtended(AppCompact appCompact) {
 		this.appCompact = appCompact;
@@ -40,7 +46,7 @@ public class AppExtended implements App, Parcelable {
 		return totalExpertRating;
 	}
 
-	public void setTotalExpertRating(ArrayList<Integer> expertRating) {
+	private void calculateTotalExpertRating(ArrayList<Integer> expertRating) {
 
 		float totalExpertRating = 0;
 		int i = expertRating.size();
@@ -62,7 +68,9 @@ public class AppExtended implements App, Parcelable {
 		return totalNonExpertRating;
 	}
 
-	public void setTotalNonExpertRating(ArrayList<Integer> nonExpertRating) {
+	private void calculateTotalNonExpertRating(
+			ArrayList<Integer> nonExpertRating) {
+
 		float totalNonExpertRating = 0;
 		int i = nonExpertRating.size();
 		if (i == 0)
@@ -79,29 +87,13 @@ public class AppExtended implements App, Parcelable {
 		}
 	}
 
-	public int[][] getPermissionRating() {
-		return permissionRating;
-	}
-
-	public void setPermissionRating(int[][] permissionRating) {
-		this.permissionRating = permissionRating;
-	}
-
-	public float getRating() {
-		return rating;
-	}
-
-	public void setRating() {
-		this.rating = (appCompact.getAutomaticRating() + totalExpertRating + totalNonExpertRating) / 3;
-	}
-
 	public ArrayList<Integer> getExpertRating() {
 		return expertRating;
 	}
 
 	public void setExpertRating(ArrayList<Integer> expertRating) {
 		this.expertRating = expertRating;
-		setTotalExpertRating(expertRating);
+		calculateTotalExpertRating(expertRating);
 	}
 
 	public ArrayList<Integer> getNonExpertRating() {
@@ -110,8 +102,12 @@ public class AppExtended implements App, Parcelable {
 
 	public void setNonExpertRating(ArrayList<Integer> nonExpertRating) {
 		this.nonExpertRating = nonExpertRating;
-		setTotalNonExpertRating(nonExpertRating);
+		calculateTotalNonExpertRating(nonExpertRating);
 
+	}
+
+	public AppCompact getAppCompact() {
+		return appCompact;
 	}
 
 	@Override
@@ -174,11 +170,6 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
-	public void setId(int id) {
-		appCompact.setId(id);
-	}
-
-	@Override
 	public void setCategoryId(int categoryId) {
 		appCompact.setCategoryId(categoryId);
 	}
@@ -214,11 +205,6 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
-	public void setTimestamp(Long timestamp) {
-		appCompact.setTimestamp(timestamp);
-	}
-
-	@Override
 	public void setDescription(String description) {
 		appCompact.setDescription(description);
 	}
@@ -238,6 +224,14 @@ public class AppExtended implements App, Parcelable {
 		appCompact.setAutomaticRating(automaticRating);
 	}
 
+	public void setCategoryWeightedAutoRating(float rating) {
+		appCompact.setCategoryWeightedAutoRating(rating);
+	}
+
+	public float getCategoryWeightedAutoRating() {
+		return appCompact.getCategoryWeightedAutoRating();
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -247,22 +241,20 @@ public class AppExtended implements App, Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(appCompact, 0);
 		dest.writeList(permissionList);
-		dest.writeArray(permissionRating);
 		dest.writeList(expertRating);
 		dest.writeFloat(totalExpertRating);
 		dest.writeList(nonExpertRating);
 		dest.writeFloat(totalNonExpertRating);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void readFromParcel(Parcel in) {
 		appCompact = in.readParcelable(AppCompact.class.getClassLoader());
 		permissionList = new ArrayList<Permission>();
-		in.readTypedList(permissionList, Permission.CREATOR);
-		// TODO: fix for two dimensional array
-		// permissionRating = in.readArray(Integer.class.getClassLoader());
-		expertRating = (ArrayList<Integer>) in.readSerializable();
+		permissionList = in.readArrayList(Permission.class.getClassLoader());
+		expertRating = in.readArrayList(Integer.class.getClassLoader());
 		totalExpertRating = in.readFloat();
-		nonExpertRating = (ArrayList<Integer>) in.readSerializable();
+		nonExpertRating = in.readArrayList(Integer.class.getClassLoader());
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a

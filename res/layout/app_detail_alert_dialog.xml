@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     tools:ignore="SelectableText" >
-
-    <RelativeLayout
+ <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="1sp"
@@ -98,5 +97,7 @@
             </TableRow>
         </TableLayout>
     </RelativeLayout>
+
+
 
 </LinearLayout>
