@@ -187,13 +187,6 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					context, permissionExtendedList));
 			permissionListView.setScrollContainer(false);
 
-			// scale list depending on its size
-			ViewGroup.LayoutParams updatedLayout = permissionListView
-					.getLayoutParams();
-			int pixels = (int) (39 * context.getResources().getDisplayMetrics().density);
-			updatedLayout.height = pixels * permissionListView.getCount();
-			permissionListView.setLayoutParams(updatedLayout);
-
 			// set click listener for list items
 			permissionListView
 					.setOnItemClickListener(new OnItemClickListener() {
@@ -236,6 +229,42 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					}
 				});
 
+		// scale list depending on its size
+		setListViewHeigthBasedOnChildren(permissionListView,
+				permissionList.size());
+
 		return rowView;
+	}
+
+	/**
+	 * Scale a listView depending on the number of elements you want to display.
+	 * 
+	 * @param listView
+	 * @param numberOfElements
+	 *            the number of list elements to be displayed at maximum
+	 */
+	private void setListViewHeigthBasedOnChildren(ListView listView,
+			int numberOfElements) {
+
+		// get adapter from list view
+		PermissionsListItemAdapter adapter = (PermissionsListItemAdapter) listView
+				.getAdapter();
+		int totalHeight = 0;
+
+		// accumulate total height by measuring each list element
+		for (int i = 0; i < numberOfElements; i++) {
+			View listItem = adapter.getView(i, null, listView);
+			listItem.measure(0, 0);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		// update list layout to maximum height
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (adapter.getCount() - 1));
+		listView.setLayoutParams(params);
+
+		// notify list view about layout changes
+		listView.requestLayout();
 	}
 }

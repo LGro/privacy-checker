@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,6 +31,7 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 	protected ListView permissionsList;
 	protected ToggleButton showMoreButton;
 	protected RelativeLayout permissionsGroup;
+	protected int numberOfPermissionsToShow;
 
 	/**
 	 * initialize all relevant views
@@ -67,7 +69,7 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(
 				R.layout.app_detail_rate_app_permissions, parent, false);
-		
+
 		initializeViews(rowView);
 
 		// dont show permissionsGroup if there are no permissions
@@ -77,7 +79,6 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 					.setText(R.string.app_details_privacy_rating_permissions_title_no_permissions);
 
 		} else {
-
 			// set adapter
 			PermissionsExpectedItemAdapter adapter = new PermissionsExpectedItemAdapter(
 					context, app.getPermissionList());
@@ -101,37 +102,82 @@ public class PermissionsExpectedViewHelper extends RatingElementViewHelper {
 				}
 			});
 
-			showMoreButton
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			// only show 5 permissions to rate, even if there are more available
+			if (app.getPermissionList().size() > 5) {
+				// set maximum number of comments to 5
+				numberOfPermissionsToShow = 5;
 
-						@Override
-						public void onCheckedChanged(
-								CompoundButton showMoreButton, boolean isChecked) {
-							ListView listView = (ListView) showMoreButton
-									.getRootView()
-									.findViewById(
-											R.id.app_detail_rate_app_permissions_list);
-							ViewGroup.LayoutParams updatedLayout = listView
-									.getLayoutParams();
-							final float scale = showMoreButton.getRootView()
-									.getContext().getResources()
-									.getDisplayMetrics().density;
-							int pixels = (int) (49 * scale);
+				showMoreButton
+						.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-							if (isChecked) {
-								updatedLayout.height = pixels
-										* listView.getCount();
-								listView.setLayoutParams(updatedLayout);
-							} else {
-								// default: show 4 permissions
-								updatedLayout.height = pixels * 4;
-								listView.setLayoutParams(updatedLayout);
+							@Override
+							public void onCheckedChanged(
+									CompoundButton showMoreButton,
+									boolean isChecked) {
+								ListView listView = (ListView) showMoreButton
+										.getRootView()
+										.findViewById(
+												R.id.app_detail_rate_app_permissions_list);
+
+								PermissionsExpectedItemAdapter adapter = (PermissionsExpectedItemAdapter) listView
+										.getAdapter();
+
+								if (isChecked) {
+									// show total List of comments
+									setListViewHeigthBasedOnChildren(listView,
+											adapter.getCount());
+								} else {
+									// show the first comments
+									setListViewHeigthBasedOnChildren(listView,
+											numberOfPermissionsToShow);
+								}
 							}
-						}
-					});
+						});
 
+			} else {
+				// there are 5 or less permissions
+				numberOfPermissionsToShow = app.getPermissionList().size();
+				showMoreButton.setVisibility(View.GONE);
+			}
+			// show the first comments
+			setListViewHeigthBasedOnChildren(permissionsList,
+					numberOfPermissionsToShow);
 		}
 
 		return rowView;
+	}
+
+	/**
+	 * Scale a listView depending on the number of elements you want to display.
+	 * 
+	 * @param listView
+	 * @param numberOfElements
+	 *            the number of list elements to be displayed at maximum
+	 */
+	private void setListViewHeigthBasedOnChildren(ListView listView,
+			int numberOfElements) {
+
+		// get adapter from list view
+		PermissionsExpectedItemAdapter adapter = (PermissionsExpectedItemAdapter) listView
+				.getAdapter();
+		int totalHeight = 0;
+		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
+				MeasureSpec.AT_MOST);
+
+		// accumulate total height by measuring each list element
+		for (int i = 0; i < numberOfElements; i++) {
+			View listItem = adapter.getView(i, null, listView);
+			listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		// update list layout to maximum height
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (adapter.getCount() - 1));
+		listView.setLayoutParams(params);
+
+		// notify list view about layout changes
+		listView.requestLayout();
 	}
 }
