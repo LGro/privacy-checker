@@ -58,6 +58,10 @@ public class DescriptionViewHelper extends DetailViewHelper {
 		// "show more" buttons
 		ToggleButton button = (ToggleButton) rowView
 				.findViewById(R.id.app_detail_description_more);
+		if (descriptionText.equals("")){
+			button.setVisibility(ViewGroup.GONE);
+			descriptionTextView.setText(R.string.app_detail_description_na);
+		}
 		button.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
