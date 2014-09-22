@@ -124,13 +124,17 @@ public class AppDetailsActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_imprint) {
+		switch (item.getItemId()) {
+		case R.id.action_imprint:
 			Intent intent = new Intent(this, ImprintActivity.class);
 			startActivity(intent);
 			return true;
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	/**

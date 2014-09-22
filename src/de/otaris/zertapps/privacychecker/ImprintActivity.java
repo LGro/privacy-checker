@@ -2,6 +2,7 @@ package de.otaris.zertapps.privacychecker;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,9 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-/*
- * Handles the Imprint logic
- *
+/**
+ * Displays the imprint text.
  */
 public class ImprintActivity extends Activity {
 
@@ -34,11 +34,17 @@ public class ImprintActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_imprint) {
+		switch (item.getItemId()) {
+		case R.id.action_imprint:
+			Intent intent = new Intent(this, ImprintActivity.class);
+			startActivity(intent);
 			return true;
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	/**
