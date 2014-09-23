@@ -23,7 +23,7 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 	@Override
 	protected boolean[] getTabOrderedAscending() {
 		// order ascending for alphabet, privacy rating, functional rating
-		return new boolean[] { true, false, false };
+		return new boolean[] { true, false, false, true };
 	}
 
 	// overwrite default privacy sorting direction
@@ -84,7 +84,9 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 									: R.drawable.popularityrating_ascending;
 							break;
 						case 3:
-							
+							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
+									: R.drawable.name_descending;
+							break;
 						}
 						actionBar.getTabAt(position).setIcon(sortingIcon);
 					}
@@ -100,7 +102,8 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 				.setIcon(R.drawable.privacyrating_default));
 		actionBar.addTab(actionBar.newTab().setTabListener(this)
 				.setIcon(R.drawable.popularityrating_default));
-		actionBar.addTab(actionBar.newTab().setText("Filter"));
+
+		actionBar.addTab(actionBar.newTab().setText("Filter").setTabListener(this));
 	}
 
 	@Override
@@ -147,6 +150,9 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 			case 2:
 				return updateListView(actionBar.getTabAt(i),
 						AppsListOrder.FUNCTIONAL_RATING, tabOrderedAscending[2]);
+			case 3:
+				return updateListView(actionBar.getTabAt(i),
+						AppsListOrder.ALPHABET, tabOrderedAscending[3]);
 			default:
 				return null;
 			}
