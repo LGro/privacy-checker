@@ -67,8 +67,12 @@
     <string name="functional_rating">Play Store Bewertung</string>
     <string name="validation_warning_no_permissions">Du hast keine Berechtigungen als (un-)erwartet markiert.</string>
     <string name="title_imprint_acitivty">Impressum</string>
-    <string name="imprint_main">Entwickelt von:\nDaniel Geißler\nLukas Großberger\nStefan Gutsch\nNicolina Wenzler\nLisa Zimmermann\n\n@Technische Universität Darmstadt\n\ncc-by-nc</string>
+    <string name="imprint_main1">Version: 1.0 \n\nEntwickelt von:\nDaniel Geißler\nLukas Großberger\nStefan Gutsch\nNicolina Wenzler\nLisa Zimmermann\n\nIn Zusammenarbeit mit SecUSo </string>
+    <string name="imprint_main2">Technische Universität Darmstadt </string>
+	<string name="licence">ncc-by-nc </string>
+    <string name="imprint_SecUso_link"> https://www.secuso.informatik.tu-darmstadt.de </string>
     <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
     <string name="filter">Filtern</string>
     <string name="filter_button">Filter anwenden</string>
+
 </resources>
