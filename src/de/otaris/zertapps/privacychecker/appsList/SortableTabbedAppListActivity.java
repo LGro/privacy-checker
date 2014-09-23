@@ -6,6 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RelativeLayout;
 import de.otaris.zertapps.privacychecker.R;
 
 /**
@@ -83,6 +86,9 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		case 2:
 			tab.setIcon(R.drawable.popularityrating_default);
 			break;
+		case 3:
+			tab.setText(R.string.filter);
+			break;
 		}
 	}
 
@@ -97,21 +103,34 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 
 			// set icon matching the sorting direction and the selected tab
 			int sortingIcon = 0;
-			switch (tab.getPosition()) {
-			case 0:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.name_ascending
-						: R.drawable.name_descending;
-				break;
-			case 1:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.privacyrating_descending
-						: R.drawable.privacyrating_ascending;
-				break;
-			case 2:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.popularityrating_descending
-						: R.drawable.popularityrating_ascending;
-				break;
+			if (tab.getPosition() == 3) {
+				// open filter overlay
+//				RelativeLayout overlay = (RelativeLayout) findViewById(R.id.filter_overlay);
+//				overlay.setVisibility(View.VISIBLE);
+				LayoutInflater inflater = LayoutInflater.from(this);
+				RelativeLayout layout = (RelativeLayout) inflater.inflate(
+						R.layout.filter_overlay, viewPager, false);
+				//overlay.addView(layout);
+				layout.setVisibility(View.VISIBLE);
+
+			} else {
+				switch (tab.getPosition()) {
+				case 0:
+					sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.name_ascending
+							: R.drawable.name_descending;
+					break;
+				case 1:
+					sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.privacyrating_descending
+							: R.drawable.privacyrating_ascending;
+					break;
+				case 2:
+					sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.popularityrating_descending
+							: R.drawable.popularityrating_ascending;
+					break;
+
+				}
+				tab.setIcon(sortingIcon);
 			}
-			tab.setIcon(sortingIcon);
 
 			// notify adapter about changed dataset
 			tabPagerAdapter.notifyDataSetChanged();

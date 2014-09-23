@@ -69,4 +69,6 @@
     <string name="title_imprint_acitivty">Impressum</string>
     <string name="imprint_main">Entwickelt von:\nDaniel Geißler\nLukas Großberger\nStefan Gutsch\nNicolina Wenzler\nLisa Zimmermann\n\n@Technische Universität Darmstadt\n\ncc-by-nc</string>
     <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
+    <string name="filter">Filtern</string>
+    <string name="filter_button">Filter anwenden</string>
 </resources>

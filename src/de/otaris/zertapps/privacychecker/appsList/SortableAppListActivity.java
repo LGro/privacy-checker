@@ -2,7 +2,6 @@ package de.otaris.zertapps.privacychecker.appsList;
 
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.UserStudyLogger;
-import de.otaris.zertapps.privacychecker.R.drawable;
 import android.app.ActionBar;
 import android.support.v4.app.FragmentActivity;
 
