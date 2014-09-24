@@ -1,6 +1,5 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -21,9 +20,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
@@ -31,7 +30,7 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
 /**
  * provides list rendering functionality for sortable lists
  */
-public abstract class SortableTabbedAppListActivity extends FragmentActivity
+public abstract class FilterableTabbedAppListActivity extends FragmentActivity
 		implements ActionBar.TabListener {
 
 	protected ViewPager viewPager;
@@ -39,7 +38,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	protected ActionBar.Tab lastTabSelected = null;
 	FragmentStatePagerAdapter tabPagerAdapter;
 
-	protected List<Permission> unselectedPermissions = new ArrayList<Permission>();
+	protected List<Permission> selectedPermissions;
 	protected int minPrivacyRating = 0;
 	protected int maxPrivacyRating = 5;
 	protected int minFunctionalRating = 0;
@@ -50,7 +49,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 
 	protected abstract boolean[] getTabOrderedAscending();
 
-	public SortableTabbedAppListActivity() {
+	public FilterableTabbedAppListActivity() {
 		tabOrderedAscending = getTabOrderedAscending();
 	}
 
@@ -61,13 +60,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	 *            prepared unmodified apps list
 	 * @return (if needed) modified apps list
 	 */
-	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
-		if (filter) {
-			appsList.setFilterPermissions(unselectedPermissions);
-			appsList.setPrivacyRatingBounds(minPrivacyRating, maxPrivacyRating);
-			appsList.setFunctionalRatingBounds(minFunctionalRating,
-					maxFunctionalRating);
-		}
+	protected AppsList configureAppsList(AppsList appsList) {
 
 		return appsList;
 	}
@@ -90,7 +83,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		appsList.setOrder(order, ascending);
 		appsList.setRootActivity(this);
 
-		appsList = configureAppsList(appsList, tab.getPosition() == 3);
+		appsList = configureAppsList(appsList);
 
 		return appsList;
 	}
@@ -195,16 +188,14 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			public void onClick(View v) {
 				initializeViews(v.getRootView());
 
-				minPrivacyRating = Integer.parseInt(minPrivacyRatingSpinner
-						.getSelectedItem().toString());
-				maxPrivacyRating = Integer.parseInt(maxPrivacyRatingSpinner
-						.getSelectedItem().toString());
-				minFunctionalRating = Integer
-						.parseInt(minFunctionalRatingSpinner.getSelectedItem()
-								.toString());
-				maxFunctionalRating = Integer
-						.parseInt(maxFunctionalRatingSpinner.getSelectedItem()
-								.toString());
+				minPrivacyRating = (int) minPrivacyRatingSpinner
+						.getSelectedItem();
+				maxPrivacyRating = (int) maxPrivacyRatingSpinner
+						.getSelectedItem();
+				minFunctionalRating = (int) minFunctionalRatingSpinner
+						.getSelectedItem();
+				maxPrivacyRating = (int) maxFunctionalRatingSpinner
+						.getSelectedItem();
 
 				SparseBooleanArray checkedPermissions = permissionsList
 						.getCheckedItemPositions();
@@ -212,11 +203,11 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 				PermissionsAdapter adapter = (PermissionsAdapter) permissionsList
 						.getAdapter();
 
-				for (int i = 0; i < adapter.getCount(); i++)
-					if (!checkedPermissions.get(i))
-						unselectedPermissions.add(adapter.getItem(i));
+				int len = permissionsList.getCount();
+				for (int i = 0; i < len; i++)
+					if (checkedPermissions.get(i))
+						selectedPermissions.add(adapter.getItem(i));
 
-				dialog.hide();
 			}
 		});
 
@@ -250,11 +241,9 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 					android.R.layout.simple_list_item_multiple_choice, parent,
 					false);
 
-			CheckedTextView textView = (CheckedTextView) rowView
+			TextView textView = (TextView) rowView
 					.findViewById(android.R.id.text1);
 			textView.setText(permissionsList.get(position).getLabel());
-
-			textView.setChecked(true);
 
 			return rowView;
 

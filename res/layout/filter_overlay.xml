@@ -6,7 +6,7 @@
     android:layout_marginBottom="15dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginTop="35dp"
+    android:layout_marginTop="15dp"
     android:background="@color/white" >
 
     <TextView
@@ -28,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="0.25dip"
         android:layout_below="@+id/filter_overlay_title"
-        android:layout_centerVertical="true"
         android:layout_marginTop="2dp"
         android:background="#000000" />
 
@@ -63,7 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/filter_overlay_privacy_option_text1"
         android:layout_alignTop="@+id/filter_overlay_privacy_option_text1"
-        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text1" />
+        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text1"
+        android:entries="@array/rating_values" />
 
     <TextView
         android:id="@+id/filter_overlay_privacy_option_text2"
@@ -80,7 +80,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/filter_overlay_privacy_option_text2"
         android:layout_alignTop="@+id/filter_overlay_privacy_option_text2"
-        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text2" />
+        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text2"
+        android:entries="@array/rating_values" />
 
     <TextView
         android:id="@+id/filter_overlay_privacy_option_text3"
@@ -123,7 +124,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/filter_overlay_functional_option_text1"
         android:layout_alignTop="@+id/filter_overlay_functional_option_text1"
-        android:layout_toRightOf="@+id/filter_overlay_functional_option_text1" />
+        android:layout_toRightOf="@+id/filter_overlay_functional_option_text1"
+        android:entries="@array/rating_values" />
 
     <TextView
         android:id="@+id/filter_overlay_functional_option_text2"
@@ -140,7 +142,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/filter_overlay_functional_option_text2"
         android:layout_alignTop="@+id/filter_overlay_functional_option_text2"
-        android:layout_toRightOf="@+id/filter_overlay_functional_option_text2" />
+        android:layout_toRightOf="@+id/filter_overlay_functional_option_text2"
+        android:entries="@array/rating_values" />
 
     <TextView
         android:id="@+id/filter_overlay_functional_option_text3"
@@ -166,11 +169,23 @@
     </TextView>
 
     <ListView
-        android:id="@+id/expandableListView1"
+        android:id="@+id/filter_overlay_permissions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/filter_overlay_submit"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/filter_overlay_permission_option" >
+        android:layout_below="@+id/filter_overlay_permission_option"
+        android:layout_marginBottom="4dp"
+        android:choiceMode="multipleChoice" >
     </ListView>
+
+    <Button
+        android:id="@+id/filter_overlay_submit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/filter_overlay_submit" >
+    </Button>
 
 </RelativeLayout>

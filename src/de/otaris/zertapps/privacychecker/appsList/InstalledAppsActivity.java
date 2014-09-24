@@ -27,7 +27,7 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 	}
 
 	@Override
-	protected AppsList configureAppsList(AppsList appsList) {
+	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
 		appsList.setInstalledOnly();
 		return appsList;
 	}

@@ -19,7 +19,6 @@ import android.widget.ListView;
 import de.otaris.zertapps.privacychecker.IconController;
 import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.appDetails.RateAppOnClickListener;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.comment.Comment;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.expertMode.ExpertMode;
 import de.otaris.zertapps.privacychecker.appDetails.rateApp.permissionsExpected.PermissionsExpected;

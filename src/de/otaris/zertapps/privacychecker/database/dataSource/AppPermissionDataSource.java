@@ -97,18 +97,10 @@ public class AppPermissionDataSource extends DataSource<AppPermission> {
 		ArrayList<Permission> permissions = getPermissionsByAppId(appId);
 		ArrayList<Permission> translatedPermissions = new ArrayList<Permission>();
 		for (Permission permission : permissions) {
-			// only if the label does not contain a dot, it can be a translated
-			// label
-			if (!(permission.getLabel().contains("."))) {
-				for (char letter : permission.getLabel().toCharArray()) {
-					// if it contains at least one lower case character, add the
-					// permission
-					if (Character.isLowerCase(letter)) {
-						translatedPermissions.add(permission);
-						break;
-					}
-				}
-			}
+			// add permission only if the label is set
+			if (permission.getLabel() != null
+					&& !permission.getLabel().equals(""))
+				translatedPermissions.add(permission);
 		}
 		return translatedPermissions;
 	}

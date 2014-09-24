@@ -30,7 +30,7 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 	protected boolean privacyIsAscending = false;
 
 	@Override
-	protected AppsList configureAppsList(AppsList appsList) {
+	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
 		Intent intent = getIntent();
 		appsList.setCageoryId(intent.getIntExtra("id", -1));
 		return appsList;
