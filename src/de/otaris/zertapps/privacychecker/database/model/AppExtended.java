@@ -215,8 +215,29 @@ public class AppExtended implements App, Parcelable {
 	}
 
 	@Override
+	public void setFunctionalRatingCounter(int functionalRatingCounter) {
+		appCompact.setFunctionalRatingCounter(functionalRatingCounter);
+
+	}
+
+	@Override
+	public void setDeveloper(String developer) {
+		appCompact.setDeveloper(developer);
+	}
+
+	@Override
 	public float getAutomaticRating() {
 		return appCompact.getAutomaticRating();
+	}
+
+	@Override
+	public int getFunctionalRatingCounter() {
+		return appCompact.getFunctionalRatingCounter();
+	}
+
+	@Override
+	public String getDeveloper() {
+		return appCompact.getDeveloper();
 	}
 
 	@Override

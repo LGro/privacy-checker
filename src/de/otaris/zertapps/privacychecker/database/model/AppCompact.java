@@ -33,7 +33,8 @@ public class AppCompact implements App, Parcelable {
 	public static final String ICON = "icon";
 	public static final String AUTOMATIC_RATING = "automatic_rating";
 	public static final String CATEGORY_WEIGHTED_AUTOMATIC_RATING = "category_weighted_automatic_rating";
-
+	public static final String FUNCTIONAL_RATING_COUNTER = "functional_rating_counter";
+	public static final String DEVELOPER = "developer";
 	// SQL statement to create table
 	private static final String Create_App_Table = "CREATE TABLE " + TABLE
 			+ "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CATEGORY_ID
@@ -42,7 +43,7 @@ public class AppCompact implements App, Parcelable {
 			+ " INTEGER, " + FUNCTIONAL_RATING + " FLOAT, " + TIMESTAMP
 			+ " LONG, " + DESCRIPTION + " TEXT, " + ICON + " BLOB, "
 			+ AUTOMATIC_RATING + " FLOAT, "
-			+ CATEGORY_WEIGHTED_AUTOMATIC_RATING + " FLOAT);";
+			+ CATEGORY_WEIGHTED_AUTOMATIC_RATING + " FLOAT, " + FUNCTIONAL_RATING_COUNTER + " INTEGER, " + DEVELOPER + " TEXT);";
 
 	// attributes
 	private int id;
@@ -58,6 +59,10 @@ public class AppCompact implements App, Parcelable {
 	private byte[] icon;
 	private float automaticRating;
 	private float categoryWeightedAutoRating;
+	private int functionalRatingCounter;
+	private String developer;
+
+	
 
 	// contains a pair of column name and setter method name
 	protected HashMap<String, String> modifiedAttributes = new HashMap<String, String>();
@@ -66,10 +71,30 @@ public class AppCompact implements App, Parcelable {
 		this.id = id;
 	}
 
+//	public AppCompact(int id, int categoryId, String name, String label,
+//			String version, float rating, boolean installed,
+//			float functionalRating, Long timestamp, String description,
+//			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
+//
+//		this.id = id;
+//		this.categoryId = categoryId;
+//		this.name = name;
+//		this.label = label;
+//		this.version = version;
+//		this.privacyRating = rating;
+//		this.isInstalled = installed;
+//		this.functionalRating = functionalRating;
+//		this.timestamp = timestamp;
+//		this.description = description;
+//		this.icon = icon;
+//		this.automaticRating = automaticRating;
+//		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
+//	}
+	
 	public AppCompact(int id, int categoryId, String name, String label,
 			String version, float rating, boolean installed,
 			float functionalRating, Long timestamp, String description,
-			byte[] icon, float automaticRating, float categoryWeightedAutoRating) {
+			byte[] icon, float automaticRating, float categoryWeightedAutoRating, int functionaRatingCounter, String developer) {
 
 		this.id = id;
 		this.categoryId = categoryId;
@@ -84,6 +109,8 @@ public class AppCompact implements App, Parcelable {
 		this.icon = icon;
 		this.automaticRating = automaticRating;
 		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
+		this.functionalRatingCounter = functionaRatingCounter;
+		this.developer = developer;
 	}
 
 	/**
@@ -267,6 +294,22 @@ public class AppCompact implements App, Parcelable {
 	public float getCategoryWeightedAutoRating() {
 		return categoryWeightedAutoRating;
 	}
+	@Override
+	public int getFunctionalRatingCounter() {
+		return functionalRatingCounter;
+	}
+	@Override
+	public void setFunctionalRatingCounter(int functionalRatingCounter) {
+		this.functionalRatingCounter = functionalRatingCounter;
+	}
+	@Override
+	public String getDeveloper() {
+		return developer;
+	}
+	@Override
+	public void setDeveloper(String developer) {
+		this.developer = developer;
+	}
 
 	public void setCategoryWeightedAutoRating(float categoryWeightedAutoRating) {
 		this.categoryWeightedAutoRating = categoryWeightedAutoRating;
@@ -296,6 +339,8 @@ public class AppCompact implements App, Parcelable {
 		dest.writeByteArray(icon);
 		dest.writeFloat(automaticRating);
 		dest.writeFloat(categoryWeightedAutoRating);
+		dest.writeInt(functionalRatingCounter);
+		dest.writeString(developer);
 	}
 
 	private void readFromParcel(Parcel in) {
@@ -313,6 +358,8 @@ public class AppCompact implements App, Parcelable {
 		in.readByteArray(icon);
 		automaticRating = in.readFloat();
 		categoryWeightedAutoRating = in.readFloat();
+		functionalRatingCounter = in.readInt();
+		developer = in.readString();
 	}
 
 	// this is used to regenerate your object. All Parcelables must have a
@@ -332,5 +379,7 @@ public class AppCompact implements App, Parcelable {
 	private AppCompact(Parcel in) {
 		readFromParcel(in);
 	}
+	
+	
 
 }

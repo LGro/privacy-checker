@@ -32,6 +32,10 @@ public interface App {
 	public void setAutomaticRating(float automaticRating);
 
 	public byte[] getIcon();
+	
+	public int getFunctionalRatingCounter();
+	
+	public String getDeveloper();
 
 	public void setCategoryId(int categoryId);
 
@@ -50,5 +54,9 @@ public interface App {
 	public void setDescription(String description);
 
 	public void setIcon(byte[] icon);
+	
+	public void setFunctionalRatingCounter(int functionalRatingCounter);
+	
+	public void setDeveloper(String developer);
 
 }

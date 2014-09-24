@@ -152,13 +152,14 @@ public class AppController {
 
 					// create app with default categoryId 1, -1 to mark
 					// functional rating as not available and an empty
-					// description
+					// description as well as an empty developer and -1 as
+					// default functinal rating counter
 					app = appData.createApp(1, apps[i].packageName, apps[i]
 							.loadLabel(pm).toString(), pInfo.versionCode + "",
 							0, true, -1, "",
 							IconController.drawableToByteArray(pm
 									.getApplicationIcon(apps[i].packageName)),
-							0);
+							0, -1, "");
 
 					// link all required permissions to the newly created app
 					for (String permission : permissions)

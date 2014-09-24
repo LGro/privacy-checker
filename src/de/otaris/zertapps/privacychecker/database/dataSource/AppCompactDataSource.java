@@ -26,7 +26,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 			AppCompact.FUNCTIONAL_RATING, AppCompact.TIMESTAMP,
 			AppCompact.DESCRIPTION, AppCompact.ICON,
 			AppCompact.AUTOMATIC_RATING,
-			AppCompact.CATEGORY_WEIGHTED_AUTOMATIC_RATING };
+			AppCompact.CATEGORY_WEIGHTED_AUTOMATIC_RATING,
+			AppCompact.FUNCTIONAL_RATING_COUNTER, AppCompact.DEVELOPER };
 
 	public AppCompactDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -46,7 +47,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 				cursor.getString(2), cursor.getString(3), cursor.getString(4),
 				cursor.getFloat(5), cursor.getInt(6) != 0, cursor.getFloat(7),
 				cursor.getLong(8), cursor.getString(9), cursor.getBlob(10),
-				cursor.getFloat(11), cursor.getFloat(12));
+				cursor.getFloat(11), cursor.getFloat(12), cursor.getInt(13),
+				cursor.getString(14));
 
 		return app;
 	}
@@ -64,7 +66,7 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	public AppCompact createApp(int categoryId, String name, String label,
 			String version, float privacyRating, boolean installed,
 			float functionalRating, String description, byte[] icon,
-			float automaticRating) {
+			float automaticRating, int functionRatingCounter, String developer) {
 		// set values for columns
 		ContentValues values = new ContentValues();
 		values.put(AppCompact.CATEGORY_ID, categoryId);
@@ -81,6 +83,8 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 		values.put(AppCompact.DESCRIPTION, description);
 		values.put(AppCompact.ICON, icon);
 		values.put(AppCompact.AUTOMATIC_RATING, automaticRating);
+		values.put(AppCompact.FUNCTIONAL_RATING_COUNTER, functionRatingCounter);
+		values.put(AppCompact.DEVELOPER, developer);
 
 		// insert into DB
 		long insertId = database.insert(AppCompact.TABLE, null, values);
