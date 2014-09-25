@@ -74,39 +74,43 @@
             android:layout_centerVertical="true"
             android:background="#000000" />
 
-        <TableLayout
-            android:id="@+id/app_detail_permission_alert_dialog_tablelayout_button"
-            android:layout_width="fill_parent"
+        <View
+            android:id="@+id/app_detail_permission_alert_dialog_viewline3"
+            android:layout_width="0.25dip"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/app_detail_permission_alert_dialog_button_no"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_textview_description"
+            android:layout_toRightOf="@+id/app_detail_permission_alert_dialog_button_yes"
+            android:background="#000000" />
+
+        <Button
+            android:id="@+id/app_detail_permission_alert_dialog_button_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_viewline2"
+            android:layout_toRightOf="@+id/app_detail_permission_alert_dialog_button_yes"
+            android:background="@drawable/button_background_selector"
+            android:padding="10sp"
+            android:text="@string/not_understandable" />
+
+        <Button
+            android:id="@+id/app_detail_permission_alert_dialog_button_yes"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/app_detail_permission_alert_dialog_viewline2"
-            android:layout_gravity="center"
-            android:background="#FFFFFF"
-            android:stretchColumns="*" >
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/button_background_selector"
+            android:padding="10sp"
+            android:text="@string/understandable" />
 
-            <TableRow
-                android:id="@+id/app_detail_permission_alert_dialog_tablerow_button_yesno"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="UselessParent" >
-
-                <Button
-                    android:id="@+id/app_detail_permission_alert_dialog_button_yes"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/button_background_selector"
-                    android:text="@string/understandable" />
-
-                <Button
-                    android:id="@+id/app_detail_permission_alert_dialog_button_no"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/button_background_selector"
-                    android:text="@string/not_understandable" />
-
-            </TableRow>
-        </TableLayout>
+        <View
+            android:id="@+id/app_detail_permission_alert_dialog_viewline4"
+            android:layout_width="wrap_content"
+            android:layout_height="0.25dip"
+            android:layout_below="@+id/app_detail_permission_alert_dialog_button_yes"
+            android:layout_centerVertical="true"
+            android:background="#000000" />
     </RelativeLayout>
 
     <Button

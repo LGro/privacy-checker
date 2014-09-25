@@ -96,8 +96,7 @@
                     android:text="OK" />
             </TableRow>
         </TableLayout>
+
     </RelativeLayout>
-
-
 
 </LinearLayout>

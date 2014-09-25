@@ -182,17 +182,17 @@ public class RateAppOnClickListener implements OnClickListener {
 				.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
 
 		TextView titleTextView = (TextView) dialog
-				.findViewById(R.id.app_detail_permission_alert_dialog_textview_title);
+				.findViewById(R.id.app_detail_warning_alert_dialog_textview_title);
 		titleTextView.setText(title);
 
 		TextView messageTextview = (TextView) dialog
-				.findViewById(R.id.app_detail_permission_alert_dialog_textview_description);
+				.findViewById(R.id.app_detail_warning_alert_dialog_textview_description);
 		messageTextview.setText(message);
 
 		Button yesButton = (Button) dialog
-				.findViewById(R.id.app_detail_permission_alert_dialog_button_yes);
+				.findViewById(R.id.app_detail_warning_alert_dialog_button_yes);
 		Button noButton = (Button) dialog
-				.findViewById(R.id.app_detail_permission_alert_dialog_button_no);
+				.findViewById(R.id.app_detail_warning_alert_dialog_button_no);
 
 		// close dialog and continue rating
 		noButton.setOnClickListener(new OnClickListener() {
