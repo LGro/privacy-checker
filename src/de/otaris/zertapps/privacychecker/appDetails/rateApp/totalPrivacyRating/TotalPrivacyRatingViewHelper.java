@@ -53,10 +53,22 @@ public class TotalPrivacyRatingViewHelper extends RatingElementViewHelper {
 			TotalPrivacyRating totalRating = (TotalPrivacyRating) reg
 					.getRatingElement(TotalPrivacyRating.class);
 
-			// set locks green if they have already been chosen
+			// set locks in correct color if they have already been chosen
+			if (totalRating.getRating() <= 2) {
+				// set two or less locks red
+				lock.setBackgroundResource(R.layout.app_detail_rate_app_overlay_check_red);
+			} else if (totalRating.getRating() == 3) {
+				// set 3 locks orange
+				lock.setBackgroundResource(R.layout.app_detail_rate_app_overlay_check_orange);
+			} else {
+				// set 4 or more locks green
+				lock.setBackgroundResource(R.layout.app_detail_rate_app_overlay_check_green);
+			}
+
 			if (i <= totalRating.getRating()) {
+				// set checked is setting the color
 				lock.setChecked(true);
-				// set text for current rating
+				// set text for current rating}
 				if (i == totalRating.getRating()) {
 					String ratingStringName = "app_detail_rate_app_value_" + i;
 					int ratingStringID = context.getResources().getIdentifier(

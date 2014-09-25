@@ -39,6 +39,17 @@ public class TotalPrivacyRatingListener implements View.OnClickListener {
 			int ratingStringID = v.getResources().getIdentifier(
 					ratingStringName, "string", packageName);
 
+			// set locks in correct color if they have already been chosen
+			if (tag <= 2) {
+				// set two or less locks red
+				button.setBackgroundResource(R.layout.app_detail_rate_app_overlay_check_red);
+			} else if (tag == 3) {
+				// set 3 locks orange
+				button.setBackgroundResource(R.layout.app_detail_rate_app_overlay_check_orange);
+			} else {
+				// set 4 or more locks green
+				button.setBackgroundResource(R.layout.app_detail_rate_app_overlay_check_green);
+			}
 			// set buttons tag-1 checked
 			if (i < tag) {
 				button.setChecked(true);
