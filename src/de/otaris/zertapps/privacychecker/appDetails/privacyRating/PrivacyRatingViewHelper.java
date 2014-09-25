@@ -205,6 +205,10 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 											permission, view.getContext());
 						}
 					});
+			
+			// scale list depending on its size
+			setListViewHeigthBasedOnChildren(permissionListView,
+					permissionList.size());
 		}
 
 		// get "show more" button
@@ -228,10 +232,6 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 					}
 				});
-
-		// scale list depending on its size
-		setListViewHeigthBasedOnChildren(permissionListView,
-				permissionList.size());
 
 		return rowView;
 	}
