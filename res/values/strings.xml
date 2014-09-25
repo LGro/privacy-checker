@@ -18,7 +18,7 @@
     <string name="title_category">Kategorien</string>
     <string name="title_activity_installed_apps_list">Installierte Apps</string>
     <string name="title_activity_home">Privacy-Checker</string>
-    <string name="last_updated_apps">Zuletzt aktualisierte Privatsphärebewertung:</string>
+    <string name="last_updated_apps">Zuletzt aktualisiert:</string>
     <string name="title_activity_apps_by_category">Kategorie</string>
     <string name="app_detail_icon">Icon</string>
     <string name="app_detail_rating_pic">Bewertung</string>
@@ -33,7 +33,7 @@
     <string name="app_detail_rate_app_value_3">Mittelmäßig</string>
     <string name="app_detail_rate_app_value_4">Gut</string>
     <string name="app_detail_rate_app_value_5">Exzellent</string>
-    <string name="app_details_privacy_rating_explanation">Die Bewertung setzt sich aus drei Komponenten zusammen. Die erste ist eine automatische Bewertung anhand der geforderten Berechtigungen. Die zweite Komponente ist die Bewertung von anderen Nutzern und die dritte setzt sich aus der Bewertung qualifizierter Experten zusammen.</string>
+    <string name="app_details_privacy_rating_explanation">Die oben angezeigte Gesamtbewertung setzt sich aus den drei rechts davon zu sehenden Komponenten zusammen. Die erste Komponente ist eine automatisch berechnete Bewertung aus den geforderten Berechtigungen. Die zweite wird von euch gestellt. Sie enthält die durchschnittliche Nutzerbewertung. Die dritte Komponente ist die durchschnittliche Bewertung qualifizierter Experten.</string>
     <string name="app_details_no_description_available">Es tut uns leid, leider liegt zu dieser App noch keine Beschreibung vor.</string>
     <string name="app_details_privacy_rating_permissions_title">Geforderte Berechtigungen:</string>
     <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen.</string>
@@ -57,7 +57,7 @@
     <string name="yes_no">Ja  | Nein</string>
     <string name="understandable">Verstehe ich</string>
     <string name="not_understandable">Verstehe ich nicht</string>
-    <string name="app_detail_permissions_explanation">Berechtigung wurde als unerwartet markiert von: </string>
+    <string name="app_detail_permissions_explanation">Anteil der unerwarteten Berechtigungen:</string>
     <string name="user_type_normal">Normaler Nutzer</string>
     <string name="user_type_expert">IT Experte</string>
     <string name="title_activity_rate_app">RateAppActivity</string>
@@ -69,7 +69,7 @@
     <string name="title_imprint_acitivty">Impressum</string>
     <string name="imprint_main1">Version: 1.0 \n\nEntwickelt von:\nDaniel Geißler\nLukas Großberger\nStefan Gutsch\nNicolina Wenzler\nLisa Zimmermann\n\nIn Zusammenarbeit mit SecUSo </string>
     <string name="imprint_main2">Technische Universität Darmstadt </string>
-	<string name="licence">ncc-by-nc </string>
+	<string name="licence">cc-by-nc </string>
     <string name="imprint_SecUso_link"> https://www.secuso.informatik.tu-darmstadt.de </string>
     <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
     <string name="filter">Filtern</string>

@@ -140,12 +140,12 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 					.getAutomaticRating()) {
 				categoryComparison.setText(context.getResources().getString(
 						R.string.app_detail_privacy_rating_category_worse)
-						+ " " + app.getCategory().getName());
+						+ " " + app.getCategory().getLabel());
 
 			} else {
 				categoryComparison.setText(context.getResources().getString(
 						R.string.app_detail_privacy_rating_category_better)
-						+ " " + app.getCategory().getName());
+						+ " " + app.getCategory().getLabel());
 			}
 		} else {
 			categoryComparison.setVisibility(ViewGroup.GONE);
