@@ -25,6 +25,7 @@ import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.appsList.AppsByCategoryActivity.TabPagerAdapter;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
@@ -39,6 +40,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	protected ActionBar.Tab lastTabSelected = null;
 	FragmentStatePagerAdapter tabPagerAdapter;
 
+	// parameters to save filter settings
 	protected List<Permission> unselectedPermissions = new ArrayList<Permission>();
 	protected int minPrivacyRating = 0;
 	protected int maxPrivacyRating = 5;
@@ -158,6 +160,10 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		lastTabSelected = tab;
 	}
 
+	/**
+	 * display filter overlay
+	 * 
+	 */
 	private void callFilterOverlay() {
 		final Dialog dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -176,6 +182,12 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			Spinner minFunctionalRatingSpinner;
 			Spinner maxFunctionalRatingSpinner;
 			ListView permissionsList;
+
+			/**
+			 * initalize all elements of the filter overlay
+			 * 
+			 * @param parent
+			 */
 
 			private void initializeViews(View parent) {
 
@@ -205,7 +217,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 				maxFunctionalRating = Integer
 						.parseInt(maxFunctionalRatingSpinner.getSelectedItem()
 								.toString());
-
+ 
 				SparseBooleanArray checkedPermissions = permissionsList
 						.getCheckedItemPositions();
 
@@ -216,10 +228,14 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 					if (!checkedPermissions.get(i))
 						unselectedPermissions.add(adapter.getItem(i));
 
+				AppsList appsList = (AppsList) updateListView(lastTabSelected, AppsListOrder.ALPHABET, true);
+				appsList.onResume();
+				tabPagerAdapter.notifyDataSetChanged();
 				dialog.hide();
 			}
 		});
 
+		// get a list of all translated permissions
 		PermissionDataSource permissionData = new PermissionDataSource(this);
 		permissionData.openReadOnly();
 		List<Permission> permissions = permissionData
@@ -230,6 +246,10 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		dialog.show();
 	}
 
+	/**
+	 * Class do handle the selectable list of permissions in the filter overlay
+	 *
+	 */
 	private class PermissionsAdapter extends ArrayAdapter<Permission> {
 		private final Context context;
 		private final List<Permission> permissionsList;

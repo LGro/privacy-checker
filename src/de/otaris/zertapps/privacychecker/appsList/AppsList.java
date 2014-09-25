@@ -85,10 +85,9 @@ public class AppsList extends ListFragment {
 			}
 		}
 
+		appData.close();
 		if (isFiltered)
 			apps = filter(apps);
-
-		appData.close();
 
 		// set custom list adapter to display apps with icon, name and rating
 		ArrayAdapter<AppCompact> adapter = new AppListItemAdapter(rootActivity,
@@ -96,7 +95,14 @@ public class AppsList extends ListFragment {
 		setListAdapter(adapter);
 	}
 
-	private List<AppCompact> filter(List<AppCompact> apps) {
+	/**
+	 * contains filter logic. removes the Apps form a given List of Apps which
+	 * are out of the given filter bounds
+	 * 
+	 * @param apps
+	 * @return
+	 */
+	protected List<AppCompact> filter(List<AppCompact> apps) {
 		for (int i = 0; i < apps.size(); i++) {
 			App app = apps.get(i);
 			if (app.getPrivacyRating() > maxPrivacyRating
@@ -113,10 +119,11 @@ public class AppsList extends ListFragment {
 			ArrayList<Permission> appPermissions = appPermissionData
 					.getPermissionsByAppId(app.getId());
 			appPermissionData.close();
-
-			for (Permission permission : unselectedPermissions) {
-				if (appPermissions.contains(permission))
-					apps.remove(i);
+			if (unselectedPermissions != null) {
+				for (Permission permission : unselectedPermissions) {
+					if (appPermissions.contains(permission))
+						apps.remove(i);
+				}
 			}
 		}
 
@@ -137,11 +144,22 @@ public class AppsList extends ListFragment {
 		startActivity(intent);
 	}
 
+	/**
+	 * setter for unselectedPermissions
+	 * 
+	 * @param unselectedPermissions
+	 */
 	public void setFilterPermissions(List<Permission> unselectedPermissions) {
 		isFiltered = true;
 		this.unselectedPermissions = unselectedPermissions;
 	}
 
+	/**
+	 * setter for filter privacy Rating bounds
+	 * 
+	 * @param minPrivacyRating
+	 * @param maxPrivacyRating
+	 */
 	public void setPrivacyRatingBounds(int minPrivacyRating,
 			int maxPrivacyRating) {
 		isFiltered = true;
@@ -149,11 +167,21 @@ public class AppsList extends ListFragment {
 		this.maxPrivacyRating = maxPrivacyRating;
 	}
 
+	/**
+	 * setter for filter functional rating bounds
+	 * 
+	 * @param minFunctionalRating
+	 * @param maxFunctionalRating
+	 */
 	public void setFunctionalRatingBounds(int minFunctionalRating,
 			int maxFunctionalRating) {
 		isFiltered = true;
 		this.minFunctionalRating = minFunctionalRating;
 		this.maxFunctionalRating = maxFunctionalRating;
 
+	}
+
+	public void setFiltered(boolean filter) {
+		this.isFiltered = filter;
 	}
 }

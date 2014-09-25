@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -33,6 +36,7 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
 		Intent intent = getIntent();
 		appsList.setCageoryId(intent.getIntExtra("id", -1));
+		
 		return appsList;
 	}
 

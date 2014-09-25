@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * is called by HomeActivity, handles display of installed apps (a sortable list
@@ -56,6 +59,7 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 						actionBar.setSelectedNavigationItem(position);
 						int sortingIcon = 0;
 						// set icon for tab
+						
 						switch (position) {
 						case 0:
 							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
