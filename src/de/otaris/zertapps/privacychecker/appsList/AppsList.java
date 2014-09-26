@@ -2,7 +2,6 @@ package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -18,7 +17,6 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 public class AppsList extends ListFragment {
 
-	private Activity rootActivity;
 	private AppsListOrder order;
 
 	private boolean installedOnly = false;
@@ -35,10 +33,6 @@ public class AppsList extends ListFragment {
 	}
 
 	public AppsList() {
-	}
-
-	public void setRootActivity(Activity rootActivity) {
-		this.rootActivity = rootActivity;
 	}
 
 	public AppsListOrder getOrder() {
@@ -60,7 +54,7 @@ public class AppsList extends ListFragment {
 		super.onResume();
 
 		// get all installed apps from database
-		AppCompactDataSource appData = new AppCompactDataSource(rootActivity);
+		AppCompactDataSource appData = new AppCompactDataSource(getActivity());
 		appData.open();
 
 		List<AppCompact> apps;
@@ -77,8 +71,8 @@ public class AppsList extends ListFragment {
 		appData.close();
 
 		// set custom list adapter to display apps with icon, name and rating
-		ArrayAdapter<AppCompact> adapter = new AppListItemAdapter(rootActivity,
-				rootActivity.getPackageManager(), apps);
+		ArrayAdapter<AppCompact> adapter = new AppListItemAdapter(
+				getActivity(), getActivity().getPackageManager(), apps);
 		setListAdapter(adapter);
 	}
 
@@ -90,7 +84,7 @@ public class AppsList extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		Intent intent = new Intent(rootActivity, AppDetailsActivity.class);
+		Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
 		AppCompact app = (AppCompact) list.getItemAtPosition(position);
 		intent.putExtra("AppCompact", app);
 		startActivity(intent);

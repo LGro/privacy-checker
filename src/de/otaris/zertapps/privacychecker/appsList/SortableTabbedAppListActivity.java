@@ -58,7 +58,6 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		// initialize apps list and
 		AppsList appsList = new AppsList();
 		appsList.setOrder(order, ascending);
-		appsList.setRootActivity(this);
 
 		appsList = configureAppsList(appsList);
 
@@ -105,12 +104,13 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			int sortingIcon = 0;
 			if (tab.getPosition() == 3) {
 				// open filter overlay
-//				RelativeLayout overlay = (RelativeLayout) findViewById(R.id.filter_overlay);
-//				overlay.setVisibility(View.VISIBLE);
+				// RelativeLayout overlay = (RelativeLayout)
+				// findViewById(R.id.filter_overlay);
+				// overlay.setVisibility(View.VISIBLE);
 				LayoutInflater inflater = LayoutInflater.from(this);
 				RelativeLayout layout = (RelativeLayout) inflater.inflate(
 						R.layout.filter_overlay, viewPager, false);
-				//overlay.addView(layout);
+				// overlay.addView(layout);
 				layout.setVisibility(View.VISIBLE);
 
 			} else {

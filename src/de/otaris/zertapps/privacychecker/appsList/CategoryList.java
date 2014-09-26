@@ -2,7 +2,6 @@ package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -16,10 +15,7 @@ import de.otaris.zertapps.privacychecker.database.model.Category;
 
 public class CategoryList extends ListFragment {
 
-	private Activity rootActivity;
-
-	public CategoryList(Activity rootActivity) {
-		this.rootActivity = rootActivity;
+	public CategoryList() {
 	}
 
 	@Override
@@ -27,14 +23,14 @@ public class CategoryList extends ListFragment {
 		super.onCreate(savedInstanceState);
 
 		// get all categories from database
-		CategoryDataSource categoryData = new CategoryDataSource(rootActivity);
+		CategoryDataSource categoryData = new CategoryDataSource(getActivity());
 		categoryData.open();
 		List<Category> categories = categoryData.getAllCategories();
 		categoryData.close();
 
 		// initialize category list item adapter
 		CategoryListItemAdapter adapter = new CategoryListItemAdapter(
-				rootActivity, categories);
+				getActivity(), categories);
 
 		setListAdapter(adapter);
 	}
@@ -47,7 +43,7 @@ public class CategoryList extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		Intent intent = new Intent(rootActivity, AppsByCategoryActivity.class);
+		Intent intent = new Intent(getActivity(), AppsByCategoryActivity.class);
 
 		// put id from rowView tag as extra to the AppsByCategoryActivity
 		intent.putExtra("id", (Integer) v.getTag());

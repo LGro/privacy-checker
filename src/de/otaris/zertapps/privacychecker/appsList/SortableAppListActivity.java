@@ -49,7 +49,6 @@ public abstract class SortableAppListActivity extends FragmentActivity {
 		// initialize apps list and
 		AppsList appsList = new AppsList();
 		appsList.setOrder(order, ascending);
-		appsList.setRootActivity(this);
 		
 		appsList = configureAppsList(appsList);
 		

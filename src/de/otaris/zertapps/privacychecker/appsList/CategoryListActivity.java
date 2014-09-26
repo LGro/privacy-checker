@@ -23,7 +23,7 @@ public class CategoryListActivity extends FragmentActivity {
 
 		// load fragment from CategoryList
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.categoryListContainer, new CategoryList(this))
+				.replace(R.id.categoryListContainer, new CategoryList())
 				.commit();
 	}
 
