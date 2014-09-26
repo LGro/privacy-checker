@@ -133,8 +133,8 @@ public class ExtendedHeader extends Header {
 		} else {
 			playStoreRatingImageView.setImageResource(new RatingController()
 					.getIconRatingStars(app.getFunctionalRating()));
-			playStoreRatingAmountTextView.setText(app
-					.getFunctionalRatingCounter());
+			playStoreRatingAmountTextView.setText("("
+					+ app.getFunctionalRatingCounter() + ")");
 		}
 		int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
 				+ app.getExpertRating().size();
