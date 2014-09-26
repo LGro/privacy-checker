@@ -39,7 +39,6 @@ public class ExtendedHeader extends Header {
 	protected ImageView appIconImageView;
 	protected Button installUninstallButton;
 	protected Button viewInPlayStoreButton;
-	// TODO: this is currently not used; create attribute for app in database
 	protected TextView playStoreRatingAmountTextView;
 	protected TextView privacyRatingAmountTextView;
 	protected TextView functionalRatingNotAvailable;
@@ -134,6 +133,8 @@ public class ExtendedHeader extends Header {
 		} else {
 			playStoreRatingImageView.setImageResource(new RatingController()
 					.getIconRatingStars(app.getFunctionalRating()));
+			playStoreRatingAmountTextView.setText(app
+					.getFunctionalRatingCounter());
 		}
 		int totalNumberOfPrivacyRatings = app.getNonExpertRating().size()
 				+ app.getExpertRating().size();
@@ -142,8 +143,7 @@ public class ExtendedHeader extends Header {
 
 		// Set name and developer
 		appNameView.setText(app.getLabel());
-		// TODO: set developer
-		developerTextView.setText("");
+		developerTextView.setText(app.getDeveloper());
 
 		return rowView;
 	}
