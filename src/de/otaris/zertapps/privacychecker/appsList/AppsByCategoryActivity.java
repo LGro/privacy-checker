@@ -1,9 +1,8 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import java.util.List;
-
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import de.otaris.zertapps.privacychecker.ImprintActivity;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
-import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * is called by HomeActivity, handles display of installed apps
@@ -34,9 +32,12 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 
 	@Override
 	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
+
+		appsList = super.configureAppsList(appsList, filter);
+
 		Intent intent = getIntent();
 		appsList.setCageoryId(intent.getIntExtra("id", -1));
-		
+
 		return appsList;
 	}
 
@@ -72,24 +73,34 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 					public void onPageSelected(int position) {
 						actionBar = getActionBar();
 						actionBar.setSelectedNavigationItem(position);
-						int sortingIcon = 0;
+						Drawable sortingIcon = null;
 						// set icon for tab
+
 						switch (position) {
 						case 0:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
-									: R.drawable.name_descending;
+							sortingIcon = (tabOrderedAscending[position]) ? getResources()
+									.getDrawable(R.drawable.name_ascending)
+									: getResources().getDrawable(
+											R.drawable.name_descending);
 							break;
 						case 1:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.privacyrating_descending
-									: R.drawable.privacyrating_ascending;
+							sortingIcon = (tabOrderedAscending[position]) ? getResources()
+									.getDrawable(
+											R.drawable.privacyrating_descending)
+									: getResources().getDrawable(
+											R.drawable.privacyrating_ascending);
 							break;
 						case 2:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.popularityrating_descending
-									: R.drawable.popularityrating_ascending;
+							sortingIcon = (tabOrderedAscending[position]) ? getResources()
+									.getDrawable(
+											R.drawable.popularityrating_descending)
+									: getResources()
+											.getDrawable(
+													R.drawable.popularityrating_ascending);
 							break;
 						case 3:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
-									: R.drawable.name_descending;
+							sortingIcon = actionBar.getTabAt(position)
+									.getIcon();
 							break;
 						}
 						actionBar.getTabAt(position).setIcon(sortingIcon);
@@ -106,8 +117,8 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 				.setIcon(R.drawable.privacyrating_default));
 		actionBar.addTab(actionBar.newTab().setTabListener(this)
 				.setIcon(R.drawable.popularityrating_default));
-
-		actionBar.addTab(actionBar.newTab().setText("Filter").setTabListener(this));
+		actionBar.addTab(actionBar.newTab()
+				.setIcon(R.drawable.filter_text_default).setTabListener(this));
 	}
 
 	@Override

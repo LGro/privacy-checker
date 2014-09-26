@@ -1,6 +1,6 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import android.app.ActionBar;
@@ -9,23 +9,24 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.appsList.AppsByCategoryActivity.TabPagerAdapter;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 
@@ -41,11 +42,14 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	FragmentStatePagerAdapter tabPagerAdapter;
 
 	// parameters to save filter settings
-	protected List<Permission> unselectedPermissions = new ArrayList<Permission>();
+	protected HashSet<Permission> unselectedPermissions = new HashSet<Permission>();
 	protected int minPrivacyRating = 0;
 	protected int maxPrivacyRating = 5;
 	protected int minFunctionalRating = 0;
 	protected int maxFunctionalRating = 5;
+
+	// is true if there have been filter settings selected
+	protected boolean alreadyFiltered = false;
 
 	// attention: has to be initialized in subclass
 	protected boolean[] tabOrderedAscending;
@@ -103,7 +107,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		viewPager.setCurrentItem(tab.getPosition());
 		lastTabSelected = tab;
 
-		if (tab.getPosition() == 3)
+		if (tab.getPosition() == 3 && !alreadyFiltered)
 			callFilterOverlay();
 	}
 
@@ -134,19 +138,29 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 					.getPosition()];
 
 			// set icon matching the sorting direction and the selected tab
-			int sortingIcon = 0;
+			Drawable sortingIcon = null;
 			switch (tab.getPosition()) {
 			case 0:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.name_ascending
-						: R.drawable.name_descending;
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? getResources()
+						.getDrawable(R.drawable.name_ascending)
+						: getResources()
+								.getDrawable(R.drawable.name_descending);
 				break;
 			case 1:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.privacyrating_descending
-						: R.drawable.privacyrating_ascending;
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? getResources()
+						.getDrawable(R.drawable.privacyrating_descending)
+						: getResources().getDrawable(
+								R.drawable.privacyrating_ascending);
 				break;
 			case 2:
-				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? R.drawable.popularityrating_descending
-						: R.drawable.popularityrating_ascending;
+				sortingIcon = (tabOrderedAscending[tab.getPosition()]) ? getResources()
+						.getDrawable(R.drawable.popularityrating_descending)
+						: getResources().getDrawable(
+								R.drawable.popularityrating_ascending);
+				break;
+			case 3:
+				callFilterOverlay();
+				sortingIcon = tab.getIcon();
 				break;
 			}
 			tab.setIcon(sortingIcon);
@@ -161,8 +175,64 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	}
 
 	/**
-	 * display filter overlay
+	 * Sets the filter values to the attribute values and therefore either set
+	 * default values or reset to previously selected filter settings.
 	 * 
+	 * @param dialog
+	 *            filter dialog to derive the UI elements from
+	 * @param permissions
+	 *            all permissions the current app requires
+	 */
+	@SuppressWarnings("unchecked")
+	private void setValuesForFilterOverlay(Dialog dialog,
+			List<Permission> permissions) {
+
+		Spinner minPrivacyRatingSpinner = (Spinner) dialog
+				.findViewById(R.id.filter_overlay_privacy_option_number_picker1);
+		Spinner maxPrivacyRatingSpinner = (Spinner) dialog
+				.findViewById(R.id.filter_overlay_privacy_option_number_picker2);
+		Spinner minFunctionalRatingSpinner = (Spinner) dialog
+				.findViewById(R.id.filter_overlay_functional_option_number_picker1);
+		Spinner maxFunctionalRatingSpinner = (Spinner) dialog
+				.findViewById(R.id.filter_overlay_functional_option_number_picker2);
+
+		ArrayAdapter<String> spinnerAdapter = null;
+		int spinnerPosition = -1;
+
+		// set min/max privacy/functional rating
+		spinnerAdapter = (ArrayAdapter<String>) minPrivacyRatingSpinner
+				.getAdapter();
+		spinnerPosition = spinnerAdapter.getPosition(minPrivacyRating + "");
+		minPrivacyRatingSpinner.setSelection(spinnerPosition);
+
+		spinnerAdapter = (ArrayAdapter<String>) maxPrivacyRatingSpinner
+				.getAdapter();
+		spinnerPosition = spinnerAdapter.getPosition(maxPrivacyRating + "");
+		maxPrivacyRatingSpinner.setSelection(spinnerPosition);
+
+		spinnerAdapter = (ArrayAdapter<String>) minFunctionalRatingSpinner
+				.getAdapter();
+		spinnerPosition = spinnerAdapter.getPosition(minFunctionalRating + "");
+		minFunctionalRatingSpinner.setSelection(spinnerPosition);
+
+		spinnerAdapter = (ArrayAdapter<String>) maxFunctionalRatingSpinner
+				.getAdapter();
+		spinnerPosition = spinnerAdapter.getPosition(maxFunctionalRating + "");
+		maxFunctionalRatingSpinner.setSelection(spinnerPosition);
+
+		ListView permissionsList = (ListView) dialog
+				.findViewById(R.id.filter_overlay_permissions);
+
+		// check all permissions that aren't in unselectedPermissions set
+		for (int i = 0; i < permissions.size(); i++) {
+			Permission permission = permissions.get(i);
+			permissionsList.setItemChecked(i,
+					!unselectedPermissions.contains(permission));
+		}
+	}
+
+	/**
+	 * display filter overlay
 	 */
 	private void callFilterOverlay() {
 		final Dialog dialog = new Dialog(this);
@@ -181,14 +251,12 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			Spinner maxPrivacyRatingSpinner;
 			Spinner minFunctionalRatingSpinner;
 			Spinner maxFunctionalRatingSpinner;
-			ListView permissionsList;
 
 			/**
-			 * initalize all elements of the filter overlay
+			 * initialize all elements of the filter overlay
 			 * 
 			 * @param parent
 			 */
-
 			private void initializeViews(View parent) {
 
 				minPrivacyRatingSpinner = (Spinner) parent
@@ -199,14 +267,13 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 						.findViewById(R.id.filter_overlay_functional_option_number_picker1);
 				maxFunctionalRatingSpinner = (Spinner) parent
 						.findViewById(R.id.filter_overlay_functional_option_number_picker2);
-				permissionsList = (ListView) parent
-						.findViewById(R.id.filter_overlay_permissions);
 			}
 
 			@Override
 			public void onClick(View v) {
 				initializeViews(v.getRootView());
 
+				// save filter values
 				minPrivacyRating = Integer.parseInt(minPrivacyRatingSpinner
 						.getSelectedItem().toString());
 				maxPrivacyRating = Integer.parseInt(maxPrivacyRatingSpinner
@@ -217,21 +284,35 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 				maxFunctionalRating = Integer
 						.parseInt(maxFunctionalRatingSpinner.getSelectedItem()
 								.toString());
- 
-				SparseBooleanArray checkedPermissions = permissionsList
-						.getCheckedItemPositions();
 
-				PermissionsAdapter adapter = (PermissionsAdapter) permissionsList
-						.getAdapter();
-
-				for (int i = 0; i < adapter.getCount(); i++)
-					if (!checkedPermissions.get(i))
-						unselectedPermissions.add(adapter.getItem(i));
-
-				AppsList appsList = (AppsList) updateListView(lastTabSelected, AppsListOrder.ALPHABET, true);
-				appsList.onResume();
+				// reload tabs and therefore apps lists
 				tabPagerAdapter.notifyDataSetChanged();
+
+				alreadyFiltered = true;
+
+				// hide filter overlay
 				dialog.hide();
+			}
+		});
+
+		// set onclick listener for permissions
+		permissionsList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// get selected permission
+				Permission permission = (Permission) parent
+						.getItemAtPosition(position);
+				CheckedTextView textView = (CheckedTextView) view
+						.findViewById(android.R.id.text1);
+
+				// update unselectedPermissions list according to
+				// CheckedTextView's state
+				if (textView.isChecked()) {
+					unselectedPermissions.remove(permission);
+				} else {
+					unselectedPermissions.add(permission);
+				}
 			}
 		});
 
@@ -241,14 +322,18 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 		List<Permission> permissions = permissionData
 				.getTranslatedPermissions();
 		permissionData.close();
+		// set adapter with translated permissions list
 		permissionsList.setAdapter(new PermissionsAdapter(this, permissions));
 
+		// set values to default or previously selected values
+		setValuesForFilterOverlay(dialog, permissions);
+
+		// display filter overlay
 		dialog.show();
 	}
 
 	/**
-	 * Class do handle the selectable list of permissions in the filter overlay
-	 *
+	 * Class to handle the selectable list of permissions in the filter overlay.
 	 */
 	private class PermissionsAdapter extends ArrayAdapter<Permission> {
 		private final Context context;
@@ -273,8 +358,6 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 			CheckedTextView textView = (CheckedTextView) rowView
 					.findViewById(android.R.id.text1);
 			textView.setText(permissionsList.get(position).getLabel());
-
-			textView.setChecked(true);
 
 			return rowView;
 

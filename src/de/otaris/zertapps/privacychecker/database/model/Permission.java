@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
 /**
  * represents the Permission entity in the database
  * 
@@ -27,7 +28,8 @@ public class Permission implements Parcelable {
 	private static final String Create_Permission_Table = "CREATE TABLE "
 			+ TABLE + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME
 			+ " TEXT, " + LABEL + " TEXT, " + DESCRIPTION + " TEXT, "
-			+ CRITICALITY + " INTEGER, " + UNTERSTOOD_COUNTER + " INTEGER, " + NOT_UNDERSTOOD_COUNTER + "INTEGER);";
+			+ CRITICALITY + " INTEGER, " + UNTERSTOOD_COUNTER + " INTEGER, "
+			+ NOT_UNDERSTOOD_COUNTER + "INTEGER);";
 
 	private int id;
 	private String name;
@@ -141,6 +143,11 @@ public class Permission implements Parcelable {
 		dest.writeInt(notUnderstoodCounter);
 	}
 
+	/**
+	 * Restore Permission from Parcel.
+	 * 
+	 * @param in
+	 */
 	private void readFromParcel(Parcel in) {
 		id = in.readInt();
 		name = in.readString();
@@ -151,8 +158,10 @@ public class Permission implements Parcelable {
 		notUnderstoodCounter = in.readInt();
 	}
 
-	// this is used to regenerate your object. All Parcelables must have a
-	// CREATOR that implements these two methods
+	/**
+	 * this is used to regenerate your object. All Parcelables must have a
+	 * CREATOR that implements these two methods
+	 */
 	public static final Parcelable.Creator<Permission> CREATOR = new Parcelable.Creator<Permission>() {
 		public Permission createFromParcel(Parcel in) {
 			return new Permission(in);
@@ -163,10 +172,33 @@ public class Permission implements Parcelable {
 		}
 	};
 
-	// constructor that takes a Parcel and gives you an object populated with
-	// it's values
+	/**
+	 * constructor that takes a Parcel and gives you an object populated with
+	 * it's values
+	 * 
+	 * @param in
+	 */
 	private Permission(Parcel in) {
 		readFromParcel(in);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof Permission))
+			return false;
+
+		if (o == this)
+			return true;
+
+		Permission permission = (Permission) o;
+
+		// permission equality is depending on its name
+		return (permission.getName().equals(name));
+	}
+
+	@Override
+	public int hashCode() {
+		// permission equality is depending on its name
+		return name.hashCode();
+	}
 }

@@ -1,6 +1,7 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import android.app.Activity;
@@ -31,7 +32,7 @@ public class AppsList extends ListFragment {
 	private boolean ascending;
 
 	private boolean isFiltered = false;
-	private List<Permission> unselectedPermissions;
+	private HashSet<Permission> unselectedPermissions;
 	private int minPrivacyRating;
 	private int maxPrivacyRating;
 	private int minFunctionalRating;
@@ -96,33 +97,47 @@ public class AppsList extends ListFragment {
 	}
 
 	/**
-	 * contains filter logic. removes the Apps form a given List of Apps which
-	 * are out of the given filter bounds
+	 * Contains filter logic related to the filter overlay.
+	 * 
+	 * Removes the Apps form a given List of Apps which are out of the given
+	 * filter bounds or require excluded permissions.
 	 * 
 	 * @param apps
-	 * @return
+	 *            list of apps
+	 * @return apps filtered list
 	 */
 	protected List<AppCompact> filter(List<AppCompact> apps) {
 		for (int i = 0; i < apps.size(); i++) {
 			App app = apps.get(i);
+			// remove app if privacy-/functional rating is out of filter bounds
 			if (app.getPrivacyRating() > maxPrivacyRating
-					|| app.getPrivacyRating() < minPrivacyRating)
+					|| app.getPrivacyRating() < minPrivacyRating
+					|| (app.getFunctionalRating() != -1
+							&& minFunctionalRating == 0 && (app
+							.getFunctionalRating() > maxFunctionalRating || app
+							.getFunctionalRating() < minFunctionalRating))) {
 				apps.remove(i);
+				i--;
+				continue;
+			}
 
-			if (app.getFunctionalRating() > maxFunctionalRating
-					|| app.getFunctionalRating() < minFunctionalRating)
-				apps.remove(i);
-
+			// get required permissions for current app
 			AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
 					rootActivity);
 			appPermissionData.openReadOnly();
 			ArrayList<Permission> appPermissions = appPermissionData
 					.getPermissionsByAppId(app.getId());
 			appPermissionData.close();
+
+			// remove app if the required permissions contain at least one
+			// permission that has been excluded
 			if (unselectedPermissions != null) {
 				for (Permission permission : unselectedPermissions) {
-					if (appPermissions.contains(permission))
+					if (appPermissions.contains(permission)) {
 						apps.remove(i);
+						i--;
+						break;
+					}
 				}
 			}
 		}
@@ -149,7 +164,7 @@ public class AppsList extends ListFragment {
 	 * 
 	 * @param unselectedPermissions
 	 */
-	public void setFilterPermissions(List<Permission> unselectedPermissions) {
+	public void setFilterPermissions(HashSet<Permission> unselectedPermissions) {
 		isFiltered = true;
 		this.unselectedPermissions = unselectedPermissions;
 	}
@@ -178,7 +193,6 @@ public class AppsList extends ListFragment {
 		isFiltered = true;
 		this.minFunctionalRating = minFunctionalRating;
 		this.maxFunctionalRating = maxFunctionalRating;
-
 	}
 
 	public void setFiltered(boolean filter) {
