@@ -32,6 +32,8 @@ import de.otaris.zertapps.privacychecker.database.model.AppExtended;
  */
 public class ExtendedHeader extends Header {
 
+	protected AppExtended app;
+
 	protected TextView appNameView;
 	protected TextView developerTextView;
 	protected ImageView privacyRatingImageView;
@@ -75,6 +77,8 @@ public class ExtendedHeader extends Header {
 
 		View rowView = inflater.inflate(R.layout.app_detail_header, null);
 
+		this.app = app;
+
 		/*
 		 * a random id has to be set to align the details list below the header
 		 * view
@@ -92,9 +96,21 @@ public class ExtendedHeader extends Header {
 		// Set icon, button and rating.
 		if (app.isInstalled()) {
 			installUninstallButton.setText("Deinstallieren");
+			// set uninstall listener
+			installUninstallButton.setOnClickListener(new OnClickListener() {
 
-			// TODO: Remove once the deinstall feature is implemented.
-			installUninstallButton.setVisibility(View.GONE);
+				@Override
+				public void onClick(View v) {
+					// prepare URI
+					Uri packageUri = Uri.parse("package:"
+							+ ExtendedHeader.this.app.getName());
+					// call uninstall activity
+					Intent uninstallIntent = new Intent(
+							Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
+					v.getContext().startActivity(uninstallIntent);
+				}
+			});
+
 			try {
 				// if installed, get the image from the device
 				appIconImageView.setImageDrawable(activity.getPackageManager()
