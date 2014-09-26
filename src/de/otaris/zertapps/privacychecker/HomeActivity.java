@@ -42,6 +42,8 @@ public class HomeActivity extends Activity {
 	// A ProgressDialog object
 	private ProgressDialog progressDialog;
 
+	private static boolean finishedDatabaseInitialization = false;
+
 	/**
 	 * Connect to local database and retrieve last updated apps. Store them in a
 	 * list. Do this at this stage to avoid retrieving those apps everytime you
@@ -110,19 +112,13 @@ public class HomeActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 
-		/*
-		 * ATTENTION: Temporary solution only!
-		 * 
-		 * Because onCreate and onResume are called parallel this prevents the
-		 * call of prepareLatestAppsList and therefore a database access before
-		 * the database has been copied to the device. //
-		 */
-		// TODO: enable again in a proper way that doesn't cause crashs
-		// SharedPreferences wmbPreference = PreferenceManager
-		// .getDefaultSharedPreferences(this);
-		// boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
-		// if (!isFirstRun)
-		// prepareLatestAppsList();
+		SharedPreferences wmbPreference = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean isFirstRun = wmbPreference.getBoolean("FIRSTRUN", true);
+
+		// only call if not first run and finished loading the database
+		if (!isFirstRun && finishedDatabaseInitialization)
+			prepareLatestAppsList();
 
 		populateLatestAppListView();
 	}
@@ -250,6 +246,8 @@ public class HomeActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			// close the progress dialog
 			progressDialog.dismiss();
+
+			HomeActivity.finishedDatabaseInitialization = true;
 
 			// initialize the app list
 			prepareLatestAppsList();
