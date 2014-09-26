@@ -109,13 +109,22 @@ public class AppsList extends ListFragment {
 	protected List<AppCompact> filter(List<AppCompact> apps) {
 		for (int i = 0; i < apps.size(); i++) {
 			App app = apps.get(i);
-			// remove app if privacy-/functional rating is out of filter bounds
-			if (app.getPrivacyRating() > maxPrivacyRating
-					|| app.getPrivacyRating() < minPrivacyRating
-					|| (app.getFunctionalRating() != -1
-							&& minFunctionalRating == 0 && (app
-							.getFunctionalRating() > maxFunctionalRating || app
-							.getFunctionalRating() < minFunctionalRating))) {
+			// the privacy rating doesn't lie in [min;max]
+			boolean outOfPrivacyRatingBounds = app.getPrivacyRating() > maxPrivacyRating
+					|| app.getPrivacyRating() < minPrivacyRating;
+
+			// the functional rating doesn't exceed the maximum and
+			boolean outOfFunctionalRatingBounds = app.getFunctionalRating() != -1
+					&& app.getFunctionalRating() < minFunctionalRating
+					|| app.getFunctionalRating() > maxFunctionalRating;
+
+			// the app has no functional rating and there is set a minimum
+			boolean noFunctionalRatingAvailableAndActiveFilter = app
+					.getFunctionalRating() == -1 && minFunctionalRating > 0;
+
+			// remove app if it doesn't match all the filter criteria
+			if (outOfPrivacyRatingBounds || outOfFunctionalRatingBounds
+					|| noFunctionalRatingAvailableAndActiveFilter) {
 				apps.remove(i);
 				i--;
 				continue;

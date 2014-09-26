@@ -79,6 +79,7 @@
         <item>5</item>
     </string-array>
 
+    <string name="allowed_permissions">Geduldete Brechtigungen</string>
     <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
 
 </resources>

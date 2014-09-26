@@ -85,9 +85,9 @@
         android:id="@+id/filter_overlay_privacy_option_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/filter_overlay_privacy_option_text1"
+        android:layout_alignTop="@+id/filter_overlay_privacy_option_text1"
         android:layout_toRightOf="@+id/filter_overlay_privacy_option_number_picker2"
-        android:text="Schlösser anzeigen." >
+        android:text="Schlössern anzeigen." >
     </TextView>
 
     <!-- pc rating options end -->
@@ -145,7 +145,7 @@
         android:id="@+id/filter_overlay_functional_option_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/filter_overlay_functional_option_text1"
+        android:layout_alignTop="@+id/filter_overlay_functional_option_text1"
         android:layout_toRightOf="@+id/filter_overlay_functional_option_number_picker2"
         android:text="Sternen anzeigen." >
     </TextView>
@@ -160,7 +160,7 @@
         android:layout_below="@+id/filter_overlay_functional_option_text1"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="15dp"
-        android:text="@string/permissions"
+        android:text="@string/allowed_permissions"
         android:textSize="20sp" >
     </TextView>
 
