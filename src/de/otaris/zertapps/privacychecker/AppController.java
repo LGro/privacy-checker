@@ -200,7 +200,7 @@ public class AppController {
 			} else {
 				// ... otherwise, if the app is installed: set installed = 1
 				app.setInstalled(true);
-				appData.update(app);
+				app = appData.update(app);
 			}
 		}
 

@@ -242,9 +242,14 @@ public class AppCompact implements App, Parcelable {
 		return isInstalled;
 	}
 
-	// alias for automated getter name derivation (needs to match setter name)
-	public boolean getInstalled() {
-		return isInstalled;
+	/**
+	 * alias for automated getter name derivation (needs to match setter name)
+	 * 
+	 * is needed for update method because the database doesn't know how to
+	 * store boolean values properties
+	 */
+	public int getInstalled() {
+		return (isInstalled) ? 1 : 0;
 	}
 
 	@Override
