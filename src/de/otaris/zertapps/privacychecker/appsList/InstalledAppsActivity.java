@@ -18,12 +18,11 @@ import de.otaris.zertapps.privacychecker.R;
  */
 public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 
-	final static int TAB_COUNT = 3;
-
 	@Override
-	protected boolean[] getTabOrderedAscending() {
-		// order ascending for alphabet, privacy rating, functional rating
-		return new boolean[] { true, false, false };
+	protected AppsListOrder[] getTabOrder() {
+		return new AppsListOrder[] { AppsListOrder.ALPHABET.ascending(),
+				AppsListOrder.PRIVACY_RATING.descending(),
+				AppsListOrder.FUNCTIONAL_RATING.descending() };
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 
 		// always load all 3 fragments at once; suppress dynamic fragment
 		// loading (otherwise would mess up getItem below)
-		viewPager.setOffscreenPageLimit(TAB_COUNT);
+		viewPager.setOffscreenPageLimit(tabOrder.length);
 
 		viewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -58,15 +57,18 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 						// set icon for tab
 						switch (position) {
 						case 0:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.name_ascending
+							sortingIcon = (tabOrder[position]
+									.isOrderedAscending()) ? R.drawable.name_ascending
 									: R.drawable.name_descending;
 							break;
 						case 1:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.privacyrating_descending
+							sortingIcon = (tabOrder[position]
+									.isOrderedAscending()) ? R.drawable.privacyrating_descending
 									: R.drawable.privacyrating_ascending;
 							break;
 						case 2:
-							sortingIcon = (tabOrderedAscending[position]) ? R.drawable.popularityrating_descending
+							sortingIcon = (tabOrder[position]
+									.isOrderedAscending()) ? R.drawable.popularityrating_descending
 									: R.drawable.popularityrating_ascending;
 							break;
 						}
@@ -87,6 +89,14 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 		actionBar.addTab(actionBar.newTab()
 				.setIcon(R.drawable.popularityrating_default)
 				.setTabListener(this));
+
+		// restore the selected tab (e.g. after a rotation)
+		if (savedInstanceState != null
+				&& savedInstanceState.containsKey("activeTabPosition")) {
+			int tabIndex = savedInstanceState.getInt("activeTabPosition");
+			actionBar.getTabAt(tabIndex).select();
+			tabPagerAdapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -123,24 +133,16 @@ public class InstalledAppsActivity extends SortableTabbedAppListActivity {
 
 		@Override
 		public Fragment getItem(int i) {
-			switch (i) {
-			case 0:
-				return updateListView(actionBar.getTabAt(i),
-						AppsListOrder.ALPHABET, tabOrderedAscending[0]);
-			case 1:
-				return updateListView(actionBar.getTabAt(i),
-						AppsListOrder.PRIVACY_RATING, tabOrderedAscending[1]);
-			case 2:
-				return updateListView(actionBar.getTabAt(i),
-						AppsListOrder.FUNCTIONAL_RATING, tabOrderedAscending[2]);
-			default:
-				return null;
-			}
+			if (i >= 0 && i < 3)
+				return updateListView(actionBar.getTabAt(i), tabOrder[i],
+						tabOrder[i].isOrderedAscending());
+
+			return null;
 		}
 
 		@Override
 		public int getCount() {
-			return TAB_COUNT;
+			return tabOrder.length;
 		}
 	}
 
