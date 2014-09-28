@@ -19,7 +19,10 @@ public class IconController {
 	}
 
 	public static byte[] drawableToByteArray(Drawable d) {
-		BitmapDrawable bitDw = ((BitmapDrawable) d);
+		if (!(d instanceof BitmapDrawable))
+			return new byte[] {};
+
+		BitmapDrawable bitDw = (BitmapDrawable) d;
 
 		Bitmap bitmap = bitDw.getBitmap();
 
