@@ -6,7 +6,7 @@
     android:layout_marginBottom="15dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginTop="35dp"
+    android:layout_marginTop="15dp"
     android:background="@color/white" >
 
     <TextView
@@ -28,9 +28,10 @@
         android:layout_width="wrap_content"
         android:layout_height="0.25dip"
         android:layout_below="@+id/filter_overlay_title"
-        android:layout_centerVertical="true"
         android:layout_marginTop="2dp"
         android:background="#000000" />
+
+    <!-- pc rating options start -->
 
     <TextView
         android:id="@+id/filter_overlay_privacy_option"
@@ -41,7 +42,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/app_detail_privacy_rating_title"
-        android:textSize="16sp" >
+        android:textSize="20sp" >
     </TextView>
 
     <TextView
@@ -52,15 +53,45 @@
         android:layout_below="@+id/filter_overlay_privacy_option"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="4dp"
-        android:text="@string/app_detail_privacy_rating_title" >
+        android:text="Apps mit" >
     </TextView>
 
-    <NumberPicker
-        android:id="@+id/filter_overlay_privacy_option_number_picker"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+    <Spinner
+        android:id="@+id/filter_overlay_privacy_option_number_picker1"
+        android:layout_width="45dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/filter_overlay_privacy_option"
+        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text1"
+        android:entries="@array/rating_values" />
+
+    <TextView
+        android:id="@+id/filter_overlay_privacy_option_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/filter_overlay_privacy_option_text1"
+        android:layout_toRightOf="@+id/filter_overlay_privacy_option_number_picker1"
+        android:text="bis" >
+    </TextView>
+
+    <Spinner
+        android:id="@+id/filter_overlay_privacy_option_number_picker2"
+        android:layout_width="45dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/filter_overlay_privacy_option"
+        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text2"
+        android:entries="@array/rating_values" />
+
+    <TextView
+        android:id="@+id/filter_overlay_privacy_option_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/filter_overlay_privacy_option_text1"
-        android:layout_toRightOf="@+id/filter_overlay_privacy_option_text1" />
+        android:layout_toRightOf="@+id/filter_overlay_privacy_option_number_picker2"
+        android:text="Schlössern anzeigen." >
+    </TextView>
+
+    <!-- pc rating options end -->
+    <!-- ps rating options start -->
 
     <TextView
         android:id="@+id/filter_overlay_functional_option"
@@ -71,35 +102,86 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/functional_rating"
-        android:textSize="16sp" >
+        android:textSize="20sp" >
     </TextView>
+
+    <TextView
+        android:id="@+id/filter_overlay_functional_option_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/filter_overlay_functional_option"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:text="Apps mit" >
+    </TextView>
+
+    <Spinner
+        android:id="@+id/filter_overlay_functional_option_number_picker1"
+        android:layout_width="45dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/filter_overlay_functional_option"
+        android:layout_toRightOf="@+id/filter_overlay_functional_option_text1"
+        android:entries="@array/rating_values" />
+
+    <TextView
+        android:id="@+id/filter_overlay_functional_option_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/filter_overlay_functional_option_text1"
+        android:layout_toRightOf="@+id/filter_overlay_functional_option_number_picker1"
+        android:text="bis" >
+    </TextView>
+
+    <Spinner
+        android:id="@+id/filter_overlay_functional_option_number_picker2"
+        android:layout_width="45dp"
+        android:layout_height="32dp"
+        android:layout_below="@+id/filter_overlay_functional_option"
+        android:layout_toRightOf="@+id/filter_overlay_functional_option_text2"
+        android:entries="@array/rating_values" />
+
+    <TextView
+        android:id="@+id/filter_overlay_functional_option_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/filter_overlay_functional_option_text1"
+        android:layout_toRightOf="@+id/filter_overlay_functional_option_number_picker2"
+        android:text="Sternen anzeigen." >
+    </TextView>
+
+    <!-- ps rating options end -->
 
     <TextView
         android:id="@+id/filter_overlay_permission_option"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/filter_overlay_functional_option"
+        android:layout_below="@+id/filter_overlay_functional_option_text1"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/permissions"
-        android:textSize="16sp" >
+        android:layout_marginTop="15dp"
+        android:text="@string/allowed_permissions"
+        android:textSize="20sp" >
     </TextView>
 
-    <ExpandableListView
-        android:id="@+id/expandableListView1"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/filter_overlay_permission_option" >
-    </ExpandableListView>
-
-    <Button
-        android:id="@+id/filter_button"
+    <ListView
+        android:id="@+id/filter_overlay_permissions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/filter_overlay_submit"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/filter_overlay_permission_option"
+        android:layout_marginBottom="4dp"
+        android:choiceMode="multipleChoice" >
+    </ListView>
+
+    <Button
+        android:id="@+id/filter_overlay_submit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/expandableListView1"
-        android:text="@string/filter_button" />
+        android:layout_alignParentLeft="true"
+        android:text="@string/filter_overlay_submit" >
+    </Button>
 
 </RelativeLayout>

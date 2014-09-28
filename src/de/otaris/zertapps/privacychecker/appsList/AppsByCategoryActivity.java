@@ -22,13 +22,18 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 	protected AppsListOrder[] getTabOrder() {
 		return new AppsListOrder[] { AppsListOrder.ALPHABET.ascending(),
 				AppsListOrder.PRIVACY_RATING.descending(),
-				AppsListOrder.FUNCTIONAL_RATING.descending() };
+				AppsListOrder.FUNCTIONAL_RATING.descending(),
+				AppsListOrder.ALPHABET.ascending() };
 	}
 
 	@Override
-	protected AppsList configureAppsList(AppsList appsList) {
+	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
+
+		appsList = super.configureAppsList(appsList, filter);
+
 		Intent intent = getIntent();
 		appsList.setCageoryId(intent.getIntExtra("id", -1));
+
 		return appsList;
 	}
 
@@ -64,26 +69,8 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 					public void onPageSelected(int position) {
 						actionBar = getActionBar();
 						actionBar.setSelectedNavigationItem(position);
-						int sortingIcon = 0;
-						// set icon for tab
-						switch (position) {
-						case 0:
-							sortingIcon = (tabOrder[position]
-									.isOrderedAscending()) ? R.drawable.name_ascending
-									: R.drawable.name_descending;
-							break;
-						case 1:
-							sortingIcon = (tabOrder[position]
-									.isOrderedAscending()) ? R.drawable.privacyrating_descending
-									: R.drawable.privacyrating_ascending;
-							break;
-						case 2:
-							sortingIcon = (tabOrder[position]
-									.isOrderedAscending()) ? R.drawable.popularityrating_descending
-									: R.drawable.popularityrating_ascending;
-							break;
-						}
-						actionBar.getTabAt(position).setIcon(sortingIcon);
+
+						updateTabIcon(actionBar.getTabAt(position));
 					}
 				});
 
@@ -97,23 +84,15 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 				.setIcon(R.drawable.privacyrating_default));
 		actionBar.addTab(actionBar.newTab().setTabListener(this)
 				.setIcon(R.drawable.popularityrating_default));
+		actionBar.addTab(actionBar.newTab()
+				.setIcon(R.drawable.filter_text_default).setTabListener(this));
 
 		// restore the selected tab (e.g. after a rotation)
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey("activeTabPosition")) {
 			int tabIndex = savedInstanceState.getInt("activeTabPosition");
 			actionBar.getTabAt(tabIndex).select();
-			updateListView(actionBar.getTabAt(tabIndex), tabOrder[tabIndex],
-					tabOrder[tabIndex].isOrderedAscending());
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 	@Override
@@ -142,7 +121,7 @@ public class AppsByCategoryActivity extends SortableTabbedAppListActivity {
 
 		@Override
 		public Fragment getItem(int i) {
-			if (i >= 0 && i < 3)
+			if (0 <= i && i < tabOrder.length)
 				return updateListView(actionBar.getTabAt(i), tabOrder[i],
 						tabOrder[i].isOrderedAscending());
 

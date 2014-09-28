@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.database.dataSource;
 
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,7 +15,8 @@ import de.otaris.zertapps.privacychecker.database.model.Permission;
 public class PermissionDataSource extends DataSource<Permission> {
 
 	private String[] allColumns = { Permission.ID, Permission.NAME,
-			Permission.LABEL, Permission.DESCRIPTION, Permission.CRITICALITY, Permission.UNTERSTOOD_COUNTER, Permission.NOT_UNDERSTOOD_COUNTER };
+			Permission.LABEL, Permission.DESCRIPTION, Permission.CRITICALITY,
+			Permission.UNTERSTOOD_COUNTER, Permission.NOT_UNDERSTOOD_COUNTER };
 
 	public PermissionDataSource(Context context) {
 		dbHelper = new DatabaseHelper(context);
@@ -128,21 +131,32 @@ public class PermissionDataSource extends DataSource<Permission> {
 
 		return permission;
 	}
-	
+
+	public List<Permission> getTranslatedPermissions() {
+		Cursor cursor = database.query(Permission.TABLE, allColumns,
+				Permission.LABEL + " != ''", null, null, null,
+				Permission.CRITICALITY + " ASC");
+
+		return cursorToModelList(cursor);
+	}
+
 	/**
 	 * increases the counter, which tells how many understood the explanation
+	 * 
 	 * @param permission
 	 */
-	public void increaseCounterYes(Permission permission){
+	public void increaseCounterYes(Permission permission) {
 		int c = permission.getUnderstoodCounter();
 		permission.setUnderstoodCounter((c + 1));
 	}
-	
+
 	/**
-	 * increases the counter, which tells how many did not understand the explanation
+	 * increases the counter, which tells how many did not understand the
+	 * explanation
+	 * 
 	 * @param permission
 	 */
-	public void increaseCounterNo(Permission permission){
+	public void increaseCounterNo(Permission permission) {
 		int c = permission.getNotUnderstoodCounter();
 		permission.setNotUnderstoodCounter((c + 1));
 	}

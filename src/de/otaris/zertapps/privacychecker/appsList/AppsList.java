@@ -1,5 +1,7 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import android.content.Intent;
@@ -13,7 +15,10 @@ import android.widget.ListView;
 import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.appDetails.AppDetailsActivity;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
+import de.otaris.zertapps.privacychecker.database.interfaces.App;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
+import de.otaris.zertapps.privacychecker.database.model.Permission;
 
 public class AppsList extends ListFragment {
 
@@ -23,6 +28,13 @@ public class AppsList extends ListFragment {
 	private int categoryId = -1;
 
 	private boolean ascending;
+
+	private boolean isFiltered = false;
+	private HashSet<Permission> unselectedPermissions;
+	private int minPrivacyRating;
+	private int maxPrivacyRating;
+	private int minFunctionalRating;
+	private int maxFunctionalRating;
 
 	public void setCageoryId(int id) {
 		categoryId = id;
@@ -69,11 +81,71 @@ public class AppsList extends ListFragment {
 		}
 
 		appData.close();
+		if (isFiltered)
+			apps = filter(apps);
 
 		// set custom list adapter to display apps with icon, name and rating
 		ArrayAdapter<AppCompact> adapter = new AppListItemAdapter(
 				getActivity(), getActivity().getPackageManager(), apps);
 		setListAdapter(adapter);
+	}
+
+	/**
+	 * Contains filter logic related to the filter overlay.
+	 * 
+	 * Removes the Apps form a given List of Apps which are out of the given
+	 * filter bounds or require excluded permissions.
+	 * 
+	 * @param apps
+	 *            list of apps
+	 * @return apps filtered list
+	 */
+	protected List<AppCompact> filter(List<AppCompact> apps) {
+		for (int i = 0; i < apps.size(); i++) {
+			App app = apps.get(i);
+			// the privacy rating doesn't lie in [min;max]
+			boolean outOfPrivacyRatingBounds = app.getPrivacyRating() > maxPrivacyRating
+					|| app.getPrivacyRating() < minPrivacyRating;
+
+			// the functional rating doesn't exceed the maximum and
+			boolean outOfFunctionalRatingBounds = app.getFunctionalRating() != -1
+					&& app.getFunctionalRating() < minFunctionalRating
+					|| app.getFunctionalRating() > maxFunctionalRating;
+
+			// the app has no functional rating and there is set a minimum
+			boolean noFunctionalRatingAvailableAndActiveFilter = app
+					.getFunctionalRating() == -1 && minFunctionalRating > 0;
+
+			// remove app if it doesn't match all the filter criteria
+			if (outOfPrivacyRatingBounds || outOfFunctionalRatingBounds
+					|| noFunctionalRatingAvailableAndActiveFilter) {
+				apps.remove(i);
+				i--;
+				continue;
+			}
+
+			// get required permissions for current app
+			AppPermissionDataSource appPermissionData = new AppPermissionDataSource(
+					getActivity());
+			appPermissionData.openReadOnly();
+			ArrayList<Permission> appPermissions = appPermissionData
+					.getPermissionsByAppId(app.getId());
+			appPermissionData.close();
+
+			// remove app if the required permissions contain at least one
+			// permission that has been excluded
+			if (unselectedPermissions != null) {
+				for (Permission permission : unselectedPermissions) {
+					if (appPermissions.contains(permission)) {
+						apps.remove(i);
+						i--;
+						break;
+					}
+				}
+			}
+		}
+
+		return apps;
 	}
 
 	@Override
@@ -88,5 +160,45 @@ public class AppsList extends ListFragment {
 		AppCompact app = (AppCompact) list.getItemAtPosition(position);
 		intent.putExtra("AppCompact", app);
 		startActivity(intent);
+	}
+
+	/**
+	 * setter for unselectedPermissions
+	 * 
+	 * @param unselectedPermissions
+	 */
+	public void setFilterPermissions(HashSet<Permission> unselectedPermissions) {
+		isFiltered = true;
+		this.unselectedPermissions = unselectedPermissions;
+	}
+
+	/**
+	 * setter for filter privacy Rating bounds
+	 * 
+	 * @param minPrivacyRating
+	 * @param maxPrivacyRating
+	 */
+	public void setPrivacyRatingBounds(int minPrivacyRating,
+			int maxPrivacyRating) {
+		isFiltered = true;
+		this.minPrivacyRating = minPrivacyRating;
+		this.maxPrivacyRating = maxPrivacyRating;
+	}
+
+	/**
+	 * setter for filter functional rating bounds
+	 * 
+	 * @param minFunctionalRating
+	 * @param maxFunctionalRating
+	 */
+	public void setFunctionalRatingBounds(int minFunctionalRating,
+			int maxFunctionalRating) {
+		isFiltered = true;
+		this.minFunctionalRating = minFunctionalRating;
+		this.maxFunctionalRating = maxFunctionalRating;
+	}
+
+	public void setFiltered(boolean filter) {
+		this.isFiltered = filter;
 	}
 }

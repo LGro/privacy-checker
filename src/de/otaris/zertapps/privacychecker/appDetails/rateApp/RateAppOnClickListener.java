@@ -1,4 +1,4 @@
-package de.otaris.zertapps.privacychecker.appDetails;
+package de.otaris.zertapps.privacychecker.appDetails.rateApp;
 
 import java.util.ArrayList;
 
@@ -13,10 +13,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import de.otaris.zertapps.privacychecker.R;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationErrorException;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingValidationWarningException;
-import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;

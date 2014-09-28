@@ -71,8 +71,19 @@
     <string name="imprint_main2">Technische Universität Darmstadt </string>
 	<string name="licence">cc-by-nc </string>
     <string name="imprint_SecUso_link"> https://www.secuso.informatik.tu-darmstadt.de </string>
-    <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
     <string name="filter">Filtern</string>
-    <string name="filter_button">Filter anwenden</string>
+    <string name="filter_overlay_submit">Filter anwenden</string>
+
+    <string-array name="rating_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="allowed_permissions">Geduldete Brechtigungen</string>
+    <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
 
 </resources>
