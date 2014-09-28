@@ -68,20 +68,12 @@ public class AppDetailsActivity extends Activity {
 
 		// get header to display the basic app details
 		View headerView = getHeader().getView(this, appExtended);
-		RelativeLayout relLayout = (RelativeLayout) findViewById(R.id.app_details_layout);
+		RelativeLayout relLayout = (RelativeLayout) findViewById(R.id.app_details_header_layout);
 		// add it to the details layout
 		relLayout.addView(headerView);
-		// get id of the recently added header view for formatting purposes
-		int headerId = headerView.getId();
 
 		// get details list view by id
 		ListView detailListView = (ListView) findViewById(R.id.app_detail_list);
-
-		// position the details list view below the header
-		RelativeLayout.LayoutParams listLayout = new RelativeLayout.LayoutParams(
-				detailListView.getLayoutParams());
-		listLayout.addRule(RelativeLayout.BELOW, headerId);
-		detailListView.setLayoutParams(listLayout);
 
 		// Get all the details to be shown in the detail view.
 		ArrayList<Detail> details = getDetails(appExtended);
@@ -152,38 +144,6 @@ public class AppDetailsActivity extends Activity {
 					container, false);
 
 			return rootView;
-		}
-	}
-
-	/**
-	 * onClick method for hiding the overlay RelativeLayout
-	 * 
-	 * @param v
-	 */
-	public void hideOverlay(View v) {
-		RelativeLayout overlay = (RelativeLayout) findViewById(R.id.app_detail_overlay);
-		overlay.removeAllViews();
-		overlay.setVisibility(ViewGroup.INVISIBLE);
-	}
-
-	/**
-	 * checks weather the overlay is visible or not
-	 * 
-	 * @return vsiblity of overlay
-	 */
-	private boolean overlayIsVisible() {
-		RelativeLayout overlay = (RelativeLayout) findViewById(R.id.app_detail_overlay);
-		return overlay.getVisibility() == ViewGroup.VISIBLE;
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (overlayIsVisible()) {
-			// hide overlay on hardware "back" button
-			hideOverlay(null);
-		} else {
-			// or just normally finish this activity
-			finish();
 		}
 	}
 

@@ -1,37 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/app_detail_privacy_rating_container"
+    android:id="@+id/app_details_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="de.otaris.zertapps.privacychecker.AppDetailsActivity$PlaceholderFragment" >
 
     <RelativeLayout
-        android:id="@+id/app_details_layout"
+        android:id="@+id/app_details_header_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="de.otaris.zertapps.privacychecker.AppDetailsActivity$PlaceholderFragment" >
-
-        <ListView
-            android:id="@+id/app_detail_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp" >
-
-        </ListView>
+        android:layout_height="wrap_content" >
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/app_detail_overlay"
-        android:layout_width="fill_parent"
+    <ListView
+        android:id="@+id/app_detail_list"
+        android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@color/transparent_grey"
-        android:onClick="hideOverlay"
-        android:visibility="invisible" >
-    </RelativeLayout>
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
+    </ListView>
 
-</FrameLayout>
+</LinearLayout>

@@ -79,14 +79,6 @@ public class ExtendedHeader extends Header {
 
 		this.app = app;
 
-		/*
-		 * a random id has to be set to align the details list below the header
-		 * view
-		 * 
-		 * TODO: Is there even a possibility of an id conflict?
-		 */
-		rowView.setId(170892);
-
 		initializeViews(rowView);
 
 		// has to be selected to scroll if the text is too long
