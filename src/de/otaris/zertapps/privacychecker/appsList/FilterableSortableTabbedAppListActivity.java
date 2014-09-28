@@ -170,7 +170,7 @@ public abstract class FilterableSortableTabbedAppListActivity extends
 	protected Fragment updateListView(ActionBar.Tab tab) {
 
 		// initialize apps list and
-		ListFragment appsListFragment = new ListFragment();
+		AppsList appsListFragment = new AppsList();
 
 		apps = getApps(tabOrder[tab.getPosition()]);
 

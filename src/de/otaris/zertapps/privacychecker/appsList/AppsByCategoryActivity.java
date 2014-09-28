@@ -3,7 +3,9 @@ package de.otaris.zertapps.privacychecker.appsList;
 import java.util.List;
 
 import android.content.Intent;
+import android.os.Bundle;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.dataSource.CategoryDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
@@ -11,6 +13,21 @@ import de.otaris.zertapps.privacychecker.database.model.AppCompact;
  */
 public class AppsByCategoryActivity extends
 		FilterableSortableTabbedAppListActivity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// set action bar title
+		CategoryDataSource categoryData = new CategoryDataSource(this);
+		categoryData.open();
+		Intent myIntent = getIntent();
+		int categoryId = myIntent.getIntExtra("id", 1);
+		String name = categoryData.getCategoryById(categoryId).getLabel();
+		categoryData.close();
+
+		actionBar.setTitle(name);
+	}
 
 	@Override
 	protected AppsListOrderCriterion[] getTabOrder() {

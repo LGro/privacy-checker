@@ -118,6 +118,7 @@ public class ExtendedHeader extends Header {
 			appIconImageView.setImageBitmap(IconController
 					.byteArrayToBitmap(app.getIcon()));
 
+			installUninstallButton.setTag(app);
 			installUninstallButton.setOnClickListener(new OnClickListener() {
 
 				@Override

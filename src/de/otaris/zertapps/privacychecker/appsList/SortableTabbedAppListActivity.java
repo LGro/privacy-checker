@@ -76,7 +76,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 
 		for (AppsListOrderCriterion orderCriterion : tabOrder) {
 			actionBar.addTab(actionBar.newTab()
-					.setIcon(orderCriterion.getCurrentIcon())
+					.setIcon(orderCriterion.getDefaultIcon())
 					.setTabListener(this));
 		}
 
@@ -112,7 +112,7 @@ public abstract class SortableTabbedAppListActivity extends FragmentActivity
 	protected Fragment updateListView(ActionBar.Tab tab) {
 
 		// initialize apps list and
-		ListFragment appsListFragment = new ListFragment();
+		AppsList appsListFragment = new AppsList();
 
 		apps = getApps(tabOrder[tab.getPosition()]);
 
