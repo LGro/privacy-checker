@@ -117,6 +117,18 @@ public class ExtendedHeader extends Header {
 			// if not installe,d get the image from the database
 			appIconImageView.setImageBitmap(IconController
 					.byteArrayToBitmap(app.getIcon()));
+
+			installUninstallButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					AppExtended app = (AppExtended) v.getTag();
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse("market://details?id="
+							+ app.getName()));
+					v.getContext().startActivity(intent);
+				}
+			});
 		}
 
 		viewInPlayStoreButton.setTag(app);
