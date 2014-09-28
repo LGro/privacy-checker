@@ -1,129 +1,33 @@
 package de.otaris.zertapps.privacychecker.appsList;
 
-import android.app.ActionBar;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.Menu;
-import android.view.MenuItem;
-import de.otaris.zertapps.privacychecker.ImprintActivity;
-import de.otaris.zertapps.privacychecker.R;
+import java.util.List;
+
+import de.otaris.zertapps.privacychecker.database.dataSource.AppCompactDataSource;
+import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
 /**
  * is called by HomeActivity, handles display of installed apps (a sortable list
  * of apps)
  */
-public class InstalledAppsActivity extends SortableTabbedAppListActivity {
+public class InstalledAppsActivity extends
+		FilterableSortableTabbedAppListActivity {
 
 	@Override
-	protected AppsListOrder[] getTabOrder() {
-		return new AppsListOrder[] { AppsListOrder.ALPHABET.ascending(),
-				AppsListOrder.PRIVACY_RATING.descending(),
-				AppsListOrder.FUNCTIONAL_RATING.descending(),
-				AppsListOrder.ALPHABET.ascending() };
-	}
-
-	@Override
-	protected AppsList configureAppsList(AppsList appsList, boolean filter) {
-
-		appsList = super.configureAppsList(appsList, filter);
-
-		appsList.setInstalledOnly();
-
-		return appsList;
+	protected AppsListOrderCriterion[] getTabOrder() {
+		return new AppsListOrderCriterion[] {
+				AppsListOrderCriterion.ALPHABET.ascending(),
+				AppsListOrderCriterion.PRIVACY_RATING.descending(),
+				AppsListOrderCriterion.FUNCTIONAL_RATING.descending(),
+				AppsListOrderCriterion.ALPHABET.ascending() };
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected List<AppCompact> getApps(AppsListOrderCriterion orderCriterion) {
+		AppCompactDataSource appData = new AppCompactDataSource(this);
+		appData.open();
 
-		// prepared for tab layout needed in future
-		setContentView(R.layout.activity_installed_apps);
+		List<AppCompact> apps = appData.getInstalledApps(orderCriterion);
 
-		// Set up the action bar.
-		actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		viewPager = (ViewPager) findViewById(R.id.installedAppsPager);
-
-		// always load all 3 fragments at once; suppress dynamic fragment
-		// loading (otherwise would mess up getItem below)
-		viewPager.setOffscreenPageLimit(tabOrder.length);
-
-		viewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						actionBar = getActionBar();
-						actionBar.setSelectedNavigationItem(position);
-
-						updateTabIcon(actionBar.getTabAt(position));
-					}
-				});
-
-		tabPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
-		viewPager.setAdapter(tabPagerAdapter);
-
-		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setIcon(R.drawable.name_ascending)
-				.setTabListener(this));
-		actionBar
-				.addTab(actionBar.newTab()
-						.setIcon(R.drawable.privacyrating_default)
-						.setTabListener(this));
-		actionBar.addTab(actionBar.newTab()
-				.setIcon(R.drawable.popularityrating_default)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab()
-				.setIcon(R.drawable.filter_text_default).setTabListener(this));
-
-		// restore the selected tab (e.g. after a rotation)
-		if (savedInstanceState != null
-				&& savedInstanceState.containsKey("activeTabPosition")) {
-			int tabIndex = savedInstanceState.getInt("activeTabPosition");
-			actionBar.getTabAt(tabIndex).select();
-		}
+		return apps;
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_imprint) {
-			Intent intent = new Intent(this, ImprintActivity.class);
-			startActivity(intent);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	/**
-	 * tab adapter that provides fragments for each tab
-	 */
-	private class TabPagerAdapter extends FragmentStatePagerAdapter {
-		public TabPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public int getItemPosition(Object object) {
-			return POSITION_NONE;
-		}
-
-		@Override
-		public Fragment getItem(int i) {
-			if (0 <= i && i < tabOrder.length)
-				return updateListView(actionBar.getTabAt(i), tabOrder[i],
-						tabOrder[i].isOrderedAscending());
-
-			return null;
-		}
-
-		@Override
-		public int getCount() {
-			return tabOrder.length;
-		}
-	}
-
 }

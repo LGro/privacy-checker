@@ -10,7 +10,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
-import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
+import de.otaris.zertapps.privacychecker.appsList.AppsListOrderCriterion;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 
@@ -134,21 +134,20 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 * @return list of all Apps
 	 */
 	public List<AppCompact> getAllApps() {
-		return getAllApps(AppsListOrder.PRIVACY_RATING, false);
+		return getAllApps(AppsListOrderCriterion.PRIVACY_RATING.descending());
 	}
 
 	/**
 	 * get all Apps from the DB, ordered by given order ascending or descending
-	 * depending on second argument
 	 * 
 	 * @param order
-	 * @param ascending
 	 * 
 	 * @return sorted list of all apps
 	 */
-	public List<AppCompact> getAllApps(AppsListOrder order, boolean ascending) {
+	public List<AppCompact> getAllApps(AppsListOrderCriterion order) {
 		// set primary order depending on argument
-		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
+		String orderBy = (order.isOrderedAscending()) ? order + " ASC, "
+				: order + " DESC, ";
 		// order case insensitive
 		orderBy = orderBy + AppCompact.LABEL + " COLLATE NOCASE ASC";
 
@@ -165,25 +164,25 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 * @return sorted list of all locally installed Apps
 	 */
 	public List<AppCompact> getInstalledApps() {
-		return getInstalledApps(AppsListOrder.PRIVACY_RATING, true);
+		return getInstalledApps(AppsListOrderCriterion.PRIVACY_RATING
+				.ascending());
 	}
 
 	/**
 	 * get all Apps from the DB that are marked as installed, ordered by given
-	 * order ascending or descending depending on second argument
+	 * order ascending or descending
 	 * 
 	 * @param order
-	 * @param ascending
 	 * 
 	 * @return sorted list of all locally installed Apps
 	 */
-	public List<AppCompact> getInstalledApps(AppsListOrder order,
-			boolean ascending) {
+	public List<AppCompact> getInstalledApps(AppsListOrderCriterion order) {
 
 		// build query
 		String whereClause = AppCompact.INSTALLED + " = 1";
 		// set primary order depending on argument
-		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
+		String orderBy = (order.isOrderedAscending()) ? order + " ASC, "
+				: order + " DESC, ";
 		// order case insensitive
 		orderBy = orderBy + AppCompact.LABEL + " COLLATE NOCASE ASC";
 		Cursor cursor = database.query(AppCompact.TABLE, allColumns,
@@ -220,11 +219,12 @@ public class AppCompactDataSource extends DataSource<AppCompact> implements
 	 * @return sorted list of all Apps from category
 	 */
 	public List<AppCompact> getAppsByCategory(int categoryId,
-			AppsListOrder order, boolean ascending) {
+			AppsListOrderCriterion order) {
 		// build query
 		String whereClause = AppCompact.CATEGORY_ID + " = " + categoryId;
 		// set primary order depending on argument
-		String orderBy = (ascending) ? order + " ASC, " : order + " DESC, ";
+		String orderBy = (order.isOrderedAscending()) ? order + " ASC, "
+				: order + " DESC, ";
 		// order case insensitive
 		orderBy = orderBy + AppCompact.LABEL + " COLLATE NOCASE ASC";
 		Cursor cursor = database.query(AppCompact.TABLE, allColumns,

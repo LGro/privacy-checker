@@ -5,14 +5,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
-import de.otaris.zertapps.privacychecker.appsList.AppsListOrder;
+import de.otaris.zertapps.privacychecker.appsList.AppsListOrderCriterion;
 import de.otaris.zertapps.privacychecker.database.DatabaseHelper;
 import de.otaris.zertapps.privacychecker.database.model.AppCompact;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.Category;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
-import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
-import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
 
 /**
  * Handles requests concerning the App with all related information (ratings,
@@ -123,10 +121,9 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 	}
 
 	@Override
-	public List<AppExtended> getInstalledApps(AppsListOrder order,
-			boolean ascending) {
+	public List<AppExtended> getInstalledApps(AppsListOrderCriterion order) {
 		appData.open();
-		List<AppCompact> apps = appData.getInstalledApps();
+		List<AppCompact> apps = appData.getInstalledApps(order);
 		appData.close();
 
 		return extendAppCompactList(apps);
@@ -134,19 +131,18 @@ public class AppExtendedDataSource extends DataSource<AppExtended> implements
 
 	@Override
 	public List<AppExtended> getAppsByCategory(int categoryId,
-			AppsListOrder order, boolean ascending) {
+			AppsListOrderCriterion order) {
 		appData.open();
-		List<AppCompact> apps = appData.getAppsByCategory(categoryId, order,
-				ascending);
+		List<AppCompact> apps = appData.getAppsByCategory(categoryId, order);
 		appData.close();
 
 		return extendAppCompactList(apps);
 	}
 
 	@Override
-	public List<AppExtended> getAllApps(AppsListOrder order, boolean ascending) {
+	public List<AppExtended> getAllApps(AppsListOrderCriterion order) {
 		appData.open();
-		List<AppCompact> apps = appData.getAllApps();
+		List<AppCompact> apps = appData.getAllApps(order);
 		appData.close();
 
 		return extendAppCompactList(apps);
