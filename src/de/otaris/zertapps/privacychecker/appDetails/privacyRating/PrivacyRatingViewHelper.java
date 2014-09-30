@@ -3,14 +3,21 @@ package de.otaris.zertapps.privacychecker.appDetails.privacyRating;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -21,12 +28,17 @@ import de.otaris.zertapps.privacychecker.R;
 import de.otaris.zertapps.privacychecker.RatingController;
 import de.otaris.zertapps.privacychecker.appDetails.Detail;
 import de.otaris.zertapps.privacychecker.appDetails.DetailViewHelper;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.RatingElement;
+import de.otaris.zertapps.privacychecker.appDetails.rateApp.Registry;
+import de.otaris.zertapps.privacychecker.database.dataSource.AppExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.AppPermissionDataSource;
 import de.otaris.zertapps.privacychecker.database.dataSource.PermissionExtendedDataSource;
 import de.otaris.zertapps.privacychecker.database.model.AppExtended;
 import de.otaris.zertapps.privacychecker.database.model.AppPermission;
 import de.otaris.zertapps.privacychecker.database.model.Permission;
 import de.otaris.zertapps.privacychecker.database.model.PermissionExtended;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithm;
+import de.otaris.zertapps.privacychecker.totalPrivacyRatingAlgorithm.TotalPrivacyRatingAlgorithmFactory;
 
 /**
  * Displays the total privacy rating and its three components (automatic,
@@ -108,6 +120,14 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 		AppExtended app = rating.getApp();
 		privacyRatingTextView.setText(roundToOneDecimalPlace(app
 				.getPrivacyRating()) + "");
+
+		privacyRatingTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				callPrivacyRatingInfo(v.getContext());
+			}
+		});
 
 		// privacy rating count
 		privacyRatingCountTextView.setText("("
@@ -205,7 +225,7 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 											permission, view.getContext());
 						}
 					});
-			
+
 			// scale list depending on its size
 			setListViewHeigthBasedOnChildren(permissionListView,
 					permissionList.size());
@@ -266,5 +286,37 @@ public class PrivacyRatingViewHelper extends DetailViewHelper {
 
 		// notify list view about layout changes
 		listView.requestLayout();
+	}
+
+	/**
+	 * Displays an info alert dialog with the explanation of the priavcy rating
+	 * composition.
+	 * 
+	 * @param context
+	 */
+	private void callPrivacyRatingInfo(Context context) {
+		final Dialog dialog = new Dialog(context);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.app_detail_alert_dialog);
+		dialog.getWindow()
+				.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+		TextView titleTextView = (TextView) dialog
+				.findViewById(R.id.app_detail_alert_dialog_textview_title);
+		titleTextView.setText(R.string.privacy_rating_composition);
+
+		TextView messageTextview = (TextView) dialog
+				.findViewById(R.id.app_detail_alert_dialog_textview_description);
+		messageTextview
+				.setText(R.string.app_details_privacy_rating_explanation);
+
+		Button okButton = (Button) dialog
+				.findViewById(R.id.app_detail_alert_dialog_button_ok);
+		okButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
 	}
 }

@@ -33,7 +33,7 @@
     <string name="app_detail_rate_app_value_3">Mittelmäßig</string>
     <string name="app_detail_rate_app_value_4">Gut</string>
     <string name="app_detail_rate_app_value_5">Exzellent</string>
-    <string name="app_details_privacy_rating_explanation">Die oben angezeigte Gesamtbewertung setzt sich aus den drei rechts davon zu sehenden Komponenten zusammen. Die erste Komponente ist eine automatisch berechnete Bewertung aus den geforderten Berechtigungen. Die zweite wird von euch gestellt. Sie enthält die durchschnittliche Nutzerbewertung. Die dritte Komponente ist die durchschnittliche Bewertung qualifizierter Experten.</string>
+    <string name="app_details_privacy_rating_explanation">Die Gesamtbewertung setzt sich aus den drei rechts davon zu sehenden Komponenten zusammen. Die erste Komponente ist eine automatisch berechnete Bewertung aus den geforderten Berechtigungen. Die zweite wird von euch gestellt. Sie enthält die durchschnittliche Nutzerbewertung. Die dritte Komponente ist die durchschnittliche Bewertung qualifizierter Experten.</string>
     <string name="app_details_no_description_available">Es tut uns leid, leider liegt zu dieser App noch keine Beschreibung vor.</string>
     <string name="app_details_privacy_rating_permissions_title">Geforderte Berechtigungen:</string>
     <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen.</string>
@@ -87,5 +87,6 @@
     <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
     <string name="comment_old_version">veralteter Kommentar</string>
     <string name="comment_current_version"></string>
+    <string name="privacy_rating_composition">Zusammensetzung Privatsphärebewertung</string>
 
 </resources>

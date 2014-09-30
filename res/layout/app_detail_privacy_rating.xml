@@ -137,22 +137,11 @@
         android:visibility="gone" >
 
         <TextView
-            android:id="@+id/app_detail_privacy_rating_explanation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="22dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/app_details_privacy_rating_explanation" />
-
-        <TextView
             android:id="@+id/app_details_privacy_rating_permissions_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/app_detail_privacy_rating_explanation"
             android:layout_marginRight="22dp"
             android:layout_marginTop="16dp"
             android:text="@string/app_details_privacy_rating_permissions_title"
