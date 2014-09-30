@@ -21,15 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:text="@string/app_detail_rate_app_permissions_explanation"
-        android:layout_below="@+id/app_detail_rate_app_permissions_title" />
-    <!--  android:layout_toLeftOf="@+id/app_detail_rate_app_permissions_more" -->
+        android:layout_below="@+id/app_detail_rate_app_permissions_title"
+        android:text="@string/app_detail_rate_app_permissions_explanation" />
+    <!-- android:layout_toLeftOf="@+id/app_detail_rate_app_permissions_more" -->
 
     <RelativeLayout
         android:id="@+id/app_detail_rate_app_permissions_group"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/app_detail_rate_app_permissions_explanation"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_detail_rate_app_permissions_explanation" >
 
         <TextView
             android:id="@+id/app_detail_rate_app_permissions_expected"
@@ -53,8 +53,8 @@
         <ToggleButton
             android:id="@+id/app_detail_rate_app_permissions_more"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="31dp"
+            android:layout_height="26dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/app_detail_rate_app_permissions_list"

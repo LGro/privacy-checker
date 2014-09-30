@@ -17,14 +17,16 @@
     <ToggleButton
         android:id="@+id/app_detail_permissions_more"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="31dp"
+        android:layout_height="26dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/permissions_list"
         android:layout_marginTop="15dp"
-        android:textOff="Mehr Anzeigen"
-        android:textOn="Weniger Anzeigen" />
+        android:background="@layout/app_detail_show_more_less"
+        android:text="@null"
+        android:textOff="@null"
+        android:textOn="@null" />
 
     <ListView
         android:id="@+id/permissions_list"
@@ -33,9 +35,9 @@
         android:layout_alignLeft="@+id/app_detail_permissions_title"
         android:layout_below="@+id/app_detail_permissions_title"
         android:layout_marginRight="22dp"
-        android:scrollbars="none"
         android:divider="@null"
-        android:dividerHeight="0dp" >
+        android:dividerHeight="0dp"
+        android:scrollbars="none" >
     </ListView>
 
 </RelativeLayout>

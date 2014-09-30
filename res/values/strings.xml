@@ -33,12 +33,12 @@
     <string name="app_detail_rate_app_value_3">Mittelmäßig</string>
     <string name="app_detail_rate_app_value_4">Gut</string>
     <string name="app_detail_rate_app_value_5">Exzellent</string>
-    <string name="app_details_privacy_rating_explanation">Die oben angezeigte Gesamtbewertung setzt sich aus den drei rechts davon zu sehenden Komponenten zusammen. Die erste Komponente ist eine automatisch berechnete Bewertung aus den geforderten Berechtigungen. Die zweite wird von euch gestellt. Sie enthält die durchschnittliche Nutzerbewertung. Die dritte Komponente ist die durchschnittliche Bewertung qualifizierter Experten.</string>
+    <string name="app_details_privacy_rating_explanation">Die Gesamtbewertung setzt sich aus den drei rechts davon zu sehenden Komponenten zusammen. Die erste Komponente ist eine automatisch berechnete Bewertung aus den geforderten Berechtigungen. Die zweite wird von euch gestellt. Sie enthält die durchschnittliche Nutzerbewertung. Die dritte Komponente ist die durchschnittliche Bewertung qualifizierter Experten.</string>
     <string name="app_details_no_description_available">Es tut uns leid, leider liegt zu dieser App noch keine Beschreibung vor.</string>
     <string name="app_details_privacy_rating_permissions_title">Geforderte Berechtigungen:</string>
     <string name="app_details_privacy_rating_permissions_title_no_permissions">Diese App fordert keine Berechtigungen.</string>
-    <string name="app_detail_privacy_rating_category_better">Privatsphärefreundlicher als durchschnittlich Apps aus der Kategorie: </string>
-    <string name="app_detail_privacy_rating_category_worse">Weniger privatsphärefreundlich als durchschnittlich Apps aus der Kategorie: </string>
+    <string name="app_detail_privacy_rating_category_better">Diese App ist privatsphärefreundlicher als der Durchschnitt der Apps der Kategorie: </string>
+    <string name="app_detail_privacy_rating_category_worse">Diese App ist weniger privatsphärefreundlich als der Durchschnitt der Apps der Kategorie: </string>
     <string name="validation_error_no_total_rating">Bitte geben Sie eine Gesamtbewertung an.</string>
     <string name="validation_error_intro">Leider traten folgende Fehler auf:</string>
     <string name="validation_warning_intro">Achtung, folgende Aspekte bedürfen deiner Aufmerksamkeit:</string>
@@ -57,7 +57,7 @@
     <string name="yes_no">Ja  | Nein</string>
     <string name="understandable">Verstehe ich</string>
     <string name="not_understandable">Verstehe ich nicht</string>
-    <string name="app_detail_permissions_explanation">Anteil der unerwarteten Berechtigungen:</string>
+    <string name="app_detail_permissions_explanation">Der Anteil der Nutzer, die folgende Berechtigungen dieser App als unerwartet markiert haben:</string>
     <string name="user_type_normal">Normaler Nutzer</string>
     <string name="user_type_expert">IT Experte</string>
     <string name="title_activity_rate_app">RateAppActivity</string>
@@ -69,7 +69,7 @@
     <string name="title_imprint_acitivty">Impressum</string>
     <string name="imprint_main1">Version: 1.0 \n\nEntwickelt von:\nDaniel Geißler\nLukas Großberger\nStefan Gutsch\nNicolina Wenzler\nLisa Zimmermann\n\nIn Zusammenarbeit mit SecUSo </string>
     <string name="imprint_main2">Technische Universität Darmstadt </string>
-	<string name="licence">cc-by-nc </string>
+    <string name="licence"></string>
     <string name="imprint_SecUso_link"> https://www.secuso.informatik.tu-darmstadt.de </string>
     <string name="filter">Filtern</string>
     <string name="filter_overlay_submit">Filter anwenden</string>
@@ -85,5 +85,8 @@
 
     <string name="allowed_permissions">Geduldete Brechtigungen</string>
     <string name="app_detail_description_na">Keine Beschreibung verfügbar.</string>
+    <string name="comment_old_version">veralteter Kommentar</string>
+    <string name="comment_current_version"></string>
+    <string name="privacy_rating_composition">Zusammensetzung Privatsphärebewertung</string>
 
 </resources>
