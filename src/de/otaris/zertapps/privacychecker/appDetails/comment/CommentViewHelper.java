@@ -58,7 +58,8 @@ public class CommentViewHelper extends DetailViewHelper {
 		commentData.close();
 
 		// set adapter
-		CommentAdapter adapter = new CommentAdapter(context, comments);
+		CommentAdapter adapter = new CommentAdapter(context, comments,
+				detail.getApp());
 		commentListView.setAdapter(adapter);
 
 		if (comments.size() > 3) {

@@ -89,15 +89,6 @@
         android:src="@drawable/lock1" />
 
     <TextView
-        android:id="@+id/app_detail_privacy_rating_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/app_detail_rating_title"
-        android:layout_below="@+id/app_detail_privacy_rating_image"
-        android:layout_marginLeft="14dp"
-        android:text="TextView" />
-
-    <TextView
         android:id="@+id/app_detail_privacy_rating_automatic_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -132,9 +123,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/app_detail_privacy_rating_image"
-        android:layout_below="@+id/app_detail_privacy_rating_count"
+        android:layout_below="@+id/app_detail_privacy_rating_image"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="18dp"
         android:text="Category Comparison" />
 
     <RelativeLayout
@@ -186,5 +177,14 @@
             android:layout_marginRight="16dp"
             android:text="@string/app_detail_permissions_explanation" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_alignBottom="@+id/app_detail_privacy_rating_image"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_image"
+        android:text="200" />
 
 </RelativeLayout>
