@@ -43,10 +43,15 @@ public class FirstAlgo implements AutomaticRatingAlgorithm {
 			}
 		}
 
-		// normalize accumulated criticality to privacy rating within [0:5]
-		automaticPrivacyRating /= numberOfCriticalPermissions;
-		automaticPrivacyRating /= AppController.CRITICALITY_LIMIT;
-		automaticPrivacyRating *= 4;
+		// normalize accumulated criticality to privacy rating within [0:4]
+		if (numberOfCriticalPermissions != 0) {
+			automaticPrivacyRating /= numberOfCriticalPermissions;
+			automaticPrivacyRating /= AppController.CRITICALITY_LIMIT;
+			automaticPrivacyRating *= 4;
+		} else {
+			automaticPrivacyRating = 4;
+		}
+
 		// add the weighted amount of non critical permissions
 		automaticPrivacyRating += (float) (1 / (Math
 				.exp(0.15 * numberOfNonCriticalPermissions)));

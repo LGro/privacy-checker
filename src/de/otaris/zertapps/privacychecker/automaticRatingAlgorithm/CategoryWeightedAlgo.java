@@ -14,18 +14,19 @@ public class CategoryWeightedAlgo implements AutomaticRatingAlgorithm {
 
 		float avgCategoryRating = app.getCategory().getAverageAutoRating();
 		float autoRating = app.getAutomaticRating();
-		float difference = avgCategoryRating - autoRating;
+		float delta = Math.abs(avgCategoryRating - autoRating);
 		float weightedAutoRating = 0;
 
 		if (autoRating > avgCategoryRating) {
-			weightedAutoRating = (float) (autoRating + difference * 0.4);
+			weightedAutoRating = (float) (autoRating + delta * 0.4);
 			if (weightedAutoRating > 5)
 				weightedAutoRating = 5;
 		} else if (autoRating < avgCategoryRating) {
-			weightedAutoRating = (float) (autoRating - difference * 0.8);
+			weightedAutoRating = (float) (autoRating - delta * 0.8);
 			if (weightedAutoRating < 0)
 				weightedAutoRating = 0;
-		} else return autoRating;
+		} else
+			return autoRating;
 
 		return weightedAutoRating;
 	}
