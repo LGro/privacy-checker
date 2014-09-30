@@ -1,0 +1,190 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/app_detail_rating_title"
+        android:layout_width="230dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/app_detail_privacy_rating_title"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_rating_title"
+        android:layout_below="@+id/app_detail_rating_title"
+        android:layout_marginLeft="14dp"
+        android:text="1,0"
+        android:textSize="40sp" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/app_detail_privacy_rating_count"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_value"
+        android:layout_marginLeft="48dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_value"
+        android:src="@drawable/line_v" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_automatic"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_line"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_line"
+        android:src="@drawable/icongear" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_nonexpert"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@+id/app_detail_privacy_rating_automatic"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_line"
+        android:src="@drawable/iconnonexpert" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_expert"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_below="@+id/app_detail_privacy_rating_nonexpert"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_line"
+        android:src="@drawable/iconexpert" />
+
+    <ToggleButton
+        android:id="@+id/app_detail_privacy_rating_more"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/app_detail_privacy_rating_show_more_group"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@layout/app_detail_show_more_less"
+        android:text="@null"
+        android:textOff="@null"
+        android:textOn="@null" />
+
+    <ImageView
+        android:id="@+id/app_detail_privacy_rating_image"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/app_detail_rating_title"
+        android:layout_below="@+id/app_detail_privacy_rating_value"
+        android:src="@drawable/lock1" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_rating_title"
+        android:layout_below="@+id/app_detail_privacy_rating_image"
+        android:layout_marginLeft="14dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_automatic_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_automatic"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_automatic"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_nonexpert_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_nonexpert"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_nonexpert"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_expert_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/app_detail_privacy_rating_expert"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/app_detail_privacy_rating_expert"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/app_detail_privacy_rating_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_privacy_rating_image"
+        android:layout_below="@+id/app_detail_privacy_rating_count"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="2dp"
+        android:text="Category Comparison" />
+
+    <RelativeLayout
+        android:id="@+id/app_detail_privacy_rating_show_more_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/app_detail_rating_title"
+        android:layout_below="@+id/app_detail_privacy_rating_category"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/app_detail_privacy_rating_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/app_details_privacy_rating_explanation" />
+
+        <TextView
+            android:id="@+id/app_details_privacy_rating_permissions_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/app_detail_privacy_rating_explanation"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/app_details_privacy_rating_permissions_title"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/app_detail_rating_permissions_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/app_detail_permissions_explanation"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="2dp" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/app_detail_permissions_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/app_details_privacy_rating_permissions_title"
+            android:layout_marginRight="16dp"
+            android:text="@string/app_detail_permissions_explanation" />
+    </RelativeLayout>
+
+</RelativeLayout>

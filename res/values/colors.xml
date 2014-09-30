@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="privacy_checker_light_green"> #a5c639</color>
+    <color name="privacy_checker_dark_green"> #748e1e</color>
+    <color name="transparent_grey"> #55555555</color>
+    <color name="white"> #ffffffff</color>
+    <color name="light_background">#fff3f3f3</color>
+</resources>
